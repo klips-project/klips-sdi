@@ -1,0 +1,14 @@
+version: '3'
+services:
+  rabbit:
+    image: rabbitmq:3.9-management
+    # hostname required for mounted data
+    hostname: klips-rabbit
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq:Z
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
