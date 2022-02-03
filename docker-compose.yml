@@ -3,7 +3,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.9-management
     # hostname required for mounted data
-    hostname: klips-rabbit
+    hostname: ${RABBITMQ_HOSTNAME}
     ports:
       - 5672:5672
       - 15672:15672
@@ -14,11 +14,12 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
 
   dispatcher:
-    image: ghcr.io/klips-project/mqm-worker/dispatcher
+    image: ghcr.io/klips-project/mqm-worker/dispatcher@sha256:af820f79f415b7c7708233996eee067f1b5a103fda26bf1fb8df0d8fde2fc87b
+    restart: unless-stopped
     depends_on:
         - rabbitmq
     environment:
-      - RABBITHOST=rabbitmq
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - WORKERQUEUE=dispatcher
