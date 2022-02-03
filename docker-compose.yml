@@ -14,7 +14,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
 
   dispatcher:
-    image: ghcr.io/klips-project/mqm-worker/dispatcher@sha256:af820f79f415b7c7708233996eee067f1b5a103fda26bf1fb8df0d8fde2fc87b
+    image: ghcr.io/klips-project/mqm-worker/dispatcher:latest
     restart: unless-stopped
     depends_on:
         - rabbitmq

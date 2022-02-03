@@ -4,11 +4,15 @@ The spatial data infrastructure for the [KLIPS project](http://www.klips-projekt
 
 ## Setup
 
-
 ```shell
 # create your personal config
-cp .env.example .env
+cp \
+ .env.example \
+ .env
 
 # start the containers
 docker-compose up
+
+# download latest images if they have changed
+docker-compose pull
 ```
