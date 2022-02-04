@@ -80,10 +80,9 @@ services:
         - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
     command: [ "./wait-for.sh", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "run", "start"]
 
+  # only needed for development, it mocks a webspace where data can be loaded from
   nginx:
     image: nginx
-    ports:
-      - "80:80"
     volumes:
       - ./mocked-webspace:/usr/share/nginx/html:ro
 
