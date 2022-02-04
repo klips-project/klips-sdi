@@ -6,9 +6,7 @@ The spatial data infrastructure for the [KLIPS project](http://www.klips-projekt
 
 ```shell
 # create your personal config
-cp \
- .env.example \
- .env
+cp .env.example .env
 
 # start the containers
 docker-compose up

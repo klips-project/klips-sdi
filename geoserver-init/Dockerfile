@@ -6,7 +6,7 @@ WORKDIR /opt
 RUN npm install --only=production
 
 COPY  /wait-for.sh /opt/wait-for.sh
-COPY  /010_create-layers.js /opt/010_create-layers.js
+COPY  /010_create_workspace.js /opt/010_create_workspace.js
 
 RUN chmod +x /opt/wait-for.sh
 
