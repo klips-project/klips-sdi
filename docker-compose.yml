@@ -43,6 +43,10 @@ services:
         - geoserver
     environment:
         - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+        - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
+        - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
+        - GEOSERVER_USER=${GEOSERVER_USER}
+        - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
     command: [ "./wait-for.sh", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "run", "start"]
 
   # Not needed at the moment
