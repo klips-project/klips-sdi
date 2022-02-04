@@ -30,7 +30,7 @@ services:
       - WORKERQUEUE=dispatcher
 
   worker-geoserver-publish-geotiff:
-    image: ghcr.io/klips-project/geoserver-publish-geotiff:latest
+    image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
     restart: unless-stopped
     volumes:
       - tmp-data:/home/data:Z
