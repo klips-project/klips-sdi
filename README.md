@@ -14,3 +14,9 @@ docker-compose up
 # download latest images if they have changed
 docker-compose pull
 ```
+
+## Workflows
+
+The directory `workflows` contains workflows that can be send to the `dispatcher`:
+
+- `publish-geotiff.json` downloads a GeoTIFF and publishes it as layer in GeoServer
