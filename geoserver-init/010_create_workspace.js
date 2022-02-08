@@ -1,9 +1,9 @@
 import GeoServerRestClient from 'geoserver-node-client';
 
-const geoserverUrl = process.env.GEOSERVER_REST_URL || 'http://localhost:8080/geoserver/rest/';
+const geoserverUrl = process.env.GEOSERVER_REST_URL;
 
-const geoserverDefaultUser = 'admin';
-const geoserverDefaultPw = 'geoserver';
+const geoserverDefaultUser = process.env.GEOSERVER_DEFAULT_USER;
+const geoserverDefaultPw = process.env.GEOSERVER_DEFAULT_PASSWORD;
 
 const workspaceOverlay = 'klips';
 const workspaceOverLayUri = 'https://www.meggsimum.de/namespace/klips';
