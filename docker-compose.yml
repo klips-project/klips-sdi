@@ -29,7 +29,7 @@ services:
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=dispatcher
 
-  worker-geoserver-publish-geotiff:
+  geoserver-publish-geotiff:
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
     restart: unless-stopped
     volumes:
@@ -46,7 +46,7 @@ services:
     - GEOSERVER_USER=${GEOSERVER_USER}
     - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
 
-  worker-download:
+  download-new-data-from-url:
     image: ghcr.io/klips-project/mqm-worker/download-new-data-from-url:latest
     restart: unless-stopped
     volumes:
@@ -58,7 +58,7 @@ services:
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-      - WORKERQUEUE=download
+      - WORKERQUEUE=download-new-data-from-url
 
   geoserver:
     image: meggsimum/geoserver:2.20.2

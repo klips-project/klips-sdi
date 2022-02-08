@@ -2,7 +2,7 @@
     "job": [
       {
         "id": 123,
-        "type": "download",
+        "type": "download-new-data-from-url",
         "inputs": [
             "http://nginx/sample.tif",
             "/home/data"
