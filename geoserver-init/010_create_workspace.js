@@ -1,19 +1,22 @@
 import GeoServerRestClient from 'geoserver-node-client';
 
-const geoserverUrl = process.env.GEOSERVER_REST_URL || 'http://localhost:8080/geoserver/rest/';
+const geoserverUrl = process.env.GEOSERVER_REST_URL;
 
-const geoserverDefaultUser = 'admin';
-const geoserverDefaultPw = 'geoserver';
+const geoserverDefaultUser = process.env.GEOSERVER_DEFAULT_USER;
+const geoserverDefaultPw = process.env.GEOSERVER_DEFAULT_PASSWORD;
 
 const workspaceOverlay = 'klips';
 const workspaceOverLayUri = 'https://www.meggsimum.de/namespace/klips';
 
-/**
- * Main function
- */
-async function initGeoserver () {
-  await createWorkspaces();
-}
+// check if we can connect to GeoServer REST API
+const grc = new GeoServerRestClient(geoserverUrl, geoserverDefaultUser, geoserverDefaultPw);
+grc.about.exists()
+  .then(() => {
+    createWorkspaces();
+  })
+  .catch(() => {
+    console.error('ERROR', 'Could not connect to GeoServer REST API - ABORT!');
+  });
 
 /**
  * Create the workspaces.
@@ -24,24 +27,12 @@ async function createWorkspaces () {
   console.log();
 
   const wsOverLayerExists = await grc.namespaces.get(workspaceOverlay);
-  if (wsOverLayerExists) {
-    console.log(`INFO: workspace '${workspaceOverlay}' already exists'`);
-  } else {
-    const workspaceOverlayCreated = await grc.namespaces.create(workspaceOverlay, workspaceOverLayUri);
-    if (workspaceOverlayCreated) {
+  if (!wsOverLayerExists) {
+    try {
+      await grc.namespaces.create(workspaceOverlay, workspaceOverLayUri);
       console.log(`SUCCESS: Created Workspace: '${workspaceOverlay}'`);
-    } else {
-      console.error(`ERROR: Creation of Workspace failed '${workspaceOverlay}'`);
+    } catch (error) {
+      console.error('ERROR', error);
     }
   }
 }
-
-// check if we can connect to GeoServer REST API
-const grc = new GeoServerRestClient(geoserverUrl, geoserverDefaultUser, geoserverDefaultPw);
-grc.exists().then(gsExists => {
-  if (gsExists === true) {
-    initGeoserver();
-  } else {
-    console.error('ERROR: Could not connect to GeoServer REST API - ABORT!');
-  }
-});
