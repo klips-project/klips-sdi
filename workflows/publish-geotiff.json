@@ -1,0 +1,26 @@
+{
+    "job": [
+      {
+        "id": 123,
+        "type": "download-new-data-from-url",
+        "inputs": [
+            "http://nginx/sample.tif",
+            "/home/data"
+          ]
+      },
+      {
+        "id": 456,
+        "type": "geoserver-publish-geotiff",
+        "inputs": [
+            "klips",
+            "dummy-datastore",
+            "dummy-name",
+            "dummy-title",
+            {
+              "outputOfId": 123,
+              "outputIndex": 0
+            }
+          ]
+      }
+    ]
+}

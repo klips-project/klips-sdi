@@ -1,4 +1,8 @@
 version: '3'
+
+volumes:
+    tmp-data:
+
 services:
   rabbitmq:
     image: rabbitmq:3.9-management
@@ -25,6 +29,37 @@ services:
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=dispatcher
 
+  geoserver-publish-geotiff:
+    image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
+    restart: unless-stopped
+    volumes:
+      - tmp-data:/home/data:Z
+    depends_on:
+      - rabbitmq
+    environment:
+    - RABBITHOST=${RABBITMQ_HOSTNAME}
+    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+    - WORKERQUEUE=geoserver-publish-geotiff
+    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+    - GEOSERVER_USER=${GEOSERVER_USER}
+    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+
+  download-new-data-from-url:
+    image: ghcr.io/klips-project/mqm-worker/download-new-data-from-url:latest
+    restart: unless-stopped
+    volumes:
+      - tmp-data:/home/data:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=download-new-data-from-url
+
   geoserver:
     image: meggsimum/geoserver:2.20.2
     hostname: ${GEOSERVER_HOSTNAME}
@@ -48,6 +83,12 @@ services:
         - GEOSERVER_USER=${GEOSERVER_USER}
         - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
     command: [ "./wait-for.sh", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "run", "start"]
+
+  # only needed for development, it mocks a webspace where data can be loaded from
+  nginx:
+    image: nginx
+    volumes:
+      - ./mocked-webspace:/usr/share/nginx/html:ro
 
   # Not needed at the moment
 
