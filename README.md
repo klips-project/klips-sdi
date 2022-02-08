@@ -17,6 +17,6 @@ docker-compose pull
 
 ## Workflows
 
-The directory `workflows` contains workflows that can be send to the `dispatcher`:
+The directory `workflows` contains workflows that can be sent to the `dispatcher`:
 
 - `publish-geotiff.json` downloads a GeoTIFF and publishes it as layer in GeoServer
