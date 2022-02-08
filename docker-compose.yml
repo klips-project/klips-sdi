@@ -38,7 +38,7 @@ services:
       - USE_CORS=0
 
   geoserver-init:
-    build: ./geoserver-init
+    image: ghcr.io/klips-project/geoserver-init:latest
     depends_on:
         - geoserver
     environment:
