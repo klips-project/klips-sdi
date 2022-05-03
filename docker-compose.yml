@@ -61,7 +61,7 @@ services:
       - WORKERQUEUE=download-new-data-from-url
 
   geoserver:
-    image: meggsimum/geoserver:2.20.2
+    image: meggsimum/geoserver:2.20.4
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
      - 8080:8080
