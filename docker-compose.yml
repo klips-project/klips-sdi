@@ -60,6 +60,20 @@ services:
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=download-new-data-from-url
 
+  geotiff-validator:
+    image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
+    restart: unless-stopped
+    volumes:
+      - tmp-data:/home/data:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geotiff-validator
+
   geoserver:
     image: meggsimum/geoserver:2.20.4
     hostname: ${GEOSERVER_HOSTNAME}
