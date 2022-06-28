@@ -1,0 +1,51 @@
+{
+    "$id": "json",
+    "type": "object",
+    "properties": {
+      "category": { "type": "string" },
+      "source": { "type": "string" },
+      "email": { "type": "string" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "creationTime": {
+            "type": "integer"
+          },
+          "predictionStartTime": {
+            "type": "integer"
+          },
+          "predictionEndTime": {
+            "type": "integer"
+          },
+          "interval": {
+            "type": "integer"
+          },
+          "region": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "url",
+          "creationTime",
+          "predictionStartTime",
+          "predictionEndTime",
+          "interval",
+          "region",
+          "type"
+        ]
+      }
+    },
+    "required": [
+      "category",
+      "source",
+      "email",
+      "payload"
+    ],
+    "additionalProperties": true
+  }
