@@ -75,7 +75,7 @@ services:
       - WORKERQUEUE=geotiff-validator
 
   geoserver:
-    image: meggsimum/geoserver:2.20.4
+    image: meggsimum/geoserver:2.21.0
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
      - 8080:8080

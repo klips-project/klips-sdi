@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "child_process": "^1.0.2",
-    "geoserver-node-client": "github:jakobmiksch/geoserver-node-client#e54569d4a9be4335d219ee3e41ec668b7e04b38f",
+    "geoserver-node-client": "1.1.0",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
