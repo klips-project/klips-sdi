@@ -36,5 +36,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/geoserver-init:latest
-            ghcr.io/${{ github.repository_owner }}/geoserver-init:${{ steps.date.outputs.timestamp }}
+            ghcr.io/${{ github.repository_owner }}/geoserver-init:${{ steps.timestamp.outputs.timestamp }}
 
