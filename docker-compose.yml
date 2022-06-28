@@ -5,7 +5,7 @@ volumes:
 
 services:
   rabbitmq:
-    image: rabbitmq:3.9-management
+    image: rabbitmq:3.10-management
     # hostname required for mounted data
     hostname: ${RABBITMQ_HOSTNAME}
     ports:
