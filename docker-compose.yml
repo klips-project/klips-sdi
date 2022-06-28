@@ -4,13 +4,28 @@ volumes:
     tmp-data:
 
 services:
+  klips-api:
+    image: ghcr.io/klips-project/klips-api:latest
+    restart: unless-stopped
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - PORT=3000
+      - DISPATCHERQUEUE=dispatcher
+      - CONFIG_DIR=/klips-conf
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - ./klips-api-config:/klips-conf
+
   rabbitmq:
     image: rabbitmq:3.9-management
     # hostname required for mounted data
     hostname: ${RABBITMQ_HOSTNAME}
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:15672:15672
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:Z
     environment:
@@ -97,7 +112,7 @@ services:
   #   volumes:
   #     - ./postgres-data:/var/lib/postgresql/data
   #   ports:
-  #     - "5432:5432"
+  #     - 127.0.0.1:5432:5432
   #   environment:
   #     - POSTGRES_USER=${POSTGRES_USER}
   #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

@@ -5,8 +5,12 @@ The spatial data infrastructure for the [KLIPS project](http://www.klips-projekt
 ## Setup
 
 ```shell
-# create your personal config
+# create your personal environment variables config
 cp .env.example .env
+
+# create your personal klips api config
+mkdir klips-api-config
+cp klips-api-config-example/* klips-api-config/
 
 # start the containers
 docker-compose up
