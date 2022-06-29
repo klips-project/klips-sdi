@@ -18,6 +18,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Get current timestamp
+        id: timestamp
+        run: echo "::set-output name=timestamp::$(date +'%Y-%m-%dT%H:%M')"
+
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -30,4 +34,7 @@ jobs:
         with:
           context: ./geoserver-init
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/geoserver-init:latest
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/geoserver-init:latest
+            ghcr.io/${{ github.repository_owner }}/geoserver-init:${{ steps.timestamp.outputs.timestamp }}
+
