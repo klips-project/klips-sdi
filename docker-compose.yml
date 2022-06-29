@@ -7,6 +7,8 @@ services:
   klips-api:
     image: ghcr.io/klips-project/klips-api:latest
     restart: unless-stopped
+    depends_on:
+      - rabbitmq
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
@@ -21,6 +23,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.10-management
+    restart: unless-stopped
     # hostname required for mounted data
     hostname: ${RABBITMQ_HOSTNAME}
     ports:
@@ -36,13 +39,26 @@ services:
     image: ghcr.io/klips-project/mqm-worker/dispatcher:latest
     restart: unless-stopped
     depends_on:
-        - rabbitmq
+      - rabbitmq
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=dispatcher
+
+  error-handler:
+    #image: ghcr.io/klips-project/mqm-worker/error-handler:latest
+    image: error-handler:testing
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=errorHandlerMail
+      - WORKERQUEUE=DeadLetterQueue
 
   geoserver-publish-geotiff:
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
@@ -91,6 +107,7 @@ services:
 
   geoserver:
     image: meggsimum/geoserver:2.21.0
+    restart: unless-stopped
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
      - 8080:8080
@@ -104,7 +121,7 @@ services:
   geoserver-init:
     image: ghcr.io/klips-project/geoserver-init:latest
     depends_on:
-        - geoserver
+      - geoserver
     environment:
         - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
         - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
