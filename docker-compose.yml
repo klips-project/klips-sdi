@@ -98,8 +98,6 @@ services:
       - ./geoserver_data:/opt/geoserver_data/:Z
     environment:
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
-      - USE_VECTOR_TILES=0
-      - USE_CORS=0
 
   geoserver-init:
     image: ghcr.io/klips-project/geoserver-init:latest
