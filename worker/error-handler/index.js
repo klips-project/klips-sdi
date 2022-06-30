@@ -84,7 +84,8 @@ export async function initialize(
               "id": 2,
               "type": "send-mattermost-message",
               "inputs": [
-                content + '```' + msg.content.toString() + '```'
+                content + '```' + msg.content.toString() + '```\n1' +
+                '@jakob @weskamm @hblitza @uli'
               ]
             }
           ]
