@@ -1,5 +1,4 @@
 import amqp from 'amqplib';
-import { log } from '../workerTemplate.js';
 
 const workerQueue = process.env.WORKERQUEUE;
 const resultQueue = process.env.RESULTSQUEUE;
@@ -28,46 +27,59 @@ export async function initialize(
     durable: true
   });
 
-  log(`Worker waiting for messages in ${workerQueue}.`);
+  console.log(`Worker waiting for messages in ${workerQueue}.`);
   channel.consume(
     workerQueue,
     async function (msg) {
       try {
         const job = JSON.parse(msg.content.toString());
-        log('Received a failed job in dead letter queue ...');
+        console.log('Received a failed job in dead letter queue ...');
 
-        const mailSubject = 'KLIPS - Job processing failed';
-        let mailMsg = `Processing of job with id ${job.id} failed.\n`;
-        if (job.nextTask && job.nextTask.task) {
-          mailMsg += `The process of type '${job.nextTask.task.type} failed `;
-          mailMsg += `with the following error:\n\n`;
-        } else {
-          mailMsg += `The following error occured:\n\n`;
+        // Handling different receipients based on failed instance
+        // External failure: failures in validators -> mail to original job sender; POST message to chat
+        // Internal failure: failures after validators -> POST message to chat
+        const failedTask = job.nextTask?.task?.type;
+        let recipients;
+        if (failedTask && failedTask.toLowerCase().indexOf('validator') > -1) {
+          recipients = job.email;
         }
-        mailMsg += job.error;
 
-        const emailJob = {
-          "job": [
+        const subject = 'KLIPS - Job processing failed';
+        let content = `Processing of job with id ${job.id} failed.\n`;
+        if (failedTask) {
+          content += `The process of type '${failedTask} failed `;
+          content += `with the following error:\n\n`;
+        } else {
+          content += `The following error occured:\n\n`;
+        }
+        content += job.error + '\n\n';
+        content += 'The complete job output is listed below:\n\n';
+        content += msg.content.toString();
+
+        if (recipients) {
+          const emailJob = {
+            "job": [
+              {
+                "id": 1,
+                "type": "send-email",
+                "inputs": [
+                  recipients,
+                  subject,
+                  content
+                ]
+              }
+            ]
+          };
+          channel.sendToQueue(
+            resultQueue,
+            Buffer.from(JSON.stringify(emailJob)),
             {
-              "id": 11,
-              "type": "send-email",
-              "inputs": [
-                "weskamm@terrestris.de",
-                mailSubject,
-                mailMsg
-              ]
+              persistent: true
             }
-          ]
-        };
-
-        channel.sendToQueue(
-          resultQueue,
-          Buffer.from(JSON.stringify(emailJob)),
-          {
-            persistent: true
-          }
-        );
-        log('Error handler worker finished');
+          );
+          console.log('Email job dispatched from error handler');
+        }
+        console.log('Error handler worker finished');
       } catch (e) {
         console.error("Error parsing dead letter message", e);
       }

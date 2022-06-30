@@ -48,8 +48,8 @@ services:
       - WORKERQUEUE=dispatcher
 
   error-handler:
-    #image: ghcr.io/klips-project/mqm-worker/error-handler:latest
-    image: error-handler:testing
+    build:
+      context: worker/error-handler
     restart: unless-stopped
     depends_on:
       - rabbitmq
@@ -57,8 +57,27 @@ services:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
-      - RESULTSQUEUE=errorHandlerMail
+      - RESULTSQUEUE=dispatcher
       - WORKERQUEUE=DeadLetterQueue
+
+  send-email:
+    image: ghcr.io/klips-project/mqm-worker/send-email:latest
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - WORKERQUEUE=send-email
+      - RESULTSQUEUE=results
+      - MAILHOST=${MAILHOST}
+      - MAILPORT=${MAILPORT}
+      - SECURE=${MAILSECURE}
+      - AUTHUSER=${MAILAUTHUSER}
+      - AUTHPASS=${MAILAUTHPASS}
+      - FROMSENDERNAME=${MAILFROMSENDERNAME}
+      - FROMSENDEREMAIL={MAILROMSENDEREMAIL}
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
 
   geoserver-publish-geotiff:
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
