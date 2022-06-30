@@ -1,0 +1,36 @@
+{
+    "job": [
+      {
+        "id": 1,
+        "type": "download-new-data-from-url",
+        "inputs": [
+            "http://nginx/sample.tif",
+            "/home/data"
+          ]
+      },
+      {
+        "id": 2,
+        "type": "geotiff-validator",
+        "inputs": [
+            {
+              "outputOfId": 1,
+              "outputIndex": 0
+            }
+          ]
+      },
+      {
+        "id": 3,
+        "type": "geoserver-publish-geotiff",
+        "inputs": [
+            "klips",
+            "dummy-datastore",
+            "dummy-name",
+            "dummy-title",
+            {
+              "outputOfId": 2,
+              "outputIndex": 0
+            }
+          ]
+      }
+    ]
+}

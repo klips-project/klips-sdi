@@ -4,13 +4,28 @@ volumes:
     tmp-data:
 
 services:
+  klips-api:
+    image: ghcr.io/klips-project/klips-api:latest
+    restart: unless-stopped
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - PORT=3000
+      - DISPATCHERQUEUE=dispatcher
+      - CONFIG_DIR=/klips-conf
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - ./klips-api-config:/klips-conf
+
   rabbitmq:
-    image: rabbitmq:3.9-management
+    image: rabbitmq:3.10-management
     # hostname required for mounted data
     hostname: ${RABBITMQ_HOSTNAME}
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:15672:15672
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:Z
     environment:
@@ -60,8 +75,22 @@ services:
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=download-new-data-from-url
 
+  geotiff-validator:
+    image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
+    restart: unless-stopped
+    volumes:
+      - tmp-data:/home/data:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geotiff-validator
+
   geoserver:
-    image: meggsimum/geoserver:2.20.4
+    image: meggsimum/geoserver:2.21.0
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
      - 8080:8080

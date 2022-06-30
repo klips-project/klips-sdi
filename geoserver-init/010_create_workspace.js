@@ -1,4 +1,4 @@
-import GeoServerRestClient from 'geoserver-node-client';
+import { GeoServerRestClient } from 'geoserver-node-client';
 
 const geoserverUrl = process.env.GEOSERVER_REST_URL;
 
