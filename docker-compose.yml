@@ -60,6 +60,20 @@ services:
       - RESULTSQUEUE=dispatcher
       - WORKERQUEUE=DeadLetterQueue
 
+  send-mattermost-message:
+    image: ghcr.io/klips-project/mqm-worker/send-mattermost-message:latest
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=send-mattermost-message
+      - MATTERMOST_HOOK_URL=${MATTERMOST_HOOK_URL}
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+
   send-email:
     image: ghcr.io/klips-project/mqm-worker/send-email:latest
     environment:
@@ -67,7 +81,7 @@ services:
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - WORKERQUEUE=send-email
-      - RESULTSQUEUE=results
+      - RESULTSQUEUE=RABBITMQ_RESULTSQUEUE
       - MAILHOST=${MAILHOST}
       - MAILPORT=${MAILPORT}
       - SECURE=${MAILSECURE}

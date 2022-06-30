@@ -54,7 +54,6 @@ export async function initialize(
         }
         content += job.error + '\n\n';
         content += 'The complete job output is listed below:\n\n';
-        content += msg.content.toString();
 
         if (recipients) {
           const emailJob = {
@@ -65,7 +64,7 @@ export async function initialize(
                 "inputs": [
                   recipients,
                   subject,
-                  content
+                  content + msg.content.toString()
                 ]
               }
             ]
@@ -79,6 +78,25 @@ export async function initialize(
           );
           console.log('Email job dispatched from error handler');
         }
+        const mattermostJob = {
+          "job": [
+            {
+              "id": 2,
+              "type": "send-mattermost-message",
+              "inputs": [
+                content + '```' + msg.content.toString() + '```'
+              ]
+            }
+          ]
+        };
+        channel.sendToQueue(
+          resultQueue,
+          Buffer.from(JSON.stringify(mattermostJob)),
+          {
+            persistent: true
+          }
+        );
+        console.log('Mattermost message job dispatched from error handler');
         console.log('Error handler worker finished');
       } catch (e) {
         console.error("Error parsing dead letter message", e);
