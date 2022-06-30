@@ -61,8 +61,8 @@ services:
     - GEOSERVER_USER=${GEOSERVER_USER}
     - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
 
-  download-new-data-from-url:
-    image: ghcr.io/klips-project/mqm-worker/download-new-data-from-url:latest
+  download-file:
+    image: ghcr.io/klips-project/mqm-worker/download-file:latest
     restart: unless-stopped
     volumes:
       - tmp-data:/home/data:Z
