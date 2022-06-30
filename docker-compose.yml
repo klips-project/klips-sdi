@@ -90,7 +90,8 @@ services:
       - WORKERQUEUE=geotiff-validator
 
   geoserver:
-    image: meggsimum/geoserver:2.21.0
+    # TODO: tag should be changed to 2.21.1, once the respective version of GeoServer is released
+    image: meggsimum/geoserver:latest
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
      - 8080:8080
@@ -100,6 +101,7 @@ services:
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
       - USE_VECTOR_TILES=0
       - USE_CORS=0
+      - UPDATE_CREDENTIALS=0
 
   geoserver-init:
     image: ghcr.io/klips-project/geoserver-init:latest
