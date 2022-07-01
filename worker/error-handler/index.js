@@ -8,6 +8,11 @@ const rabbitPass = process.env.RABBITPASS;
 
 let channel;
 
+/**
+ * This worker handles errors that may appear in the specific workflows the dispatcher handles.
+ * If a worker throws an error, this worker will pick up that message / job information
+ * from the dead letter queue in order to trigger mail, chat messages and cleanups.
+ */
 export async function initialize(
   rabbitHost,
   rabbitUser,
@@ -35,7 +40,7 @@ export async function initialize(
         const job = JSON.parse(msg.content.toString());
         console.log('Received a failed job in dead letter queue ...');
 
-        // Handling different receipients based on failed instance
+        // Handling different recipients based on failed instance
         // External failure: failures in validators -> mail to original job sender; POST message to chat
         // Internal failure: failures after validators -> POST message to chat
         const failedTask = job.nextTask?.task?.type;
@@ -84,7 +89,7 @@ export async function initialize(
               "id": 2,
               "type": "send-mattermost-message",
               "inputs": [
-                content + '```' + msg.content.toString() + '```\n1' +
+                content + '```' + msg.content.toString() + '```\n' +
                 '@jakob @weskamm @hblitza @uli'
               ]
             }
