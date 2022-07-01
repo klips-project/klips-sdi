@@ -44,9 +44,11 @@ export async function initialize(
         // External failure: failures in validators -> mail to original job sender; POST message to chat
         // Internal failure: failures after validators -> POST message to chat
         const failedTask = job.nextTask?.task?.type;
-        let recipients;
+        let mailRecipients;
+        // Check if a worker / task has failed which contains `validator` in its name.
+        // If so, we will send an email the original job sender
         if (failedTask && failedTask.toLowerCase().indexOf('validator') > -1) {
-          recipients = job.email;
+          mailRecipients = job.email;
         }
 
         const subject = 'KLIPS - Job processing failed';
@@ -60,14 +62,14 @@ export async function initialize(
         content += job.error + '\n\n';
         content += 'The complete job output is listed below:\n\n';
 
-        if (recipients) {
+        if (mailRecipients) {
           const emailJob = {
             "job": [
               {
                 "id": 1,
                 "type": "send-email",
                 "inputs": [
-                  recipients,
+                  mailRecipients,
                   subject,
                   content + msg.content.toString()
                 ]
