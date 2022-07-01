@@ -52,7 +52,7 @@ export async function initialize(
         const subject = 'KLIPS - Job processing failed';
         let content = `Processing of job with id ${job.id} failed.\n`;
         if (failedTask) {
-          content += `The process of type '${failedTask} failed `;
+          content += `The process of type '${failedTask}' failed `;
           content += `with the following error:\n\n`;
         } else {
           content += `The following error occurred:\n\n`;
