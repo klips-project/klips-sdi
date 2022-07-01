@@ -1,15 +1,25 @@
 {
     "job": [
       {
-        "id": 123,
+        "id": 1,
         "type": "download-file",
         "inputs": [
-            "http://nginx/sample.tif",
+            "http://nginx/broken.tif",
             "/home/data"
           ]
       },
       {
-        "id": 456,
+        "id": 2,
+        "type": "geotiff-validator",
+        "inputs": [
+            {
+              "outputOfId": 1,
+              "outputIndex": 0
+            }
+          ]
+      },
+      {
+        "id": 3,
         "type": "geoserver-publish-geotiff",
         "inputs": [
             "klips",
@@ -17,7 +27,7 @@
             "dummy-name",
             "dummy-title",
             {
-              "outputOfId": 123,
+              "outputOfId": 2,
               "outputIndex": 0
             }
           ]

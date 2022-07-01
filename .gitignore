@@ -4,3 +4,4 @@
 rabbitmq/
 geoserver_data/
 klips-api-config/
+worker/*/node_modules
