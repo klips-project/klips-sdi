@@ -55,7 +55,7 @@ export async function initialize(
           content += `The process of type '${failedTask} failed `;
           content += `with the following error:\n\n`;
         } else {
-          content += `The following error occured:\n\n`;
+          content += `The following error occurred:\n\n`;
         }
         content += job.error + '\n\n';
         content += 'The complete job output is listed below:\n\n';
