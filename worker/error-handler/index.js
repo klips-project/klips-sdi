@@ -114,6 +114,23 @@ export async function initialize(
           );
         }
         console.log('Mattermost message job dispatched from error handler');
+        const rollbackJob = {
+          "job": [
+            {
+              "id": 3,
+              "type": "rollback-handler",
+              "inputs": [job]
+            }
+          ]
+        };
+        channel.sendToQueue(
+          resultQueue,
+          Buffer.from(JSON.stringify(rollbackJob)),
+          {
+            persistent: true
+          }
+        );
+        console.log('Rollback job dispatched from error handler');
         console.log('Error handler worker finished');
       } catch (e) {
         console.error("Error parsing dead letter message", e);

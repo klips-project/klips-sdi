@@ -58,6 +58,24 @@ services:
       - WORKERQUEUE=DeadLetterQueue
       - DEV_MODE=0
 
+  rollback-handler:
+    build:
+      context: worker/rollback-handler
+    restart: unless-stopped
+    volumes:
+      - tmp-data:/home/data:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=rollback-handler
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+
   send-mattermost-message:
     image: ghcr.io/klips-project/mqm-worker/send-mattermost-message:latest
     restart: unless-stopped

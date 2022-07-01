@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "amqplib": "^0.8.0",
+    "geoserver-node-client": "^1.1.0",
     "rabbitmq-worker": "git+https://github.com/klips-project/rabbitmq-worker.git"
   },
   "devDependencies": {
