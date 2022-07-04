@@ -63,7 +63,7 @@ services:
       context: worker/rollback-handler
     restart: unless-stopped
     volumes:
-      - tmp-data:/home/data:Z
+      - ./geoserver_data:/home/data:Z
     depends_on:
       - rabbitmq
     environment:
