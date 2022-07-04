@@ -1,8 +1,5 @@
 version: '3'
 
-volumes:
-    tmp-data:
-
 services:
   klips-api:
     image: ghcr.io/klips-project/klips-api:latest
@@ -97,7 +94,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
     restart: unless-stopped
     volumes:
-      - tmp-data:/home/data:Z
+      - ./geoserver_data:/opt/geoserver_data/:Z
     depends_on:
       - rabbitmq
     environment:
@@ -114,7 +111,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/download-file:latest
     restart: unless-stopped
     volumes:
-      - tmp-data:/home/data:Z
+      - ./geoserver_data:/opt/geoserver_data/:Z
     depends_on:
       - rabbitmq
     environment:
@@ -128,7 +125,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
     restart: unless-stopped
     volumes:
-      - tmp-data:/home/data:Z
+      - ./geoserver_data:/opt/geoserver_data/:Z
     depends_on:
       - rabbitmq
     environment:
@@ -148,8 +145,6 @@ services:
       - ./geoserver_data:/opt/geoserver_data/:Z
     environment:
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
-      - USE_VECTOR_TILES=0
-      - USE_CORS=0
 
   geoserver-init:
     image: ghcr.io/klips-project/geoserver-init:latest
