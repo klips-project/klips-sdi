@@ -146,7 +146,6 @@ services:
     environment:
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
 
-
   geoserver-init:
     image: ghcr.io/klips-project/geoserver-init:latest
     depends_on:
