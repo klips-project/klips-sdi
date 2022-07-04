@@ -5,7 +5,7 @@ const resultQueue = process.env.RESULTSQUEUE;
 const rabbitHost = process.env.RABBITHOST;
 const rabbitUser = process.env.RABBITUSER;
 const rabbitPass = process.env.RABBITPASS;
-const dev = true;
+const dev = process.env.DEV_MODE === "1";
 
 let channel;
 
@@ -77,7 +77,9 @@ export async function initialize(
               }
             ]
           };
-          if (!dev) {
+          if (dev) {
+            console.log(`DEV: Usually a job for email notification would be triggered here, but omitted because of development mode.` );
+          } else {
             channel.sendToQueue(
               resultQueue,
               Buffer.from(JSON.stringify(emailJob)),
@@ -100,7 +102,9 @@ export async function initialize(
             }
           ]
         };
-        if (!dev) {
+        if (dev) {
+          console.log(`DEV: Usually a job for chat notification would be triggered here, but omitted because of development mode.` );
+        } else {
           channel.sendToQueue(
             resultQueue,
             Buffer.from(JSON.stringify(mattermostJob)),
