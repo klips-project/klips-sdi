@@ -5,6 +5,7 @@ const resultQueue = process.env.RESULTSQUEUE;
 const rabbitHost = process.env.RABBITHOST;
 const rabbitUser = process.env.RABBITUSER;
 const rabbitPass = process.env.RABBITPASS;
+const dev = process.env.DEV_MODE === "1";
 
 let channel;
 
@@ -76,14 +77,18 @@ export async function initialize(
               }
             ]
           };
-          channel.sendToQueue(
-            resultQueue,
-            Buffer.from(JSON.stringify(emailJob)),
-            {
-              persistent: true
-            }
-          );
-          console.log('Email job dispatched from error handler');
+          if (dev) {
+            console.log(`DEV: Usually a job for email notification would be triggered here, but omitted because of development mode.` );
+          } else {
+            channel.sendToQueue(
+              resultQueue,
+              Buffer.from(JSON.stringify(emailJob)),
+              {
+                persistent: true
+              }
+            );
+            console.log('Email job dispatched from error handler');
+          }
         }
         const mattermostJob = {
           "job": [
@@ -97,13 +102,17 @@ export async function initialize(
             }
           ]
         };
-        channel.sendToQueue(
-          resultQueue,
-          Buffer.from(JSON.stringify(mattermostJob)),
-          {
-            persistent: true
-          }
-        );
+        if (dev) {
+          console.log(`DEV: Usually a job for chat notification would be triggered here, but omitted because of development mode.` );
+        } else {
+          channel.sendToQueue(
+            resultQueue,
+            Buffer.from(JSON.stringify(mattermostJob)),
+            {
+              persistent: true
+            }
+          );
+        }
         console.log('Mattermost message job dispatched from error handler');
         console.log('Error handler worker finished');
       } catch (e) {
