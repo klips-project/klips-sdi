@@ -13,6 +13,10 @@ services:
       - PORT=3000
       - DISPATCHERQUEUE=dispatcher
       - CONFIG_DIR=/klips-conf
+      - USE_RABBIT_MQ=1
+      - PARTNER_URL_START
+      - PARTNER_API_USERNAME
+      - PARTNER_API_PASSWORD
     ports:
       - 127.0.0.1:3000:3000
     volumes:
@@ -108,6 +112,23 @@ services:
     - GEOSERVER_USER=${GEOSERVER_USER}
     - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
 
+  geoserver-publish-imagemosaic:
+    image: ghcr.io/klips-project/mqm-worker/geoserver-publish-imagemosaic
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+    environment:
+    - RABBITHOST=${RABBITMQ_HOSTNAME}
+    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+    - WORKERQUEUE=geoserver-publish-imagemosaic
+    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+    - GEOSERVER_USER=${GEOSERVER_USER}
+    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+
   download-file:
     image: ghcr.io/klips-project/mqm-worker/download-file:latest
     restart: unless-stopped
@@ -164,16 +185,3 @@ services:
     image: nginx
     volumes:
       - ./mocked-webspace:/usr/share/nginx/html:ro
-
-  # Not needed at the moment
-
-  # postgres:
-  #   image: postgis/postgis:13-3.1-alpine
-  #   volumes:
-  #     - ./postgres-data:/var/lib/postgresql/data
-  #   ports:
-  #     - 127.0.0.1:5432:5432
-  #   environment:
-  #     - POSTGRES_USER=${POSTGRES_USER}
-  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-  #     - POSTGRES_DB=${POSTGRES_DB}
