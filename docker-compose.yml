@@ -62,8 +62,7 @@ services:
       - DEV_MODE=1
 
   rollback-handler:
-    build:
-      context: worker/rollback-handler
+    image: ghcr.io/klips-project/mqm-worker/rollback-handler:latest
     restart: unless-stopped
     volumes:
       - ./geoserver_data:/opt/geoserver_data/:Z
