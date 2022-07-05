@@ -2,7 +2,7 @@
     "job": [
       {
         "id": 1,
-        "type": "download-new-data-from-url",
+        "type": "download-file",
         "inputs": [
             "http://nginx/sample.tif",
             "/home/data"
@@ -32,5 +32,6 @@
             }
           ]
       }
-    ]
+    ],
+    "email": "weskamm@terrestris.de"
 }

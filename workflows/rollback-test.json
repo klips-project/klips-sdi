@@ -21,6 +21,13 @@
               "outputIndex": 0
             }
           ]
+      },
+      {
+        "id": 789,
+        "type": "download-file",
+        "inputs": [
+            "invalidurl"
+          ]
       }
     ],
     "email": "weskamm@terrestris.de"
