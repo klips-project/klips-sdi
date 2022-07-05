@@ -49,8 +49,7 @@ services:
       - WORKERQUEUE=dispatcher
 
   error-handler:
-    build:
-      context: ghcr.io/klips-project/mqm-worker/error-handler:latest
+    image: ghcr.io/klips-project/mqm-worker/error-handler:latest
     restart: unless-stopped
     depends_on:
       - rabbitmq
@@ -60,7 +59,7 @@ services:
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=dispatcher
       - WORKERQUEUE=DeadLetterQueue
-      - DEV_MODE=0
+      - DEV_MODE=1
 
   send-mattermost-message:
     image: ghcr.io/klips-project/mqm-worker/send-mattermost-message:latest
