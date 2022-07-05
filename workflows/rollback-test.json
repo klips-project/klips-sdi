@@ -5,7 +5,7 @@
         "type": "download-file",
         "inputs": [
             "http://nginx/sample.tif",
-            "/home/data"
+            "/opt/geoserver_data/sample.tif"
           ]
       },
       {
