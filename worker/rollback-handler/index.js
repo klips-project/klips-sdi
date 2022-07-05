@@ -32,6 +32,7 @@ const rollback = async (workerJob, inputs) => {
     const filesToDelete = [];
     for (let i = 0; i < json.job.length; i++) {
       const proc = json.job[i];
+      // check if job type is geoserver-publish-geotiff and start rollback
       if (proc.type.toLowerCase().indexOf('geoserver-publish-geotiff') > -1 &&
         proc.status && proc.status === 'success') {
           // unpublish tiff in geoserver
@@ -47,6 +48,7 @@ const rollback = async (workerJob, inputs) => {
           await grc.datastores.deleteCoverageStore(workspace, store, true);
           log('Successfully deleted coverage store in GeoServer');
       } else if (proc.type.toLowerCase().indexOf('download-file') > -1 &&
+          // start rollback for download-file
           proc.outputs && proc.outputs[0]) {
           filesToDelete.push(proc.outputs[0]);
       }
