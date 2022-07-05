@@ -198,7 +198,7 @@ services:
     command: [ "./wait-for.sh", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "run", "start"]
 
   postgres:
-    image: postgis/postgis:13-3.2-alpine
+    image: postgis/postgis:13-3.2
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
