@@ -50,7 +50,7 @@ services:
 
   error-handler:
     build:
-      context: worker/error-handler
+      context: ghcr.io/klips-project/mqm-worker/error-handler:latest
     restart: unless-stopped
     depends_on:
       - rabbitmq
