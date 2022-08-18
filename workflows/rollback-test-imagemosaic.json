@@ -1,0 +1,31 @@
+{
+    "job": [
+      {
+        "id": 123,
+        "type": "download-file",
+        "inputs": [
+            "http://nginx/sample.tif",
+            "/opt/geoserver_data/sample.tif"
+          ]
+      },
+      {
+        "id": 456,
+        "type": "geoserver-publish-imagemosaic",
+        "inputs": [
+            "klips",
+            "time_test",
+            {
+              "outputOfId": 123,
+              "outputIndex": 0
+            }
+          ]
+      },
+      {
+        "id": 789,
+        "type": "download-file",
+        "inputs": [
+            "invalidUrl"
+          ]
+      }
+    ]
+}

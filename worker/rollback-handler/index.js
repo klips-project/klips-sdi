@@ -54,9 +54,8 @@ const rollback = async (workerJob, inputs) => {
             log('Successfully deleted coverage store in GeoServer');
           }
           else if (jobType === 'geoserver-publish-imagemosaic') {
-            const granule = await grc.imagemosaics.getGranules(workspace, store, store);
-
-            const coveragePath = json.job.find(job => job.id === proc.inputs[2].outputOfId).outputs[0];
+            // delete single granule from coverage store
+            const coveragePath = proc.outputs[0];
 
             await grc.imagemosaics.deleteSingleGranule(
               workspace, store, store, coveragePath);
@@ -65,7 +64,7 @@ const rollback = async (workerJob, inputs) => {
       } else if (proc.type.toLowerCase().indexOf('download-file') > -1 &&
           // start rollback for download-file
           proc.outputs && proc.outputs[0]) {
-          // filesToDelete.push(proc.outputs[0]);
+          filesToDelete.push(proc.outputs[0]);
       }
     };
     for (let i = 0; i < filesToDelete.length; i++) {
