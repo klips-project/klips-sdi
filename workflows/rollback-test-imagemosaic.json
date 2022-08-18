@@ -10,12 +10,10 @@
       },
       {
         "id": 456,
-        "type": "geoserver-publish-geotiff",
+        "type": "geoserver-publish-imagemosaic",
         "inputs": [
             "klips",
-            "dummy-datastore",
-            "dummy-name",
-            "dummy-title",
+            "time_test",
             {
               "outputOfId": 123,
               "outputIndex": 0
@@ -26,9 +24,8 @@
         "id": 789,
         "type": "download-file",
         "inputs": [
-            "invalidurl"
+            "invalidUrl"
           ]
       }
-    ],
-    "email": "weskamm@terrestris.de"
+    ]
 }
