@@ -1,0 +1,12 @@
+{
+    "job": [
+      {
+        "id": 456,
+        "type": "geoserver-create-imagemosaic-datastore",
+        "inputs": [
+            "klips",
+            "temperature"
+          ]
+      }
+    ]
+}
