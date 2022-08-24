@@ -5,7 +5,7 @@
         "type": "download-file",
         "inputs": [
             "http://nginx/broken.tif",
-            "/home/data"
+            "/opt/geoserver_data/broken.tif"
           ]
       },
       {
