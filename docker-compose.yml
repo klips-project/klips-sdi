@@ -21,6 +21,7 @@ services:
       - 127.0.0.1:3000:3000
     volumes:
       - ./klips-api-config:/klips-conf
+      - ./geoserver_data:/opt/geoserver_data/:Z
 
   rabbitmq:
     image: rabbitmq:3.10-management
