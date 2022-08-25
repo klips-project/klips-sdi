@@ -148,7 +148,7 @@ services:
     - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
 
   geoserver-create-imagemosaic-datastore:
-    image: ghcr.io/klips-project/mqm-worker/geoserver-publish-imagemosaic:latest
+    image: ghcr.io/klips-project/mqm-worker/geoserver-create-imagemosaic-datastore:latest
     restart: unless-stopped
     volumes:
       - ./geoserver_data:/opt/geoserver_data/:Z
