@@ -32,15 +32,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ./geoserver-init
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/geoserver-init:latest
-            ghcr.io/${{ github.repository_owner }}/geoserver-init:${{ steps.timestamp.outputs.timestamp }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
           context: ./worker/error-handler
           push: true
           tags: |
