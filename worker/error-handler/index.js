@@ -48,7 +48,7 @@ export async function initialize(
         let mailRecipients;
         // Check if a worker / task has failed which contains `validator` in its name.
         // If so, we will send an email the original job sender
-        if (failedTask && failedTask.toLowerCase().indexOf('validator') > -1) {
+        if (failedTask && failedTask.toLowerCase().includes('validator')) {
           mailRecipients = job.email;
         }
 
