@@ -52,6 +52,6 @@ async function adaptSecurity () {
     await grc.security.updateUser(geoserverDefaultUser, geoserverDefaultPw, false);
     console.info('INFO', 'Successfully disabled default "admin" user');
   } catch (error) {
-    console.warn('WARN', 'Could not adapt security, I might be done already.');
+    console.warn('WARN', 'Could not log in - credentials have probably been changed already');
   }
 }
