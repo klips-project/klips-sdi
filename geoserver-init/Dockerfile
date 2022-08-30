@@ -11,4 +11,4 @@ COPY  /000_change_auth.js /opt/000_change_auth.js
 
 RUN chmod +x /opt/wait-for.sh
 
-CMD [ "./wait-for.sh", "geoserver:8080", "--", "npm", "start"]
+CMD [ "./wait-for.sh", "--timeout=180", "geoserver:8080", "--", "npm", "start"]
