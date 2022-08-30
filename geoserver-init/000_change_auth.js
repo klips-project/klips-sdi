@@ -13,7 +13,7 @@ const newGeoserverPw = process.env.GEOSERVER_PASSWORD;
 
 // check if all variables are present
 if (!geoserverUrl || !geoserverDefaultUser || !geoserverDefaultPw || !newGeoserverUser || !newGeoserverPw) {
-  console.error('ERROR', 'Not all variables provided. Please specify these env vars: \n ' +
+  console.error('ERROR:', 'Not all variables provided. Please specify these env vars: \n ' +
    'GEOSERVER_REST_URL\n GEOSERVER_DEFAULT_USER\n GEOSERVER_DEFAULT_PASSWORD\n GEOSERVER_USER\n GEOSERVER_PASSWORD\n');
   process.exit(1);
 }
@@ -26,7 +26,7 @@ grc.about.exists()
     adaptSecurity();
   })
   .catch(() => {
-    console.warn('WARN', 'Could not connect to GeoServer REST API - seems like auth has been changed in this setup!');
+    console.warn('WARN:', 'Could not connect to GeoServer REST API - seems like auth has been changed in this setup!');
   });
 
 /**
@@ -43,15 +43,15 @@ async function adaptSecurity () {
     }
 
     await grc.security.createUser(user, userPw);
-    console.info('INFO', 'Successfully created user', user);
+    console.info('INFO:', 'Successfully created user', user);
 
     await grc.security.associateUserRole(user, role);
-    console.info('INFO', `Successfully added role ${role} to user ${user}`);
+    console.info('INFO:', `Successfully added role ${role} to user ${user}`);
 
     // disable user
     await grc.security.updateUser(geoserverDefaultUser, geoserverDefaultPw, false);
-    console.info('INFO', 'Successfully disabled default "admin" user');
+    console.info('INFO:', 'Successfully disabled default "admin" user');
   } catch (error) {
-    console.warn('WARN', 'Could not log in - credentials have probably been changed already');
+    console.warn('WARN:', 'Could not log in - credentials have probably been changed already');
   }
 }

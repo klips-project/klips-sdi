@@ -15,7 +15,7 @@ grc.about.exists()
     createWorkspaces();
   })
   .catch(() => {
-    console.error('ERROR', 'Could not connect to GeoServer REST API - ABORT!');
+    console.error('ERROR:', 'Could not connect to GeoServer REST API - ABORT!');
   });
 
 /**
