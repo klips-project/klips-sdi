@@ -222,7 +222,7 @@ services:
         - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
         - GEOSERVER_USER=${GEOSERVER_USER}
         - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
-    command: [ "./wait-for.sh", "--timeout=180", "geoserver:8080", "--", "npm", "start"]
+    command: [ "./wait-for.sh", "--timeout=180", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "start"]
 
   postgres:
     image: postgis/postgis:13-3.2
