@@ -7,15 +7,12 @@
   "scripts": {
     "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
     "lint-fix": "eslint --fix '**/*.js' --ignore-pattern node_modules/",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node 000_change_auth.js && node 010_create_workspace.js"
   },
   "author": "meggsimum",
   "license": "MIT",
   "dependencies": {
-    "child_process": "^1.0.2",
-    "geoserver-node-client": "1.1.0",
-    "node-fetch": "^2.6.0"
+    "geoserver-node-client": "1.2.2"
   },
   "devDependencies": {
     "eslint": "^7.23.0",
