@@ -51,6 +51,19 @@ async function adaptSecurity () {
     // disable user
     await grc.security.updateUser(geoserverDefaultUser, geoserverDefaultPw, false);
     console.info('INFO:', 'Successfully disabled default "admin" user');
+
+    // TODO: this is a pragmatic solution to ensure the newly created user can actually log in
+    //       it is required, because the workers often request GeoServer and therefore delay the
+    //       moment until the newly created user is usable.
+    //       Ideally here we have a function that waits for the moment until we can successfully login
+    console.info('INFO:', 'Waiting for 10 seconds to give GeoServer time to register the new user.');
+    function sleep (seconds) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, seconds * 1000);
+      });
+    }
+    await sleep(10);
+    console.info('INFO:', 'Waiting over...');
   } catch (error) {
     console.warn('WARN:', 'Could not log in - credentials have probably been changed already');
   }
