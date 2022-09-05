@@ -42,3 +42,26 @@ Make the programm executable via:
 ```shell
 chmod +x /your/path/to/rabbitmqadmin
 ```
+
+## Development of Workers
+
+To test new functionality of workers they can be referenced in another repository/directory using the `build` property:
+
+```yaml
+ geoserver-create-imagemosaic-datastore:
+    # image: geoserver-create-imagemosaic-datastore:dev
+    build:
+      context: /ABSOLUTE/PATH/TO/rabbitmq-worker
+      dockerfile: /ABSOLUTE/PATH/TO/rabbitmq-worker/src/geoserver-create-imagemosaic-datastore/Dockerfile
+    restart: unless-stopped
+    environment:
+    - RABBITHOST=${RABBITMQ_HOSTNAME}
+    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+    - [...]
+```
+
+To rebuild and restart them use this command:
+
+```shell
+docker-compose up -d --build geoserver-create-imagemosaic-datastore
+```
