@@ -43,6 +43,12 @@ Make the programm executable via:
 chmod +x /your/path/to/rabbitmqadmin
 ```
 
+Alternatively, you can `apt install amqp-tools` and then run jobs like this:
+
+```shell
+amqp-publish -u=amqp://rabbit:rabbit@localhost:5672 -r=dispatcher < workflows/publish-geotiff-with-validator.json
+```
+
 ## Development of Workers
 
 To test new functionality of workers they can be referenced in another repository/directory using the `build` property:
