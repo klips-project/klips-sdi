@@ -226,6 +226,7 @@ services:
 
   postgres:
     image: postgis/postgis:13-3.2
+    restart: unless-stopped
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
@@ -238,5 +239,6 @@ services:
   # only needed for development, it mocks a webspace where data can be loaded from
   nginx:
     image: nginx
+    restart: unless-stopped
     volumes:
       - ./mocked-webspace:/usr/share/nginx/html:ro
