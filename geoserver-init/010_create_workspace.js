@@ -5,8 +5,7 @@ const geoserverUrl = process.env.GEOSERVER_REST_URL;
 const geoserverUser = process.env.GEOSERVER_USER;
 const geoserverPw = process.env.GEOSERVER_PASSWORD;
 
-const workspaceOverlay = 'klips';
-const workspaceOverLayUri = 'https://www.meggsimum.de/namespace/klips';
+const workspaces = ['dresden', 'langenfeld'];
 
 // check if we can connect to GeoServer REST API
 const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
@@ -26,15 +25,19 @@ async function createWorkspaces () {
   console.log('### WORKSPACES ###');
   console.log();
 
-  const wsOverLayerExists = await grc.namespaces.get(workspaceOverlay);
-  if (wsOverLayerExists) {
-    console.log(`INFO: Workspace '${workspaceOverlay}' already exists.`);
-  } else {
-    try {
-      console.log(`SUCCESS: Created Workspace: '${workspaceOverlay}'`);
-      await grc.namespaces.create(workspaceOverlay, workspaceOverLayUri);
-    } catch (error) {
-      console.error('ERROR', error);
+  for (const workspace of workspaces) {
+    const wsOverLayerExists = await grc.namespaces.get(workspace);
+    const workspaceOverLayUri = `https://www.meggsimum.de/namespace/klips/${workspace}`;
+
+    if (wsOverLayerExists) {
+      console.log(`INFO: Workspace '${workspace}' already exists.`);
+    } else {
+      try {
+        console.log(`SUCCESS: Created Workspace: '${workspace}'`);
+        await grc.namespaces.create(workspace, workspaceOverLayUri);
+      } catch (error) {
+        console.error('ERROR', error);
+      }
     }
   }
 }
