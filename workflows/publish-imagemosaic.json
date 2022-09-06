@@ -1,7 +1,7 @@
 {
     "job": [
       {
-        "id": 123,
+        "id": 1,
         "type": "download-file",
         "inputs": [
             "http://nginx/sample.tif",
@@ -9,21 +9,31 @@
           ]
       },
       {
-        "id": 456,
+        "id": 2,
+        "type": "geotiff-validator",
+        "inputs": [
+          {
+            "outputOfId": 1,
+            "outputIndex": 0
+          }
+        ]
+      },
+      {
+        "id": 3,
         "type": "geoserver-create-imagemosaic-datastore",
         "inputs": [
-            "klips",
-            "temperature"
+            "langenfeld",
+            "langenfeld_temperature"
           ]
       },
       {
-        "id": 789,
+        "id": 4,
         "type": "geoserver-publish-imagemosaic",
         "inputs": [
-            "klips",
-            "temperature",
+            "langenfeld",
+            "langenfeld_temperature",
             {
-              "outputOfId": 123,
+              "outputOfId": 1,
               "outputIndex": 0
             },
             true
