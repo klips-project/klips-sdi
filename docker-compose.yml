@@ -17,6 +17,7 @@ services:
       - PARTNER_URL_START
       - PARTNER_API_USERNAME
       - PARTNER_API_PASSWORD
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
     ports:
       - 127.0.0.1:3000:3000
     volumes:
