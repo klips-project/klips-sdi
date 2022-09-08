@@ -1,0 +1,277 @@
+version: '3'
+
+services:
+  klips-api:
+    # image: ghcr.io/klips-project/klips-api:latest
+    build: ../klips-api
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - PORT=3000
+      - DISPATCHERQUEUE=dispatcher
+      - CONFIG_DIR=/klips-conf
+      - USE_RABBIT_MQ=1
+      - PARTNER_URL_START
+      - PARTNER_API_USERNAME
+      - PARTNER_API_PASSWORD
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - ./klips-api-config:/klips-conf
+      - ./geoserver_data:/opt/geoserver_data/:Z
+
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    restart: unless-stopped
+    # hostname required for mounted data
+    hostname: ${RABBITMQ_HOSTNAME}
+    ports:
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:15672:15672
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq:Z
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+
+  dispatcher:
+    # image: ghcr.io/klips-project/mqm-worker/dispatcher:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/dispatcher/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=dispatcher
+
+  error-handler:
+    # image: ghcr.io/klips-project/mqm-worker/error-handler:latest
+    build: ./worker/error-handler
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=dispatcher
+      - WORKERQUEUE=DeadLetterQueue
+      - DEV_MODE=1
+
+  rollback-handler:
+    # image: ghcr.io/klips-project/mqm-worker/rollback-handler:latest
+    build: ./worker/rollback-handler
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=rollback-handler
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+
+  send-mattermost-message:
+    # image: ghcr.io/klips-project/mqm-worker/send-mattermost-message:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/send-mattermost-message/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=send-mattermost-message
+      - MATTERMOST_HOOK_URL=${MATTERMOST_HOOK_URL}
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+
+  send-email:
+    # image: ghcr.io/klips-project/mqm-worker/send-email:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/send-email/Dockerfile
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - WORKERQUEUE=send-email
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - MAILHOST=${MAILHOST}
+      - MAILPORT=${MAILPORT}
+      - SECURE=${MAILSECURE}
+      - AUTHUSER=${MAILAUTHUSER}
+      - AUTHPASS=${MAILAUTHPASS}
+      - FROMSENDERNAME=${MAILFROMSENDERNAME}
+      - FROMSENDEREMAIL=${MAILFROMSENDEREMAIL}
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  geoserver-publish-geotiff:
+    # image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geoserver-publish-geotiff/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+    environment:
+    - RABBITHOST=${RABBITMQ_HOSTNAME}
+    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+    - WORKERQUEUE=geoserver-publish-geotiff
+    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+    - GEOSERVER_USER=${GEOSERVER_USER}
+    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+
+  geoserver-publish-imagemosaic:
+    # image: ghcr.io/klips-project/mqm-worker/geoserver-publish-imagemosaic:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geoserver-publish-imagemosaic/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+      - geoserver
+    environment:
+    - RABBITHOST=${RABBITMQ_HOSTNAME}
+    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+    - WORKERQUEUE=geoserver-publish-imagemosaic
+    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+    - GEOSERVER_USER=${GEOSERVER_USER}
+    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+    - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+
+  geoserver-create-imagemosaic-datastore:
+    # image: ghcr.io/klips-project/mqm-worker/geoserver-create-imagemosaic-datastore:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geoserver-create-imagemosaic-datastore/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+      - geoserver
+    environment:
+    - RABBITHOST=${RABBITMQ_HOSTNAME}
+    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+    - WORKERQUEUE=geoserver-create-imagemosaic-datastore
+    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+    - GEOSERVER_USER=${GEOSERVER_USER}
+    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+    - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+    - POSTGRES_HOST=${POSTGRES_HOST}
+    - POSTGRES_PORT=${POSTGRES_PORT}
+    - POSTGRES_SCHEMA=${POSTGRES_SCHEMA}
+    - POSTGRES_DB=${POSTGRES_DB}
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  download-file:
+    # image: ghcr.io/klips-project/mqm-worker/download-file:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/download-file/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=download-file
+
+  geotiff-validator:
+    # image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geotiff-validator/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geotiff-validator
+
+  geoserver:
+    image: docker.osgeo.org/geoserver:2.21.1
+    restart: unless-stopped
+    hostname: ${GEOSERVER_HOSTNAME}
+    ports:
+     - 8080:8080
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+    environment:
+      - INSTALL_EXTENSIONS=true
+      - STABLE_EXTENSIONS=wps
+      - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
+
+  geoserver-init:
+    # image: ghcr.io/klips-project/geoserver-init:latest
+    build: ./geoserver-init
+    depends_on:
+      - geoserver
+    environment:
+        - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+        - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
+        - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
+        - GEOSERVER_USER=${GEOSERVER_USER}
+        - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+    command: [ "./wait-for.sh", "--timeout=180", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "start"]
+
+  postgres:
+    image: postgis/postgis:13-3.2
+    restart: unless-stopped
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+  # only needed for development, it mocks a webspace where data can be loaded from
+  nginx:
+    image: nginx
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./mocked-webspace:/usr/share/nginx/html:ro
