@@ -237,11 +237,15 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
 
   pygeoapi:
-    image: geopython/pygeoapi:0.12.0
+    image: ghcr.io/klips-project/pygeoapi:latest
+    build:
+      context: ./pygeoapi
     restart: unless-stopped
+    environment:
+      - PYTHONPATH=/usr/lib/grass82/etc/python/
+      - GISBASE=/usr/lib/grass82/
     volumes:
-      - ./pygeoapi-config.yml:/pygeoapi/local.config.yml
-      - ./processes/:/pygeoapi/processes
+      - ./geoserver_data:/opt/geoserver_data/:Z
 
   # only needed for development, it mocks a webspace where data can be loaded from
   nginx:
