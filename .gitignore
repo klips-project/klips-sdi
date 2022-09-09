@@ -6,3 +6,5 @@ geoserver_data/
 klips-api-config/
 worker/*/node_modules
 postgres-data
+*.aux.xml
+__pycache__
