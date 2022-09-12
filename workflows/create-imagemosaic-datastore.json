@@ -1,11 +1,23 @@
 {
     "job": [
       {
+        "id": 123,
+        "type": "download-file",
+        "inputs": [
+            "http://nginx/sample.tif",
+            "/opt/geoserver_data/sample.tif"
+          ]
+      },
+      {
         "id": 456,
         "type": "geoserver-create-imagemosaic-datastore",
         "inputs": [
             "dresden",
-            "dresden_temperature"
+            "dresden_temperature",
+            {
+              "outputOfId": 123,
+              "outputIndex": 0
+            }
           ]
       }
     ]

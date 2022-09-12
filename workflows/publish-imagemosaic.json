@@ -23,7 +23,11 @@
         "type": "geoserver-create-imagemosaic-datastore",
         "inputs": [
             "langenfeld",
-            "langenfeld_temperature"
+            "langenfeld_temperature",
+            {
+              "outputOfId": 1,
+              "outputIndex": 0
+            }
           ]
       },
       {
