@@ -7,6 +7,7 @@ from grass.pygrass.modules import Module
 import grass.script.setup as gsetup
 from pygeoapi.process.base import BaseProcessor
 import tempfile
+import csv
 import json
 
 LOGGER = logging.getLogger(__name__)
@@ -88,15 +89,15 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):
 
                     polygon_name = 'polygon'
                     zone_name = 'zone'
-                    output_dir = f'{tempdir}/results'
+                    output_file = f'{tempdir}/results'
 
                     v.external(input=jsonfile, output=polygon_name)
                     v.to_rast(input=polygon_name, output=zone_name,
                               use='val', value=i)
                     r.univar(map=demo_raster_name, zones=zone_name,
-                             output=output_dir, separator='comma', flags='t')
+                             output=output_file, separator='comma', flags='t')
 
-                    with open(output_dir, 'r') as input:
+                    with open(output_file, 'r') as input:
                         for line in input:
                             output.write(line)
 
@@ -107,9 +108,26 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):
             with open(f'{tempdir}/output', 'r') as result:
                 result = result.readlines()
 
+            # format result to JSON
+            # TODO: only works for one polygon and is a quick fix that should changed
+            keys = []
+            values = []
+            with open(f'{tempdir}/output','r') as csvfile:
+                csv_reader = csv.reader(csvfile, delimiter=',')
+                i = 0
+                for row in csv_reader:
+                    if i == 0:
+                        keys = row
+                        i = i + 1
+                    if i == 1:
+                        values = row
+            formatted_output = dict(zip(keys, values))
+
         outputs = {
             'result': result
         }
+
+        outputs = formatted_output
 
         return mimetype, outputs
 
