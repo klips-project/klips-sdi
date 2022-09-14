@@ -9,8 +9,7 @@
 export CPL_LOG=/dev/null
 
 IN_GEOJSON_CONTENT="${1}"
-echo ${IN_GEOJSON_CONTENT}
-IN_GEOTIFF_PATH=in.tif
+IN_GEOTIFF_PATH=/demo_data/ecostress_4326.tif
 
 echo "${IN_GEOJSON_CONTENT}" |
   gdalwarp \
