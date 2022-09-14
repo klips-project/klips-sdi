@@ -51,23 +51,22 @@ logging:
 metadata:
     identification:
         title:
-            en: pygeoapi default instance
+            en: KLIPS pygeoapi instance
         description:
-            en: pygeoapi provides an API to geospatial data
+            en: KLIPS pygeoapi instance
         keywords:
             en:
                 - geospatial
                 - data
                 - api
-        keywords_type: theme
         terms_of_service: https://creativecommons.org/licenses/by/4.0/
         url: https://example.org
-    license:
-        name: CC-BY 4.0 license
-        url: https://creativecommons.org/licenses/by/4.0/
     provider:
         name: Organization Name
         url: https://pygeoapi.io
+    license:
+        name: CC-BY 4.0 license
+        url: https://creativecommons.org/licenses/by/4.0/
     contact:
         name: Lastname, Firstname
         position: Position Title
