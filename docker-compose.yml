@@ -242,8 +242,6 @@ services:
     environment:
       - PYTHONPATH=/usr/lib/grass82/etc/python/
       - GISBASE=/usr/lib/grass82/
-    volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
     ports:
       - 127.0.0.1:5000:80
 
