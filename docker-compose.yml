@@ -238,8 +238,6 @@ services:
 
   pygeoapi:
     image: ghcr.io/klips-project/pygeoapi:latest
-    build:
-      context: ./pygeoapi
     restart: unless-stopped
     environment:
       - PYTHONPATH=/usr/lib/grass82/etc/python/
