@@ -7,6 +7,8 @@ info:
   basePath: /api
   schemes:
     - https
+servers:
+  - url: https://klips-dev.terrestris.de/api
 
   # for local development uncomment this line
   # and comment the upper properties 'host', 'basepath' and 'schemes'
