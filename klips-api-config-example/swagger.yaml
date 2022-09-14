@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: KLIPS Heat Island Results API
+  description: This API is part of the [KLIPS project](http://www.klips-projekt.de/) and accepts results about the urban heat islands simulation and prediction.
+  version: 0.1.0
+  host: klips-dev.terrestris.de
+  basePath: /api
+  schemes:
+    - https
+
+  # for local development uncomment this line
+  # and comment the upper properties 'host', 'basepath' and 'schemes'
+  # host: http://localhost:3000
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+security:
+  - basicAuth: []
+paths:
+  /status:
+    get:
+      summary: Information about the status of the API
+      security:
+        - basicAuth: []
+      responses:
+        200:
+          description: OK
+        401:
+           $ref: '#/components/responses/UnauthorizedError'
+  /job:
+    post:
+      summary: Submit a new result about a heat island in GeoTIFF format
+      produces:
+        - application/json
+      security:
+        - basicAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: Information about the new result
+              type: object
+              properties:
+                category:
+                  type: string
+                  description: The category of the result
+                source:
+                  type: string
+                  description: The name of the submitting institution
+                email:
+                  type: string
+                  description: The email to send error reports to
+                payload:
+                  type: object
+                  description: The information about the new result
+                  properties:
+                    url:
+                      type: string
+                      description: The URL where to download the result GeoTIFF from
+                    creationTime:
+                      type: integer
+                      description: The creation time in Unix seconds
+                    predictionStartTime:
+                      type: integer
+                      description: The start time of the preditiction in Unix seconds
+                    predictionEndTime:
+                      type: integer
+                      description: The end time of the preditiction in Unix seconds
+                    interval:
+                      type: integer
+                      description: The interval in seconds
+                    region:
+                      type: integer
+                      description: The region code
+                    type:
+                      type: integer
+                      description: The type of the result
+                  required:
+                      - url
+                      - creationTime
+                      - predictionStartTime
+                      - predictionEndTime
+                      - interval
+                      - region
+                      - type
+              required:
+                - category
+                - source
+                - email
+                - payload
+              example:
+                category: forecast
+                email: info@example.de
+                payload:
+                  url: https://www.example.com/file.geotiff
+                  creationTime: 1663240000
+                  predictionEndTime: 1663240000
+                  predictionStartTime: 1663240000
+                  interval: 3600
+                  region: 0
+                  type: 0
+                source: hhi
+
+      responses:
+        200:
+          description: OK
+        401:
+           $ref: '#/components/responses/UnauthorizedError'
