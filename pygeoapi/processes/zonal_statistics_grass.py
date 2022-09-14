@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 PROCESS_METADATA = {
     'version': '0.0.1',
-    'id': 'zonal-statistics',
+    'id': 'zonal-statistics-grass',
     'title': {
         'en': 'Zonal statistics',
         'de': 'Zonale Statistik'
@@ -48,7 +48,8 @@ PROCESS_METADATA = {
     }
 }
 
-class ZonalStatisticsProcessor(BaseProcessor):
+
+class ZonalStatisticsGrassProcessor(BaseProcessor):
 
     def __init__(self, processor_def):
         super().__init__(processor_def, PROCESS_METADATA)
@@ -57,42 +58,60 @@ class ZonalStatisticsProcessor(BaseProcessor):
         geoms = data.get('inputGeometries', None)
         mimetype = 'application/json'
 
-        i = 0
         result = None
 
         with tempfile.TemporaryDirectory() as tempdir:
             with open(f'{tempdir}/output', 'w') as output:
-                subprocess.run(['grass', '-c', 'EPSG:4326', f'{tempdir}/grass', '-e'])
-                session = gsetup.init(f'{tempdir}/grass/')
+                location = f'{tempdir}/grass'
+                subprocess.run(['grass', '-c', 'EPSG:4326',
+                               location, '-e'])
+                session = gsetup.init(location)
 
-                r.in_gdal(input = '/opt/geoserver_data/sample.tif', output = 'raster')
-                for geom in geoms:
+                demo_raster_name = 'demo-raster'
+                # input raster must be in EPSG 4326
+                r.in_gdal(input='/demo_data/ecostress_4326.tif',
+                          output=demo_raster_name)
+
+                # set region
+                g.region(raster=demo_raster_name)
+
+                # TODO: use r.external instead of r.gdal_in
+                #       https://grass.osgeo.org/grass82/manuals/r.external.html
+
+                # DEBUG: check if raster exists
+                g.list(type='raster')
+
+                for i, geom in enumerate(geoms):
                     jsonfile = f'{tempdir}/polygon{i}.json'
                     with open(jsonfile, 'w') as f:
                         f.write(json.dumps(geom))
-                    i = i + 1
-                    v.external(input = jsonfile, output = 'polygon')
-                    v.to_rast(input = 'polygon', output = 'zone', use = 'val', value = i)
-                    r.univar(map = 'raster', zones = 'zone', output = f'{tempdir}/results', separator = 'comma', flags = 't')
-                    with open(f'{tempdir}/results', 'r') as input:
+
+                    polygon_name = 'polygon'
+                    zone_name = 'zone'
+                    output_dir = f'{tempdir}/results'
+
+                    v.external(input=jsonfile, output=polygon_name)
+                    v.to_rast(input=polygon_name, output=zone_name,
+                              use='val', value=i)
+                    r.univar(map=demo_raster_name, zones=zone_name,
+                             output=output_dir, separator='comma', flags='t')
+
+                    with open(output_dir, 'r') as input:
                         for line in input:
                             output.write(line)
-                    g.remove(type = 'vector', name = 'polygon')
-                    g.remove(type = 'raster', name = 'zone')
+
+                    g.remove(type='vector', name=polygon_name, flags='f')
+                    g.remove(type='raster', name=zone_name, flags='f')
 
                 session.finish()
             with open(f'{tempdir}/output', 'r') as result:
                 result = result.readlines()
 
         outputs = {
-            'id': 'statistics',
-            'value': {
-                'id': 'test',
-                'result': result
-            }
+            'result': result
         }
 
         return mimetype, outputs
 
     def __repr__(self):
-        return '<ZonalStatisticsProcessor> {}'.format(self.name)
+        return '<ZonalStatisticsGrassProcessor> {}'.format(self.name)
