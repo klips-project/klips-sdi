@@ -1,5 +1,6 @@
 import subprocess
 import logging
+from sys import flags
 from grass.pygrass.modules.shortcuts import raster as r
 from grass.pygrass.modules.shortcuts import general as g
 from grass.pygrass.modules.shortcuts import vector as v
@@ -16,16 +17,47 @@ PROCESS_METADATA = {
     'version': '0.0.1',
     'id': 'zonal-statistics-grass',
     'title': {
-        'en': 'Zonal statistics',
-        'de': 'Zonale Statistik'
+        'en': 'Zonal statistics with GRASS',
+        'de': 'Zonale Statistik with GRASS'
     },
     'description': {
-        'en': 'Calculates zonal statistics',
-        'de': 'Berechnet eine zonale Statisik'
+        'en': 'Calculates zonal statistics using the GRASS module r.univar.',
+        'de': 'Berechnet zonale Statistiken mit dem GRASS module r.univar.'
     },
     'keywords': ['zonal', 'statistics', 'raster'],
     'links': [],
-    'example': [],
+    'example': {
+        "inputs": {
+            "inputGeometries": [
+                {
+                    "value": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [
+                                    13.740481048705242,
+                                    51.07277038077021
+                                ],
+                                [
+                                    13.731125503661298,
+                                    51.069210848003564
+                                ],
+                                [
+                                    13.743141800048015,
+                                    51.06489589578095
+                                ],
+                                [
+                                    13.740481048705242,
+                                    51.07277038077021
+                                ]
+                            ]
+                        ]
+                    },
+                    "mediaType": "application/geo+json"
+                }
+            ]
+        }
+    },
     'inputs': {
         'inputGeometries': {
             'title': 'Input geometries',
@@ -70,14 +102,10 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):
 
                 demo_raster_name = 'demo-raster'
                 # input raster must be in EPSG 4326
-                r.in_gdal(input='/demo_data/ecostress_4326.tif',
-                          output=demo_raster_name)
-
+                r.external(input='/demo_data/ecostress_4326.tif',
+                    output=demo_raster_name, flags='e')
                 # set region
                 g.region(raster=demo_raster_name)
-
-                # TODO: use r.external instead of r.gdal_in
-                #       https://grass.osgeo.org/grass82/manuals/r.external.html
 
                 # DEBUG: check if raster exists
                 g.list(type='raster')
