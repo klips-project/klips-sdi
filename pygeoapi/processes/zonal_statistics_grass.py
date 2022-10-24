@@ -18,7 +18,7 @@ PROCESS_METADATA = {
     'id': 'zonal-statistics-grass',
     'title': {
         'en': 'Zonal statistics with GRASS',
-        'de': 'Zonale Statistik with GRASS'
+        'de': 'Zonale Statistik mit GRASS'
     },
     'description': {
         'en': 'Calculates zonal statistics using the GRASS module r.univar.',
