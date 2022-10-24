@@ -43,18 +43,63 @@ PROCESS_METADATA = {
         'en': 'Zonal statistics with GDAL'
     },
     'description': {
-        'en': 'Takes a GeoJSON and computes zonal statistics of a demo raster file using GDAL'
+        'en': 'Takes a GeoJSON and computes zonal statistics of a demo raster file using GDAL.',
+        'en': 'Berechnet einfache zonale Statistiken auf Basis einer Demo Rasterdatei mit Hilfe von GDAL.'
     },
-    'keywords': ['gdal'],
+    'keywords': ['gdal', 'zonal', 'statistics', 'raster'],
     'links': [],
     'inputs': {
-
+        'inputGeometries': {
+            'title': 'Input geometries',
+            'description': 'Input zones encoded as GeoJSON geometries',
+            'minOccurs': 1,
+            'maxOccurs': 'unbounded',
+            'schema': {
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
+            }
+        }
     },
     'outputs': {
-
+        'statistics': {
+            'title': 'Zonal statistics',
+            'description': 'The zonal statistics',
+            'schema': {
+                'type': 'object',
+                'contentMediaType': 'application/json'
+            }
+        }
     },
     'example': {
-
+        "inputs": {
+            "inputGeometries": [
+                {
+                    "value": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [
+                                    13.740481048705242,
+                                    51.07277038077021
+                                ],
+                                [
+                                    13.731125503661298,
+                                    51.069210848003564
+                                ],
+                                [
+                                    13.743141800048015,
+                                    51.06489589578095
+                                ],
+                                [
+                                    13.740481048705242,
+                                    51.07277038077021
+                                ]
+                            ]
+                        ]
+                    },
+                    "mediaType": "application/geo+json"
+                }
+            ]
+        }
     }
 }
 
@@ -67,12 +112,8 @@ class ZonalStatisticsGdalProcessor(BaseProcessor):
     def execute(self, data):
 
         mimetype = 'application/json'
-        name = data.get('name', None)
         geom = data.get('inputGeometries', None)
         jsonString = json.dumps(geom[0]['value'])
-
-        if name is None:
-            raise ProcessorExecuteError('Cannot process without a name')
 
         raw_output = subprocess.run(
             [
