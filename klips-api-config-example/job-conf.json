@@ -2,7 +2,7 @@
     "geoTiffPublicationJob": {
         "minTimeStamp": "2021",
         "maxTimeStamp": "2024",
-        "timeStampFormat": "YYYYMMDDTHHmm",
+        "timeStampFormat": "YYYYMMDDTHHmm[Z]",
         "regions": [
             "dresden",
             "langenfeld"
