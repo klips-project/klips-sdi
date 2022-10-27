@@ -29,7 +29,7 @@
       "id": 3,
       "type": "geoserver-publish-geotiff",
       "inputs": [
-        "klips",
+        "dresden",
         "dummy-datastore",
         "dummy-name",
         "dummy-title",
