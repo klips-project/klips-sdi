@@ -114,11 +114,14 @@ class ZonalStatisticsGdalProcessor(BaseProcessor):
         mimetype = 'application/json'
         geom = data.get('inputGeometries', None)
         jsonString = json.dumps(geom[0]['value'])
+        # url of a COG prefixed with GDAL-specific "/vsicurl/"
+        geoTiffPath = '/vsicurl/http://nginx/ecostress_4326_cog.tif'
 
         raw_output = subprocess.run(
             [
                 '/process_scripts/zonal_stats.sh',
-                jsonString
+                jsonString,
+                geoTiffPath
             ],
             capture_output=True
         ).stdout
