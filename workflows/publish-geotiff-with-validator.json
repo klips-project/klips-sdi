@@ -55,7 +55,7 @@
       "id": 3,
       "type": "geoserver-publish-geotiff",
       "inputs": [
-        "klips",
+        "langenfeld",
         "dummy-datastore",
         "dummy-name",
         "dummy-title",
