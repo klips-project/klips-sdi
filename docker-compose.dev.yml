@@ -267,6 +267,16 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
 
+  pygeoapi:
+    # image: ghcr.io/klips-project/pygeoapi:latest
+    build: ./pygeoapi
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/usr/lib/grass82/etc/python/
+      - GISBASE=/usr/lib/grass82/
+    ports:
+      - 127.0.0.1:5000:80
+
   # only needed for development, it mocks a webspace where data can be loaded from
   nginx:
     image: nginx
