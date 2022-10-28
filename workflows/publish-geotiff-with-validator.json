@@ -4,8 +4,8 @@
       "id": 1,
       "type": "download-file",
       "inputs": [
-        "http://nginx/sample.tif",
-        "/opt/geoserver_data/sample.tif"
+        "http://nginx/ecostress_4326_cog.tif",
+        "/opt/geoserver_data/ecostress_4326_cog.tif"
       ]
     },
     {
