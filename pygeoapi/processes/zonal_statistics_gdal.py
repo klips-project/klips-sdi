@@ -130,7 +130,7 @@ class ZonalStatisticsGdalProcessor(BaseProcessor):  # noqa: D101
 
         output = json.loads(raw_output)
 
-        # strangely the stats are in a object with an empty string ("") as key
+        # strangely the stats are in an object with an empty string ("") as key
         stats = output['bands'][0]['metadata']['']
 
         outputs = stats
