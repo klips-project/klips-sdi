@@ -203,7 +203,7 @@ services:
       - WORKERQUEUE=geotiff-validator
 
   geoserver:
-    image: docker.osgeo.org/geoserver:2.21.1
+    image: docker.osgeo.org/geoserver:2.21.2
     restart: unless-stopped
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
@@ -214,6 +214,7 @@ services:
       - INSTALL_EXTENSIONS=true
       - STABLE_EXTENSIONS=wps
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
+      - SKIP_DEMO_DATA=true
 
   geoserver-init:
     image: ghcr.io/klips-project/geoserver-init:latest
@@ -232,6 +233,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "127.0.0.1:5432:5432"
     environment:

@@ -1,51 +1,57 @@
 {
-    "$id": "json",
-    "type": "object",
-    "properties": {
-      "category": { "type": "string" },
-      "source": { "type": "string" },
-      "email": { "type": "string" },
-      "payload": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string"
-          },
-          "creationTime": {
-            "type": "integer"
-          },
-          "predictionStartTime": {
-            "type": "integer"
-          },
-          "predictionEndTime": {
-            "type": "integer"
-          },
-          "interval": {
-            "type": "integer"
-          },
-          "region": {
-            "type": "integer"
-          },
-          "type": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "url",
-          "creationTime",
-          "predictionStartTime",
-          "predictionEndTime",
-          "interval",
-          "region",
-          "type"
-        ]
-      }
+  "$id": "json",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string"
     },
-    "required": [
-      "category",
-      "source",
-      "email",
-      "payload"
-    ],
-    "additionalProperties": true
-  }
+    "email": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "creationTime": {
+          "type": "string"
+        },
+        "predictionStartTime": {
+          "type": "string"
+        },
+        "predictionEndTime": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "integer"
+        },
+        "region": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "scenario": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "creationTime",
+        "predictionStartTime",
+        "predictionEndTime",
+        "interval",
+        "region",
+        "type",
+        "scenario"
+      ]
+    }
+  },
+  "required": [
+    "source",
+    "email",
+    "payload"
+  ],
+  "additionalProperties": true
+}
