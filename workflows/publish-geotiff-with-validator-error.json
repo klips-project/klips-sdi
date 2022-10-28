@@ -1,37 +1,44 @@
 {
-    "job": [
-      {
-        "id": 1,
-        "type": "download-file",
-        "inputs": [
-            "http://nginx/broken.tif",
-            "/opt/geoserver_data/broken.tif"
-          ]
-      },
-      {
-        "id": 2,
-        "type": "geotiff-validator",
-        "inputs": [
-            {
-              "outputOfId": 1,
-              "outputIndex": 0
-            }
-          ]
-      },
-      {
-        "id": 3,
-        "type": "geoserver-publish-geotiff",
-        "inputs": [
-            "klips",
-            "dummy-datastore",
-            "dummy-name",
-            "dummy-title",
-            {
-              "outputOfId": 2,
-              "outputIndex": 0
-            }
-          ]
-      }
-    ],
-    "email": "weskamm@terrestris.de"
+  "job": [
+    {
+      "id": 1,
+      "type": "download-file",
+      "inputs": [
+        "http://nginx/broken.tif",
+        "/opt/geoserver_data/broken.tif"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "geotiff-validator",
+      "inputs": [
+        {
+          "outputOfId": 1,
+          "outputIndex": 0
+        },
+        {
+          "projection": {
+            "allowedEPSGCodes": [
+              "25832"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "geoserver-publish-geotiff",
+      "inputs": [
+        "dresden",
+        "dummy-datastore",
+        "dummy-name",
+        "dummy-title",
+        {
+          "outputOfId": 2,
+          "outputIndex": 0
+        }
+      ]
+    }
+  ],
+  "email": "weskamm@terrestris.de"
 }

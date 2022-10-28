@@ -1,37 +1,70 @@
 {
-    "job": [
-      {
-        "id": 1,
-        "type": "download-file",
-        "inputs": [
-            "http://nginx/sample.tif",
-            "/opt/geoserver_data/sample.tif"
-          ]
-      },
-      {
-        "id": 2,
-        "type": "geotiff-validator",
-        "inputs": [
-            {
-              "outputOfId": 1,
-              "outputIndex": 0
-            }
-          ]
-      },
-      {
-        "id": 3,
-        "type": "geoserver-publish-geotiff",
-        "inputs": [
-            "klips",
-            "dummy-datastore",
-            "dummy-name",
-            "dummy-title",
-            {
-              "outputOfId": 2,
-              "outputIndex": 0
-            }
-          ]
-      }
-    ],
-    "email": "weskamm@terrestris.de"
+  "job": [
+    {
+      "id": 1,
+      "type": "download-file",
+      "inputs": [
+        "http://nginx/ecostress_4326_cog.tif",
+        "/opt/geoserver_data/ecostress_4326_cog.tif"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "geotiff-validator",
+      "inputs": [
+        {
+          "outputOfId": 1,
+          "outputIndex": 0
+        },
+        {
+          "extent": {
+            "allowedExtent": [
+              [
+                5.85,
+                47.27
+              ],
+              [
+                15.02,
+                55.07
+              ]
+            ]
+          },
+          "projection": {
+            "allowedEPSGCodes": [
+              3857,
+              4326,
+              3035
+            ]
+          },
+          "dataType": {
+            "allowedDataTypes": [
+              "Byte",
+              "Int16",
+              "Float32",
+              "Float64"
+            ]
+          },
+          "fileSize": {
+            "minFileSize": 1000,
+            "maxFileSize": 10000000
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "geoserver-publish-geotiff",
+      "inputs": [
+        "langenfeld",
+        "dummy-datastore",
+        "dummy-name",
+        "dummy-title",
+        {
+          "outputOfId": 2,
+          "outputIndex": 0
+        }
+      ]
+    }
+  ],
+  "email": "weskamm@terrestris.de"
 }
