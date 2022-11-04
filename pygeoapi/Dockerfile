@@ -8,7 +8,8 @@ RUN apt -y update && \
 # install 'rasterstats', 'click' needed for compatibility with pygeoapi
 RUN pip3 install rasterstats click==7.1.2
 
-COPY pygeoapi-config.yml /pygeoapi/local.config.yml
-COPY processes /pygeoapi/processes
-COPY process_scripts/ /process_scripts/
 COPY demo_data/ /demo_data/
+
+WORKDIR /pygeoapi
+COPY pygeoapi-config.yml local.config.yml
+COPY processes/ processes/

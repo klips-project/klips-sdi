@@ -120,7 +120,7 @@ class ZonalStatisticsGdalProcessor(BaseProcessor):
 
         raw_output = subprocess.run(
             [
-                '/process_scripts/zonal_stats.sh',
+                '/pygeoapi/process_scripts/algorithms/zonal_stats.sh',
                 jsonString,
                 geoTiffPath
             ],

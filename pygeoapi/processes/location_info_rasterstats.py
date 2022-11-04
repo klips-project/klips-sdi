@@ -28,12 +28,10 @@
 # =================================================================
 
 import logging
-from rasterstats import zonal_stats, point_query
-from shapely.geometry import Point
-import httplib2
 
 
 from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
+from .algorithms.location_info import get_location_info
 import json
 
 LOGGER = logging.getLogger(__name__)
@@ -89,30 +87,11 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):
 
     def execute(self, data):
 
-        # validate input coordinates
-        x = data.get('x', None)
         y = data.get('y', None)
-        try:
-            x = int(x)
-            y = int(y)
-        except:
-            raise ProcessorExecuteError('Provided coordinates are not numbers')
-
-        # validate URL of COG
+        x = data.get('x', None)
         cog_url = data.get('cogUrl', None)
-        try:
-            # request HEAD of URL to check its existence without downloading it
-            response = httplib2.Http().request(cog_url, 'HEAD')
-            assert response[0]['status'] != 200
-        except:
-            raise ProcessorExecuteError(
-                'Provided URL does not exist or cannot be reached.')
 
-        # request value from COG
-        point = Point(x, y)
-        response = point_query([point], cog_url)
-
-        value = response[0]
+        value = get_location_info(cog_url, x, y)
 
         outputs = {
             'value': value
