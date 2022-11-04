@@ -34,4 +34,4 @@ def get_location_info(cog_url, x, y):
     response = point_query([point], cog_url)
 
     return response[0]
-    
+
