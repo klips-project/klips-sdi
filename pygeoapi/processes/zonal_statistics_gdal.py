@@ -40,11 +40,12 @@ PROCESS_METADATA = {
     'version': '0.1.0',
     'id': 'zonal-statistics-gdal',
     'title': {
-        'en': 'Zonal statistics with GDAL'
+        'en': 'Zonal statistics with GDAL',
+        'de': 'Zonale Statistiken mit GDAL'
     },
     'description': {
         'en': 'Takes a GeoJSON and computes zonal statistics of a demo raster file using GDAL.',
-        'en': 'Berechnet einfache zonale Statistiken auf Basis einer Demo Rasterdatei mit Hilfe von GDAL.'
+        'de': 'Berechnet einfache zonale Statistiken auf Basis einer Demo Rasterdatei mit Hilfe von GDAL.'
     },
     'keywords': ['gdal', 'zonal', 'statistics', 'raster'],
     'links': [],
