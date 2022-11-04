@@ -1,4 +1,4 @@
-from rasterstats import zonal_stats, point_query
+from rasterstats import point_query
 from shapely.geometry import Point
 import httplib2
 
