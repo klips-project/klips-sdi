@@ -10,6 +10,12 @@ using the project's Docker Compose
 docker-compose up --build -d pygeoapi ; docker-compose logs -f
 ```
 
+## Logging
+
+Logging from inside the process can be done using `LOGGER.error('your message')` or `LOGGER.debug('your message')`.
+
+The logging level is defined in the file `pygeoapi-config.yml`.
+
 ## Usage
 
 Example request:
