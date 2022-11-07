@@ -10,7 +10,7 @@ def get_location_info(cog_url, x, y):
     :param x: the x coordinate in the same projection as the COG
     :param y: the y coordinate in the same projection as the COG
 
-    :returns: tuple of headers, status code, content
+    :returns: the value at the location of the first band
     """
 
     # validate input coordinates
