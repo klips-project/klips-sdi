@@ -52,8 +52,8 @@ PROCESS_METADATA = {
     'links': [],
     'inputs': {
         'x': {
-            'title': 'X coordinate',
-            'description': 'The x coordinate of point to query. Must be in the same projection as the COG.',
+            'title': 'x value',
+            'description': 'The x value of point to query. Must be in the same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
@@ -61,8 +61,8 @@ PROCESS_METADATA = {
             'maxOccurs': 1,
         },
         'y': {
-            'title': 'Y coordinate',
-            'description': 'The y coordinate of point to query. Must be in the same projection as the COG.',
+            'title': 'y value',
+            'description': 'The y value of point to query. Must be in the same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
