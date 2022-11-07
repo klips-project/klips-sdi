@@ -52,22 +52,40 @@ PROCESS_METADATA = {
     'links': [],
     'inputs': {
         'x': {
-            'title': 'The x value',
-            'description': 'The x value of point to query. Must be in the same projection as the COG.'
+            'title': 'x value',
+            'description': 'The x value of point to query. Must be in the same projection as the COG.',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1,
         },
         'y': {
-            'title': 'The y value',
-            'description': 'The y value of point to query. Must be in the same projection as the COG.'
+            'title': 'y value',
+            'description': 'The y value of point to query. Must be in the same projection as the COG.',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
         },
         'cogUrl': {
-            'title': 'The URL of the COG',
-            'description': 'The public available URL of the COG to query'
+            'title': 'URL of the COG',
+            'description': 'The public available URL of the COG to query',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
         }
     },
     'outputs': {
         'value': {
-            'title': 'The value',
-            'description': 'The value of the location at the first band of the COG.'
+            'title': 'location value',
+            'description': 'The value of the location at the first band of the COG.',
+            'schema': {
+                'type': 'string'
+            }
         }
     },
     'example': {
