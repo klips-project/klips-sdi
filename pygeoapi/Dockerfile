@@ -1,4 +1,4 @@
-FROM geopython/pygeoapi:0.12.0
+FROM geopython/pygeoapi:0.13.0
 
 RUN apt -y update && \
     apt -y upgrade && \
