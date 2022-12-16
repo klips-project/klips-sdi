@@ -86,9 +86,38 @@ PROCESS_METADATA = {
         },
     },
     'example': {
-        "inputs": {
-            "TODO": "TODO",
-            "cogUrl": "https://example.com/sample-cog.tif"
+        {
+            "inputs": {
+                "cogUrl": "https://example.com/sample-cog.tif",
+                "statisticMethods": ["count", "majority"],
+                "polygonGeojson": {
+                    "coordinates": [
+                        [
+                            [
+                                7.398378066263234,
+                                50.35623617599114
+                            ],
+                            [
+                                7.398378066263234,
+                                47.310703221840384
+                            ],
+                            [
+                                14.007896257545866,
+                                47.310703221840384
+                            ],
+                            [
+                                14.007896257545866,
+                                50.35623617599114
+                            ],
+                            [
+                                7.398378066263234,
+                                50.35623617599114
+                            ]
+                        ]
+                    ],
+                    "type": "Polygon"
+                }
+            }
         }
     }
 }
@@ -101,9 +130,9 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):
 
     def execute(self, data):
 
-        cog_url = data.get('cogUrl', None)
-        polygon_geojson = data.get('polygonGeojson', None)
-        statistic_methods = data.get('statisticMethods', None)
+        cog_url = data.get('cogUrl')
+        polygon_geojson = data.get('polygonGeojson')
+        statistic_methods = data.get('statisticMethods')
         # TODO: ensure polygon is not too large, otherwise process takes very long or even crashes
 
         result_geojson = None
