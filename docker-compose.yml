@@ -203,7 +203,7 @@ services:
       - WORKERQUEUE=geotiff-validator
 
   geoserver:
-    image: docker.osgeo.org/geoserver:2.21.2
+    image: docker.osgeo.org/geoserver:2.22.0
     restart: unless-stopped
     hostname: ${GEOSERVER_HOSTNAME}
     ports:
