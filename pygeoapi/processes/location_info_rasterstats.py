@@ -105,9 +105,9 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):
 
     def execute(self, data):
 
-        y = data.get('y', None)
-        x = data.get('x', None)
-        cog_url = data.get('cogUrl', None)
+        y = data.get('y')
+        x = data.get('x')
+        cog_url = data.get('cogUrl')
 
         value = get_location_info(cog_url, x, y)
 
