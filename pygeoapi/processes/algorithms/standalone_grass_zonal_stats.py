@@ -83,8 +83,8 @@ def generate_zonal_stats(rastermap, geometries):
         values = []
         with open(f'{tempdir}/output', 'r') as csvfile:
             csv_reader = csv.reader(csvfile, delimiter=',')
-            i = 0
             for rowNumber, row in enumerate(csv_reader):
+                # First csv row contains keys
                 if rowNumber == 0:
                     keys = row
                 else:

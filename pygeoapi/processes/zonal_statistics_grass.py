@@ -22,7 +22,7 @@ PROCESS_METADATA = {
     'links': [],
     'example': {
         "inputs": {
-            "rasterURL": "http://localhost/ecostress_4326_cog.tif",
+            "raster_url": "http://localhost/ecostress_4326_cog.tif",
             "inputGeometries": [
                 {
                     "value": {
@@ -54,7 +54,7 @@ PROCESS_METADATA = {
         }
     },
     'inputs': {
-        'rasterURL': 'https://myserver.com/cog.tif',
+        'raster_url': 'https://myserver.com/cog.tif',
         'inputGeometries': {
             'title': 'Input geometries',
             'description': 'Input zones encoded as GeoJSON geometries',
@@ -84,11 +84,11 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
         super().__init__(processor_def, PROCESS_METADATA)
 
     def execute(self, data):  # noqa: D102
-        rasterURL = data.get('rasterURL', None)
+        raster_url = data.get('rasterURL', None)
         geoms = data.get('inputGeometries', None)
         mimetype = 'application/json'
 
-        result = generate_zonal_stats(rastermap=rasterURL, geometries=geoms)
+        result = generate_zonal_stats(rastermap=raster_url, geometries=geoms)
 
         return result, mimetype
 
