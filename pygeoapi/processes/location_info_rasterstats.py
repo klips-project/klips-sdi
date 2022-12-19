@@ -46,7 +46,7 @@ PROCESS_METADATA = {
     },
     'description': {
         'en': 'Get information of a location of an publicly accessible COG. Only queries the data from the first raster band.',
-        'de': 'Gibt Informationen über einen Standort eines öffentlich zugänglichen COGs zurück. Fragt nur Daten vom ersten Rasterband ab.'
+        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
