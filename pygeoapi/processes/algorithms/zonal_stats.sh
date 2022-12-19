@@ -15,7 +15,8 @@ IN_GEOTIFF_PATH="${2}"
 echo "${IN_GEOJSON_CONTENT}" |
   gdalwarp \
     -cutline /vsistdin/ \
-    -crop_to_cutline "${IN_GEOTIFF_PATH}" \
+    -crop_to_cutline \
+    "${IN_GEOTIFF_PATH}" \
     /vsistdout/ |
   gdalinfo \
     -json \
