@@ -65,3 +65,11 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/mqm-worker/rollback-handler:latest
             ghcr.io/${{ github.repository_owner }}/mqm-worker/rollback-handler:${{ steps.timestamp.outputs.timestamp }}
 
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./geoserver
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/geoserver:latest
+            ghcr.io/${{ github.repository_owner }}/geoserver:${{ steps.timestamp.outputs.timestamp }}
