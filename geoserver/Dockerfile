@@ -1,4 +1,4 @@
-FROM docker.osgeo.org/geoserver:2.21.1
+FROM docker.osgeo.org/geoserver:2.21.2
 
 ARG COMMUNITY_VERSION=2.21
 ARG COG_NAME=cog
