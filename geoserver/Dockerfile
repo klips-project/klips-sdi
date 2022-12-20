@@ -12,6 +12,6 @@ RUN wget https://build.geoserver.org/geoserver/$COMMUNITY_VERSION.x/community-la
     # folder does not exist at point
     mkdir -p $EXTENSIONS_PATH && \
     unzip ./$COG_ZIP_NAME -d ./$COG_NAME && \
-    mv ./$COG_NAME/*.jar $EXTENSIONS_PATH \
+    mv ./$COG_NAME/*.jar $EXTENSIONS_PATH && \
     # tidy up
-    rm -rf $COG_NAME && rm $COG_ZIP_NAME.zip
+    rm -rf $COG_NAME && rm *.zip
