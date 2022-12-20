@@ -15,4 +15,4 @@ COPY demo_data/ /demo_data/
 
 WORKDIR /pygeoapi
 COPY pygeoapi-config.yml local.config.yml
-COPY processes/ processes
+COPY processes/ processes/
