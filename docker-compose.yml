@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+  nginx:
+    image: nginx
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./mocked-webspace:/usr/share/nginx/html:ro
+      - ./cog_data:/opt/cog_data:ro
   klips-api:
     image: ghcr.io/klips-project/klips-api:latest
     restart: unless-stopped
@@ -249,10 +258,3 @@ services:
       - GISBASE=/usr/lib/grass82/
     ports:
       - 127.0.0.1:5000:80
-
-  # only needed for development, it mocks a webspace where data can be loaded from
-  nginx:
-    image: nginx
-    restart: unless-stopped
-    volumes:
-      - ./mocked-webspace:/usr/share/nginx/html:ro
