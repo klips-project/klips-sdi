@@ -198,6 +198,22 @@ services:
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=download-file
 
+  geotiff-optimizer:
+    image: ghcr.io/klips-project/mqm-worker/geotiff-optimizer:latest
+    restart: unless-stopped
+    volumes:
+      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./cog_data:/opt/cog:Z
+      - ./staging:/opt/staging:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geotiff-optimizer
+
   geotiff-validator:
     image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
     restart: unless-stopped
