@@ -227,7 +227,6 @@ services:
       dockerfile: ../rabbitmq-worker/src/geotiff-optimizer/Dockerfile
     restart: unless-stopped
     volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
       - ./cog_data:/opt/cog:Z
       - ./staging:/opt/staging:Z
     depends_on:
