@@ -1,0 +1,13 @@
+{
+  "job": [
+    {
+      "id": 1,
+      "type": "geoserver-publish-imagemosaic",
+      "inputs": [
+        "dresden",
+        "dresden_temperature",
+        "http://nginx/cog/dresden/dresden_temperature/dresden_20221028T0000Z.tif"
+      ]
+    }
+  ]
+}
