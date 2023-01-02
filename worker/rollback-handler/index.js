@@ -85,7 +85,7 @@ const rollback = async (workerJob, inputs) => {
 /**
  * Check if the GeoServer is running.
  *
- * @returns {Boolean} If the GeoServer is running.
+ * @returns {Promise<Boolean>} If the GeoServer is running.
  */
 const isGeoServerAvailable = async () => {
   return await grc.about.exists();
