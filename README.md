@@ -4,6 +4,8 @@ The spatial data infrastructure for the [KLIPS project](http://www.klips-projekt
 
 ## Setup
 
+create custom configuration:
+
 ```shell
 # create your personal environment variables config
 cp .env.example .env
@@ -12,22 +14,31 @@ cp .env.example .env
 mkdir klips-api-config
 cp klips-api-config-example/* klips-api-config/
 
-# start the containers
-docker-compose up
+```
 
+developoment:
+
+```shell
+# expects the referenced repos located next to this directory
+docker-compose up --build
+```
+
+production:
+
+```shell
 # download latest images if they have changed
-docker-compose pull
+docker-compose -f docker-compose.yml pull
+
+docker-compose -f docker-compose.yml up
 ```
 
 ## Workflows
 
-The directory `workflows` contains workflows that can be sent to the `dispatcher`:
-
-- `publish-geotiff.json` downloads a GeoTIFF and publishes it as layer in GeoServer
+The directory `workflows` contains workflows that can be sent to the `dispatcher`.
 
 ## Send messages via command-line
 
-For development it can be handy to send messages via the commandline using the tool `rabbitmqadmin`:
+For development it can be handy to send messages via the commandline using the tool `rabbitmqadmin`. There are some examples stored in `workflows`.
 
 ```bash
 cat workflows/publish-geotiff.json | rabbitmqadmin -u rabbit -p rabbit publish exchange=amq.default routing_key=dispatcher
@@ -47,24 +58,4 @@ Alternatively, you can `apt install amqp-tools` and then run jobs like this:
 
 ```shell
 amqp-publish -u=amqp://rabbit:rabbit@localhost:5672 -r=dispatcher < workflows/publish-geotiff-with-validator.json
-```
-
-## Development of Images
-
-To test new functionality of images they can be referenced in another repository/directory using the `build` property. This is preconfigured for all services in `docker-compose.dev.yml`. **NOTE** The docker-compose file expects the repositories `klips-api` and `klips-worker` to be located besides this repository.
-
-```shell
-# build all images from source code and start them
-docker-compose \
-  --file docker-compose.dev.yml \
-  up \
-  --build
-
-# rebuild a single image and start it
-docker-compose \
-  --file docker-compose.dev.yml \
-  up \
-  --build \
-  -d \
-  <NAME-OF-SERVICE>
 ```

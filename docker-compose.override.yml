@@ -1,0 +1,59 @@
+services:
+
+  klips-api:
+    build: ../klips-api
+
+  dispatcher:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/dispatcher/Dockerfile
+
+  error-handler:
+    build: ./worker/error-handler
+
+  rollback-handler:
+    build: ./worker/rollback-handler
+
+  send-mattermost-message:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/send-mattermost-message/Dockerfile
+
+  send-email:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/send-email/Dockerfile
+
+  geoserver-publish-imagemosaic:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geoserver-publish-imagemosaic/Dockerfile
+
+  geoserver-create-imagemosaic-datastore:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geoserver-create-imagemosaic-datastore/Dockerfile
+
+  download-file:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/download-file/Dockerfile
+
+  geotiff-optimizer:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geotiff-optimizer/Dockerfile
+
+  geotiff-validator:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geotiff-validator/Dockerfile
+
+  geoserver:
+    build: ./geoserver
+
+  geoserver-init:
+    build: ./geoserver-init
+
+  pygeoapi:
+    build: ./pygeoapi
