@@ -22,7 +22,7 @@
       "inputs": [
         "dresden",
         "my-cog-store",
-        "http://nginx/mypath/yolo/20220216T1146Z.tif"
+        "http://nginx/cog/mypath/20220216T1146Z.tif"
       ]
     }
   ]
