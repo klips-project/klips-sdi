@@ -34,45 +34,48 @@ const rollback = async (workerJob, inputs) => {
     for (let i = 0; i < json.job.length; i++) {
       const proc = json.job[i];
       const jobType = proc.type.toLowerCase();
-      // check if job type is geoserver-publish-geotiff and start rollback
-      if (jobType.includes('geoserver-publish') &&
+      if ((jobType === 'geoserver-publish-imagemosaic') &&
         proc.status && proc.status === 'success') {
-          // unpublish tiff in geoserver
-          const geoServerAvailable = await isGeoServerAvailable();
-          if (!geoServerAvailable ){
-            log('Geoserver not available');
-            log('Job should be requeued!');
-            workerJob.missingPreconditions = true;
-            return;
-          }
-          const workspace = proc.inputs[0];
-          const store = proc.inputs[1];
+        const geoServerAvailable = await grc.about.exists();
+        if (!geoServerAvailable) {
+          log('Geoserver not available');
+          log('Job should be requeued!');
+          workerJob.missingPreconditions = true;
+          return;
+        }
+        const workspace = proc.inputs[0];
+        const store = proc.inputs[1];
 
-          if (jobType === 'geoserver-publish-geotiff') {
-            // unpublish tiff in geoserver
-            await grc.datastores.deleteCoverageStore(workspace, store, true);
-            log('Successfully deleted coverage store in GeoServer');
-          }
-          else if (jobType === 'geoserver-publish-imagemosaic') {
-            // delete single granule from coverage store
-            const coveragePath = proc.outputs[0];
+        // delete single granule from coverage store
+        const coveragePath = proc.outputs[0];
 
-            await grc.imagemosaics.deleteSingleGranule(
-              workspace, store, store, coveragePath);
-            log('Successfully deleted granule in coverage store in GeoServer');
-          }
-      } else if (proc.type.toLowerCase().includes('download-file') &&
-          // start rollback for download-file
-          proc.outputs && proc.outputs[0]) {
-          filesToDelete.push(proc.outputs[0]);
+        await grc.imagemosaics.deleteSingleGranule(
+          workspace, store, store, coveragePath);
+        log('Successfully deleted granule in coverage store in GeoServer');
+      }
+
+      else if ((jobType === 'geotiff-optimizer') &&
+        proc.outputs &&
+        proc.outputs[0]
+      ) {
+        filesToDelete.push(proc.outputs[0])
+      }
+      else if (
+        (jobType === 'download-file') &&
+        proc.outputs &&
+        proc.outputs[0]
+      ) {
+        // start rollback for download-file
+        filesToDelete.push(proc.outputs[0]);
       }
     };
     for (let i = 0; i < filesToDelete.length; i++) {
-      log(`Deleting file ${filesToDelete[i]} ...`)
-      await fsPromises.rm(filesToDelete[i]);
+      const file = filesToDelete[i];
+      log(`Deleting file ${file} ...`)
+      await fsPromises.rm(file);
       log('Successfully deleted file');
     };
-  } catch(e) {
+  } catch (e) {
     log(`Exception on rollback: ${e}`);
   }
   workerJob.status = 'success';
