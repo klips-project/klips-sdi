@@ -9,8 +9,6 @@
     "lint-fix": "eslint --fix '**/*.js' --ignore-pattern node_modules/",
     "start": "node 000_change_auth.js && node 010_create_workspace.js"
   },
-  "author": "meggsimum",
-  "license": "MIT",
   "dependencies": {
     "geoserver-node-client": "1.2.2"
   },
