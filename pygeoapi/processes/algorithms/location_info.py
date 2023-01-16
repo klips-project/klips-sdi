@@ -1,15 +1,14 @@
+"""Functions to get information from single points."""
+
 from rasterstats import point_query
 from shapely.geometry import Point
-import httplib2
-import requests
-import re
-from datetime import datetime, timezone
 from urllib.parse import urljoin
+from util import url_exists, iso_timestamp_from_file_name
 
 
-def get_location_info(cog_url, x, y):
+def get_location_info(cog_url: str, x, y):
     """
-    Extracts the value at the location of the first band of the provided COG
+    Extract the value at the location of the first band of the provided COG.
 
     :param cog_url: the URL of the COG
     :param x: the x coordinate in the same projection as the COG
@@ -17,22 +16,16 @@ def get_location_info(cog_url, x, y):
 
     :returns: the value at the location of the first band
     """
-
     # validate input coordinates
     try:
         x = int(x)
         y = int(y)
-    except:
+    except ValueError():
         raise Exception('Provided coordinates are not numbers')
 
     # validate URL of COG
-    try:
-        # request HEAD of URL to check its existence without downloading it
-        response = httplib2.Http().request(cog_url, 'HEAD')
-        assert response[0]['status'] != 200
-    except:
-        raise Exception(
-            'Provided URL does not exist or cannot be reached.')
+    if not url_exists(cog_url):
+        raise Exception('URL cannot be called: {}'.format(cog_url))
 
     # request value from COG
     point = Point(x, y)
@@ -42,36 +35,28 @@ def get_location_info(cog_url, x, y):
 
 
 def get_location_info_time(cog_dir_url, cog_list, x, y):
-    results = {}
+    """Return locationinfo of many timestamps.
+
+    :param cog_dir_url: The URL of the COG directory
+    :param cog_list: The filenames of the COGs to process
+    :x: The x coordinate
+    :y: The y coordinate
+
+    :returns: A dict with the timestamps and its values
+    """
+    results: dict = {}
     for cog in cog_list:
         file_name = cog['name']
-        match = re.search(r'\d{8}T\d{4}Z', file_name)
-        timestamp = match.group()
-        date_time = datetime.strptime(
-            timestamp, "%Y%m%dT%H%MZ").replace(tzinfo=timezone.utc)
+
         cog_url = urljoin(cog_dir_url, file_name)
-        loc_info = get_location_info(cog_url, x, y)
-        iso_timestamp = date_time.isoformat()
-        results[iso_timestamp] = loc_info
+        if url_exists(cog_url):
+            loc_info = get_location_info(cog_url, x, y)
+
+            iso_timestamp = iso_timestamp_from_file_name(file_name)
+
+            results[iso_timestamp] = loc_info
+        else:
+            # TODO: handle case URL cannot be reached
+            pass
+
     return results
-
-
-def get_available_time_stamps(cog_dir_url):
-    response = requests.get(cog_dir_url)
-    cog_info = response.json()
-
-    return cog_info
-
-
-# if __name__ == '__main__':
-    # cog_dir_url = 'http://localhost/cog/dresden/dresden_temperature/';
-    # cog_list = get_available_time_stamps(cog_dir_url)
-
-    # x = 4582606.6
-    # y = 3115558.3
-    # loc_info_results = get_location_info_time(cog_dir_url, cog_list, x, y)
-    # print(loc_info_results)
-
-    # cog_url = 'http://localhost/cog/dresden/dresden_temperature/dresden_20221127T1000Z.tif'
-
-    # print(get_location_info(cog_url, x, y))
