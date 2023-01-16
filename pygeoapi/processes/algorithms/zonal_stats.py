@@ -1,29 +1,30 @@
+"""Functions to compute zonal statistics from COGs."""
+
 from shapely.geometry import shape
-from rasterstats import zonal_stats, utils
-import httplib2
+from rasterstats import zonal_stats
+from .util import url_exists
 
 
-def get_zonal_stats(cog_url, polygon_geojson, statistic_methods=['count', 'min', 'mean', 'max', 'median']):
-    """
-    Creates zonal statistics from a COG using a single polygon as input
+def get_zonal_stats(cog_url, polygon_geojson,
+                    statistic_methods=['count', 'min', 'mean', 'max', 'median']
+                    ):
+    """Create zonal statistics from a COG using a single polygon as input.
 
     :param cog_url: the URL of the COG
-    :param polygon_geojson: A single polygon as dict structured as GeoJSON in the same projection as the COG
+    :param polygon_geojson: A single polygon as dict structured as GeoJSON
+                            in the same projection as the COG
     :param statistic_methods: An array of statistic method names
-                  e.g. ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
+                  e.g. ['count', 'min', 'max', 'mean', 'sum',
+                  'std', 'median', 'majority', 'minority', 'unique',
+                  'range', 'nodata', 'nan']
                   defaults to ['count', 'min', 'mean', 'max', 'median']
 
-    :returns A dict structured as GeoJSON with the input geometry and its zonal statistics as properties
+    :returns A dict structured as GeoJSON with the input geometry
+             and its zonal statistics as properties
     """
-
     # validate URL of COG
-    try:
-        # request HEAD of URL to check its existence without downloading it
-        response = httplib2.Http().request(cog_url, 'HEAD')
-        assert response[0]['status'] != 200
-    except:
-        raise Exception(
-            'Provided URL does not exist or cannot be reached.')
+    if not url_exists(cog_url):
+        raise Exception('URL cannot be called: {}'.format(cog_url))
 
     # validate provided statistic methods
     if not isinstance(statistic_methods, list):
@@ -44,7 +45,7 @@ def get_zonal_stats(cog_url, polygon_geojson, statistic_methods=['count', 'min',
     )
 
 
-def main():
+if __name__ == '__main__':
     cog_url = "http://localhost/ecostress_3035_cog.tif"
     polygon_geojson = {
         "type": "Polygon",
@@ -76,7 +77,3 @@ def main():
     # stats = None
     result = get_zonal_stats(cog_url, polygon_geojson)
     print(result)
-
-
-if __name__ == '__main__':
-    main()
