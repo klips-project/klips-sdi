@@ -1,7 +1,8 @@
 """Utility functions."""
 
+# class must be in separate module to be callable by demo.py
+
 import re
-import httplib2
 import requests
 from datetime import datetime, timezone
 
@@ -13,9 +14,8 @@ def url_exists(url: str):
 
     :returns: If URL exists.
     """
-    # request HEAD of URL to check its existence without downloading it
-    response = httplib2.Http().request(url, 'HEAD')
-    return response[0]['status'] != 200
+    response = requests.head(url)
+    return response.status_code == 200
 
 
 def iso_timestamp_from_file_name(file_name: str):
