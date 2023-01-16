@@ -127,11 +127,8 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
             end_ts = end_ts.replace('Z', '+00:00')
             end_ts = datetime.fromisoformat(end_ts)
 
-        cog_list = get_available_cog_file_names(cog_dir_url)
-        LOGGER.error(cog_list)
-
         results = get_location_info_time(
-            cog_dir_url, cog_list, x, y, start_ts, end_ts)
+            cog_dir_url, x, y, start_ts, end_ts)
 
         mimetype = 'application/json'
         return mimetype, results
