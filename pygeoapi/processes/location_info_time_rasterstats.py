@@ -33,6 +33,7 @@ import logging
 from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
 from .algorithms.location_info import get_location_info_time
 from .algorithms.util import get_available_cog_file_names, url_exists
+from datetime import datetime
 
 LOGGER = logging.getLogger(__name__)
 
@@ -106,20 +107,31 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
 
     def execute(self, data):
 
-        # TODO: only request specific timestamps
-
         y = data.get('y')
         x = data.get('x')
         cog_dir_url = data.get('cogDirUrl')
+        start_ts = data.get('startTimeStamp')
+        end_ts = data.get('endTimeStamp')
 
         if not url_exists(cog_dir_url):
             raise Exception('Cannot access provided URL: {}'
                             .format(cog_dir_url))
 
+        # TODO: error handling
+        if start_ts:
+            start_ts = start_ts.replace('Z', '+00:00')
+            start_ts = datetime.fromisoformat(start_ts)
+
+        # TODO: error handling
+        if end_ts:
+            end_ts = end_ts.replace('Z', '+00:00')
+            end_ts = datetime.fromisoformat(end_ts)
+
         cog_list = get_available_cog_file_names(cog_dir_url)
         LOGGER.error(cog_list)
 
-        results = get_location_info_time(cog_dir_url, cog_list, x, y)
+        results = get_location_info_time(
+            cog_dir_url, cog_list, x, y, start_ts, end_ts)
 
         mimetype = 'application/json'
         return mimetype, results

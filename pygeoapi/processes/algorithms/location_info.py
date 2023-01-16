@@ -3,7 +3,8 @@
 from rasterstats import point_query
 from shapely.geometry import Point
 from urllib.parse import urljoin
-from .util import url_exists, iso_timestamp_from_file_name
+from .util import url_exists, timestamp_from_file_name, timestamp_within_range
+from datetime import datetime
 
 
 def get_location_info(cog_url: str, x, y):
@@ -34,7 +35,8 @@ def get_location_info(cog_url: str, x, y):
     return response[0]
 
 
-def get_location_info_time(cog_dir_url, cog_list, x, y):
+def get_location_info_time(cog_dir_url: str, cog_list, x, y,
+                           start_ts: datetime = None, end_ts: datetime = None):
     """Return locationinfo of many timestamps.
 
     :param cog_dir_url: The URL of the COG directory
@@ -49,14 +51,28 @@ def get_location_info_time(cog_dir_url, cog_list, x, y):
         file_name = cog['name']
 
         cog_url = urljoin(cog_dir_url, file_name)
-        if url_exists(cog_url):
-            loc_info = get_location_info(cog_url, x, y)
+        timestamp = timestamp_from_file_name(file_name)
 
-            iso_timestamp = iso_timestamp_from_file_name(file_name)
+        ts_within_range = timestamp_within_range(timestamp,
+                                                 start_ts,
+                                                 end_ts)
 
-            results[iso_timestamp] = loc_info
+        if ts_within_range:
+            # TODO: use this format instead: 2023-01-16T15:33:58Z
+            iso_timestamp = timestamp.isoformat()
+            iso_timestamp = iso_timestamp.replace('+00:00', 'Z')
+
+            # TODO: check if timestamp is in range
+
+            if url_exists(cog_url):
+                loc_info = get_location_info(cog_url, x, y)
+
+                results[iso_timestamp] = loc_info
+            else:
+                # TODO: handle case URL cannot be reached
+                pass
         else:
-            # TODO: handle case URL cannot be reached
+            # timestamp is outside of range
             pass
 
     return results
