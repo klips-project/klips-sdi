@@ -3,7 +3,7 @@
 from rasterstats import point_query
 from shapely.geometry import Point
 from urllib.parse import urljoin
-from util import url_exists, iso_timestamp_from_file_name
+from .util import url_exists, iso_timestamp_from_file_name
 
 
 def get_location_info(cog_url: str, x, y):
