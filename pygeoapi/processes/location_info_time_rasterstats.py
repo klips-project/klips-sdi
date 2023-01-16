@@ -43,12 +43,12 @@ PROCESS_METADATA = {
     'version': '0.1.0',
     'id': 'location-info-time-rasterstats',
     'title': {
-        'en': 'TODO: Location info of a COG using rasterstats',
-        'de': 'TODO: Standortinformation eines COGs mit rasterstats'
+        'en': 'Time-based location info of a COG using rasterstats',
+        'de': 'Zeitbasierte Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'TODO: Get information of a location of an publicly accessible COG. Only queries the data from the first raster band.',
-        'de': 'TODO: Fragt Rasterwerte eines öffentlich zugänglichen COG basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
+        'en': 'Get time-based information of a location of an publicly accessible COG. Only queries the data from the first raster band.',
+        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen COGs basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
@@ -71,30 +71,50 @@ PROCESS_METADATA = {
             'minOccurs': 1,
             'maxOccurs': 1
         },
-        'cogUrl': {
-            'title': 'URL of the COG',
-            'description': 'The public available URL of the COG to query',
+        'cogDirUrl': {
+            'title': 'URL COG directory',
+            'description': 'The public available URL of the COG directory to query. The contents of the directory must be accessible via NGINX JSON autoindex',
             'schema': {
                 'type': 'string'
             },
             'minOccurs': 1,
             'maxOccurs': 1
+        },
+        'startTimeStamp': {
+            'title': 'Start timestamp',
+            'description': 'The start timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1,
+        },
+        'endTimeStamp': {
+            'title': 'End timestamp',
+            'description': 'The end timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1,
         }
     },
     'outputs': {
-        'value': {
-            'title': 'location value',
-            'description': 'The value of the location at the first band of the COG.',
+        "values": {
+            'title': 'location values per timestamp',
+            'description': 'The location values per available timestamp',
             'schema': {
-                'type': 'string'
+                'type': 'array'
             }
         }
     },
     'example': {
         "inputs": {
-            "x": 12.2,
-            "y": 50.4,
-            "cogUrl": "https://example.com/sample-cog.tif"
+            "x": 4582606.6,
+            "y": 3115558.3,
+            "cogDirUrl": "http://localhost/cog/dresden/dresden_temperature/",
+            "startTimeStamp": "2022-10-02T12:32:00Z",
+            "endTimeStamp": "2022-10-08T12:32:00Z"
         }
     }
 }
@@ -130,8 +150,11 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
         results = get_location_info_time(
             cog_dir_url, x, y, start_ts, end_ts)
 
+        outputs = {
+            'values': results
+        }
         mimetype = 'application/json'
-        return mimetype, results
+        return mimetype, outputs
 
     def __repr__(self):
         return '<LocationInfoTimeRasterstatsProcessor> {}'.format(self.name)
