@@ -28,8 +28,11 @@
 # =================================================================
 
 import logging
-from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
-from .algorithms.zonal_stats import get_zonal_stats
+from pygeoapi.process.base import BaseProcessor
+from .algorithms.zonal_stats import get_zonal_stats_time
+from .algorithms.util import url_exists
+from datetime import datetime
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -38,26 +41,44 @@ PROCESS_METADATA = {
     'version': '0.1.0',
     'id': 'zonal-statistics-time-rasterstats',
     'title': {
-        'en': 'TODO Zonal statistics of a COG using rasterstats',
-        'de': 'TODO Zonale Statistiken einer COG-Datei mit Hilfe von rasterstas'
+        'en': 'Time-based zonal statistics of a COG using rasterstats',
+        'de': 'Zeitbasierte zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'
     },
     'description': {
-        'en': 'TODO Compute zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',
-        'de': 'TODO Berechnet zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'
+        'en': 'Compute time-based zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',
+        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
     'inputs': {
-        'TODO cogUrl': {
-            'title': 'The URL of the COG',
-            'description': 'The public available URL of the COG to query',
+        'cogDirUrl': {
+            'title': 'URL COG directory',
+            'description': 'The public available URL of the COG directory to query. The contents of the directory must be accessible via NGINX JSON autoindex',
             'schema': {
                 'type': 'string'
             },
             'minOccurs': 1,
+            'maxOccurs': 1
+        },
+        'startTimeStamp': {
+            'title': 'Start timestamp',
+            'description': 'The start timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 0,
             'maxOccurs': 1,
         },
-        'TODO polygonGeojson': {
+        'endTimeStamp': {
+            'title': 'End timestamp',
+            'description': 'The end timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1,
+        },
+        'polygonGeojson': {
             'title': 'Polygon GeoJSON',
             'description': 'A polygon GeoJSON for which to compute zonal statistics of the COG',
             'minOccurs': 1,
@@ -66,7 +87,7 @@ PROCESS_METADATA = {
                 '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
             }
         },
-        'TODO statisticMethods': {
+        'statisticMethods': {
             'title': 'Statistical Methods',
             'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',
             'maxOccurs': 1,
@@ -86,30 +107,35 @@ PROCESS_METADATA = {
     },
     'example': {
         "inputs": {
-            "cogUrl": "https://example.com/sample-cog.tif",
-            "statisticMethods": ["count", "majority"],
+            "cogDirUrl": "http://nginx/cog/dresden/dresden_temperature/",
+            "startTimeStamp": "2022-10-02T12:32:00Z",
+            "endTimeStamp": "2022-10-08T12:32:00Z",
+            "statisticMethods": [
+                "count",
+                "majority"
+            ],
             "polygonGeojson": {
                 "coordinates": [
                     [
                         [
-                            7.398378066263234,
-                            50.35623617599114
+                            4582923.56687590200454,
+                            3117421.271846642717719
                         ],
                         [
-                            7.398378066263234,
-                            47.310703221840384
+                            4581124.431979617103934,
+                            3115178.194573352113366
                         ],
                         [
-                            14.007896257545866,
-                            47.310703221840384
+                            4584278.759395182132721,
+                            3114862.761831795331091
                         ],
                         [
-                            14.007896257545866,
-                            50.35623617599114
+                            4584278.759395182132721,
+                            3114862.761831795331091
                         ],
                         [
-                            7.398378066263234,
-                            50.35623617599114
+                            4582923.56687590200454,
+                            3117421.271846642717719
                         ]
                     ]
                 ],
@@ -127,23 +153,44 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
 
     def execute(self, data):
 
-        cog_url = data.get('cogUrl')
+        cog_dir_url = data.get('cogDirUrl')
+        start_ts = data.get('startTimeStamp')
+        end_ts = data.get('endTimeStamp')
+
         polygon_geojson = data.get('polygonGeojson')
         statistic_methods = data.get('statisticMethods')
-        # TODO: ensure polygon is not too large, otherwise process takes very long or even crashes
+        # TODO: ensure polygon is not too large, otherwise process
+        #       takes very long or even crashes
+
+        if not url_exists(cog_dir_url):
+            raise Exception('Cannot access provided URL: {}'
+                            .format(cog_dir_url))
+        # TODO: error handling
+        if start_ts:
+            start_ts = start_ts.replace('Z', '+00:00')
+            start_ts = datetime.fromisoformat(start_ts)
+
+        # TODO: error handling
+        if end_ts:
+            end_ts = end_ts.replace('Z', '+00:00')
+            end_ts = datetime.fromisoformat(end_ts)
 
         result = None
 
         if statistic_methods:
-            result = get_zonal_stats(
-                cog_url,
+            result = get_zonal_stats_time(
+                cog_dir_url,
                 polygon_geojson,
+                start_ts=start_ts,
+                end_ts=end_ts,
                 statistic_methods=statistic_methods
             )
         else:
-            result = get_zonal_stats(
-                cog_url,
-                polygon_geojson
+            result = get_zonal_stats_time(
+                cog_dir_url,
+                polygon_geojson,
+                start_ts=start_ts,
+                end_ts=end_ts,
             )
 
         outputs = {
