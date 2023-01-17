@@ -30,9 +30,9 @@
 import logging
 
 
-from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
+from pygeoapi.process.base import BaseProcessor
 from .algorithms.location_info import get_location_info_time
-from .algorithms.util import get_available_cog_file_names, url_exists
+from .algorithms.util import url_exists
 from datetime import datetime
 
 LOGGER = logging.getLogger(__name__)
