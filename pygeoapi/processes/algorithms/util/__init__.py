@@ -5,6 +5,10 @@
 import re
 import requests
 from datetime import datetime, timezone
+from rio_cogeo.cogeo import cog_info
+import pyproj
+from shapely.ops import transform
+from shapely import geometry
 
 
 def url_exists(url: str):
@@ -69,3 +73,36 @@ def timestamp_within_range(timestamp: datetime,
         return timestamp <= end_valid
     else:
         return True
+
+
+def get_crs_from_cog(cog_url: str):
+    """Get coordinate reference system from a COG.
+
+    :param cog_url: The URL of the COG
+
+    :returns: The CRS of the COG
+    """
+    info = cog_info(cog_url)
+    return info['GEO']['CRS']
+
+
+def reproject(geometry: geometry, crs_from: str, crs_to: str):
+    """Reproject a geometry.
+
+    :param geometry: The shapely geometry
+    :param crs_from: The EPSG code from the geometry. Example: "EPSG:4326"
+    :param crs_to: The EPSG code to transform to. Example: "EPSG:3857"
+
+    :returns: The projected shapely geometry
+    """
+    crs_from = pyproj.CRS(crs_from)
+    crs_to = pyproj.CRS(crs_to)
+
+    project_function = pyproj.Transformer.from_crs(
+        crs_from,
+        crs_to,
+        always_xy=True
+    ).transform
+
+    result = transform(project_function, geometry)
+    return result

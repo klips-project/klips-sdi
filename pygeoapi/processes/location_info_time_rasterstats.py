@@ -32,8 +32,10 @@ import logging
 
 from pygeoapi.process.base import BaseProcessor
 from .algorithms.location_info import get_location_info_time
-from .algorithms.util import url_exists
+from .algorithms.util import get_crs_from_cog, reproject, url_exists, get_available_cog_file_names
 from datetime import datetime
+from shapely.geometry import Point
+from urllib.parse import urljoin
 
 LOGGER = logging.getLogger(__name__)
 
@@ -124,12 +126,12 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
         super().__init__(processor_def, PROCESS_METADATA)
 
     def execute(self, data):
-
         y = data.get('y')
         x = data.get('x')
         cog_dir_url = data.get('cogDirUrl')
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
+        input_crs = data.get('crs')
 
         if not url_exists(cog_dir_url):
             raise Exception('Cannot access provided URL: {}'
@@ -143,8 +145,27 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
             end_ts = end_ts.replace('Z', '+00:00')
             end_ts = datetime.fromisoformat(end_ts)
 
+        point = Point(x, y)
+        if 'crs' in data:
+            # get CRS from first COG of directory
+            cog_list = get_available_cog_file_names(cog_dir_url)
+            first_cog = urljoin(cog_dir_url, cog_list[0]['name'])
+            cog_crs = get_crs_from_cog(first_cog)
+
+            if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
+                if input_crs != cog_crs:
+                    point = reproject(point, input_crs, cog_crs)
+                else:
+                    # provided CRS by user is identical to COG
+                    # no conversion needed
+                    pass
+            else:
+                raise Exception(
+                    'Provided CRS from user is not valid: {}'.format(input_crs)
+                )
+
         results = get_location_info_time(
-            cog_dir_url, x, y, start_ts, end_ts)
+            cog_dir_url, point,  start_ts, end_ts)
 
         outputs = {
             'values': results

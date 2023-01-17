@@ -30,8 +30,10 @@
 import logging
 
 
-from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
+from pygeoapi.process.base import BaseProcessor
 from .algorithms.location_info import get_location_info
+from .algorithms.util import get_crs_from_cog, reproject
+from shapely.geometry import Point
 
 LOGGER = logging.getLogger(__name__)
 
@@ -103,12 +105,30 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):
         super().__init__(processor_def, PROCESS_METADATA)
 
     def execute(self, data):
-
         y = data.get('y')
         x = data.get('x')
         cog_url = data.get('cogUrl')
+        input_crs = data.get('crs')
 
-        value = get_location_info(cog_url, x, y)
+        point = Point(x, y)
+
+        if 'crs' in data:
+
+            if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
+                cog_crs = get_crs_from_cog(cog_url)
+
+                if input_crs != cog_crs:
+                    point = reproject(point, input_crs, cog_crs)
+                else:
+                    # provided CRS by user is identical to COG
+                    # no conversion needed
+                    pass
+            else:
+                raise Exception(
+                    'Provided CRS from user is not valid: {}'.format(input_crs)
+                )
+
+        value = get_location_info(cog_url, point)
 
         outputs = {
             'values': value
