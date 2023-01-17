@@ -32,7 +32,6 @@ import logging
 
 from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
 from .algorithms.location_info import get_location_info
-import json
 
 LOGGER = logging.getLogger(__name__)
 
@@ -112,7 +111,7 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):
         value = get_location_info(cog_url, x, y)
 
         outputs = {
-            'value': value
+            'values': value
         }
 
         mimetype = 'application/json'

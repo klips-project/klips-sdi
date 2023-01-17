@@ -32,8 +32,13 @@ def get_location_info(cog_url: str, x, y):
     # request value from COG
     point = Point(x, y)
     response = point_query([point], cog_url)
+    result = [
+        {
+            'band_0': response[0]
+        }
+    ]
 
-    return response[0]
+    return result
 
 
 def get_location_info_time(cog_dir_url: str, x, y,
@@ -48,8 +53,7 @@ def get_location_info_time(cog_dir_url: str, x, y,
 
     :returns: A dict with the timestamps and its values
     """
-    results: dict = {}
-
+    results = []
     cog_list = get_available_cog_file_names(cog_dir_url)
 
     for cog in cog_list:
@@ -70,7 +74,10 @@ def get_location_info_time(cog_dir_url: str, x, y,
             if url_exists(cog_url):
                 loc_info = get_location_info(cog_url, x, y)
 
-                results[iso_timestamp] = loc_info
+                result = loc_info[0]
+                result['timestamp'] = iso_timestamp
+
+                results.append(result)
             else:
                 # TODO: handle case URL cannot be reached
                 pass

@@ -68,7 +68,7 @@ def get_zonal_stats_time(cog_dir_url, polygon_geojson,
 
     :returns: A dict with the timestamps and its values
     """
-    results: dict = {}
+    results = []
 
     cog_list = get_available_cog_file_names(cog_dir_url)
 
@@ -92,7 +92,10 @@ def get_zonal_stats_time(cog_dir_url, polygon_geojson,
                     cog_url, polygon_geojson,
                     statistic_methods=statistic_methods
                 )
-                results[iso_timestamp] = zonal_info
+                result = zonal_info[0]
+                result['timestamp'] = iso_timestamp
+
+                results.append(result)
             else:
                 # TODO: handle case URL cannot be reached
                 pass
