@@ -1,3 +1,4 @@
+# noqa: D100
 # =================================================================
 #
 # Authors: Tom Kralidis <tomkralidis@gmail.com>
@@ -48,18 +49,23 @@ PROCESS_METADATA = {
     'id': 'zonal-statistics-time-rasterstats',
     'title': {
         'en': 'Time-based zonal statistics of a COG using rasterstats',
-        'de': 'Zeitbasierte zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'
+        'de': 'Zeitbasierte zonale Statistiken \
+            einer COG-Datei mit Hilfe von rasterstats'
     },
     'description': {
-        'en': 'Compute time-based zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',
-        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'
+        'en': 'Compute time-based zonal statistics of a subset of a public \
+            accessible COG. Only queries data of the first raster band.',
+        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich \
+            zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
     'inputs': {
         'cogDirUrl': {
             'title': 'URL COG directory',
-            'description': 'The public available URL of the COG directory to query. The contents of the directory must be accessible via NGINX JSON autoindex',
+            'description': 'The public available URL of the COG directory to \
+                query. The contents of the directory must be accessible via\
+                     NGINX JSON autoindex',
             'schema': {
                 'type': 'string'
             },
@@ -68,7 +74,8 @@ PROCESS_METADATA = {
         },
         'startTimeStamp': {
             'title': 'Start timestamp',
-            'description': 'The start timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The start timestamp of the request provided as \
+                ISO string, like: 2022-10-08T12:32:00Z',
             'schema': {
                 'type': 'string'
             },
@@ -77,7 +84,8 @@ PROCESS_METADATA = {
         },
         'endTimeStamp': {
             'title': 'End timestamp',
-            'description': 'The end timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The end timestamp of the request provided as\
+                 ISO string, like: 2022-10-08T12:32:00Z',
             'schema': {
                 'type': 'string'
             },
@@ -86,16 +94,17 @@ PROCESS_METADATA = {
         },
         'polygonGeojson': {
             'title': 'Polygon GeoJSON',
-            'description': 'A polygon GeoJSON for which to compute zonal statistics of the COG',
+            'description': 'A polygon GeoJSON for which to compute zonal \
+                statistics of the COG',
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json' # noqa
             }
         },
         'statisticMethods': {
             'title': 'Statistical Methods',
-            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',
+            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']', # noqa
             'maxOccurs': 1,
             'schema': {
                 'type': 'Array'
@@ -152,12 +161,12 @@ PROCESS_METADATA = {
 }
 
 
-class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
+class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
-    def __init__(self, processor_def):
+    def __init__(self, processor_def):  # noqa: D107
         super().__init__(processor_def, PROCESS_METADATA)
 
-    def execute(self, data):
+    def execute(self, data):  # noqa: D102
 
         cog_dir_url = data.get('cogDirUrl')
         start_ts = data.get('startTimeStamp')
@@ -224,5 +233,5 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
         mimetype = 'application/json'
         return mimetype, outputs
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsTimeRasterstatsProcessor> {}'.format(self.name)

@@ -1,3 +1,4 @@
+# noqa: D100
 # =================================================================
 #
 # Authors: Tom Kralidis <tomkralidis@gmail.com>
@@ -44,8 +45,10 @@ PROCESS_METADATA = {
         'de': 'Zonale Statistiken einer COG-Datei mit Hilfe von rasterstas'
     },
     'description': {
-        'en': 'Compute zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',
-        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'
+        'en': 'Compute zonal statistics of a subset of a public accessible\
+             COG. Only queries data of the first raster band.',
+        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen \
+            COGs. Fragt nur Daten vom ersten Rasterband ab.'
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
@@ -61,16 +64,17 @@ PROCESS_METADATA = {
         },
         'polygonGeojson': {
             'title': 'Polygon GeoJSON',
-            'description': 'A polygon GeoJSON for which to compute zonal statistics of the COG',
+            'description': 'A polygon GeoJSON for which to compute zonal \
+                statistics of the COG',
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa
             }
         },
         'statisticMethods': {
             'title': 'Statistical Methods',
-            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',
+            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa
             'maxOccurs': 1,
             'schema': {
                 'type': 'Array'
@@ -122,19 +126,20 @@ PROCESS_METADATA = {
 }
 
 
-class ZonalStatisticsRasterstatsProcessor(BaseProcessor):
+class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
-    def __init__(self, processor_def):
+    def __init__(self, processor_def):  # noqa: D107
         super().__init__(processor_def, PROCESS_METADATA)
 
-    def execute(self, data):
+    def execute(self, data):  # noqa: D102
 
         cog_url = data.get('cogUrl')
         polygon_geojson = data.get('polygonGeojson')
         statistic_methods = data.get('statisticMethods')
         input_crs = data.get('crs')
 
-        # TODO: ensure polygon is not too large, otherwise process takes very long or even crashes
+        # TODO: ensure polygon is not too large,
+        #       otherwise process takes very long or even crashes
 
         result = None
         polygon = shape(polygon_geojson)
@@ -173,5 +178,5 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):
         mimetype = 'application/json'
         return mimetype, outputs
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsRasterstatsProcessor> {}'.format(self.name)

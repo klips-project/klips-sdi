@@ -1,3 +1,4 @@
+# noqa: D100
 # =================================================================
 #
 # Authors: Tom Kralidis <tomkralidis@gmail.com>
@@ -46,15 +47,18 @@ PROCESS_METADATA = {
         'de': 'Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get information of a location of an publicly accessible COG. Only queries the data from the first raster band.',
-        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
+        'en': 'Get information of a location of an publicly \
+            accessible COG. Only queries the data from the first raster band.',
+        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend\
+        auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
     'inputs': {
         'x': {
             'title': 'X coordinate',
-            'description': 'The x coordinate of point to query. Must be in the same projection as the COG.',
+            'description': 'The x coordinate of point to query. \
+                Must be in the same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
@@ -63,7 +67,8 @@ PROCESS_METADATA = {
         },
         'y': {
             'title': 'Y coordinate',
-            'description': 'The y coordinate of point to query. Must be in the same projection as the COG.',
+            'description': 'The y coordinate of point to query. \
+                Must be in the same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
@@ -83,7 +88,8 @@ PROCESS_METADATA = {
     'outputs': {
         'value': {
             'title': 'location value',
-            'description': 'The value of the location at the first band of the COG.',
+            'description': 'The value of the location at the first band\
+                 of the COG.',
             'schema': {
                 'type': 'string'
             }
@@ -99,12 +105,13 @@ PROCESS_METADATA = {
 }
 
 
-class LocationInfoRasterstatsProcessor(BaseProcessor):
+class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
-    def __init__(self, processor_def):
+    def __init__(self, processor_def):  # noqa: D107
+
         super().__init__(processor_def, PROCESS_METADATA)
 
-    def execute(self, data):
+    def execute(self, data):  # noqa: D102
         y = data.get('y')
         x = data.get('x')
         cog_url = data.get('cogUrl')
@@ -136,5 +143,5 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):
         mimetype = 'application/json'
         return mimetype, outputs
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return '<LocationInfoRasterstatsProcessor> {}'.format(self.name)

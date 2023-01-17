@@ -1,3 +1,4 @@
+# noqa: D100
 # =================================================================
 #
 # Authors: Tom Kralidis <tomkralidis@gmail.com>
@@ -50,15 +51,19 @@ PROCESS_METADATA = {
         'de': 'Zeitbasierte Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get time-based information of a location of an publicly accessible COG. Only queries the data from the first raster band.',
-        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen COGs basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
+        'en': 'Get time-based information of a location of an publicly \
+            accessible COG. Only queries the data from the first raster band.',
+        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen \
+            COGs basierend auf Input-Koordinaten ab.\
+                 Dabei wird nur das erste Band abgefragt.'
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
     'inputs': {
         'x': {
             'title': 'X coordinate',
-            'description': 'The x coordinate of point to query. Must be in the same projection as the COG.',
+            'description': 'The x coordinate of point to query. \
+                Must be in the same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
@@ -67,7 +72,8 @@ PROCESS_METADATA = {
         },
         'y': {
             'title': 'Y coordinate',
-            'description': 'The y coordinate of point to query. Must be in the same projection as the COG.',
+            'description': 'The y coordinate of point to query. \
+                Must be in the  same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
@@ -76,7 +82,9 @@ PROCESS_METADATA = {
         },
         'cogDirUrl': {
             'title': 'URL COG directory',
-            'description': 'The public available URL of the COG directory to query. The contents of the directory must be accessible via NGINX JSON autoindex',
+            'description': 'The public available URL of the COG directory to \
+                query. The contents of the directory must be accessible via \
+                    NGINX JSON autoindex',
             'schema': {
                 'type': 'string'
             },
@@ -85,7 +93,8 @@ PROCESS_METADATA = {
         },
         'startTimeStamp': {
             'title': 'Start timestamp',
-            'description': 'The start timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The start timestamp of the request provided as \
+                ISO string, like: 2022-10-08T12:32:00Z',
             'schema': {
                 'type': 'string'
             },
@@ -94,7 +103,8 @@ PROCESS_METADATA = {
         },
         'endTimeStamp': {
             'title': 'End timestamp',
-            'description': 'The end timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The end timestamp of the request provided as \
+                ISO string, like: 2022-10-08T12:32:00Z',
             'schema': {
                 'type': 'string'
             },
@@ -123,12 +133,12 @@ PROCESS_METADATA = {
 }
 
 
-class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
+class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
-    def __init__(self, processor_def):
+    def __init__(self, processor_def):  # noqa: D107
         super().__init__(processor_def, PROCESS_METADATA)
 
-    def execute(self, data):
+    def execute(self, data):  # noqa: D102
         y = data.get('y')
         x = data.get('x')
         cog_dir_url = data.get('cogDirUrl')
@@ -176,5 +186,5 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
         mimetype = 'application/json'
         return mimetype, outputs
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return '<LocationInfoTimeRasterstatsProcessor> {}'.format(self.name)
