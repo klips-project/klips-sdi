@@ -55,7 +55,18 @@ def get_zonal_stats_time(cog_dir_url, polygon_geojson,
                          ):
     """Create time-based zonal statistics.
 
-    TODO
+    :param cog_dir_url: The URL of the COG directory
+    :param polygon_geojson: A single polygon structured as GeoJSON
+                            in the same projection as the COG
+    :param statistic_methods: An array of statistic method names
+                  e.g. ['count', 'min', 'max', 'mean', 'sum',
+                  'std', 'median', 'majority', 'minority', 'unique',
+                  'range', 'nodata', 'nan']
+                  defaults to ['count', 'min', 'mean', 'max', 'median']
+    :param start_ts: The start timestamp, example: "2022-10-02T12:32:00Z"
+    :param end_ts: The end timestamp, example: "2022-10-09T12:32:00Z"
+
+    :returns: A dict with the timestamps and its values
     """
     results: dict = {}
 

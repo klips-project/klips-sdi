@@ -165,12 +165,10 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
         if not url_exists(cog_dir_url):
             raise Exception('Cannot access provided URL: {}'
                             .format(cog_dir_url))
-        # TODO: error handling
         if start_ts:
             start_ts = start_ts.replace('Z', '+00:00')
             start_ts = datetime.fromisoformat(start_ts)
 
-        # TODO: error handling
         if end_ts:
             end_ts = end_ts.replace('Z', '+00:00')
             end_ts = datetime.fromisoformat(end_ts)

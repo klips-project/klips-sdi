@@ -37,8 +37,6 @@ from datetime import datetime
 
 LOGGER = logging.getLogger(__name__)
 
-#: Process metadata and description
-# TODO
 PROCESS_METADATA = {
     'version': '0.1.0',
     'id': 'location-info-time-rasterstats',
@@ -137,12 +135,10 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):
             raise Exception('Cannot access provided URL: {}'
                             .format(cog_dir_url))
 
-        # TODO: error handling
         if start_ts:
             start_ts = start_ts.replace('Z', '+00:00')
             start_ts = datetime.fromisoformat(start_ts)
 
-        # TODO: error handling
         if end_ts:
             end_ts = end_ts.replace('Z', '+00:00')
             end_ts = datetime.fromisoformat(end_ts)
