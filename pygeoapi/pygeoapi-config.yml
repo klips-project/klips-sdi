@@ -110,6 +110,11 @@ resources:
         processor:
             name: processes.zonal_statistics_rasterstats.ZonalStatisticsRasterstatsProcessor
 
+    zonal-statistics-time-rasterstats:
+        type: process
+        processor:
+            name: processes.zonal_statistics_time_rasterstats.ZonalStatisticsTimeRasterstatsProcessor
+
     hello-world:
         type: process
         processor:
