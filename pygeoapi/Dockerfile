@@ -6,7 +6,7 @@ RUN apt -y update && \
                    gdal-bin
 
 # install 'rasterstats', 'click' needed for compatibility with pygeoapi
-RUN pip3 install rasterstats click==7.1.2
+RUN pip3 install rasterstats click==7.1.2 rio-cogeo==3.4.1
 
 COPY demo_data/ /demo_data/
 
