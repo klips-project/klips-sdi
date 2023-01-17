@@ -1,6 +1,6 @@
 """Utility functions."""
 
-# class must be in separate module to be callable by demo.py
+# NOTE: class must be in separate module to be callable by demo.py
 
 import re
 import requests
