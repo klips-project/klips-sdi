@@ -5,9 +5,10 @@ from urllib.parse import urljoin
 from .util import (url_exists, timestamp_from_file_name,
                    timestamp_within_range, get_available_cog_file_names)
 from datetime import datetime
+from shapely.geometry import Point
 
 
-def get_location_info(cog_url: str, point):
+def get_location_info(cog_url: str, point: Point):
     """
     Extract the value at the location of the first band of the provided COG.
 
@@ -31,7 +32,7 @@ def get_location_info(cog_url: str, point):
     return result
 
 
-def get_location_info_time(cog_dir_url: str, point,
+def get_location_info_time(cog_dir_url: str, point: Point,
                            start_ts: datetime = None, end_ts: datetime = None):
     """Return locationinfo of many timestamps.
 

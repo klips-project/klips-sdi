@@ -16,8 +16,7 @@ def get_zonal_stats(cog_url: str, polygon: Polygon,
     """Create zonal statistics from a COG using a single polygon as input.
 
     :param cog_url: the URL of the COG
-    :param polygon_geojson: A single polygon structured as GeoJSON
-                            in the same projection as the COG
+    :param polygon: A shapely Polygon in the same projection as the COG
     :param statistic_methods: An array of statistic method names
                   e.g. ['count', 'min', 'max', 'mean', 'sum',
                   'std', 'median', 'majority', 'minority', 'unique',
@@ -48,7 +47,7 @@ def get_zonal_stats(cog_url: str, polygon: Polygon,
     )
 
 
-def get_zonal_stats_time(cog_dir_url, polygon_geojson,
+def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
                          start_ts: datetime = None, end_ts: datetime = None,
                          statistic_methods=['count', 'min',
                                             'mean', 'max', 'median'],
@@ -56,8 +55,7 @@ def get_zonal_stats_time(cog_dir_url, polygon_geojson,
     """Create time-based zonal statistics.
 
     :param cog_dir_url: The URL of the COG directory
-    :param polygon_geojson: A single polygon structured as GeoJSON
-                            in the same projection as the COG
+    :param polygon: A shapely Polygon in the same projection as the COG
     :param statistic_methods: An array of statistic method names
                   e.g. ['count', 'min', 'max', 'mean', 'sum',
                   'std', 'median', 'majority', 'minority', 'unique',
@@ -89,7 +87,7 @@ def get_zonal_stats_time(cog_dir_url, polygon_geojson,
 
             if url_exists(cog_url):
                 zonal_info = get_zonal_stats(
-                    cog_url, polygon_geojson,
+                    cog_url, polygon,
                     statistic_methods=statistic_methods
                 )
                 result = zonal_info[0]
@@ -104,37 +102,3 @@ def get_zonal_stats_time(cog_dir_url, polygon_geojson,
             pass
 
     return results
-
-
-if __name__ == '__main__':
-    cog_url = "http://localhost/ecostress_3035_cog.tif"
-    polygon_geojson = {
-        "type": "Polygon",
-        "coordinates": [
-            [
-                [
-                    4582923.56687590200454,
-                    3117421.271846642717719
-                ],
-                [
-                    4581124.431979617103934,
-                    3115178.194573352113366
-                ],
-                [
-                    4584278.759395182132721,
-                    3114862.761831795331091
-                ],
-                [
-                    4584278.759395182132721,
-                    3114862.761831795331091
-                ],
-                [
-                    4582923.56687590200454,
-                    3117421.271846642717719
-                ]
-            ]
-        ]
-    }
-    # stats = None
-    result = get_zonal_stats(cog_url, polygon_geojson)
-    print(result)
