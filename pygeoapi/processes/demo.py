@@ -3,6 +3,7 @@
 from algorithms.location_info import get_location_info, get_location_info_time
 from algorithms.util import url_exists, timestamp_within_range
 from datetime import datetime, timezone
+from algorithms.zonal_stats import get_zonal_stats_time
 
 if __name__ == '__main__':
     cog_dir_url = 'http://localhost/cog/dresden/dresden_temperature/'
@@ -14,15 +15,48 @@ if __name__ == '__main__':
     y = 3115558.3
     loc_info_results = get_location_info_time(
         cog_dir_url, x, y, start, end)
-    print(loc_info_results)
+    # print(loc_info_results)
 
     cog_url = 'http://localhost/cog/dresden/dresden_temperature/dresden_20221127T1000Z.tif'  # noqa
 
-    if (url_exists(cog_url)):
-        print(get_location_info(cog_url, x, y))
+    polygon_geojson = {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    4582923.56687590200454,
+                    3117421.271846642717719
+                ],
+                [
+                    4581124.431979617103934,
+                    3115178.194573352113366
+                ],
+                [
+                    4584278.759395182132721,
+                    3114862.761831795331091
+                ],
+                [
+                    4584278.759395182132721,
+                    3114862.761831795331091
+                ],
+                [
+                    4582923.56687590200454,
+                    3117421.271846642717719
+                ]
+            ]
+        ]
+    }
 
-    timestamp = datetime.now()
-    start = datetime(2022, 12, 1)
-    end = datetime(2023, 2, 2)
+    zonal_stats_time = get_zonal_stats_time(
+        cog_dir_url, polygon_geojson, start, end)
 
-    print(timestamp_within_range(timestamp, start, end))
+    print(zonal_stats_time)
+
+    # if (url_exists(cog_url)):
+    #     print(get_location_info(cog_url, x, y))
+
+    # timestamp = datetime.now()
+    # start = datetime(2022, 12, 1)
+    # end = datetime(2023, 2, 2)
+
+    # print(timestamp_within_range(timestamp, start, end))

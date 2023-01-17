@@ -30,7 +30,6 @@
 import logging
 from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
 from .algorithms.zonal_stats import get_zonal_stats
-import json
 
 LOGGER = logging.getLogger(__name__)
 
@@ -77,13 +76,13 @@ PROCESS_METADATA = {
         }
     },
     'outputs': {
-        'resultGeojson': {
-            'title': 'Result GeoJSON',
-            'description': 'The input GeoJSON enriched with zonal statistics as properties',
+        'values': {
+            'title': 'TODO',
+            'description': 'TODO',
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
+                'type': 'string'
             }
-        },
+        }
     },
     'example': {
         "inputs": {
@@ -133,22 +132,22 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):
         statistic_methods = data.get('statisticMethods')
         # TODO: ensure polygon is not too large, otherwise process takes very long or even crashes
 
-        result_geojson = None
+        result = None
 
         if statistic_methods:
-            result_geojson = get_zonal_stats(
+            result = get_zonal_stats(
                 cog_url,
                 polygon_geojson,
                 statistic_methods=statistic_methods
             )
         else:
-            result_geojson = get_zonal_stats(
+            result = get_zonal_stats(
                 cog_url,
                 polygon_geojson
             )
 
         outputs = {
-            'resultGeojson': result_geojson
+            'values': result
         }
 
         mimetype = 'application/json'
