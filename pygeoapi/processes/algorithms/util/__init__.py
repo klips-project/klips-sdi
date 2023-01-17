@@ -51,8 +51,7 @@ def get_available_cog_file_names(cog_dir_url: str):
 
 def timestamp_within_range(timestamp: datetime,
                            start: datetime = None, end: datetime = None):
-    """
-    Check if timestamp is in range.
+    """Check if timestamp is in range.
 
     :param timestamp: The timestamp to check
     :param start: The start timestamp to compare, can be None
@@ -104,5 +103,4 @@ def reproject(geometry: geometry, crs_from: str, crs_to: str):
         always_xy=True
     ).transform
 
-    result = transform(project_function, geometry)
-    return result
+    return transform(project_function, geometry)

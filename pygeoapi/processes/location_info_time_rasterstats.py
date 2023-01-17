@@ -32,7 +32,10 @@ import logging
 
 from pygeoapi.process.base import BaseProcessor
 from .algorithms.location_info import get_location_info_time
-from .algorithms.util import get_crs_from_cog, reproject, url_exists, get_available_cog_file_names
+from .algorithms.util import (get_crs_from_cog,
+                              reproject,
+                              url_exists,
+                              get_available_cog_file_names)
 from datetime import datetime
 from shapely.geometry import Point
 from urllib.parse import urljoin

@@ -28,8 +28,10 @@
 # =================================================================
 
 import logging
-from pygeoapi.process.base import BaseProcessor, ProcessorExecuteError
+from pygeoapi.process.base import BaseProcessor
 from .algorithms.zonal_stats import get_zonal_stats
+from shapely.geometry import shape
+from .algorithms.util import get_crs_from_cog, reproject
 
 LOGGER = logging.getLogger(__name__)
 
@@ -130,20 +132,38 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):
         cog_url = data.get('cogUrl')
         polygon_geojson = data.get('polygonGeojson')
         statistic_methods = data.get('statisticMethods')
+        input_crs = data.get('crs')
+
         # TODO: ensure polygon is not too large, otherwise process takes very long or even crashes
 
         result = None
+        polygon = shape(polygon_geojson)
+
+        if 'crs' in data:
+            if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
+                cog_crs = get_crs_from_cog(cog_url)
+
+                if input_crs != cog_crs:
+                    polygon = reproject(polygon, input_crs, cog_crs)
+                else:
+                    # provided CRS by user is identical to COG
+                    # no conversion needed
+                    pass
+            else:
+                raise Exception(
+                    'Provided CRS from user is not valid: {}'.format(input_crs)
+                )
 
         if statistic_methods:
             result = get_zonal_stats(
                 cog_url,
-                polygon_geojson,
+                polygon,
                 statistic_methods=statistic_methods
             )
         else:
             result = get_zonal_stats(
                 cog_url,
-                polygon_geojson
+                polygon
             )
 
         outputs = {

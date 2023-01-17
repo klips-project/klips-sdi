@@ -30,8 +30,14 @@
 import logging
 from pygeoapi.process.base import BaseProcessor
 from .algorithms.zonal_stats import get_zonal_stats_time
-from .algorithms.util import url_exists
+from .algorithms.util import (
+    url_exists,
+    get_crs_from_cog,
+    reproject,
+    get_available_cog_file_names)
+from urllib.parse import urljoin
 from datetime import datetime
+from shapely.geometry import shape
 
 
 LOGGER = logging.getLogger(__name__)
@@ -156,6 +162,7 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
         cog_dir_url = data.get('cogDirUrl')
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
+        input_crs = data.get('crs')
 
         polygon_geojson = data.get('polygonGeojson')
         statistic_methods = data.get('statisticMethods')
@@ -174,11 +181,30 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
             end_ts = datetime.fromisoformat(end_ts)
 
         result = None
+        polygon = shape(polygon_geojson)
+
+        if 'crs' in data:
+            if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
+                # get CRS from first COG of directory
+                cog_list = get_available_cog_file_names(cog_dir_url)
+                first_cog = urljoin(cog_dir_url, cog_list[0]['name'])
+                cog_crs = get_crs_from_cog(first_cog)
+
+                if input_crs != cog_crs:
+                    polygon = reproject(polygon, input_crs, cog_crs)
+                else:
+                    # provided CRS by user is identical to COG
+                    # no conversion needed
+                    pass
+            else:
+                raise Exception(
+                    'Provided CRS from user is not valid: {}'.format(input_crs)
+                )
 
         if statistic_methods:
             result = get_zonal_stats_time(
                 cog_dir_url,
-                polygon_geojson,
+                polygon,
                 start_ts=start_ts,
                 end_ts=end_ts,
                 statistic_methods=statistic_methods
@@ -186,7 +212,7 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):
         else:
             result = get_zonal_stats_time(
                 cog_dir_url,
-                polygon_geojson,
+                polygon,
                 start_ts=start_ts,
                 end_ts=end_ts,
             )

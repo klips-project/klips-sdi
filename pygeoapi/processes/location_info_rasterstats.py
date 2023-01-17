@@ -113,7 +113,6 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):
         point = Point(x, y)
 
         if 'crs' in data:
-
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 cog_crs = get_crs_from_cog(cog_url)
 

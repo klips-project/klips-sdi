@@ -1,6 +1,6 @@
 """Functions to compute zonal statistics from COGs."""
 
-from shapely.geometry import shape
+from shapely.geometry import Polygon
 from rasterstats import zonal_stats
 from datetime import datetime
 from urllib.parse import urljoin
@@ -8,9 +8,10 @@ from .util import (url_exists, timestamp_from_file_name,
                    timestamp_within_range, get_available_cog_file_names)
 
 
-def get_zonal_stats(cog_url: str, polygon_geojson: dict,
+def get_zonal_stats(cog_url: str, polygon: Polygon,
                     statistic_methods: list = ['count',
-                                               'min', 'mean', 'max', 'median']
+                                               'min',
+                                               'mean', 'max', 'median']
                     ):
     """Create zonal statistics from a COG using a single polygon as input.
 
@@ -37,7 +38,6 @@ def get_zonal_stats(cog_url: str, polygon_geojson: dict,
     # convert list of statistic methods to string
     stats = ' '.join(statistic_methods)
 
-    polygon = shape(polygon_geojson)
     if polygon.type != 'Polygon':
         raise Exception('Provided geometry is no polygon')
 
