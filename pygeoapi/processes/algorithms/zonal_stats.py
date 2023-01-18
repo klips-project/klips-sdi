@@ -6,6 +6,7 @@ from datetime import datetime
 from urllib.parse import urljoin
 from .util import (url_exists, timestamp_from_file_name,
                    timestamp_within_range, get_available_cog_file_names)
+import concurrent.futures
 
 
 def get_zonal_stats(cog_url: str, polygon: Polygon,
@@ -37,9 +38,6 @@ def get_zonal_stats(cog_url: str, polygon: Polygon,
     # convert list of statistic methods to string
     stats = ' '.join(statistic_methods)
 
-    if polygon.type != 'Polygon':
-        raise Exception('Provided geometry is no polygon')
-
     return zonal_stats(
         polygon,
         cog_url,
@@ -66,16 +64,23 @@ def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
 
     :returns: A dict with the timestamps and its values
     """
-    results = []
-
     cog_list = get_available_cog_file_names(cog_dir_url)
 
-    for cog in cog_list:
-        # TODO: consider running in async mode to increase speed
-        file_name = cog['name']
+    cog_list = [
+        {'timestamp': timestamp_from_file_name(cog_entry['name']),
+         'cog_url': urljoin(
+            cog_dir_url, cog_entry['name'])
+         } for cog_entry in cog_list]
 
-        cog_url = urljoin(cog_dir_url, file_name)
-        timestamp = timestamp_from_file_name(file_name)
+    def location_info_from_cog_url(cog_entry: dict):
+        """Request location info from COG URL.
+
+        :param cog_entry: A dict with the keys 'cog_url' and 'timestamp'
+
+        :returns: A dict with location info and timestamp
+        """
+        cog_url = cog_entry['cog_url']
+        timestamp = cog_entry['timestamp']
 
         ts_within_range = timestamp_within_range(timestamp,
                                                  start_ts,
@@ -86,19 +91,24 @@ def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
             iso_timestamp = iso_timestamp.replace('+00:00', 'Z')
 
             if url_exists(cog_url):
-                zonal_info = get_zonal_stats(
-                    cog_url, polygon,
-                    statistic_methods=statistic_methods
-                )
-                result = zonal_info[0]
+                loc_info = get_zonal_stats(
+                    cog_url, polygon, statistic_methods=statistic_methods)
+
+                result = loc_info[0]
                 result['timestamp'] = iso_timestamp
 
-                results.append(result)
+                return result
             else:
                 # TODO: handle case URL cannot be reached
-                pass
+                return None
         else:
             # timestamp is outside of range
-            pass
+            return None
 
-    return results
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results = executor.map(location_info_from_cog_url, cog_list)
+
+    # remove empty values
+    results = list(filter(None, results))
+
+    return list(results)
