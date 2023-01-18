@@ -29,6 +29,7 @@
 # =================================================================
 
 import logging
+import shapely
 
 
 from pygeoapi.process.base import BaseProcessor
@@ -83,6 +84,26 @@ PROCESS_METADATA = {
             },
             'minOccurs': 1,
             'maxOccurs': 1
+        },
+        'inputCrs': {
+            'title': 'Coordinate reference system',
+            'description': 'The coordinate reference system of the \
+                provided geometry',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
+        },
+        'returnGeoJson': {
+            'title': 'Return GeoJSON',
+            'description': 'If a GeoJSON shall be returned, \
+                including the provided the geometry.',
+            'schema': {
+                'type': 'boolean'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
         }
     },
     'outputs': {
@@ -116,6 +137,7 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
         x = data.get('x')
         cog_url = data.get('cogUrl')
         input_crs = data.get('crs')
+        return_geojson = data.get('returnGeoJson')
 
         point = Point(x, y)
 
@@ -136,12 +158,17 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
         value = get_location_info(cog_url, point)
 
-        outputs = {
-            'values': value
-        }
-
-        mimetype = 'application/json'
-        return mimetype, outputs
+        if return_geojson is True:
+            geojson_feature = shapely.geometry.mapping(point)
+            geojson_feature['properties'] = value[0]
+            mimetype = 'application/geo+json'
+            return mimetype, geojson_feature
+        else:
+            outputs = {
+                'values': value
+            }
+            mimetype = 'application/json'
+            return mimetype, outputs
 
     def __repr__(self):  # noqa: D105
         return '<LocationInfoRasterstatsProcessor> {}'.format(self.name)

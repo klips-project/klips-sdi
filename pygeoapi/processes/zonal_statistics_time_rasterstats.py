@@ -29,6 +29,7 @@
 # =================================================================
 
 import logging
+import shapely
 from pygeoapi.process.base import BaseProcessor
 from .algorithms.zonal_stats import get_zonal_stats_time
 from .algorithms.util import (
@@ -92,7 +93,7 @@ PROCESS_METADATA = {
             'minOccurs': 0,
             'maxOccurs': 1,
         },
-        'polygonGeojson': {
+        'polygonGeoJson': {
             'title': 'Polygon GeoJSON',
             'description': 'A polygon GeoJSON for which to compute zonal \
                 statistics of the COG',
@@ -129,7 +130,7 @@ PROCESS_METADATA = {
                 "count",
                 "majority"
             ],
-            "polygonGeojson": {
+            "polygonGeoJson": {
                 "coordinates": [
                     [
                         [
@@ -172,8 +173,9 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
         input_crs = data.get('crs')
+        return_geojson = data.get('returnGeoJson')
 
-        polygon_geojson = data.get('polygonGeojson')
+        polygon_geojson = data.get('polygonGeoJson')
         statistic_methods = data.get('statisticMethods')
         # TODO: ensure polygon is not too large, otherwise process
         #       takes very long or even crashes
@@ -230,8 +232,17 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
             'values': result
         }
 
-        mimetype = 'application/json'
-        return mimetype, outputs
+        if return_geojson is True:
+            geojson_feature = shapely.geometry.mapping(polygon)
+            geojson_feature['properties'] = outputs
+            mimetype = 'application/geo+json'
+            return mimetype, geojson_feature
+        else:
+            mimetype = 'application/json'
+            outputs = {
+                'values': result
+            }
+            return mimetype, outputs
 
     def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsTimeRasterstatsProcessor> {}'.format(self.name)

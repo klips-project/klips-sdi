@@ -29,6 +29,7 @@
 # =================================================================
 
 import logging
+import shapely
 from pygeoapi.process.base import BaseProcessor
 from .algorithms.zonal_stats import get_zonal_stats
 from shapely.geometry import shape
@@ -62,7 +63,7 @@ PROCESS_METADATA = {
             'minOccurs': 1,
             'maxOccurs': 1,
         },
-        'polygonGeojson': {
+        'polygonGeoJson': {
             'title': 'Polygon GeoJSON',
             'description': 'A polygon GeoJSON for which to compute zonal \
                 statistics of the COG',
@@ -79,6 +80,26 @@ PROCESS_METADATA = {
             'schema': {
                 'type': 'Array'
             }
+        },
+        'inputCrs': {
+            'title': 'Coordinate reference system',
+            'description': 'The coordinate reference system of the \
+                provided geometry',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
+        },
+        'returnGeoJson': {
+            'title': 'Return GeoJSON',
+            'description': 'If a GeoJSON shall be returned,\
+                 including the provided the geometry.',
+            'schema': {
+                'type': 'boolean'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
         }
     },
     'outputs': {
@@ -94,7 +115,7 @@ PROCESS_METADATA = {
         "inputs": {
             "cogUrl": "https://example.com/sample-cog.tif",
             "statisticMethods": ["count", "majority"],
-            "polygonGeojson": {
+            "polygonGeoJson": {
                 "coordinates": [
                     [
                         [
@@ -134,9 +155,10 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
     def execute(self, data):  # noqa: D102
 
         cog_url = data.get('cogUrl')
-        polygon_geojson = data.get('polygonGeojson')
+        polygon_geojson = data.get('polygonGeoJson')
         statistic_methods = data.get('statisticMethods')
         input_crs = data.get('crs')
+        return_geojson = data.get('returnGeoJson')
 
         # TODO: ensure polygon is not too large,
         #       otherwise process takes very long or even crashes
@@ -171,12 +193,17 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
                 polygon
             )
 
-        outputs = {
-            'values': result
-        }
-
-        mimetype = 'application/json'
-        return mimetype, outputs
+        if return_geojson is True:
+            geojson_feature = shapely.geometry.mapping(polygon)
+            geojson_feature['properties'] = result[0]
+            mimetype = 'application/geo+json'
+            return mimetype, geojson_feature
+        else:
+            mimetype = 'application/json'
+            outputs = {
+                'values': result
+            }
+            return mimetype, outputs
 
     def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsRasterstatsProcessor> {}'.format(self.name)

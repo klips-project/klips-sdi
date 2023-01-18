@@ -29,7 +29,7 @@
 # =================================================================
 
 import logging
-
+import shapely
 
 from pygeoapi.process.base import BaseProcessor
 from .algorithms.location_info import get_location_info_time
@@ -110,6 +110,26 @@ PROCESS_METADATA = {
             },
             'minOccurs': 0,
             'maxOccurs': 1,
+        },
+        'inputCrs': {
+            'title': 'Coordinate reference system',
+            'description': 'The coordinate reference system of the \
+                provided geometry',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
+        },
+        'returnGeoJson': {
+            'title': 'Return GeoJSON',
+            'description': 'If a GeoJSON shall be returned,\
+                 including the provided the geometry.',
+            'schema': {
+                'type': 'boolean'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
         }
     },
     'outputs': {
@@ -145,6 +165,7 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
         input_crs = data.get('crs')
+        return_geojson = data.get('returnGeoJson')
 
         if not url_exists(cog_dir_url):
             raise Exception('Cannot access provided URL: {}'
@@ -179,12 +200,18 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
         results = get_location_info_time(
             cog_dir_url, point,  start_ts, end_ts)
-
         outputs = {
             'values': results
         }
-        mimetype = 'application/json'
-        return mimetype, outputs
+
+        if return_geojson is True:
+            geojson_feature = shapely.geometry.mapping(point)
+            geojson_feature['properties'] = outputs
+            mimetype = 'application/geo+json'
+            return mimetype, geojson_feature
+        else:
+            mimetype = 'application/json'
+            return mimetype, outputs
 
     def __repr__(self):  # noqa: D105
         return '<LocationInfoTimeRasterstatsProcessor> {}'.format(self.name)
