@@ -18,8 +18,12 @@ def url_exists(url: str):
 
     :returns: If URL exists.
     """
-    response = requests.head(url)
-    return response.status_code == 200
+    try:
+        response = requests.head(url)
+        return response.status_code == 200
+    except Exception as e:
+        print(e)
+        return False
 
 
 def timestamp_from_file_name(file_name: str):
@@ -69,7 +73,7 @@ def timestamp_within_range(timestamp: datetime,
     elif start_valid and not end_valid:
         return start <= timestamp
     elif not start_valid and end_valid:
-        return timestamp <= end_valid
+        return timestamp <= end
     else:
         return True
 
