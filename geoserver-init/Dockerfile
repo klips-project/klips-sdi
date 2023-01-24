@@ -6,8 +6,9 @@ WORKDIR /opt
 RUN npm install --only=production
 
 COPY  /wait-for.sh /opt/wait-for.sh
-COPY  /010_create_workspace.js /opt/010_create_workspace.js
+COPY  /010_setup_geoserver.js /opt/010_setup_geoserver.js.js
 COPY  /000_change_auth.js /opt/000_change_auth.js
+COPY  /sld/ /opt/sld/
 
 RUN chmod +x /opt/wait-for.sh
 
