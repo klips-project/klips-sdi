@@ -13,7 +13,7 @@
       "minFileSize": 1000,
       "maxFileSize": 10000000
     },
-    "expectedBandCount": 1,
+    "expectedBandCount": 2,
     "regions": {
       "dresden": {
         "bbox": [
