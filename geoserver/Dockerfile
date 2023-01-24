@@ -1,6 +1,6 @@
-FROM docker.osgeo.org/geoserver:2.21.2
+FROM docker.osgeo.org/geoserver:2.22.0
 
-ARG COMMUNITY_VERSION=2.21
+ARG COMMUNITY_VERSION=2.22
 ARG COG_NAME=cog
 ARG COG_ZIP_NAME=geoserver-$COMMUNITY_VERSION-SNAPSHOT-cog-plugin.zip
 ARG EXTENSIONS_PATH=/opt/additional_libs
