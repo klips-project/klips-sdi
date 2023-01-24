@@ -1,11 +1,15 @@
-FROM geopython/pygeoapi:0.12.0
+FROM geopython/pygeoapi:0.13.0
 
 RUN apt -y update && \
     apt -y upgrade && \
     apt -y install grass \
                    gdal-bin
 
-COPY pygeoapi-config.yml /pygeoapi/local.config.yml
-COPY processes /pygeoapi/processes
-COPY process_scripts/ /process_scripts/
+# install 'rasterstats', 'click' needed for compatibility with pygeoapi
+RUN pip3 install rasterstats click==7.1.2
+
 COPY demo_data/ /demo_data/
+
+WORKDIR /pygeoapi
+COPY pygeoapi-config.yml local.config.yml
+COPY processes/ processes/

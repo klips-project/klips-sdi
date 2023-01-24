@@ -95,6 +95,16 @@ resources:
         processor:
             name: processes.zonal_statistics_gdal.ZonalStatisticsGdalProcessor
 
+    location-info-rasterstats:
+        type: process
+        processor:
+            name: processes.location_info_rasterstats.LocationInfoRasterstatsProcessor
+
+    zonal-statistics-rasterstats:
+        type: process
+        processor:
+            name: processes.zonal_statistics_rasterstats.ZonalStatisticsRasterstatsProcessor
+
     hello-world:
         type: process
         processor:
