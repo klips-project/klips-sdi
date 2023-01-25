@@ -100,10 +100,20 @@ resources:
         processor:
             name: processes.location_info_rasterstats.LocationInfoRasterstatsProcessor
 
+    location-info-time-rasterstats:
+        type: process
+        processor:
+            name: processes.location_info_time_rasterstats.LocationInfoTimeRasterstatsProcessor
+
     zonal-statistics-rasterstats:
         type: process
         processor:
             name: processes.zonal_statistics_rasterstats.ZonalStatisticsRasterstatsProcessor
+
+    zonal-statistics-time-rasterstats:
+        type: process
+        processor:
+            name: processes.zonal_statistics_time_rasterstats.ZonalStatisticsTimeRasterstatsProcessor
 
     hello-world:
         type: process

@@ -1,29 +1,34 @@
-from shapely.geometry import shape
-from rasterstats import zonal_stats, utils
-import httplib2
+"""Functions to compute zonal statistics from COGs."""
+
+from shapely.geometry import Polygon
+from rasterstats import zonal_stats
+from datetime import datetime
+from urllib.parse import urljoin
+from .util import (url_exists, timestamp_from_file_name,
+                   timestamp_within_range, get_available_cog_file_names)
+import concurrent.futures
 
 
-def get_zonal_stats(cog_url, polygon_geojson, statistic_methods=['count', 'min', 'mean', 'max', 'median']):
-    """
-    Creates zonal statistics from a COG using a single polygon as input
+def get_zonal_stats(cog_url: str, polygon: Polygon,
+                    statistic_methods: list = ['count',
+                                               'min',
+                                               'mean', 'max', 'median']
+                    ):
+    """Create zonal statistics from a COG using a single polygon as input.
 
     :param cog_url: the URL of the COG
-    :param polygon_geojson: A single polygon as dict structured as GeoJSON in the same projection as the COG
+    :param polygon: A shapely Polygon in the same projection as the COG
     :param statistic_methods: An array of statistic method names
-                  e.g. ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
+                  e.g. ['count', 'min', 'max', 'mean', 'sum',
+                  'std', 'median', 'majority', 'minority', 'unique',
+                  'range', 'nodata', 'nan']
                   defaults to ['count', 'min', 'mean', 'max', 'median']
 
-    :returns A dict structured as GeoJSON with the input geometry and its zonal statistics as properties
+    :returns The zonal statistics
     """
-
     # validate URL of COG
-    try:
-        # request HEAD of URL to check its existence without downloading it
-        response = httplib2.Http().request(cog_url, 'HEAD')
-        assert response[0]['status'] != 200
-    except:
-        raise Exception(
-            'Provided URL does not exist or cannot be reached.')
+    if not url_exists(cog_url):
+        raise Exception('URL cannot be called: {}'.format(cog_url))
 
     # validate provided statistic methods
     if not isinstance(statistic_methods, list):
@@ -33,50 +38,77 @@ def get_zonal_stats(cog_url, polygon_geojson, statistic_methods=['count', 'min',
     # convert list of statistic methods to string
     stats = ' '.join(statistic_methods)
 
-    polygon = shape(polygon_geojson)
-    if polygon.type != 'Polygon':
-        raise Exception('Provided geometry is no polygon')
-
     return zonal_stats(
         polygon,
         cog_url,
-        stats=stats, geojson_out=True
+        stats=stats
     )
 
 
-def main():
-    cog_url = "http://localhost/ecostress_3035_cog.tif"
-    polygon_geojson = {
-        "type": "Polygon",
-        "coordinates": [
-            [
-                [
-                    4582923.56687590200454,
-                    3117421.271846642717719
-                ],
-                [
-                    4581124.431979617103934,
-                    3115178.194573352113366
-                ],
-                [
-                    4584278.759395182132721,
-                    3114862.761831795331091
-                ],
-                [
-                    4584278.759395182132721,
-                    3114862.761831795331091
-                ],
-                [
-                    4582923.56687590200454,
-                    3117421.271846642717719
-                ]
-            ]
-        ]
-    }
-    # stats = None
-    result = get_zonal_stats(cog_url, polygon_geojson)
-    print(result)
+def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
+                         start_ts: datetime = None, end_ts: datetime = None,
+                         statistic_methods=['count', 'min',
+                                            'mean', 'max', 'median'],
+                         ):
+    """Create time-based zonal statistics.
 
+    :param cog_dir_url: The URL of the COG directory
+    :param polygon: A shapely Polygon in the same projection as the COG
+    :param statistic_methods: An array of statistic method names
+                  e.g. ['count', 'min', 'max', 'mean', 'sum',
+                  'std', 'median', 'majority', 'minority', 'unique',
+                  'range', 'nodata', 'nan']
+                  defaults to ['count', 'min', 'mean', 'max', 'median']
+    :param start_ts: The start timestamp, example: "2022-10-02T12:32:00Z"
+    :param end_ts: The end timestamp, example: "2022-10-09T12:32:00Z"
 
-if __name__ == '__main__':
-    main()
+    :returns: A dict with the timestamps and its values
+    """
+    cog_list = get_available_cog_file_names(cog_dir_url)
+
+    cog_list = [
+        {'timestamp': timestamp_from_file_name(cog_entry['name']),
+         'cog_url': urljoin(
+            cog_dir_url, cog_entry['name'])
+         } for cog_entry in cog_list]
+
+    def location_info_from_cog_url(cog_entry: dict):
+        """Request location info from COG URL.
+
+        :param cog_entry: A dict with the keys 'cog_url' and 'timestamp'
+
+        :returns: A dict with location info and timestamp
+        """
+        cog_url = cog_entry['cog_url']
+        timestamp = cog_entry['timestamp']
+
+        ts_within_range = timestamp_within_range(timestamp,
+                                                 start_ts,
+                                                 end_ts)
+
+        if ts_within_range:
+            iso_timestamp = timestamp.isoformat()
+            iso_timestamp = iso_timestamp.replace('+00:00', 'Z')
+
+            if url_exists(cog_url):
+                loc_info = get_zonal_stats(
+                    cog_url, polygon, statistic_methods=statistic_methods)
+
+                result = loc_info[0]
+                result['timestamp'] = iso_timestamp
+
+                return result
+            else:
+                # TODO: handle case URL cannot be reached
+                return None
+        else:
+            # timestamp is outside of range
+            return None
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results = executor.map(location_info_from_cog_url, cog_list)
+
+    # remove empty values
+    results = list(filter(None, results))
+
+    return list(results)

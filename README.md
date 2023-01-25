@@ -12,7 +12,8 @@ cp .env.example .env
 
 # create your personal klips api config
 mkdir klips-api-config
-cp klips-api-config-example/* klips-api-config/
+cp klips-api/src/config/* klips-api-config/
+```
 
 ```
 

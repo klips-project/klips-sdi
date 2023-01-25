@@ -2,12 +2,17 @@
 
 Zonal statistics of a raster cropped by an provided GeoJSON polygon.
 
-## Setup
-
-using the project's Docker Compose
+## Development
 
 ```shell
+# update Docker file with included Python code
 docker-compose up --build -d pygeoapi ; docker-compose logs -f
+
+# lint using flake8
+dev_scripts/lint.sh
+
+# tests using py_test
+dev_scripts/test.sh
 ```
 
 ## Logging
