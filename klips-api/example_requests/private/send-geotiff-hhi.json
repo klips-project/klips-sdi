@@ -1,0 +1,14 @@
+{
+    "category": "forecast",
+    "source": "hhi",
+    "email": "info@example.de",
+    "payload": {
+        "url": "https://klips.hhi.fraunhofer.de/rest/v0/forecast/NRW/raster/7fb26e42-f2dd-495a-9fd3-26c08ecb1b4e",
+        "creationTime": 12345657687,
+        "predictionStartTime": 987654321,
+        "predictionEndTime": 12345659687,
+        "interval": 3600,
+        "region": 2,
+        "type": 0
+    }
+}
