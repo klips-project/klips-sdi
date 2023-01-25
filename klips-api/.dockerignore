@@ -1,0 +1,12 @@
+.git
+dist
+node_modules
+.dockerignore
+.editorconfig
+.gitignore
+.gitlab-ci.yml
+.release-it.json
+docker-compose.yml
+Dockerfile
+Dockerfile.dev
+api-monitor
