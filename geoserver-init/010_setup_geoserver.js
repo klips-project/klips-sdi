@@ -18,14 +18,11 @@ const SLD_DIRECTORY = 'sld';
 
 // check if we can connect to GeoServer REST API
 const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
-grc.about.exists()
-  .then(async () => {
-    await createWorkspaces();
-    await createStyles();
-  })
-  .catch(() => {
-    console.error('ERROR:', 'Could not connect to GeoServer REST API - ABORT!');
-  });
+
+async function main() {
+  await createWorkspaces();
+  await createStyles();
+}
 
 /**
  * Create the workspaces.
@@ -56,10 +53,13 @@ async function createWorkspaces() {
  * Loops over all files of the SLD directory and publishes them to GeoServer.
  */
 async function createStyles() {
+  console.log();
+  console.log('### STYLES ###');
+  console.log();
   const sldFiles = await fs.readdirSync(SLD_DIRECTORY);
 
   // loop over SLD files
-  await asyncForEach(sldFiles, async file => {
+  for (const file of sldFiles) {
     const styleName = path.parse(file).name;
     const extension = path.parse(file).ext;
 
@@ -67,8 +67,8 @@ async function createStyles() {
       // skip files that are not SLD
       return;
     }
-    await createSingleStyle(styleName, genericWorkspace);
-  });
+    await createSingleStyle(genericWorkspace, styleName);
+  }
 }
 
 /**
@@ -76,36 +76,25 @@ async function createStyles() {
  *
  * We assume the name of the file without extension is the name of the style.
  *
- * @param {String} styleName The name of the style and the file
  * @param {String} workspace The workspace to publish the style to
+ * @param {String} styleName The name of the style and the file
  */
-async function createSingleStyle(styleName, workspace) {
-  console.log(`Creating style '${styleName}' ... `);
+async function createSingleStyle(workspace, styleName) {
+  console.log('INFO', `Creating style '${styleName}' ... `);
   const styleFile = styleName + SLD_SUFFIX;
 
-  const styleExists = await grc.styles.getStyleInformation(styleName, workspace);
+  const styleExists = await grc.styles.getStyleInformation(workspace, styleName);
 
   if (styleExists) {
-    console.log('Style already exists. SKIP');
+    console.log('INFO', `Style '${styleName}' already exists.`);
   } else {
     const sldFilePath = path.join(SLD_DIRECTORY, styleFile);
     const sldBody = fs.readFileSync(sldFilePath, 'utf8');
 
     // publish style
     await grc.styles.publish(workspace, styleName, sldBody);
-    console.log(`Successfully created style '${styleName}'`);
+    console.log('INFO', `Successfully created style '${styleName}'`);
   }
 }
 
-/**
- * Helper to perform asynchronous forEach.
- * Found at https://codeburst.io/javascript-async-await-with-foreach-b6ba62bbf404
- *
- * @param {*[]} array
- * @param {Function} callback
- */
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-}
+main();
