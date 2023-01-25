@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./klips-api
+        working-directory: klips-api
     steps:
       - run: set -e
       - name: Checkout repository
