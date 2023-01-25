@@ -1,3 +1,4 @@
+# noqa: D100
 import subprocess
 import logging
 from sys import flags
@@ -82,12 +83,12 @@ PROCESS_METADATA = {
 }
 
 
-class ZonalStatisticsGrassProcessor(BaseProcessor):
+class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
 
-    def __init__(self, processor_def):
+    def __init__(self, processor_def):  # noqa: D107
         super().__init__(processor_def, PROCESS_METADATA)
 
-    def execute(self, data):
+    def execute(self, data):  # noqa: D102
         geoms = data.get('inputGeometries', None)
         mimetype = 'application/json'
 
@@ -103,7 +104,7 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):
                 demo_raster_name = 'demo-raster'
                 # input raster must be in EPSG 4326
                 r.external(input='/demo_data/ecostress_4326.tif',
-                    output=demo_raster_name, flags='e')
+                           output=demo_raster_name, flags='e')
                 # set region
                 g.region(raster=demo_raster_name)
 
@@ -140,7 +141,7 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):
             # TODO: only works for one polygon and is a quick fix that should changed
             keys = []
             values = []
-            with open(f'{tempdir}/output','r') as csvfile:
+            with open(f'{tempdir}/output', 'r') as csvfile:
                 csv_reader = csv.reader(csvfile, delimiter=',')
                 i = 0
                 for row in csv_reader:
@@ -159,5 +160,5 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):
 
         return mimetype, outputs
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsGrassProcessor> {}'.format(self.name)

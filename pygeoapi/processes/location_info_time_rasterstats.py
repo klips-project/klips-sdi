@@ -31,27 +31,31 @@
 import logging
 import shapely
 
-
 from pygeoapi.process.base import BaseProcessor
-from .algorithms.location_info import get_location_info
-from .algorithms.util import get_crs_from_cog, reproject
+from .algorithms.location_info import get_location_info_time
+from .algorithms.util import (get_crs_from_cog,
+                              reproject,
+                              url_exists,
+                              get_available_cog_file_names)
+from datetime import datetime
 from shapely.geometry import Point
+from urllib.parse import urljoin
 
 LOGGER = logging.getLogger(__name__)
 
-#: Process metadata and description
 PROCESS_METADATA = {
     'version': '0.1.0',
-    'id': 'location-info-rasterstats',
+    'id': 'location-info-time-rasterstats',
     'title': {
-        'en': 'Location info of a COG using rasterstats',
-        'de': 'Standortinformation eines COGs mit rasterstats'
+        'en': 'Time-based location info of a COG using rasterstats',
+        'de': 'Zeitbasierte Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get information of a location of an publicly \
+        'en': 'Get time-based information of a location of an publicly \
             accessible COG. Only queries the data from the first raster band.',
-        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend\
-        auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
+        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen \
+            COGs basierend auf Input-Koordinaten ab.\
+                 Dabei wird nur das erste Band abgefragt.'
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
@@ -69,21 +73,43 @@ PROCESS_METADATA = {
         'y': {
             'title': 'Y coordinate',
             'description': 'The y coordinate of point to query. \
-                Must be in the same projection as the COG.',
+                Must be in the  same projection as the COG.',
             'schema': {
                 'type': 'string'
             },
             'minOccurs': 1,
             'maxOccurs': 1
         },
-        'cogUrl': {
-            'title': 'URL of the COG',
-            'description': 'The public available URL of the COG to query',
+        'cogDirUrl': {
+            'title': 'URL COG directory',
+            'description': 'The public available URL of the COG directory to \
+                query. The contents of the directory must be accessible via \
+                    NGINX JSON autoindex',
             'schema': {
                 'type': 'string'
             },
             'minOccurs': 1,
             'maxOccurs': 1
+        },
+        'startTimeStamp': {
+            'title': 'Start timestamp',
+            'description': 'The start timestamp of the request provided as \
+                ISO string, like: 2022-10-08T12:32:00Z',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1,
+        },
+        'endTimeStamp': {
+            'title': 'End timestamp',
+            'description': 'The end timestamp of the request provided as \
+                ISO string, like: 2022-10-08T12:32:00Z',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1,
         },
         'inputCrs': {
             'title': 'Coordinate reference system',
@@ -97,8 +123,8 @@ PROCESS_METADATA = {
         },
         'returnGeoJson': {
             'title': 'Return GeoJSON',
-            'description': 'If a GeoJSON shall be returned, \
-                including the provided the geometry.',
+            'description': 'If a GeoJSON shall be returned,\
+                 including the provided the geometry.',
             'schema': {
                 'type': 'boolean'
             },
@@ -107,44 +133,60 @@ PROCESS_METADATA = {
         }
     },
     'outputs': {
-        'value': {
-            'title': 'location value',
-            'description': 'The value of the location at the first band\
-                 of the COG.',
+        "values": {
+            'title': 'location values per timestamp',
+            'description': 'The location values per available timestamp',
             'schema': {
-                'type': 'string'
+                'type': 'array'
             }
         }
     },
     'example': {
         "inputs": {
-            "x": 12.2,
-            "y": 50.4,
-            "cogUrl": "https://example.com/sample-cog.tif"
+            "x": 4582606.6,
+            "y": 3115558.3,
+            "cogDirUrl": "http://localhost/cog/dresden/dresden_temperature/",
+            "startTimeStamp": "2022-10-02T12:32:00Z",
+            "endTimeStamp": "2022-10-08T12:32:00Z"
         }
     }
 }
 
 
-class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
+class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
     def __init__(self, processor_def):  # noqa: D107
-
         super().__init__(processor_def, PROCESS_METADATA)
 
     def execute(self, data):  # noqa: D102
         y = data.get('y')
         x = data.get('x')
-        cog_url = data.get('cogUrl')
+        cog_dir_url = data.get('cogDirUrl')
+        start_ts = data.get('startTimeStamp')
+        end_ts = data.get('endTimeStamp')
         input_crs = data.get('crs')
         return_geojson = data.get('returnGeoJson')
 
+        if not url_exists(cog_dir_url):
+            raise Exception('Cannot access provided URL: {}'
+                            .format(cog_dir_url))
+
+        if start_ts:
+            start_ts = start_ts.replace('Z', '+00:00')
+            start_ts = datetime.fromisoformat(start_ts)
+
+        if end_ts:
+            end_ts = end_ts.replace('Z', '+00:00')
+            end_ts = datetime.fromisoformat(end_ts)
+
         point = Point(x, y)
-
         if 'crs' in data:
-            if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
-                cog_crs = get_crs_from_cog(cog_url)
+            # get CRS from first COG of directory
+            cog_list = get_available_cog_file_names(cog_dir_url)
+            first_cog = urljoin(cog_dir_url, cog_list[0]['name'])
+            cog_crs = get_crs_from_cog(first_cog)
 
+            if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 if input_crs != cog_crs:
                     point = reproject(point, input_crs, cog_crs)
                 else:
@@ -156,19 +198,20 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
                     'Provided CRS from user is not valid: {}'.format(input_crs)
                 )
 
-        value = get_location_info(cog_url, point)
+        results = get_location_info_time(
+            cog_dir_url, point,  start_ts, end_ts)
+        outputs = {
+            'values': results
+        }
 
         if return_geojson is True:
             geojson_feature = shapely.geometry.mapping(point)
-            geojson_feature['properties'] = value[0]
+            geojson_feature['properties'] = outputs
             mimetype = 'application/geo+json'
             return mimetype, geojson_feature
         else:
-            outputs = {
-                'values': value
-            }
             mimetype = 'application/json'
             return mimetype, outputs
 
     def __repr__(self):  # noqa: D105
-        return '<LocationInfoRasterstatsProcessor> {}'.format(self.name)
+        return '<LocationInfoTimeRasterstatsProcessor> {}'.format(self.name)

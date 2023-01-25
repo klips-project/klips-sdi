@@ -1,3 +1,4 @@
+# noqa: D100
 # =================================================================
 #
 # Authors: Tom Kralidis <tomkralidis@gmail.com>
@@ -105,12 +106,12 @@ PROCESS_METADATA = {
 }
 
 
-class ZonalStatisticsGdalProcessor(BaseProcessor):
+class ZonalStatisticsGdalProcessor(BaseProcessor):  # noqa: D101
 
-    def __init__(self, processor_def):
+    def __init__(self, processor_def):  # noqa: D107
         super().__init__(processor_def, PROCESS_METADATA)
 
-    def execute(self, data):
+    def execute(self, data):  # noqa: D102
 
         mimetype = 'application/json'
         geom = data.get('inputGeometries', None)
@@ -136,5 +137,5 @@ class ZonalStatisticsGdalProcessor(BaseProcessor):
 
         return mimetype, outputs
 
-    def __repr__(self):
+    def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsGdalProcessor> {}'.format(self.name)
