@@ -27,12 +27,10 @@ services:
       - PARTNER_URL_START
       - PARTNER_API_USERNAME
       - PARTNER_API_PASSWORD
-      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
     ports:
       - 127.0.0.1:3000:3000
     volumes:
       - ./klips-api-config:/klips-conf
-      - ./geoserver_data:/opt/geoserver_data/:Z
 
   rabbitmq:
     image: rabbitmq:3.10-management
@@ -77,7 +75,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/rollback-handler:latest
     restart: unless-stopped
     volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./staging:/opt/staging:Z
     depends_on:
       - rabbitmq
     environment:
@@ -123,28 +121,11 @@ services:
       - rabbitmq
     restart: unless-stopped
 
-  geoserver-publish-geotiff:
-    image: ghcr.io/klips-project/mqm-worker/geoserver-publish-geotiff:latest
-    restart: unless-stopped
-    volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
-    depends_on:
-      - rabbitmq
-    environment:
-    - RABBITHOST=${RABBITMQ_HOSTNAME}
-    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
-    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
-    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-    - WORKERQUEUE=geoserver-publish-geotiff
-    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
-    - GEOSERVER_USER=${GEOSERVER_USER}
-    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
-
   geoserver-publish-imagemosaic:
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-imagemosaic:latest
     restart: unless-stopped
     volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./staging:/opt/staging:Z
     depends_on:
       - rabbitmq
       - geoserver
@@ -163,7 +144,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/geoserver-create-imagemosaic-datastore:latest
     restart: unless-stopped
     volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./staging:/opt/staging:Z
     depends_on:
       - rabbitmq
       - geoserver
@@ -188,7 +169,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/download-file:latest
     restart: unless-stopped
     volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./staging:/opt/staging:Z
     depends_on:
       - rabbitmq
     environment:
@@ -198,11 +179,26 @@ services:
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=download-file
 
+  geotiff-optimizer:
+    image: ghcr.io/klips-project/mqm-worker/geotiff-optimizer:latest
+    restart: unless-stopped
+    volumes:
+      - ./cog_data:/opt/cog:Z
+      - ./staging:/opt/staging:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geotiff-optimizer
+
   geotiff-validator:
     image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
     restart: unless-stopped
     volumes:
-      - ./geoserver_data:/opt/geoserver_data/:Z
+      - ./staging:/opt/staging:Z
     depends_on:
       - rabbitmq
     environment:

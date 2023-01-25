@@ -1,0 +1,29 @@
+{
+  "job": [
+    {
+      "id": 1,
+      "type": "download-file",
+      "inputs": [
+        "http://nginx/ecostress_3035_float32.tif",
+        "/opt/staging/sample.tif"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "geotiff-optimizer",
+      "inputs": [
+        "/opt/staging/sample.tif",
+        "/opt/cog/mypath/20220216T1146Z.tif"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "geoserver-create-imagemosaic-datastore",
+      "inputs": [
+        "dresden",
+        "my-cog-store",
+        "http://nginx/cog/mypath/20220216T1146Z.tif"
+      ]
+    }
+  ]
+}

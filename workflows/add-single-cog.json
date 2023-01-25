@@ -1,0 +1,13 @@
+{
+  "job": [
+    {
+      "id": 1,
+      "type": "geoserver-publish-imagemosaic",
+      "inputs": [
+        "dresden",
+        "my-cog-store",
+        "http://nginx/20220214T1146Z.tif"
+      ]
+    }
+  ]
+}
