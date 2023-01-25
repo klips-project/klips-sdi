@@ -9,9 +9,6 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: klips-api
     steps:
       - run: set -e
       - name: Checkout repository
@@ -20,5 +17,5 @@ jobs:
         uses: actions/setup-node@v2.1.5
         with:
           node-version: '16'
-      - run: npm ci
-      - run: npm run lint
+      - run: cd klips-api && npm ci
+      - run: cd klips-api && npm run lint
