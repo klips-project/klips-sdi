@@ -3,7 +3,7 @@ import logging
 
 from pygeoapi.process.base import BaseProcessor
 
-from pygeoapi.processes.algorythms.standalone_grass_zonal_stats import generate_zonal_stats
+from pygeoapi.processes.algorithms.standalone_grass_zonal_stats import generate_zonal_stats
 
 LOGGER = logging.getLogger(__name__)
 
