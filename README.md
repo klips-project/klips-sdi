@@ -15,7 +15,7 @@ mkdir klips-api-config
 cp klips-api/src/config/* klips-api-config/
 ```
 
-developoment:
+development:
 
 ```shell
 # expects the referenced repos located next to this directory
