@@ -31,6 +31,7 @@ curl 'http://localhost:5000/processes/zonal-statistics-grass/execution' \
    -H 'content-type: application/json'  \
    --data-raw '{
     "inputs": {
+        "raster_url": "http://nginx/ecostress_4326_cog.tif",
         "inputGeometries": [
             {
                 "value": {
