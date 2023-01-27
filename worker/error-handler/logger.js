@@ -13,7 +13,7 @@ if (!fs.existsSync(logFilePath)) {
 
 const logLevel = process.env.LOG_LEVEL || 'debug';
 
-export const logger = pino(
+const parentLogger = pino(
   {
     level: logLevel
   },
@@ -24,3 +24,5 @@ export const logger = pino(
     ]
   )
 );
+
+export const logger = parentLogger.child({ worker: 'error-handler' })

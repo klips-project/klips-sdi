@@ -3,7 +3,7 @@ import pretty from 'pino-pretty';
 import path from 'path';
 import fs from 'fs';
 
-const logFilePath = process.env.LOG_FILE_PATH || "./logs/worker.log";
+const logFilePath = process.env.LOG_FILE_PATH || "/logs/worker.log";
 
 // create directory of log file if it does not exist
 if (!fs.existsSync(logFilePath)) {
@@ -13,7 +13,7 @@ if (!fs.existsSync(logFilePath)) {
 
 const logLevel = process.env.LOG_LEVEL || 'debug';
 
-export const logger = pino(
+const parentLogger = pino(
   {
     level: logLevel
   },
@@ -24,3 +24,5 @@ export const logger = pino(
     ]
   )
 );
+
+export const logger = parentLogger.child({ worker: 'geoserver-init' })
