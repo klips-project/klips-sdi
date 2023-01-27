@@ -1,6 +1,7 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
-import { log, initialize } from 'rabbitmq-worker/src/workerTemplate.js';
+import { initialize } from 'rabbitmq-worker/src/workerTemplate.js';
 import fsPromises from 'fs/promises';
+import { logger } from './logger.js';
 
 const url = process.env.GEOSERVER_REST_URL;
 const user = process.env.GEOSERVER_USER;
@@ -27,7 +28,7 @@ const grc = new GeoServerRestClient(url, user, pw);
  */
 const rollback = async (workerJob, inputs) => {
   try {
-    log("Starting rollback...");
+    logger.debug("Starting rollback...");
     const json = inputs[0];
     const filesToDelete = [];
 
@@ -38,8 +39,8 @@ const rollback = async (workerJob, inputs) => {
         proc.status && proc.status === 'success') {
         const geoServerAvailable = await grc.about.exists();
         if (!geoServerAvailable) {
-          log('Geoserver not available');
-          log('Job should be requeued!');
+          logger.debug('Geoserver not available');
+          logger.debug('Job should be requeued!');
           workerJob.missingPreconditions = true;
           return;
         }
@@ -51,7 +52,7 @@ const rollback = async (workerJob, inputs) => {
 
         await grc.imagemosaics.deleteSingleGranule(
           workspace, store, store, coveragePath);
-        log('Successfully deleted granule in coverage store in GeoServer');
+        logger.debug('Successfully deleted granule in coverage store in GeoServer');
       }
 
       else if ((jobType === 'geotiff-optimizer') &&
@@ -71,12 +72,12 @@ const rollback = async (workerJob, inputs) => {
     };
     for (let i = 0; i < filesToDelete.length; i++) {
       const file = filesToDelete[i];
-      log(`Deleting file ${file} ...`)
+      logger.debug(`Deleting file ${file} ...`)
       await fsPromises.rm(file);
-      log('Successfully deleted file');
+      logger.debug('Successfully deleted file');
     };
   } catch (e) {
-    log(`Exception on rollback: ${e}`);
+    logger.debug(`Exception on rollback: ${e}`);
   }
   workerJob.status = 'success';
   workerJob.outputs = [];

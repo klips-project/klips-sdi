@@ -1,4 +1,5 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
+import { logger } from './logger.js';
 
 const geoserverUrl = process.env.GEOSERVER_REST_URL;
 const geoserverDefaultUser = process.env.GEOSERVER_DEFAULT_USER;
@@ -13,7 +14,7 @@ const newGeoserverPw = process.env.GEOSERVER_PASSWORD;
 
 // check if all variables are present
 if (!geoserverUrl || !geoserverDefaultUser || !geoserverDefaultPw || !newGeoserverUser || !newGeoserverPw) {
-  console.error('ERROR:', 'Not all variables provided. Please specify these env vars: \n ' +
+  logger.error('Not all variables provided. Please specify these env vars: \n ' +
    'GEOSERVER_REST_URL\n GEOSERVER_DEFAULT_USER\n GEOSERVER_DEFAULT_PASSWORD\n GEOSERVER_USER\n GEOSERVER_PASSWORD\n');
   process.exit(1);
 }
@@ -38,33 +39,33 @@ async function adaptSecurity () {
     const userPw = newGeoserverPw;
 
     if (!user || !userPw || user === '' || userPw === '') {
-      console.error('ERROR: No valid user or user password given - EXIT.');
+      logger.error('No valid user or user password given - EXIT.');
       return;
     }
 
     await grc.security.createUser(user, userPw);
-    console.info('INFO:', 'Successfully created user', user);
+    logger.info('Successfully created user', user);
 
     await grc.security.associateUserRole(user, role);
-    console.info('INFO:', `Successfully added role ${role} to user ${user}`);
+    logger.info(`Successfully added role ${role} to user ${user}`);
 
     // disable user
     await grc.security.updateUser(geoserverDefaultUser, geoserverDefaultPw, false);
-    console.info('INFO:', 'Successfully disabled default "admin" user');
+    logger.info('Successfully disabled default "admin" user');
 
     // TODO: this is a pragmatic solution to ensure the newly created user can actually log in
     //       it is required, because the workers often request GeoServer and therefore delay the
     //       moment until the newly created user is usable.
     //       Ideally here we have a function that waits for the moment until we can successfully login
-    console.info('INFO:', 'Waiting for 10 seconds to give GeoServer time to register the new user.');
+    console.debug('Waiting for 10 seconds to give GeoServer time to register the new user.');
     function sleep (seconds) {
       return new Promise((resolve) => {
         setTimeout(resolve, seconds * 1000);
       });
     }
     await sleep(10);
-    console.info('INFO:', 'Waiting over...');
+    logger.debug('Waiting over...');
   } catch (error) {
-    console.warn('WARN:', 'Could not log in - credentials have probably been changed already');
+    logger.info('Could not log in - credentials have probably been changed already');
   }
 }

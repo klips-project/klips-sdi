@@ -1,6 +1,7 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
 import fs from 'fs';
 import path from 'path';
+import { logger } from './logger.js';
 
 const geoserverUrl = process.env.GEOSERVER_REST_URL;
 
@@ -28,22 +29,20 @@ async function main() {
  * Create the workspaces.
  */
 async function createWorkspaces() {
-  console.log();
-  console.log('### WORKSPACES ###');
-  console.log();
+  logger.info('Start creating workspaces');
 
   for (const workspace of workspaces) {
     const wsOverLayerExists = await grc.namespaces.get(workspace);
     const workspaceOverLayUri = `https://www.meggsimum.de/namespace/klips/${workspace}`;
 
     if (wsOverLayerExists) {
-      console.log(`INFO: Workspace '${workspace}' already exists.`);
+      logger.info(`Workspace '${workspace}' already exists.`);
     } else {
       try {
-        console.log(`SUCCESS: Created Workspace: '${workspace}'`);
+        logger.info(`Created Workspace: '${workspace}'`);
         await grc.namespaces.create(workspace, workspaceOverLayUri);
       } catch (error) {
-        console.error('ERROR', error);
+        logger.error(error)
       }
     }
   }
@@ -53,9 +52,7 @@ async function createWorkspaces() {
  * Loops over all files of the SLD directory and publishes them to GeoServer.
  */
 async function createStyles() {
-  console.log();
-  console.log('### STYLES ###');
-  console.log();
+  logger.info('Start creating styles.')
   const sldFiles = await fs.readdirSync(SLD_DIRECTORY);
 
   // loop over SLD files
@@ -80,20 +77,20 @@ async function createStyles() {
  * @param {String} styleName The name of the style and the file
  */
 async function createSingleStyle(workspace, styleName) {
-  console.log('INFO', `Creating style '${styleName}' ... `);
+  logger.info(`Creating style '${styleName}' ... `);
   const styleFile = styleName + SLD_SUFFIX;
 
   const styleExists = await grc.styles.getStyleInformation(workspace, styleName);
 
   if (styleExists) {
-    console.log('INFO', `Style '${styleName}' already exists.`);
+    logger.info(`Style '${styleName}' already exists.`);
   } else {
     const sldFilePath = path.join(SLD_DIRECTORY, styleFile);
     const sldBody = fs.readFileSync(sldFilePath, 'utf8');
 
     // publish style
     await grc.styles.publish(workspace, styleName, sldBody);
-    console.log('INFO', `Successfully created style '${styleName}'`);
+    logger.info(`Successfully created style '${styleName}'`);
   }
 }
 

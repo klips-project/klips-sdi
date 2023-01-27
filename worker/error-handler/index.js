@@ -1,4 +1,5 @@
 import amqp from 'amqplib';
+import { logger } from './logger.js';
 
 const workerQueue = process.env.WORKERQUEUE;
 const resultQueue = process.env.RESULTSQUEUE;
@@ -33,13 +34,13 @@ export async function initialize(
     durable: true
   });
 
-  console.log(`Worker waiting for messages in ${workerQueue}.`);
+  logger.debug(`Worker waiting for messages in ${workerQueue}.`);
   channel.consume(
     workerQueue,
     async function (msg) {
       try {
         const job = JSON.parse(msg.content.toString());
-        console.log('Received a failed job in dead letter queue ...');
+        logger.debug('Received a failed job in dead letter queue ...');
 
         // Handling different recipients based on failed instance
         // External failure: failures in validators -> mail to original job sender; POST message to chat
@@ -78,7 +79,7 @@ export async function initialize(
             ]
           };
           if (dev) {
-            console.log(`DEV: Usually a job for email notification would be triggered here, but omitted because of development mode.` );
+            logger.debug(`DEV: Usually a job for email notification would be triggered here, but omitted because of development mode.` );
           } else {
             channel.sendToQueue(
               resultQueue,
@@ -87,7 +88,7 @@ export async function initialize(
                 persistent: true
               }
             );
-            console.log('Email job dispatched from error handler');
+            logger.debug('Email job dispatched from error handler');
           }
         }
         const mattermostJob = {
@@ -103,7 +104,7 @@ export async function initialize(
           ]
         };
         if (dev) {
-          console.log(`DEV: Usually a job for chat notification would be triggered here, but omitted because of development mode.` );
+          logger.debug(`DEV: Usually a job for chat notification would be triggered here, but omitted because of development mode.` );
         } else {
           channel.sendToQueue(
             resultQueue,
@@ -113,7 +114,7 @@ export async function initialize(
             }
           );
         }
-        console.log('Mattermost message job dispatched from error handler');
+        logger.debug('Mattermost message job dispatched from error handler');
         const rollbackJob = {
           "job": [
             {
@@ -130,10 +131,10 @@ export async function initialize(
             persistent: true
           }
         );
-        console.log('Rollback job dispatched from error handler');
-        console.log('Error handler worker finished');
+        logger.debug('Rollback job dispatched from error handler');
+        logger.debug('Error handler worker finished');
       } catch (e) {
-        console.error("Error parsing dead letter message", e);
+        logger.error(e);
       }
       channel.ack(msg);
     },
