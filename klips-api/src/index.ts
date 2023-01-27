@@ -105,7 +105,7 @@ const main = async () => {
     app.get(
       routeStatus,
       async (req: express.Request, res: express.Response): Promise<express.Response> => {
-        logger.info('status active');
+        logger.debug('status active');
         return res.status(200).send({
           message: 'Status: active',
         });
@@ -127,9 +127,7 @@ const main = async () => {
         }
 
         if (validate(req.body) && job) {
-          logger.info('Input data is in correct structure');
-          logger.info(`Job:\n ${JSON.stringify(job, null, 2)}`);
-
+          logger.debug({job: job}, 'Received JSON with correct structure');
           if (useRabbitMQ) {
             if (job) {
               channel.sendToQueue(dispatcherQueue, Buffer.from(JSON.stringify(
@@ -142,12 +140,12 @@ const main = async () => {
           res.send('Submitted JSON has correct structure');
         } else if (validate(req.body) && !job) {
           const infoText = 'Submitted JSON has correct structure, but it contains invalid values.';
-          logger.info(infoText);
+          logger.debug(infoText);
           res.send(infoText);
         } else {
-          logger.error('Input data not in correct Structure');
+          logger.debug('Input data not in correct Structure');
           // log the problems of the incoming JSON
-          logger.error(validate.errors);
+          logger.debug(validate.errors);
           const errorReport = JSON.stringify(validate.errors, null, 2);
 
           // message to client
