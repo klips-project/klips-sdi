@@ -31,6 +31,7 @@ services:
       - 127.0.0.1:3000:3000
     volumes:
       - ./klips-api-config:/klips-conf
+      - ./logs:/home/logs:Z
 
   rabbitmq:
     image: rabbitmq:3.10-management
@@ -65,6 +66,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rabbitmq
+    volumes:
+      - ./logs:/home/logs:Z
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
@@ -78,6 +81,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./staging:/opt/staging:Z
+      - ./logs:/home/logs:Z
     depends_on:
       - rabbitmq
     environment:
@@ -236,6 +240,8 @@ services:
     image: ghcr.io/klips-project/geoserver-init:latest
     depends_on:
       - geoserver
+    volumes:
+      - ./logs:/home/logs:Z
     environment:
         - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
         - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
