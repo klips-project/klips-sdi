@@ -164,7 +164,7 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         cog_dir_url = data.get('cogDirUrl')
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
-        input_crs = data.get('crs')
+        input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
 
         if not url_exists(cog_dir_url):
@@ -180,7 +180,7 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
             end_ts = datetime.fromisoformat(end_ts)
 
         point = Point(x, y)
-        if 'crs' in data:
+        if input_crs is not None:
             # get CRS from first COG of directory
             cog_list = get_available_cog_file_names(cog_dir_url)
             first_cog = urljoin(cog_dir_url, cog_list[0]['name'])

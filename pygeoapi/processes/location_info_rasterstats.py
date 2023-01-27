@@ -136,12 +136,12 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
         y = data.get('y')
         x = data.get('x')
         cog_url = data.get('cogUrl')
-        input_crs = data.get('crs')
+        input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
 
         point = Point(x, y)
 
-        if 'crs' in data:
+        if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 cog_crs = get_crs_from_cog(cog_url)
 

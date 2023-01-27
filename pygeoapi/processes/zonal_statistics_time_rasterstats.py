@@ -110,6 +110,16 @@ PROCESS_METADATA = {
             'schema': {
                 'type': 'Array'
             }
+        },
+        'inputCrs': {
+            'title': 'Coordinate reference system',
+            'description': 'The coordinate reference system of the \
+                provided geometry',
+            'schema': {
+                'type': 'string'
+            },
+            'minOccurs': 1,
+            'maxOccurs': 1
         }
     },
     'outputs': {
@@ -172,7 +182,7 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         cog_dir_url = data.get('cogDirUrl')
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
-        input_crs = data.get('crs')
+        input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
 
         polygon_geojson = data.get('polygonGeoJson')
@@ -194,7 +204,7 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         result = None
         polygon = shape(polygon_geojson)
 
-        if 'crs' in data:
+        if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 # get CRS from first COG of directory
                 cog_list = get_available_cog_file_names(cog_dir_url)
