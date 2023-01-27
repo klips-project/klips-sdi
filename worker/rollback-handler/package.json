@@ -11,6 +11,8 @@
   "dependencies": {
     "amqplib": "^0.8.0",
     "geoserver-node-client": "^1.1.0",
+    "pino": "^8.8.0",
+    "pino-pretty": "^9.1.1",
     "rabbitmq-worker": "git+https://github.com/klips-project/rabbitmq-worker.git"
   },
   "devDependencies": {
