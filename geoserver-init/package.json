@@ -12,7 +12,9 @@
   "author": "meggsimum",
   "license": "MIT",
   "dependencies": {
-    "geoserver-node-client": "1.2.2"
+    "geoserver-node-client": "1.2.2",
+    "pino": "^8.8.0",
+    "pino-pretty": "^9.1.1"
   },
   "devDependencies": {
     "eslint": "^7.23.0",
