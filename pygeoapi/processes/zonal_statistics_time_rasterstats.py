@@ -66,7 +66,7 @@ PROCESS_METADATA = {
             'title': 'URL COG directory',
             'description': 'The public available URL of the COG directory to \
                 query. The contents of the directory must be accessible via\
-                     NGINX JSON autoindex',
+                     NGINX JSON autoindex. It only accepts GeoTIFFs with a filename like "dresden_20221101T1000Z.tif"',
             'schema': {
                 'type': 'string'
             },
