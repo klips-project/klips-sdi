@@ -141,7 +141,7 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
         point = Point(x, y)
 
-        if 'crs' in data:
+        if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 cog_crs = get_crs_from_cog(cog_url)
 

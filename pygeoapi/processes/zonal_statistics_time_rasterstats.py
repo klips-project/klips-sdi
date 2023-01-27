@@ -204,7 +204,7 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         result = None
         polygon = shape(polygon_geojson)
 
-        if 'crs' in data:
+        if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 # get CRS from first COG of directory
                 cog_list = get_available_cog_file_names(cog_dir_url)

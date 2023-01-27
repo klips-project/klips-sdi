@@ -166,7 +166,7 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
         result = None
         polygon = shape(polygon_geojson)
 
-        if 'crs' in data:
+        if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 cog_crs = get_crs_from_cog(cog_url)
 
