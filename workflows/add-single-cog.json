@@ -5,8 +5,8 @@
       "type": "geoserver-publish-imagemosaic",
       "inputs": [
         "dresden",
-        "my-cog-store",
-        "http://nginx/20220214T1146Z.tif"
+        "dresden_temperature",
+        "http://nginx/cog/dresden/dresden_temperature/20220216T1146Z.tif"
       ]
     }
   ]

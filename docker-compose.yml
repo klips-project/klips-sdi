@@ -220,7 +220,6 @@ services:
       - ./geoserver_data:/opt/geoserver_data/:Z
     environment:
       - INSTALL_EXTENSIONS=true
-      - STABLE_EXTENSIONS=wps
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
       - SKIP_DEMO_DATA=true
 

@@ -4,7 +4,7 @@
       "id": 1,
       "type": "download-file",
       "inputs": [
-        "http://nginx/ecostress_3035_float32.tif",
+        "http://nginx/sample_dresden_float32_2bands.tif",
         "/opt/staging/sample.tif"
       ]
     },
@@ -13,7 +13,7 @@
       "type": "geotiff-optimizer",
       "inputs": [
         "/opt/staging/sample.tif",
-        "/opt/cog/mypath/20220216T1146Z.tif"
+        "/opt/cog/dresden/dresden_temperature/20220216T1146Z.tif"
       ]
     },
     {
@@ -21,8 +21,8 @@
       "type": "geoserver-create-imagemosaic-datastore",
       "inputs": [
         "dresden",
-        "my-cog-store",
-        "http://nginx/cog/mypath/20220216T1146Z.tif"
+        "dresden_temperature",
+        "http://nginx/cog/dresden/dresden_temperature/20220216T1146Z.tif"
       ]
     }
   ]
