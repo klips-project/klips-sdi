@@ -157,7 +157,7 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
         cog_url = data.get('cogUrl')
         polygon_geojson = data.get('polygonGeoJson')
         statistic_methods = data.get('statisticMethods')
-        input_crs = data.get('crs')
+        input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
 
         # TODO: ensure polygon is not too large,

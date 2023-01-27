@@ -136,7 +136,7 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
         y = data.get('y')
         x = data.get('x')
         cog_url = data.get('cogUrl')
-        input_crs = data.get('crs')
+        input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
 
         point = Point(x, y)

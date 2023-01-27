@@ -164,7 +164,7 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         cog_dir_url = data.get('cogDirUrl')
         start_ts = data.get('startTimeStamp')
         end_ts = data.get('endTimeStamp')
-        input_crs = data.get('crs')
+        input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
 
         if not url_exists(cog_dir_url):
