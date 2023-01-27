@@ -51,6 +51,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rabbitmq
+    volumes:
+      - ./logs:/home/logs:Z
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
@@ -93,6 +95,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rabbitmq
+    volumes:
+      - ./logs:/home/logs:Z
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
@@ -117,6 +121,8 @@ services:
       - AUTHPASS=${MAILAUTHPASS}
       - FROMSENDERNAME=${MAILFROMSENDERNAME}
       - FROMSENDEREMAIL=${MAILFROMSENDEREMAIL}
+    volumes:
+      - ./logs:/home/logs:Z
     depends_on:
       - rabbitmq
     restart: unless-stopped
@@ -125,6 +131,7 @@ services:
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-imagemosaic:latest
     restart: unless-stopped
     volumes:
+      - ./logs:/home/logs:Z
       - ./staging:/opt/staging:Z
     depends_on:
       - rabbitmq
@@ -145,6 +152,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./staging:/opt/staging:Z
+      - ./logs:/home/logs:Z
     depends_on:
       - rabbitmq
       - geoserver
@@ -170,6 +178,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./staging:/opt/staging:Z
+      - ./logs:/home/logs:Z
     depends_on:
       - rabbitmq
     environment:
@@ -185,6 +194,7 @@ services:
     volumes:
       - ./cog_data:/opt/cog:Z
       - ./staging:/opt/staging:Z
+      - ./logs:/home/logs:Z
     depends_on:
       - rabbitmq
     environment:
@@ -199,6 +209,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./staging:/opt/staging:Z
+      - ./logs:/home/logs:Z
     depends_on:
       - rabbitmq
     environment:
