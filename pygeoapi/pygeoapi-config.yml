@@ -90,11 +90,6 @@ resources:
         processor:
             name: processes.zonal_statistics_grass.ZonalStatisticsGrassProcessor
 
-    zonal-statistics-gdal:
-        type: process
-        processor:
-            name: processes.zonal_statistics_gdal.ZonalStatisticsGdalProcessor
-
     location-info-rasterstats:
         type: process
         processor:
