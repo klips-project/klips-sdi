@@ -88,7 +88,7 @@ curl \
 --request POST \
 --header 'Authorization: Basic a2xpcHM6a2xpcHM=' \
 --header 'Content-Type: application/json' \
---data @example_requests/send-geotiff.json \
+--data @example_requests/send-geotiff-dresden.json \
 'http://localhost:3000/api/job'
 ```
 
