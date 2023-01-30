@@ -1,8 +1,8 @@
 FROM node:16-alpine
 
-COPY  /package.json /opt/package.json
+COPY  /package.json /home/package.json
 
-WORKDIR /opt
+WORKDIR /home
 RUN npm install --only=production
 
 COPY  wait-for.sh wait-for.sh
@@ -13,6 +13,6 @@ COPY  logger.js logger.js
 
 RUN ls
 
-RUN chmod +x /opt/wait-for.sh
+RUN chmod +x /home/wait-for.sh
 
 CMD [ "./wait-for.sh", "--timeout=180", "geoserver:8080", "--", "npm", "start"]

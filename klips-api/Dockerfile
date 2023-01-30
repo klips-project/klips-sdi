@@ -9,7 +9,7 @@ RUN npm run build
 
 FROM node:16-alpine
 
-WORKDIR /usr/app
+WORKDIR /home
 
 COPY --from=0 /usr/build/dist/ ./dist
 COPY --from=0 /usr/build/LICENSE ./
