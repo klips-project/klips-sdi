@@ -38,21 +38,6 @@ docker run  \
 docker build --tag klips-api .
 ```
 
-On every push GitHub Actions builds the Docker image and hosts it on the GitHub registry.
-
-## Installation for Production
-
-Use the Docker image hosted on GitHub:
-
-```shell
-docker run \
-    -p 3000:3000 \
-    -v /home/terrestris/klips-api-config:/klips-conf \
-    -e PORT=3000 \
-    -e CONFIG_DIR=/klips-conf \
-    ghcr.io/klips-project/klips-api:latest
-```
-
 ## Environment variables
 
 - `USE_RABBIT_MQ` - if API shall forward messages to RabbitMQ. Allowed values: `0`, `1`. Default is `0`
@@ -68,15 +53,16 @@ docker run \
 
 ## Config files
 
-The API has two config files:
+The API has these config files:
 
 - `basic-auth-users.json`: the credentials for basic authentication
 - `schema-geotiff-upload.json`: the JSON schema for validating the API input
 - `job-conf.json`: options for each job that shall be send to RabbitMQ
+- `swagger.yaml`: The swagger configuration for the API
 
 ## Usage
 
-API starts on port 3000 with these endpoints:
+API starts on port `3000` with these endpoints:
 
 - `GET /status`
 - `POST /job`
@@ -86,7 +72,7 @@ API starts on port 3000 with these endpoints:
 ```shell
 curl \
 --request POST \
---header 'Authorization: Basic a2xpcHM6a2xpcHM=' \
+--user klips:klips \
 --header 'Content-Type: application/json' \
 --data @example_requests/send-geotiff-dresden.json \
 'http://localhost:3000/api/job'

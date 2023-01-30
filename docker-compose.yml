@@ -30,7 +30,7 @@ services:
     ports:
       - 127.0.0.1:3000:3000
     volumes:
-      - ./klips-api-config:/klips-conf
+      - ./configs:/klips-conf
       - ./logs:/home/logs:Z
 
   rabbitmq:

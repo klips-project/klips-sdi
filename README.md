@@ -10,15 +10,14 @@ create custom configuration:
 # create your personal environment variables config
 cp .env.example .env
 
-# create your personal klips api config
-mkdir klips-api-config
-cp klips-api/src/config/* klips-api-config/
+# create your personal set of config files
+cp configs-example/* configs/
 ```
 
 development:
 
 ```shell
-# expects the referenced repos located next to this directory
+# expects the referenced repo located next to this directory
 docker-compose up --build
 ```
 
@@ -31,30 +30,35 @@ docker-compose -f docker-compose.yml pull
 docker-compose -f docker-compose.yml up
 ```
 
+Before using the stores for Dresden and Langenfeld they need to be initalized with sample COG files.
+
+**IMPORTANT** Adapt the username and the password if you are on production!
+
+```shell
+# Langenfeld
+curl \
+--request POST \
+--user klips:klips \
+--header 'Content-Type: application/json' \
+--data @klips-api/example_requests/send-geotiff-langenfeld.json \
+'http://localhost:3000/api/job'
+
+# Dresden
+curl \
+--request POST \
+--user klips:klips \
+--header 'Content-Type: application/json' \
+--data @klips-api/example_requests/send-geotiff-dresden.json \
+'http://localhost:3000/api/job'
+```
+
 ## Workflows
 
 The directory `workflows` contains workflows that can be sent to the `dispatcher`.
-
-## Send messages via command-line
-
-For development it can be handy to send messages via the commandline using the tool `rabbitmqadmin`. There are some examples stored in `workflows`.
-
-```bash
-cat workflows/publish-geotiff.json | rabbitmqadmin -u rabbit -p rabbit publish exchange=amq.default routing_key=dispatcher
-```
-
-It can be downloaded either from your local RabbitMQ instance via: <http://localhost:15672/cli/rabbitmqadmin>
-
-Or from GitHub via <https://raw.githubusercontent.com/rabbitmq/rabbitmq-server/v3.10.0/deps/rabbitmq_management/bin/rabbitmqadmin> - Make sure to select the version matching your RabbitMQ instance.
-
-Make the programm executable via:
+They can be send to RabbitMQ using `amqp-publish` (installation: `apt install amqp-tools`)
 
 ```shell
-chmod +x /your/path/to/rabbitmqadmin
-```
-
-Alternatively, you can `apt install amqp-tools` and then run jobs like this:
-
-```shell
-amqp-publish -u=amqp://rabbit:rabbit@localhost:5672 -r=dispatcher < workflows/publish-geotiff-with-validator.json
+amqp-publish \
+  -u=amqp://klips:klips@localhost:5672 \
+  -r=dispatcher < workflows/publish-geotiff-with-validator.json
 ```
