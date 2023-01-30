@@ -25,4 +25,4 @@ const parentLogger = pino(
   )
 );
 
-export const logger = parentLogger.child({ worker: 'rollback-handler' })
+export const logger = parentLogger.child({ type: 'rollback-handler' })

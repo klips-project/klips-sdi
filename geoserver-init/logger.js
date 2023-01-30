@@ -25,4 +25,4 @@ const parentLogger = pino(
   )
 );
 
-export const logger = parentLogger.child({ worker: 'geoserver-init' })
+export const logger = parentLogger.child({ type: 'geoserver-init' })

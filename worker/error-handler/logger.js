@@ -25,4 +25,4 @@ const parentLogger = pino(
   )
 );
 
-export const logger = parentLogger.child({ worker: 'error-handler' })
+export const logger = parentLogger.child({ type: 'error-handler' })

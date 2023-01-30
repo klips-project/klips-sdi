@@ -25,5 +25,5 @@ const parentLogger = pino(
   )
 );
 
-export const logger = parentLogger.child({ worker: 'klips-api' });
+export const logger = parentLogger.child({ type: 'klips-api' });
 
