@@ -13,7 +13,7 @@ if (!fs.existsSync(logFilePath)) {
 
 const logLevel: any = process.env.LOG_LEVEL || 'debug';
 
-export const logger = pino(
+const parentLogger = pino(
   {
     level: logLevel
   },
@@ -24,4 +24,6 @@ export const logger = pino(
     ]
   )
 );
+
+export const logger = parentLogger.child({ type: 'klips-api' });
 
