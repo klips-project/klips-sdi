@@ -3,7 +3,7 @@ import logging
 
 from pygeoapi.process.base import BaseProcessor
 
-from processes.algorithms.standalone_grass_zonal_stats import generate_zonal_stats
+from .algorithms.standalone_grass_zonal_stats import generate_zonal_stats
 
 LOGGER = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ PROCESS_METADATA = {
     'links': [],
     'example': {
         "inputs": {
-            "raster_url": "http://localhost/ecostress_4326_cog.tif",
+            "cogUrl": "http://localhost/ecostress_4326_cog.tif",
             "inputGeometries": [
                 {
                     "value": {
@@ -54,7 +54,15 @@ PROCESS_METADATA = {
         }
     },
     'inputs': {
-        'raster_url': 'https://myserver.com/cog.tif',
+        'cogUrl': {
+            'title': 'cogUrl',
+            'description': 'Input COG url',
+            'minOccurs': 1,
+            'maxOccurs': 'unbounded',
+            'schema': {
+                'type': 'string'
+            }
+        },
         'inputGeometries': {
             'title': 'Input geometries',
             'description': 'Input zones encoded as GeoJSON geometries',
@@ -84,13 +92,13 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
         super().__init__(processor_def, PROCESS_METADATA)
 
     def execute(self, data):  # noqa: D102
-        raster_url = data.get('rasterURL', None)
+        cog_url = data.get('cogUrl', None)
         geoms = data.get('inputGeometries', None)
         mimetype = 'application/json'
 
-        result = generate_zonal_stats(rastermap=raster_url, geometries=geoms)
+        result = generate_zonal_stats(rastermap=cog_url, geometries=geoms)
 
-        return result, mimetype
+        return mimetype, result
 
 
     def __repr__(self):  # noqa: D105
