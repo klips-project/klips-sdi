@@ -2,16 +2,18 @@ version: '3'
 
 services:
   nginx:
+    container_name: ${CN_PREFIX}-nginx
     image: nginx
     restart: unless-stopped
     ports:
-      - "127.0.0.1:80:80"
+      - "127.0.0.1:81:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./mocked-webspace:/usr/share/nginx/html:ro
       - ./cog_data:/opt/cog:ro
 
   klips-api:
+    container_name: ${CN_PREFIX}-api
     image: ghcr.io/klips-project/klips-api:latest
     restart: unless-stopped
     depends_on:
@@ -34,6 +36,7 @@ services:
       - ./logs:/home/logs:Z
 
   rabbitmq:
+    container_name: ${CN_PREFIX}-rabbitmq
     image: rabbitmq:3.10-management
     restart: unless-stopped
     # hostname required for mounted data
@@ -48,6 +51,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
 
   dispatcher:
+    container_name: ${CN_PREFIX}-dispatcher
     image: ghcr.io/klips-project/mqm-worker/dispatcher:latest
     restart: unless-stopped
     depends_on:
@@ -62,6 +66,7 @@ services:
       - WORKERQUEUE=dispatcher
 
   error-handler:
+    container_name: ${CN_PREFIX}-error-handler
     image: ghcr.io/klips-project/mqm-worker/error-handler:latest
     restart: unless-stopped
     depends_on:
@@ -77,6 +82,7 @@ services:
       - DEV_MODE=1
 
   rollback-handler:
+    container_name: ${CN_PREFIX}-rollback-handler
     image: ghcr.io/klips-project/mqm-worker/rollback-handler:latest
     restart: unless-stopped
     volumes:
@@ -95,6 +101,7 @@ services:
       - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
 
   send-mattermost-message:
+    container_name: ${CN_PREFIX}-send-mattermost-message
     image: ghcr.io/klips-project/mqm-worker/send-mattermost-message:latest
     restart: unless-stopped
     depends_on:
@@ -111,6 +118,7 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
 
   send-email:
+    container_name: ${CN_PREFIX}-send-email
     image: ghcr.io/klips-project/mqm-worker/send-email:latest
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
@@ -132,6 +140,7 @@ services:
     restart: unless-stopped
 
   geoserver-publish-imagemosaic:
+    container_name: ${CN_PREFIX}-geoserver-publish-imagemosaic
     image: ghcr.io/klips-project/mqm-worker/geoserver-publish-imagemosaic:latest
     restart: unless-stopped
     volumes:
@@ -152,6 +161,7 @@ services:
     - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
 
   geoserver-create-imagemosaic-datastore:
+    container_name: ${CN_PREFIX}-geoserver-create-imagemosaic-datastore
     image: ghcr.io/klips-project/mqm-worker/geoserver-create-imagemosaic-datastore:latest
     restart: unless-stopped
     volumes:
@@ -178,6 +188,7 @@ services:
     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   download-file:
+    container_name: ${CN_PREFIX}-download-file
     image: ghcr.io/klips-project/mqm-worker/download-file:latest
     restart: unless-stopped
     volumes:
@@ -193,6 +204,7 @@ services:
       - WORKERQUEUE=download-file
 
   geotiff-optimizer:
+    container_name: ${CN_PREFIX}-geotiff-optimizer
     image: ghcr.io/klips-project/mqm-worker/geotiff-optimizer:latest
     restart: unless-stopped
     volumes:
@@ -209,6 +221,7 @@ services:
       - WORKERQUEUE=geotiff-optimizer
 
   geotiff-validator:
+    container_name: ${CN_PREFIX}-geotiff-validator
     image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
     restart: unless-stopped
     volumes:
@@ -224,6 +237,7 @@ services:
       - WORKERQUEUE=geotiff-validator
 
   geoserver:
+    container_name: ${CN_PREFIX}-geoserver
     image: ghcr.io/klips-project/geoserver:latest
     restart: unless-stopped
     hostname: ${GEOSERVER_HOSTNAME}
@@ -237,6 +251,7 @@ services:
       - SKIP_DEMO_DATA=true
 
   geoserver-init:
+    container_name: ${CN_PREFIX}-geoserver-init
     image: ghcr.io/klips-project/geoserver-init:latest
     depends_on:
       - geoserver
@@ -251,6 +266,7 @@ services:
     command: [ "./wait-for.sh", "--timeout=180", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "start"]
 
   postgres:
+    container_name: ${CN_PREFIX}-postgres
     image: postgis/postgis:13-3.2
     restart: unless-stopped
     volumes:
@@ -264,6 +280,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
 
   pygeoapi:
+    container_name: ${CN_PREFIX}-pygeoapi
     image: ghcr.io/klips-project/pygeoapi:latest
     restart: unless-stopped
     environment:
