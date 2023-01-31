@@ -11,7 +11,7 @@
     ],
     "fileSize": {
       "minFileSize": 1000,
-      "maxFileSize": 10000000
+      "maxFileSize": 20000000
     },
     "expectedBandCount": 2,
     "regions": {
