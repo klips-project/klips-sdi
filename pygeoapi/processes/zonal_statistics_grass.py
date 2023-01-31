@@ -1,4 +1,3 @@
-# noqa: D100
 import logging
 
 from pygeoapi.process.base import BaseProcessor
