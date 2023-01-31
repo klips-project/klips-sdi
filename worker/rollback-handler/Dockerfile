@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:16-alpine
 
 COPY package.json package-lock.json /home/
 COPY wait-for.sh start-worker.sh /home/
