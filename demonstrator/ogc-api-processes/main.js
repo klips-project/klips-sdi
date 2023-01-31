@@ -20,18 +20,18 @@ const setProcess = (process) => {
   });
   
   draw.on('drawend', (event) => {
-    const polygonFeature3857 = event.feature;
+    const feature3857 = event.feature;
     let x;
     let y;
-    if (polygonFeature3857.getGeometry().getType() === 'Point') {
-      x = polygonFeature3857.getGeometry().getCoordinates()[0]
-      y = polygonFeature3857.getGeometry().getCoordinates()[1]
+    if (feature3857.getGeometry().getType() === 'Point') {
+      x = feature3857.getGeometry().getCoordinates()[0]
+      y = feature3857.getGeometry().getCoordinates()[1]
     }
 
     const formatGeoJson = new ol.format.GeoJSON({
       featureProjection: 'EPSG:3857'
     });
-    const geoJsonGeom = formatGeoJson.writeGeometry(polygonFeature3857.getGeometry());
+    const geoJsonGeom = formatGeoJson.writeGeometry(feature3857.getGeometry());
 
     let payload;
     switch (processId) {
@@ -48,7 +48,8 @@ const setProcess = (process) => {
             "inputGeometries": [{
               "value": JSON.parse(geoJsonGeom),
               "mediaType": "application/geo+json"
-            }]
+            }],
+            "cogUrl": "http://nginx/cog/dresden_20220216T1146Z.tif",
           }
         };
         break;
@@ -150,7 +151,7 @@ const source = new ol.source.Vector();
 const vector = new ol.layer.Vector({
   source: source,
   style: {
-    'fill-color': 'rgba(255, 255, 255, 0.2)',
+    'fill-color': 'rgba(255, 255, 255, 0.7)',
     'stroke-color': 'black',
     'stroke-width': 4,
     'circle-radius': 7,
