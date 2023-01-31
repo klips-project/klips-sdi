@@ -31,6 +31,26 @@ docker-compose -f docker-compose.yml pull
 docker-compose -f docker-compose.yml up
 ```
 
+## COG Webspace
+
+All COGs will finally be in the mount `cog_data` and not in the `mocked_webspace`. The latter is only for internal testing.
+To COGs can be reached via <http://localhost/cog/>. The trailing `/` (slash) is important here, otherwise it does not work.
+
+For pygeoapi it is important to that the files follow this naming pattern: `dresden_20221101T1000Z.tif`
+
+An example directory could look like this:
+
+```text
+.
+└── dresden
+   └── dresden_temperature
+      ├── dresden_20221101T1000Z.tif
+      ├── dresden_20221102T1000Z.tif
+      ├── dresden_20221103T1000Z.tif
+      ├── dresden_20221104T1000Z.tif
+      └── dresden_20221105T1000Z.tif
+```
+
 ## Workflows
 
 The directory `workflows` contains workflows that can be sent to the `dispatcher`.
