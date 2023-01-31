@@ -30,7 +30,7 @@ docker build \
 docker run  \
   -p 3000:3000 \
   -v $(pwd):/usr/app \
-  -v $(pwd)/src/config:/klips-conf \
+  -v $(pwd)/../configs-example:/klips-conf \
   --env-file docker.env \
   klips-api-dev
 
