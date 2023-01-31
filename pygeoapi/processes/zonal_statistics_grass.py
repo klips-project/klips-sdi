@@ -98,7 +98,7 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
 
         result = generate_zonal_stats(rastermap=cog_url, geometries=geoms)
 
-        return result, mimetype
+        return mimetype, result
 
 
     def __repr__(self):  # noqa: D105
