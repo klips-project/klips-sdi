@@ -49,7 +49,7 @@ const setProcess = (process) => {
               "value": JSON.parse(geoJsonGeom),
               "mediaType": "application/geo+json"
             }],
-            "cogUrl": "http://nginx/cog/dresden_20220216T1146Z.tif",
+            "cogUrl": "http://nginx/cog/dresden_20220216T1146Z.tif"
           }
         };
         break;
@@ -57,7 +57,7 @@ const setProcess = (process) => {
         payload = {
           "inputs": {
             "polygonGeoJson": JSON.parse(geoJsonGeom),
-            "cogUrl": "http://nginx/cog/",
+            "cogUrl": "http://nginx/cog/dresden_20220216T1146Z.tif",
             "statisticMethods": ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
           }
         };
@@ -66,10 +66,10 @@ const setProcess = (process) => {
         payload = {
           "inputs": {
             "polygonGeoJson": JSON.parse(geoJsonGeom),
-            "cogDirUrl": "http://nginx/cog/",
+            "inputCrs": "EPSG:4326",
+            "cogDirUrl": "http://nginx/cog/dresden/dresden_temperature/",
             "startTimeStamp": "2000-10-02T12:32:00Z",
-            "endTimeStamp": "2024-10-08T12:32:00Z",
-            "statisticMethods": ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
+            "endTimeStamp": "2024-10-08T12:32:00Z"
           }
         };
         break;
@@ -79,7 +79,7 @@ const setProcess = (process) => {
             "x": x,
             "y": y,
             "inputCrs": "EPSG:3857",
-            "cogUrl": "http://nginx/cog/dresden_20220216T1146Z.tif"
+            "cogUrl": "http://nginx/cog/dresden/dresden_temperature/dresden_20221008T1232Z.tif"
           }
         };
         break;
@@ -88,7 +88,7 @@ const setProcess = (process) => {
           "inputs": {
             "x": x,
             "y": y,
-            "cogDirUrl": "http://nginx/cog/",
+            "cogDirUrl": "http://nginx/cog/dresden/dresden_temperature/",
             "inputCrs": "EPSG:3857",
             "startTimeStamp": "2000-01-01T12:32:00Z",
             "endTimeStamp": "2024-12-31T12:32:00Z"
