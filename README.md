@@ -54,8 +54,7 @@ curl \
 
 ## Workflows
 
-The directory `workflows` contains workflows that can be sent to the `dispatcher`.
-They can be send to RabbitMQ using `amqp-publish` (installation: `apt install amqp-tools`)
+The directory `workflows` contains workflows that can be sent to the `dispatcher` using `amqp-publish` (installation: `apt install amqp-tools`)
 
 ```shell
 amqp-publish \
