@@ -1,8 +1,9 @@
+# noqa: D100
 import logging
 
 from pygeoapi.process.base import BaseProcessor
 
-from .algorithms.standalone_grass_zonal_stats import generate_zonal_stats
+from .algorithms.grass_algorithms import generate_zonal_stats
 
 LOGGER = logging.getLogger(__name__)
 

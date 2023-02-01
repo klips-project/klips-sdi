@@ -1,7 +1,8 @@
+# noqa: D100
 import logging
 import shapely
 from pygeoapi.process.base import BaseProcessor
-from .algorithms.zonal_stats import get_zonal_stats_time
+from .algorithms.rasterstats_algorithms import get_zonal_stats_time
 from .algorithms.util import (
     url_exists,
     get_crs_from_cog,
@@ -70,12 +71,12 @@ PROCESS_METADATA = {
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json' # noqa
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa
             }
         },
         'statisticMethods': {
             'title': 'Statistical Methods',
-            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']', # noqa
+            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa
             'maxOccurs': 1,
             'schema': {
                 'type': 'Array'

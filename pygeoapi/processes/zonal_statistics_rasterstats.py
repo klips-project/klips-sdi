@@ -1,7 +1,8 @@
+# noqa: D100
 import logging
 import shapely
 from pygeoapi.process.base import BaseProcessor
-from .algorithms.zonal_stats import get_zonal_stats
+from .algorithms.rasterstats_algorithms import get_zonal_stats
 from shapely.geometry import shape
 from .algorithms.util import get_crs_from_cog, reproject
 

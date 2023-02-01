@@ -1,9 +1,10 @@
+# noqa: D100
 import logging
 import shapely
 
 
 from pygeoapi.process.base import BaseProcessor
-from .algorithms.location_info import get_location_info
+from .algorithms.rasterstats_algorithms import get_location_info
 from .algorithms.util import get_crs_from_cog, reproject
 from shapely.geometry import Point
 
