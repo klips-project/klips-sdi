@@ -8,7 +8,7 @@ Zonal statistics of a raster cropped by an provided GeoJSON polygon.
 
 - The Python files on the top level of the `processes` directory represent the processes that `pygeoapi` exposes to the public. They need to implement predefined methods to be valid. They also have to be referenced in the configuration file `pygeoapi-config.yml`
 
-- The directory `algorithms` contains Python files that implement that main business logic of the processes. They files in `algorithms` are executable **without** `pygeoapi`, hence they can be developed on the local computer without starting the main `pygeoapi` Docker container.
+- The directory `algorithms` contains Python files that implement the main business logic of the processes. They files in `algorithms` are executable **without** `pygeoapi`, hence they can be developed on the local computer without starting the main `pygeoapi` Docker container.
 
 ## Development
 
