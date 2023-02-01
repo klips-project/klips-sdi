@@ -1,0 +1,29 @@
+name: Lint and test KLIPS API files
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest rio-cogeo rasterstats
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - run: set -e
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      # - name: Install packages
+      #   run: sudo apt install -y python3 flake8 python3-pytest
+      - name: Lint Python files
+        run: cd pygeoapi && bash dev_scripts/lint.sh
+      - name: Test Python files
+        run: cd pygeoapi && bash dev_scripts/test.sh
