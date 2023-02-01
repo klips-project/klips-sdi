@@ -7,7 +7,7 @@ from datetime import datetime
 from shapely.geometry import Point, Polygon
 
 from .util import (url_exists, timestamp_from_file_name,
-                   timestamp_within_range, get_available_cog_file_names)
+                   timestamp_within_range, get_available_cog_file_objects)
 
 
 def get_location_info(cog_url: str, point: Point):
@@ -43,7 +43,7 @@ def get_location_info_time(cog_dir_url: str, point: Point,
 
     :returns: A dict with the timestamps and its values
     """
-    cog_list = get_available_cog_file_names(cog_dir_url)
+    cog_list = get_available_cog_file_objects(cog_dir_url)
 
     cog_list = [
         {'timestamp': timestamp_from_file_name(cog_entry['name']),
@@ -147,7 +147,7 @@ def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
 
     :returns: A dict with the timestamps and its values
     """
-    cog_list = get_available_cog_file_names(cog_dir_url)
+    cog_list = get_available_cog_file_objects(cog_dir_url)
 
     cog_list = [
         {'timestamp': timestamp_from_file_name(cog_entry['name']),

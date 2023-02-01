@@ -69,7 +69,7 @@ PROCESS_METADATA = {
             'minOccurs': 1,
             'maxOccurs': 'unbounded',
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa: E501
             }
         }
     },
@@ -99,7 +99,6 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
         result = generate_zonal_stats(rastermap=cog_url, geometries=geoms)
 
         return mimetype, result
-
 
     def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsGrassProcessor> {}'.format(self.name)

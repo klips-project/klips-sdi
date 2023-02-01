@@ -7,7 +7,7 @@ from .algorithms.util import (
     url_exists,
     get_crs_from_cog,
     reproject,
-    get_available_cog_file_names)
+    get_available_cog_file_objects)
 from urllib.parse import urljoin
 from datetime import datetime
 from shapely.geometry import shape
@@ -21,23 +21,18 @@ PROCESS_METADATA = {
     'id': 'zonal-statistics-time-rasterstats',
     'title': {
         'en': 'Time-based zonal statistics of a COG using rasterstats',
-        'de': 'Zeitbasierte zonale Statistiken \
-            einer COG-Datei mit Hilfe von rasterstats'
+        'de': 'Zeitbasierte zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'  # noqa: E501
     },
     'description': {
-        'en': 'Compute time-based zonal statistics of a subset of a public \
-            accessible COG. Only queries data of the first raster band.',
-        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich \
-            zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'
+        'en': 'Compute time-based zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',  # noqa: E501
+        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
     'inputs': {
         'cogDirUrl': {
             'title': 'URL COG directory',
-            'description': 'The public available URL of the COG directory to \
-                query. The contents of the directory must be accessible via\
-                     NGINX JSON autoindex. It only accepts GeoTIFFs with a filename like "dresden_20221101T1000Z.tif"',
+            'description': 'The public available URL of the COG directory to query. The contents of the directory must be accessible via NGINX JSON autoindex. It only accepts GeoTIFFs with a filename like "dresden_20221101T1000Z.tif"',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -46,8 +41,7 @@ PROCESS_METADATA = {
         },
         'startTimeStamp': {
             'title': 'Start timestamp',
-            'description': 'The start timestamp of the request provided as \
-                ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The start timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -56,8 +50,7 @@ PROCESS_METADATA = {
         },
         'endTimeStamp': {
             'title': 'End timestamp',
-            'description': 'The end timestamp of the request provided as\
-                 ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The end timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -66,17 +59,16 @@ PROCESS_METADATA = {
         },
         'polygonGeoJson': {
             'title': 'Polygon GeoJSON',
-            'description': 'A polygon GeoJSON for which to compute zonal \
-                statistics of the COG',
+            'description': 'A polygon GeoJSON for which to compute zonal statistics of the COG',  # noqa: E501
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa: E501
             }
         },
         'statisticMethods': {
             'title': 'Statistical Methods',
-            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa
+            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa: E501
             'maxOccurs': 1,
             'schema': {
                 'type': 'Array'
@@ -178,7 +170,7 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
                 # get CRS from first COG of directory
-                cog_list = get_available_cog_file_names(cog_dir_url)
+                cog_list = get_available_cog_file_objects(cog_dir_url)
                 first_cog = urljoin(cog_dir_url, cog_list[0]['name'])
                 cog_crs = get_crs_from_cog(first_cog)
 

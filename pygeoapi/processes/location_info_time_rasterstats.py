@@ -7,7 +7,7 @@ from .algorithms.rasterstats_algorithms import get_location_info_time
 from .algorithms.util import (get_crs_from_cog,
                               reproject,
                               url_exists,
-                              get_available_cog_file_names)
+                              get_available_cog_file_objects)
 from datetime import datetime
 from shapely.geometry import Point
 from urllib.parse import urljoin
@@ -22,19 +22,15 @@ PROCESS_METADATA = {
         'de': 'Zeitbasierte Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get time-based information of a location of an publicly \
-            accessible COG. Only queries the data from the first raster band.',
-        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen \
-            COGs basierend auf Input-Koordinaten ab.\
-                 Dabei wird nur das erste Band abgefragt.'
+        'en': 'Get time-based information of a location of an publicly accessible COG. Only queries the data from the first raster band.',  # noqa: E501
+        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen COGs basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
     'inputs': {
         'x': {
             'title': 'X coordinate',
-            'description': 'The x coordinate of point to query. \
-                Must be in the same projection as the COG.',
+            'description': 'The x coordinate of point to query. Must be in the same projection as the COG.',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -43,8 +39,7 @@ PROCESS_METADATA = {
         },
         'y': {
             'title': 'Y coordinate',
-            'description': 'The y coordinate of point to query. \
-                Must be in the  same projection as the COG.',
+            'description': 'The y coordinate of point to query. Must be in the  same projection as the COG.',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -53,9 +48,7 @@ PROCESS_METADATA = {
         },
         'cogDirUrl': {
             'title': 'URL COG directory',
-            'description': 'The public available URL of the COG directory to \
-                query. The contents of the directory must be accessible via\
-                     NGINX JSON autoindex. It only accepts GeoTIFFs with a filename like "dresden_20221101T1000Z.tif"',
+            'description': 'The public available URL of the COG directory to query. The contents of the directory must be accessible via NGINX JSON autoindex. It only accepts GeoTIFFs with a filename like "dresden_20221101T1000Z.tif"',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -64,8 +57,7 @@ PROCESS_METADATA = {
         },
         'startTimeStamp': {
             'title': 'Start timestamp',
-            'description': 'The start timestamp of the request provided as \
-                ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The start timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -74,8 +66,7 @@ PROCESS_METADATA = {
         },
         'endTimeStamp': {
             'title': 'End timestamp',
-            'description': 'The end timestamp of the request provided as \
-                ISO string, like: 2022-10-08T12:32:00Z',
+            'description': 'The end timestamp of the request provided as ISO string, like: 2022-10-08T12:32:00Z',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -84,8 +75,7 @@ PROCESS_METADATA = {
         },
         'inputCrs': {
             'title': 'Coordinate reference system',
-            'description': 'The coordinate reference system of the \
-                provided geometry',
+            'description': 'The coordinate reference system of the provided geometry',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -94,8 +84,7 @@ PROCESS_METADATA = {
         },
         'returnGeoJson': {
             'title': 'Return GeoJSON',
-            'description': 'If a GeoJSON shall be returned,\
-                 including the provided the geometry.',
+            'description': 'If a GeoJSON shall be returned, including the provided the geometry.',  # noqa: E501
             'schema': {
                 'type': 'boolean'
             },
@@ -153,7 +142,7 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         point = Point(x, y)
         if input_crs is not None:
             # get CRS from first COG of directory
-            cog_list = get_available_cog_file_names(cog_dir_url)
+            cog_list = get_available_cog_file_objects(cog_dir_url)
             first_cog = urljoin(cog_dir_url, cog_list[0]['name'])
             cog_crs = get_crs_from_cog(first_cog)
 

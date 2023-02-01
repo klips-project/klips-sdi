@@ -19,18 +19,15 @@ PROCESS_METADATA = {
         'de': 'Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get information of a location of an publicly \
-            accessible COG. Only queries the data from the first raster band.',
-        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend\
-        auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'
+        'en': 'Get information of a location of an publicly accessible COG. Only queries the data from the first raster band.',  # noqa: E501
+        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
     'inputs': {
         'x': {
             'title': 'X coordinate',
-            'description': 'The x coordinate of point to query. \
-                Must be in the same projection as the COG.',
+            'description': 'The x coordinate of point to query. Must be in the same projection as the COG.',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -39,8 +36,7 @@ PROCESS_METADATA = {
         },
         'y': {
             'title': 'Y coordinate',
-            'description': 'The y coordinate of point to query. \
-                Must be in the same projection as the COG.',
+            'description': 'The y coordinate of point to query. Must be in the same projection as the COG.',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -58,8 +54,7 @@ PROCESS_METADATA = {
         },
         'inputCrs': {
             'title': 'Coordinate reference system',
-            'description': 'The coordinate reference system of the \
-                provided geometry',
+            'description': 'The coordinate reference system of the provided geometry',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -68,8 +63,7 @@ PROCESS_METADATA = {
         },
         'returnGeoJson': {
             'title': 'Return GeoJSON',
-            'description': 'If a GeoJSON shall be returned, \
-                including the provided the geometry.',
+            'description': 'If a GeoJSON shall be returned, including the provided the geometry.',  # noqa: E501
             'schema': {
                 'type': 'boolean'
             },
@@ -80,8 +74,7 @@ PROCESS_METADATA = {
     'outputs': {
         'value': {
             'title': 'location value',
-            'description': 'The value of the location at the first band\
-                 of the COG.',
+            'description': 'The value of the location at the first band of the COG.',  # noqa: E501
             'schema': {
                 'type': 'string'
             }

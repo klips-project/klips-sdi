@@ -14,13 +14,11 @@ PROCESS_METADATA = {
     'id': 'zonal-statistics-rasterstats',
     'title': {
         'en': 'Zonal statistics of a COG using rasterstats',
-        'de': 'Zonale Statistiken einer COG-Datei mit Hilfe von rasterstas'
+        'de': 'Zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'
     },
     'description': {
-        'en': 'Compute zonal statistics of a subset of a public accessible\
-             COG. Only queries data of the first raster band.',
-        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen \
-            COGs. Fragt nur Daten vom ersten Rasterband ab.'
+        'en': 'Compute zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',  # noqa: E501
+        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
@@ -36,17 +34,16 @@ PROCESS_METADATA = {
         },
         'polygonGeoJson': {
             'title': 'Polygon GeoJSON',
-            'description': 'A polygon GeoJSON for which to compute zonal \
-                statistics of the COG',
+            'description': 'A polygon GeoJSON for which to compute zonal statistics of the COG',  # noqa: E501
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa: E501
             }
         },
         'statisticMethods': {
             'title': 'Statistical Methods',
-            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa
+            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa: E501
             'maxOccurs': 1,
             'schema': {
                 'type': 'Array'
@@ -54,8 +51,7 @@ PROCESS_METADATA = {
         },
         'inputCrs': {
             'title': 'Coordinate reference system',
-            'description': 'The coordinate reference system of the \
-                provided geometry',
+            'description': 'The coordinate reference system of the provided geometry',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -64,8 +60,7 @@ PROCESS_METADATA = {
         },
         'returnGeoJson': {
             'title': 'Return GeoJSON',
-            'description': 'If a GeoJSON shall be returned,\
-                 including the provided the geometry.',
+            'description': 'If a GeoJSON shall be returned, including the provided the geometry.',  # noqa: E501
             'schema': {
                 'type': 'boolean'
             },
