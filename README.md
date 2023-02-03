@@ -92,6 +92,6 @@ The directory `workflows` contains workflows that can be sent to the `dispatcher
 
 ```shell
 amqp-publish \
-  -u=amqp://klips:klips@localhost:5672 \
+  -u=amqp://rabbit:rabbit@localhost:5672 \
   -r=dispatcher < workflows/publish-geotiff-with-validator.json
 ```
