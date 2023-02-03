@@ -79,7 +79,7 @@ services:
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=dispatcher
       - WORKERQUEUE=DeadLetterQueue
-      - DEV_MODE=1
+      - DEV_MODE=${ERROR_HANDLER_DEV_MODE}
 
   rollback-handler:
     container_name: ${CN_PREFIX}-rollback-handler
