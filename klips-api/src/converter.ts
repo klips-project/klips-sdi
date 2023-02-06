@@ -45,8 +45,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
     const errorText = 'Provided region is not known.';
     logger.error({ regionName: regionName, requestBody: requestBody }, errorText);
     throw errorText;
-
   }
+
   const geoServerWorkspace = regionName;
   // NOTE: the store name must be unique, even between multiple workspaces
   const mosaicStoreName = `${regionName}_temperature`;
@@ -97,7 +97,6 @@ const createGeoTiffPublicationJob = (requestBody: any,
     username = process.env.PARTNER_API_USERNAME;
     password = process.env.PARTNER_API_PASSWORD;
   }
-
 
   const job = {
     job: [
