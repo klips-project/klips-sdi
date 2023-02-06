@@ -1,0 +1,29 @@
+{
+  "job": [
+    {
+      "id": 1,
+      "type": "download-file",
+      "inputs": [
+        "http://nginx/sample_dresden_float32_2bands.tif",
+        "/opt/staging/sample.tif"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "geotiff-optimizer",
+      "inputs": [
+        "/opt/staging/sample.tif",
+        "/opt/cog/dresden/dresden_temperature/20220216T1146Z.tif"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "geoserver-create-imagemosaic-datastore",
+      "inputs": [
+        "dresden",
+        "dresden_temperature",
+        "http://nginx/cog/dresden/dresden_temperature/20220216T1146Z.tif"
+      ]
+    }
+  ]
+}

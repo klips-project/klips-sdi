@@ -31,7 +31,7 @@ server:
     bind:
         host: 0.0.0.0
         port: 5000
-    url: http://localhost:5000
+    url: ${PYGEOAPI_BASEURL}
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     gzip: false
@@ -90,20 +90,25 @@ resources:
         processor:
             name: processes.zonal_statistics_grass.ZonalStatisticsGrassProcessor
 
-    zonal-statistics-gdal:
-        type: process
-        processor:
-            name: processes.zonal_statistics_gdal.ZonalStatisticsGdalProcessor
-
     location-info-rasterstats:
         type: process
         processor:
             name: processes.location_info_rasterstats.LocationInfoRasterstatsProcessor
 
+    location-info-time-rasterstats:
+        type: process
+        processor:
+            name: processes.location_info_time_rasterstats.LocationInfoTimeRasterstatsProcessor
+
     zonal-statistics-rasterstats:
         type: process
         processor:
             name: processes.zonal_statistics_rasterstats.ZonalStatisticsRasterstatsProcessor
+
+    zonal-statistics-time-rasterstats:
+        type: process
+        processor:
+            name: processes.zonal_statistics_time_rasterstats.ZonalStatisticsTimeRasterstatsProcessor
 
     hello-world:
         type: process

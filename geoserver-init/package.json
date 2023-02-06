@@ -7,12 +7,14 @@
   "scripts": {
     "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
     "lint-fix": "eslint --fix '**/*.js' --ignore-pattern node_modules/",
-    "start": "node 000_change_auth.js && node 010_create_workspace.js"
+    "start": "node 000_change_auth.js && node 010_setup_geoserver.js"
   },
   "author": "meggsimum",
   "license": "MIT",
   "dependencies": {
-    "geoserver-node-client": "1.2.2"
+    "geoserver-node-client": "1.2.2",
+    "pino": "^8.8.0",
+    "pino-pretty": "^9.1.1"
   },
   "devDependencies": {
     "eslint": "^7.23.0",

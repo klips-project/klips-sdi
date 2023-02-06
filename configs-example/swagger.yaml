@@ -10,9 +10,6 @@ info:
 servers:
   - url: https://klips-dev.terrestris.de/api
 
-  # for local development uncomment this line
-  # and comment the upper properties 'host', 'basepath' and 'schemes'
-  # host: http://localhost:3000
 components:
   securitySchemes:
     basicAuth:
@@ -102,13 +99,14 @@ paths:
               example:
                 email: info@example.de
                 payload:
-                  url: https://www.example.com/file.geotiff
+                  url: https://klips-dev.terrestris.de/cog/dresden/dresden_temperature/20220216T1146Z.tif
                   creationTime: "2022-10-07T12:32:33.004Z"
                   predictionStartTime: "2022-10-08T12:32:33.004Z"
                   predictionEndTime: "2022-10-09T12:32:33.004Z"
                   interval: 3600
                   region: "dresden"
                   type: "temperature"
+                  scenario: "forecast"
                 source: hhi
 
       responses:

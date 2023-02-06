@@ -4,7 +4,12 @@
 rabbitmq/
 geoserver_data/
 klips-api-config/
+configs/
 worker/*/node_modules
 postgres-data
+cog_data/
+staging/
+logs/
+
 *.aux.xml
 __pycache__

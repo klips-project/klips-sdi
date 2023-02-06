@@ -1,0 +1,34 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+#main {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+#map {
+  display: table-cell;
+  height: 100%;
+}
+#wrapper {
+  display: table-row;
+  height: 100%;
+}
+#api-output {
+  height: 100%;
+}
+#sider {
+  width: 400px;
+  display: table-cell;
+  vertical-align: top;
+  padding: 10px;
+  height: 100%;
+  overflow: auto;
+}
+#chart {
+  height: 400px;
+}
+code {
+  white-space: pre-line;
+}

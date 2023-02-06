@@ -1,0 +1,15 @@
+{
+    "category": "forecast",
+    "source": "hhi",
+    "email": "info@example.de",
+    "payload": {
+        "url": "http://nginx/sample_dresden_float32_2bands.tif",
+        "creationTime": "2022-10-07T12:32:33.004Z",
+        "predictionStartTime": "2022-10-08T12:32:33.004Z",
+        "predictionEndTime": "2022-10-09T12:32:33.004Z",
+        "interval": 3600,
+        "region": "dresden",
+        "type": "temperature",
+        "scenario": "forecast"
+    }
+}
