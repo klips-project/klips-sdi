@@ -10,7 +10,7 @@ const geoserverDefaultPw = process.env.GEOSERVER_DEFAULT_PASSWORD;
 const role = 'ADMIN';
 
 // read GS login from secrets
-          const newGeoserverUser = process.env.GEOSERVER_USER;
+const newGeoserverUser = process.env.GEOSERVER_USER;
 const newGeoserverPw = process.env.GEOSERVER_PASSWORD;
 
 // check if all variables are present
