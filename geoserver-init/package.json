@@ -4,8 +4,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
-    "lint-fix": "eslint --fix '**/*.js' --ignore-pattern node_modules/",
+    "lint": "eslint  -c .eslintrc.yml '**/*.js'",
+    "lint-fix": "eslint --fix",
     "start": "node 000_change_auth.js && node 010_setup_geoserver.js"
   },
   "author": "meggsimum",
@@ -16,10 +16,8 @@
     "pino-pretty": "^9.1.1"
   },
   "devDependencies": {
-    "eslint": "^7.23.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1"
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-syntax-import-assertions": "^7.18.6",
+    "eslint": "^8.33.0"
   }
 }

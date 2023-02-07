@@ -1,5 +1,6 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
 import { logger } from './logger.js';
+import { sleep } from './util.js';
 
 const geoserverUrl = process.env.GEOSERVER_REST_URL;
 const geoserverDefaultUser = process.env.GEOSERVER_DEFAULT_USER;
@@ -9,7 +10,7 @@ const geoserverDefaultPw = process.env.GEOSERVER_DEFAULT_PASSWORD;
 const role = 'ADMIN';
 
 // read GS login from secrets
-const newGeoserverUser = process.env.GEOSERVER_USER;
+          const newGeoserverUser = process.env.GEOSERVER_USER;
 const newGeoserverPw = process.env.GEOSERVER_PASSWORD;
 
 // check if all variables are present
@@ -27,7 +28,7 @@ grc.about.exists()
     adaptSecurity();
   })
   .catch(() => {
-    logger.warn('Could not connect to GeoServer REST API - seems like auth has been changed in this setup!')
+    logger.warn('Could not connect to GeoServer REST API - seems like auth has been changed in this setup!');
   });
 
 /**
@@ -60,11 +61,7 @@ async function adaptSecurity () {
     //       Ideally here we have a function that waits for the moment until we can successfully login
     const secondsToWait = 10;
     logger.debug(`Waiting for ${secondsToWait} seconds to give GeoServer time to register the new user.`);
-    function sleep (seconds) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, seconds * 1000);
-      });
-    }
+
     await sleep(secondsToWait);
     logger.debug('Waiting over...');
   } catch (error) {
