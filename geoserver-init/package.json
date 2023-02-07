@@ -1,6 +1,5 @@
 {
   "name": "geoserver_init",
-  "version": "0.0.1",
   "description": "Init script for GeoServer ",
   "type": "module",
   "main": "index.js",

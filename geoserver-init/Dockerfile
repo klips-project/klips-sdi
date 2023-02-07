@@ -11,8 +11,6 @@ COPY  000_change_auth.js 000_change_auth.js
 COPY  sld/ sld/
 COPY  logger.js logger.js
 
-RUN ls
-
 RUN chmod +x /home/wait-for.sh
 
 CMD [ "./wait-for.sh", "--timeout=180", "geoserver:8080", "--", "npm", "start"]

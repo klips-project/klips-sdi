@@ -1,9 +1,9 @@
-import pino from "pino";
+import pino from 'pino';
 import pretty from 'pino-pretty';
 import path from 'path';
 import fs from 'fs';
 
-const logFilePath = process.env.LOG_FILE_PATH || "./logs/worker.log";
+const logFilePath = process.env.LOG_FILE_PATH || './logs/worker.log';
 
 // create directory of log file if it does not exist
 if (!fs.existsSync(logFilePath)) {
@@ -20,7 +20,7 @@ const parentLogger = pino(
   pino.multistream(
     [
       { stream: pretty({ colorize: true }), level: logLevel },
-      { stream: pino.destination(logFilePath), level: logLevel },
+      { stream: pino.destination(logFilePath), level: logLevel }
     ]
   )
 );
