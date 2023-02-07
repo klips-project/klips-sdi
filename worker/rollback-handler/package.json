@@ -16,11 +16,12 @@
     "rabbitmq-worker": "git+https://github.com/klips-project/rabbitmq-worker.git"
   },
   "devDependencies": {
-    "eslint": "^7.29.0"
+    "eslint": "^7.32.0",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/plugin-syntax-import-assertions": "^7.18.6"
   },
   "scripts": {
-    "lint": "eslint -c ../../.eslintrc.yml .",
-    "test": "npm run lint"
+    "lint": "eslint -c .eslintrc.yml ."
   },
   "repository": {
     "type": "git",
