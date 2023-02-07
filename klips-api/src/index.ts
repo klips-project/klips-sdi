@@ -33,7 +33,7 @@ const configDir = process.env.CONFIG_DIR || '/klips-conf';
 const swaggerDocument = YAML.load(path.join(configDir, 'swagger.yaml'));
 
 const basicAuthUsersPath = path.join(configDir, 'basic-auth-users.json');
-const basicAuthUsers = fs.readJSONSync(basicAuthUsersPath);;
+const basicAuthUsers = fs.readJSONSync(basicAuthUsersPath);
 
 const jsonSchemaGeoTiffPath = path.join(configDir, 'schema-geotiff-upload.json');
 const schemaInput = fs.readJSONSync(jsonSchemaGeoTiffPath);
