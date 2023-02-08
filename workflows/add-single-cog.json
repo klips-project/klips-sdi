@@ -4,7 +4,7 @@
       "id": 1,
       "type": "download-file",
       "inputs": [
-        "http://nginx/sample_dresden_float32_2bands.tif",
+        "http://nginx/sample_dresden_float32_3bands.tif",
         "/opt/staging/sample.tif"
       ]
     },
