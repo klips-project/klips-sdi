@@ -1,11 +1,7 @@
-FROM geopython/pygeoapi:0.14.0
-
-# add ubuntugis repository for latest GRASS version
-RUN apt -y update && \
-    apt -y install software-properties-common && \
-    add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+FROM geopython/pygeoapi:0.13.0
 
 RUN apt -y update && \
+    apt -y upgrade && \
     apt -y install grass \
                    gdal-bin
 
