@@ -1,9 +1,9 @@
-FROM geopython/pygeoapi:0.13.0
+FROM geopython/pygeoapi:0.14.0
 
+# add ubuntugis repository for latest GRASS version
 RUN apt -y update && \
-    apt -y upgrade && \
-    apt -y install grass \
-                   gdal-bin
+    apt -y install software-properties-common && \
+    add-apt-repository ppa:ubuntugis/ubuntugis-unstable
 
 # install 'rasterstats' for zonal statistics, 'click' needed for compatibility with pygeoapi
 RUN pip3 install rasterstats click==7.1.2 rio-cogeo==3.4.1
