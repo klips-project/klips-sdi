@@ -41,9 +41,6 @@
         ]
       }
     },
-    "types": [
-      "temperature"
-    ],
     "scenarios": [
       "forecast"
     ]

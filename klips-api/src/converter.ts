@@ -20,18 +20,11 @@ const createGeoTiffPublicationJob = (requestBody: any,
 ) => {
   const {
     minTimeStamp, maxTimeStamp, timeStampFormat, allowedEPSGCodes,
-    allowedDataTypes, fileSize, regions, types, scenarios, expectedBandCount, expectedNoDataValue
+    allowedDataTypes, fileSize, regions, scenarios, expectedBandCount, expectedNoDataValue
   }: GeoTiffPublicationJobOptions
     = options;
   const regionNames = Object.keys(regions);
   const payload = requestBody.payload;
-
-  const type: string = payload.type;
-  if (!type || !types.includes(type)) {
-    const errorText = 'Provided type is not known.';
-    logger.error({ type: type, requestBody: requestBody }, errorText);
-    throw errorText;
-  }
 
   const scenario: string = payload.scenario;
   if (!scenario || !scenarios.includes(scenario)) {
