@@ -20,7 +20,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
 ) => {
   const {
     minTimeStamp, maxTimeStamp, timeStampFormat, allowedEPSGCodes,
-    allowedDataTypes, fileSize, regions, types, scenarios, expectedBandCount
+    allowedDataTypes, fileSize, regions, types, scenarios, expectedBandCount, expectedNoDataValue
   }: GeoTiffPublicationJobOptions
     = options;
   const regionNames = Object.keys(regions);
@@ -131,6 +131,9 @@ const createGeoTiffPublicationJob = (requestBody: any,
             fileSize: fileSize,
             bands: {
               expectedCount: expectedBandCount
+            },
+            noDataValue: {
+              expectedValue: expectedNoDataValue
             }
           }
         ]
