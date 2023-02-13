@@ -5,6 +5,8 @@ RUN apt -y update && \
     apt -y install software-properties-common && \
     add-apt-repository ppa:ubuntugis/ubuntugis-unstable
 
+RUN apt -y install grass gdal-bin
+
 # NOTE: ensure the minor versions of added libraries are compatible with each other,
 #       otherwise pygeoapi might not start up at all
 
