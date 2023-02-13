@@ -5,6 +5,7 @@ export interface GeoTiffPublicationJobOptions {
   allowedDataTypes: string[];
   allowedEPSGCodes: number[];
   expectedBandCount: number;
+  expectedNoDataValue: number;
   fileSize: {
     minFileSize: number;
     maxFileSize: number;
