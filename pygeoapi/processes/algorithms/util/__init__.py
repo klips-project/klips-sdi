@@ -42,12 +42,12 @@ def timestamp_from_file_name(file_name: str):
     return date_time
 
 
-def get_available_cog_file_names(cog_dir_url: str):
-    """Read available COG file names from an URL.
+def get_available_cog_file_objects(cog_dir_url: str):
+    """Read available COG file objects from an URL.
 
     :param cog_dir_url: The URL to check
 
-    :returns: The containing COG image name
+    :returns: The containing COG image objects
     """
     response = requests.get(cog_dir_url)
     return response.json()

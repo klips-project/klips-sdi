@@ -3,7 +3,7 @@ import logging
 
 from pygeoapi.process.base import BaseProcessor
 
-from .algorithms.standalone_grass_zonal_stats import generate_zonal_stats
+from .algorithms.grass_algorithms import generate_zonal_stats
 
 LOGGER = logging.getLogger(__name__)
 
@@ -69,7 +69,7 @@ PROCESS_METADATA = {
             'minOccurs': 1,
             'maxOccurs': 'unbounded',
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa: E501
             }
         }
     },
@@ -99,7 +99,6 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
         result = generate_zonal_stats(rastermap=cog_url, geometries=geoms)
 
         return mimetype, result
-
 
     def __repr__(self):  # noqa: D105
         return '<ZonalStatisticsGrassProcessor> {}'.format(self.name)

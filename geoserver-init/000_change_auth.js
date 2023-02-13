@@ -1,5 +1,6 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
 import { logger } from './logger.js';
+import { sleep } from './util.js';
 
 const geoserverUrl = process.env.GEOSERVER_REST_URL;
 const geoserverDefaultUser = process.env.GEOSERVER_DEFAULT_USER;
@@ -27,7 +28,7 @@ grc.about.exists()
     adaptSecurity();
   })
   .catch(() => {
-    console.warn('WARN:', 'Could not connect to GeoServer REST API - seems like auth has been changed in this setup!');
+    logger.warn('Could not connect to GeoServer REST API - seems like auth has been changed in this setup!');
   });
 
 /**
@@ -44,26 +45,24 @@ async function adaptSecurity () {
     }
 
     await grc.security.createUser(user, userPw);
-    logger.info('Successfully created user', user);
+    logger.info(`Successfully created user ${user}`);
 
     await grc.security.associateUserRole(user, role);
     logger.info(`Successfully added role ${role} to user ${user}`);
 
     // disable user
-    await grc.security.updateUser(geoserverDefaultUser, geoserverDefaultPw, false);
+    const userEnabled = false;
+    await grc.security.updateUser(geoserverDefaultUser, geoserverDefaultPw, userEnabled);
     logger.info('Successfully disabled default "admin" user');
 
     // TODO: this is a pragmatic solution to ensure the newly created user can actually log in
     //       it is required, because the workers often request GeoServer and therefore delay the
     //       moment until the newly created user is usable.
     //       Ideally here we have a function that waits for the moment until we can successfully login
-    console.debug('Waiting for 10 seconds to give GeoServer time to register the new user.');
-    function sleep (seconds) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, seconds * 1000);
-      });
-    }
-    await sleep(10);
+    const secondsToWait = 10;
+    logger.debug(`Waiting for ${secondsToWait} seconds to give GeoServer time to register the new user.`);
+
+    await sleep(secondsToWait);
     logger.debug('Waiting over...');
   } catch (error) {
     logger.info('Could not log in - credentials have probably been changed already');

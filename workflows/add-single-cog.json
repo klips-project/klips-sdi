@@ -4,7 +4,7 @@
       "id": 1,
       "type": "download-file",
       "inputs": [
-        "http://nginx/sample_dresden_float32_2bands.tif",
+        "http://nginx/sample_dresden_float32_3bands.tif",
         "/opt/staging/sample.tif"
       ]
     },
@@ -13,7 +13,7 @@
       "type": "geotiff-optimizer",
       "inputs": [
         "/opt/staging/sample.tif",
-        "/opt/cog/dresden/dresden_temperature/20220216T1146Z.tif"
+        "/opt/cog/dresden/dresden_temperature/dresden_20220216T1146Z.tif"
       ]
     },
     {
@@ -22,9 +22,8 @@
       "inputs": [
         "dresden",
         "dresden_temperature",
-        "http://nginx/cog/dresden/dresden_temperature/20220216T1146Z.tif"
+        "http://nginx/cog/dresden/dresden_temperature/dresden_20220216T1146Z.tif"
       ]
     }
   ]
 }
-

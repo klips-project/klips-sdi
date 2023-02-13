@@ -83,7 +83,7 @@ const collectConfiguration = () => {
   swaggerDocument = YAML.load(path.join(configDir, 'swagger.yaml'));
 
   basicAuthUsersPath = path.join(configDir, 'basic-auth-users.json');
-  basicAuthUsers = fs.readJSONSync(basicAuthUsersPath);;
+  basicAuthUsers = fs.readJSONSync(basicAuthUsersPath);
 
   jsonSchemaGeoTiffPath = path.join(configDir, 'schema-geotiff-upload.json');
   schemaInput = fs.readJSONSync(jsonSchemaGeoTiffPath);

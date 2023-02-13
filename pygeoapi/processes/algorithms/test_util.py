@@ -1,7 +1,7 @@
 # flake8: noqa
 import pytest
 from datetime import datetime
-from util import (
+from .util import (
     timestamp_from_file_name,
     url_exists,
     timestamp_within_range
