@@ -15,7 +15,6 @@ export interface GeoTiffPublicationJobOptions {
       bbox: string;
     };
   };
-  types: string[];
   scenarios: string[];
 }
 

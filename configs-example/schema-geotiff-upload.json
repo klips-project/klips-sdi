@@ -29,9 +29,6 @@
         "region": {
           "type": "string"
         },
-        "type": {
-          "type": "string"
-        },
         "scenario": {
           "type": "string"
         }
@@ -43,7 +40,6 @@
         "predictionEndTime",
         "interval",
         "region",
-        "type",
         "scenario"
       ]
     }

@@ -9,7 +9,6 @@
         "predictionEndTime": "2022-10-09T12:32:33.004Z",
         "interval": 3600,
         "region": "dresden",
-        "type": "temperature",
         "scenario": "forecast"
     }
 }

@@ -77,9 +77,6 @@ paths:
                     region:
                       type: string
                       description: The region name
-                    type:
-                      type: string
-                      description: The type of the result
                     scenario:
                       type: string
                       description: The scenario of the result
@@ -90,7 +87,6 @@ paths:
                       - predictionEndTime
                       - interval
                       - region
-                      - type
                       - scenario
               required:
                 - source
@@ -105,7 +101,6 @@ paths:
                   predictionEndTime: "2022-10-09T12:32:33.004Z"
                   interval: 3600
                   region: "dresden"
-                  type: "temperature"
                   scenario: "forecast"
                 source: hhi
 
