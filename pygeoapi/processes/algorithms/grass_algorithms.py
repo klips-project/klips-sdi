@@ -1,3 +1,9 @@
+"""Algorithms based on GRASS GIS."""
+
+from grass.pygrass.modules.shortcuts import vector as v
+from grass.pygrass.modules.shortcuts import raster as r
+from grass.pygrass.modules.shortcuts import general as g
+import grass.script.setup as gsetup
 import os
 import subprocess
 import sys
@@ -8,30 +14,32 @@ from argparse import ArgumentParser
 
 # Prepare GRASS session
 # cf. https://grasswiki.osgeo.org/wiki/GRASS_Python_Scripting_Library
-# cf. https://grasswiki.osgeo.org/wiki/Working_with_GRASS_without_starting_it_explicitly
-gisbase = subprocess.check_output(["grass", "--config", "path"], text=True).strip()
+# cf. https://grasswiki.osgeo.org/wiki/Working_with_GRASS_without_starting_it_explicitly  # noqa: E501
+gisbase = subprocess.check_output(
+    ["grass", "--config", "path"],
+    text=True).strip()
 
 # Set GISBASE environment variable
 os.environ['GISBASE'] = gisbase
 
 # Python path: we ask GRASS GIS where its Python packages are
 sys.path.append(
-    subprocess.check_output(["grass", "--config", "python_path"], text=True).strip()
+    subprocess.check_output(
+        ["grass", "--config", "python_path"], text=True).strip()
 )
 
 # Import GRASS Python bindings
-import grass.script.setup as gsetup
-from grass.pygrass.modules.shortcuts import general as g
-from grass.pygrass.modules.shortcuts import raster as r
-from grass.pygrass.modules.shortcuts import vector as v
 
 
 def generate_zonal_stats(rastermap, geometries):
     """
-    Creates zonal statistics from a COG using a single polygon as input
+    Create zonal statistics from a COG using a single polygon as input.
+
     :param rastermap: the URL of the COG
-    :param polygon_geojson: A single polygon as dict structured as GeoJSON in the same projection as the COG
-    :returns A dict structured JSON containing the zonal statistics as properties
+    :param polygon_geojson: A single polygon as dict structured as GeoJSON in
+                            the same projection as the COG
+    :returns A dict structured JSON containing the zonal statistics
+            as properties
     """
     with tempfile.TemporaryDirectory() as tempdir:
         with open(f'{tempdir}/output', 'w') as output:
@@ -45,7 +53,7 @@ def generate_zonal_stats(rastermap, geometries):
             g.list(type='raster')
 
             r.external(input='/vsicurl/' + rastermap,
-               output=demo_raster_name, flags='e')
+                       output=demo_raster_name, flags='e')
 
             # set region
             g.region(raster=demo_raster_name)
@@ -62,8 +70,12 @@ def generate_zonal_stats(rastermap, geometries):
                 v.external(input=jsonfile, output=polygon_name)
                 v.to_rast(input=polygon_name, output=zone_name,
                           use='val', value=i)
-                r.univar(map=demo_raster_name, zones=zone_name,
-                         output=output_file, separator='comma', flags='t', overwrite=True)
+                r.univar(map=demo_raster_name,
+                         zones=zone_name,
+                         output=output_file,
+                         separator='comma',
+                         flags='t',
+                         overwrite=True)
 
                 with open(output_file, 'r') as input:
                     for index, line in enumerate(input):
@@ -98,20 +110,23 @@ def generate_zonal_stats(rastermap, geometries):
 
 
 def main():
+    """Test algorithms of this file."""
     parser = ArgumentParser()
 
     parser.add_argument("-c", "--cog", dest="cog",
-                    help="Input COG URL", metavar="COG",
-                    type=str)
+                        help="Input COG URL", metavar="COG",
+                        type=str)
     parser.add_argument("-g", "--geometries", dest="geometries",
-                    help="Geometries", metavar="GEOMETRIES",
-                    type=str)
+                        help="Geometries", metavar="GEOMETRIES",
+                        type=str)
 
     args = parser.parse_args()
 
     with open(args.geometries) as json_data:
-        results = generate_zonal_stats(rastermap=args.cog, geometries=json.load(json_data))
+        results = generate_zonal_stats(
+            rastermap=args.cog, geometries=json.load(json_data))
         print(results)
+
 
 if __name__ == '__main__':
     main()
