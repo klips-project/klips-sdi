@@ -6,6 +6,12 @@ export interface GeoTiffPublicationJobOptions {
   allowedEPSGCodes: number[];
   expectedBandCount: number;
   expectedNoDataValue: number;
+  valueRange: {
+    expectedBandRanges: [{
+      min: number;
+      max: number;
+    }];
+  };
   fileSize: {
     minFileSize: number;
     maxFileSize: number;
