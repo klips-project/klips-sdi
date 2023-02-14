@@ -11,9 +11,10 @@
     ],
     "fileSize": {
       "minFileSize": 1000,
-      "maxFileSize": 20000000
+      "maxFileSize": 30000000
     },
-    "expectedBandCount": 2,
+    "expectedBandCount": 3,
+    "expectedNoDataValue": -9999,
     "regions": {
       "dresden": {
         "bbox": [
@@ -40,9 +41,6 @@
         ]
       }
     },
-    "types": [
-      "temperature"
-    ],
     "scenarios": [
       "forecast"
     ]

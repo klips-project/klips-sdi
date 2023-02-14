@@ -1,7 +1,7 @@
-import { logger } from './logger';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import path from 'path';
+import { logger } from './logger';
 import { GeoTiffPublicationJobOptions, JobConfig } from './types';
 
 // we set Day.js to UTC mode, see https://day.js.org/docs/en/parse/utc
@@ -10,8 +10,8 @@ dayjs.extend(utc);
 /**
  * Convert incoming message from API to an internal job for RabbitMQ.
  *
- * @param requestBody {Object} The JSON coming from the API
- * @param options {GeoTiffPublicationJobOptions} An object with options for the job creation
+ * @param requestBody The JSON coming from the API
+ * @param options An object with options for the job creation
  *
  * @returns The job for the dispatcher
  */
@@ -20,46 +20,48 @@ const createGeoTiffPublicationJob = (requestBody: any,
 ) => {
   const {
     minTimeStamp, maxTimeStamp, timeStampFormat, allowedEPSGCodes,
-    allowedDataTypes, fileSize, regions, types, scenarios, expectedBandCount
+    allowedDataTypes, fileSize, regions, scenarios, expectedBandCount, expectedNoDataValue
   }: GeoTiffPublicationJobOptions
     = options;
   const regionNames = Object.keys(regions);
+  const payload = requestBody.payload;
 
-  const type: string = requestBody.payload.type;
-
-  if (!type || !types.includes(type)) {
-    throw 'Provided type is not known.';
-  }
-
-  const scenario: string = requestBody.payload.scenario;
-
+  const scenario: string = payload.scenario;
   if (!scenario || !scenarios.includes(scenario)) {
-    throw 'Provided scenario is not known.';
+    const errorText = 'Provided scenario is not known.';
+    logger.error({ scenario: scenario, requestBody: requestBody }, errorText);
+    throw errorText;
   }
 
-  const regionName: string = requestBody.payload.region;
-
+  const regionName: string = payload.region;
   if (!regionName || !regionNames.includes(regionName)) {
-    throw 'Provided region is not known.';
+    const errorText = 'Provided region is not known.';
+    logger.error({ regionName: regionName, requestBody: requestBody }, errorText);
+    throw errorText;
   }
+
   const geoServerWorkspace = regionName;
   // NOTE: the store name must be unique, even between multiple workspaces
   const mosaicStoreName = `${regionName}_temperature`;
 
-  const geotiffUrl = requestBody.payload.url;
+  const geotiffUrl = payload.url;
 
-  const parsedTimeStamp = dayjs(requestBody.payload.predictionStartTime);
+  const parsedTimeStamp = dayjs(payload.predictionStartTime);
   if (!parsedTimeStamp.isValid()) {
-    throw 'TimeStamp not valid';
+    const errorText = 'TimeStamp not valid';
+    logger.error({ parsedTimeStamp: parsedTimeStamp, requestBody: requestBody }, errorText);
+    throw errorText;
   }
 
   const inCorrectTimeRange = parsedTimeStamp.isAfter(minTimeStamp) && parsedTimeStamp.isBefore(maxTimeStamp);
   if (!inCorrectTimeRange) {
-    throw 'Time outside of timerange';
+    const errorText = 'Time outside of timerange';
+    logger.error({ requestBody: requestBody }, errorText);
+    throw errorText;
   }
 
   const formattedTimestamp = parsedTimeStamp.utc().format(timeStampFormat);
-  const fileName = `${requestBody.payload.region}_${formattedTimestamp}`;
+  const fileName = `${payload.region}_${formattedTimestamp}`;
   const fileNameWithSuffix = `${fileName}.tif`;
 
   const stagingDirectory = '/opt/staging/';
@@ -84,12 +86,12 @@ const createGeoTiffPublicationJob = (requestBody: any,
   let password;
   const partnerUrlStart = process.env.PARTNER_URL_START;
   if (geotiffUrl.startsWith(partnerUrlStart)) {
-    logger.info('URL from partner is used');
+    logger.debug({ url: geotiffUrl }, 'URL from partner is used');
     username = process.env.PARTNER_API_USERNAME;
     password = process.env.PARTNER_API_PASSWORD;
   }
 
-  return {
+  const job = {
     job: [
       {
         id: 1,
@@ -122,6 +124,9 @@ const createGeoTiffPublicationJob = (requestBody: any,
             fileSize: fileSize,
             bands: {
               expectedCount: expectedBandCount
+            },
+            noDataValue: {
+              expectedValue: expectedNoDataValue
             }
           }
         ]
@@ -159,13 +164,17 @@ const createGeoTiffPublicationJob = (requestBody: any,
     ],
     email: email
   };
+
+  logger.info({ job: job }, 'Successfully created job');
+
+  return job;
 };
 
 /**
  * Creates different jobs depending on the input message.
  *
- * @param requestBody {Object} The JSON coming from the API
- * @param jobConfig {Object} The options for the jobs
+ * @param requestBody The JSON coming from the API
+ * @param jobConfig The options for the jobs
  *
  * @returns The job for the dispatcher
  */

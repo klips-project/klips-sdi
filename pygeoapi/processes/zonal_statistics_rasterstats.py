@@ -1,37 +1,8 @@
 # noqa: D100
-# =================================================================
-#
-# Authors: Tom Kralidis <tomkralidis@gmail.com>
-#
-# Copyright (c) 2019 Tom Kralidis
-#
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this software and associated documentation
-# files (the "Software"), to deal in the Software without
-# restriction, including without limitation the rights to use,
-# copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the
-# Software is furnished to do so, subject to the following
-# conditions:
-#
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-# OTHER DEALINGS IN THE SOFTWARE.
-#
-# =================================================================
-
 import logging
 import shapely
 from pygeoapi.process.base import BaseProcessor
-from .algorithms.zonal_stats import get_zonal_stats
+from .algorithms.rasterstats_algorithms import get_zonal_stats
 from shapely.geometry import shape
 from .algorithms.util import get_crs_from_cog, reproject
 
@@ -43,13 +14,11 @@ PROCESS_METADATA = {
     'id': 'zonal-statistics-rasterstats',
     'title': {
         'en': 'Zonal statistics of a COG using rasterstats',
-        'de': 'Zonale Statistiken einer COG-Datei mit Hilfe von rasterstas'
+        'de': 'Zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'
     },
     'description': {
-        'en': 'Compute zonal statistics of a subset of a public accessible\
-             COG. Only queries data of the first raster band.',
-        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen \
-            COGs. Fragt nur Daten vom ersten Rasterband ab.'
+        'en': 'Compute zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',  # noqa: E501
+        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
@@ -65,17 +34,16 @@ PROCESS_METADATA = {
         },
         'polygonGeoJson': {
             'title': 'Polygon GeoJSON',
-            'description': 'A polygon GeoJSON for which to compute zonal \
-                statistics of the COG',
+            'description': 'A polygon GeoJSON for which to compute zonal statistics of the COG',  # noqa: E501
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa: E501
             }
         },
         'statisticMethods': {
             'title': 'Statistical Methods',
-            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa
+            'description': 'The statistical methods to apply. Any out of:  [\'count\', \'min\', \'max\', \'mean\', \'sum\', \'std\', \'median\', \'majority\', \'minority\', \'unique\', \'range\', \'nodata\', \'nan\']',  # noqa: E501
             'maxOccurs': 1,
             'schema': {
                 'type': 'Array'
@@ -83,8 +51,7 @@ PROCESS_METADATA = {
         },
         'inputCrs': {
             'title': 'Coordinate reference system',
-            'description': 'The coordinate reference system of the \
-                provided geometry',
+            'description': 'The coordinate reference system of the provided geometry',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
@@ -93,8 +60,7 @@ PROCESS_METADATA = {
         },
         'returnGeoJson': {
             'title': 'Return GeoJSON',
-            'description': 'If a GeoJSON shall be returned,\
-                 including the provided the geometry.',
+            'description': 'If a GeoJSON shall be returned, including the provided the geometry.',  # noqa: E501
             'schema': {
                 'type': 'boolean'
             },

@@ -10,8 +10,7 @@ COPY  010_setup_geoserver.js 010_setup_geoserver.js.js
 COPY  000_change_auth.js 000_change_auth.js
 COPY  sld/ sld/
 COPY  logger.js logger.js
-
-RUN ls
+COPY  util.js util.js
 
 RUN chmod +x /home/wait-for.sh
 
