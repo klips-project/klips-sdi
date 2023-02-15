@@ -17,16 +17,16 @@
     "valueRange": {
       "expectedBandRanges": [
         {
-          "min": -50,
-          "max": 50
+          "min": -100,
+          "max": 100
         },
         {
-          "min": -50,
-          "max": 50
+          "min": -100,
+          "max": 100
         },
         {
-          "min": -300,
-          "max": 300
+          "min": -100,
+          "max": 100
         }
       ]
     },
