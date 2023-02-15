@@ -14,11 +14,10 @@
     "pino-pretty": "^9.1.1"
   },
   "devDependencies": {
-    "eslint": "^7.29.0"
+    "eslint": "^7.32.0"
   },
   "scripts": {
-    "lint": "eslint -c ../../.eslintrc.yml .",
-    "test": "npm run lint"
+    "lint": "eslint -c .eslintrc.yml ."
   },
   "repository": {
     "type": "git",

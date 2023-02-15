@@ -69,13 +69,13 @@ const rollback = async (workerJob, inputs) => {
         // start rollback for download-file
         filesToDelete.push(proc.outputs[0]);
       }
-    };
+    }
     for (let i = 0; i < filesToDelete.length; i++) {
       const file = filesToDelete[i];
       logger.debug(`Deleting file ${file} ...`)
       await fsPromises.rm(file);
       logger.debug('Successfully deleted file');
-    };
+    }
   } catch (e) {
     logger.debug(`Exception on rollback: ${e}`);
   }
