@@ -14,6 +14,22 @@
       "maxFileSize": 30000000
     },
     "expectedBandCount": 3,
+    "valueRange": {
+      "expectedBandRanges": [
+        {
+          "min": -100,
+          "max": 100
+        },
+        {
+          "min": -100,
+          "max": 100
+        },
+        {
+          "min": -100,
+          "max": 100
+        }
+      ]
+    },
     "expectedNoDataValue": -9999,
     "regions": {
       "dresden": {
