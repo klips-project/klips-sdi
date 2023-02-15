@@ -122,7 +122,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
               allowedDataTypes: allowedDataTypes
             },
             fileSize: fileSize,
-            bands: {
+            bandCount: {
               expectedCount: expectedBandCount
             },
             noDataValue: {
