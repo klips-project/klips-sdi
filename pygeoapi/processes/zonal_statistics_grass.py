@@ -112,8 +112,7 @@ PROCESS_METADATA = {
             'minOccurs': 1,
             'maxOccurs': 1,
             'schema': {
-                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'
-                # noqa: E501
+                '$ref': 'http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json'  # noqa: E501
             }
         },
         'inputCrs': {
@@ -157,7 +156,9 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
 
         # create GeometryCollection
         features = geoms["features"]
-        collection = GeometryCollection([shape(feature["geometry"]).buffer(0) for feature in features])
+        collection = GeometryCollection(
+            [shape(feature["geometry"]).buffer(0) for feature in features]
+        )
 
         if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith('EPSG:'):
@@ -180,7 +181,11 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
 
         LOGGER.debug(f'Start to generate zonal stats for {cog_url}.')
         try:
-            result = generate_zonal_stats(rastermap=cog_url, geometries=geoms, crs=cog_crs)
+            result = generate_zonal_stats(
+                rastermap=cog_url,
+                geometries=geoms,
+                crs=cog_crs
+            )
         except Exception as e:
             LOGGER.debug(f'Failed to generate zonal stats for {cog_url}.', e)
             raise e

@@ -25,25 +25,26 @@ sys.path.append(
 )
 
 # Import GRASS Python bindings after GRASS paths are set (important order)
-import grass.script.setup as gsetup
-from grass.pygrass.modules.shortcuts import vector as v
-from grass.pygrass.modules.shortcuts import raster as r
-from grass.pygrass.modules.shortcuts import general as g
+import grass.script.setup as gsetup  # noqa: E402
+from grass.pygrass.modules.shortcuts import vector as v  # noqa: E402
+from grass.pygrass.modules.shortcuts import raster as r  # noqa: E402
+from grass.pygrass.modules.shortcuts import general as g  # noqa: E402
 
 
 def generate_zonal_stats(rastermap, geometries, crs="EPSG:4326"):
-
     """
     Create zonal statistics from a COG using a single polygon as input.
 
     :param rastermap: the URL of the COG
-    :param geometries: A dict structured as GeoJSON in same projection as the COG
-    :param crs: Coordinate reference system of input geodata. If not defined, EPSG:4326 is used.
+    :param geometries: A dict structured as GeoJSON in same projection
+                       as the COG
+    :param crs: Coordinate reference system of input geodata. If not defined,
+                EPSG:4326 is used.
     :returns A dict structured JSON containing the zonal statistics
             as properties
     """
     with tempfile.TemporaryDirectory() as tempdir:
-        with open(f'{tempdir}/output', 'w') as output:
+        with open(f'{tempdir}/output', 'w'):
             location = f'{tempdir}/grass'
             subprocess.run(['grass', '-c', crs,
                             location, '-e'])
@@ -54,7 +55,12 @@ def generate_zonal_stats(rastermap, geometries, crs="EPSG:4326"):
             demo_raster_name = 'demo-raster'
 
             try:
-                r.external(input='/vsicurl/' + rastermap, output=demo_raster_name, flags='e', verbose=True)
+                r.external(
+                    input='/vsicurl/' + rastermap,
+                    output=demo_raster_name,
+                    flags='e',
+                    verbose=True
+                )
             except Exception as e:
                 print(f'Failed to load raster {rastermap}.')
                 raise e
