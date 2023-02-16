@@ -7,12 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js" integrity="sha512-OTbGFYPLe3jhy4bUwbB8nls0TFgz10kn0TLkmyA+l3FyivDs31zsXCjOis7YGDtE2Jsy0+fzW+3/OVoPVujPmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.1/proj4.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css">
     <link rel="stylesheet" href="./style.css">
     <title>OGC API Processes - Demonstrator</title>
   </head>
   <body>
     <div id="main">
+      <div class="controls">
+        <label>Bands min value
+          <input type="range" id="min" value="0" min="-255" max="255">
+        </label>
+        <label>Bands max value
+          <input type="range" id="max" value="0" min="-255" max="255">
+        </label>
+        <label>channel 1
+          <input type="radio" id="channel1" name="channel" checked>
+        </label>
+        <label>channel 2
+          <input type="radio" id="channel2" name="channel">
+        </label>
+        <label>channel 3
+          <input type="radio" id="channel3" name="channel">
+        </label>
+        <label>Select Dataset
+          <select id= "dataset" name="dataset"></select>
+        </label>
+      </div>
       <div id="wrapper" style="display: table-row;">
         <div id="map"></div>
         <div id="sider">
