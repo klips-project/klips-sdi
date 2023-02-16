@@ -22,6 +22,7 @@ const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
 
 async function main() {
   await createWorkspaces();
+  await addContactInformation();
   await createStyles();
 }
 
@@ -91,6 +92,28 @@ async function createSingleStyle(workspace, styleName) {
     // publish style
     await grc.styles.publish(workspace, styleName, sldBody);
     logger.info(`Successfully created style '${styleName}'`);
+  }
+}
+
+/**
+ * Adds basic contact information
+ */
+async function addContactInformation() {
+  const address = undefined;
+  const city = undefined;
+  const country = 'Germany';
+  const state = undefined;
+  const postalCode = undefined;
+  const email = undefined;
+  const organization = 'KLIPS Project';
+  const contactPerson = undefined;
+  const phoneNumber = undefined;
+
+  try {
+    await grc.settings.updateContactInformation(address, city, country, postalCode, state, email, organization, contactPerson, phoneNumber);
+    logger.info('Changed contact information');
+  } catch (error) {
+    logger.error({ error }, 'Changing contact information failed');
   }
 }
 
