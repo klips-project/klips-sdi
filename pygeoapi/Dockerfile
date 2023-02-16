@@ -3,7 +3,9 @@ FROM geopython/pygeoapi:0.14.0
 # add ubuntugis repository for latest GRASS version
 RUN apt -y update && \
     apt -y install software-properties-common && \
-    add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+    add-apt-repository ppa:ubuntugis/ubuntugis-unstable && \
+    apt -y update && \
+    apt -y upgrade
 
 RUN apt -y install grass gdal-bin
 

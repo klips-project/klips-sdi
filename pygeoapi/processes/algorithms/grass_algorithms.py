@@ -1,9 +1,5 @@
 """Algorithms based on GRASS GIS."""
 
-from grass.pygrass.modules.shortcuts import vector as v
-from grass.pygrass.modules.shortcuts import raster as r
-from grass.pygrass.modules.shortcuts import general as g
-import grass.script.setup as gsetup
 import os
 import subprocess
 import sys
@@ -28,85 +24,95 @@ sys.path.append(
         ["grass", "--config", "python_path"], text=True).strip()
 )
 
-# Import GRASS Python bindings
+# Import GRASS Python bindings after GRASS paths are set (important order)
+import grass.script.setup as gsetup
+from grass.pygrass.modules.shortcuts import vector as v
+from grass.pygrass.modules.shortcuts import raster as r
+from grass.pygrass.modules.shortcuts import general as g
 
 
-def generate_zonal_stats(rastermap, geometries):
+def generate_zonal_stats(rastermap, geometries, crs="EPSG:4326"):
+
     """
     Create zonal statistics from a COG using a single polygon as input.
 
     :param rastermap: the URL of the COG
-    :param polygon_geojson: A single polygon as dict structured as GeoJSON in
-                            the same projection as the COG
+    :param geometries: A dict structured as GeoJSON in same projection as the COG
+    :param crs: Coordinate reference system of input geodata. If not defined, EPSG:4326 is used.
     :returns A dict structured JSON containing the zonal statistics
             as properties
     """
     with tempfile.TemporaryDirectory() as tempdir:
         with open(f'{tempdir}/output', 'w') as output:
             location = f'{tempdir}/grass'
-            subprocess.run(['grass', '-c', 'EPSG:4326',
+            subprocess.run(['grass', '-c', crs,
                             location, '-e'])
             session = gsetup.init(location)
 
+            print('GRASS session initialized')
+
             demo_raster_name = 'demo-raster'
 
-            g.list(type='raster')
-
-            r.external(input='/vsicurl/' + rastermap,
-                       output=demo_raster_name, flags='e')
+            try:
+                r.external(input='/vsicurl/' + rastermap, output=demo_raster_name, flags='e', verbose=True)
+            except Exception as e:
+                print(f'Failed to load raster {rastermap}.')
+                raise e
 
             # set region
             g.region(raster=demo_raster_name)
 
-            for i, geom in enumerate(geometries):
-                jsonfile = f'{tempdir}/polygon{i}.json'
+            # write tmp geojson
+            jsonfile = f'{tempdir}/polygon.json'
+            try:
                 with open(jsonfile, 'w') as f:
-                    f.write(json.dumps(geom))
+                    f.write(json.dumps(geometries))
+            except Exception as e:
+                print(e)
+                raise e
 
-                polygon_name = 'polygon'
-                zone_name = 'zone'
-                output_file = f'{tempdir}/results'
+            polygon_name = 'polygon'
+            zone_name = 'zone'
+            output_file = f'{tempdir}/results'
 
-                v.external(input=jsonfile, output=polygon_name)
-                v.to_rast(input=polygon_name, output=zone_name,
-                          use='val', value=i)
-                r.univar(map=demo_raster_name,
-                         zones=zone_name,
-                         output=output_file,
-                         separator='comma',
-                         flags='t',
-                         overwrite=True)
+            # link tmp geojson, flag o = override projection check
+            v.external(input=jsonfile, output=polygon_name, flags='o')
 
-                with open(output_file, 'r') as input:
-                    for index, line in enumerate(input):
-                        # only write header once
-                        if not (i > 0 and index == 0):
-                            output.write(line)
+            # rasterize geojson
+            v.to_rast(input=polygon_name, output=zone_name,
+                      use='val', value=1)
+            # calculate and write statistics to output_file as table output
+            r.univar(map=demo_raster_name,
+                     zones=zone_name,
+                     output=output_file,
+                     separator='comma',
+                     flags='t',
+                     overwrite=True)
 
-                g.remove(type='vector', name=polygon_name, flags='f')
-                g.remove(type='raster', name=zone_name, flags='f')
+            g.remove(type='vector', name=polygon_name, flags='f')
+            g.remove(type='raster', name=zone_name, flags='f')
 
             session.finish()
-        with open(f'{tempdir}/output', 'r') as result:
-            result = result.readlines()
+            with open(f'{tempdir}/results', 'r') as result:
+                result = result.readlines()
 
-        # format result to JSON
-        keys = []
-        values = []
-        with open(f'{tempdir}/output', 'r') as csvfile:
-            csv_reader = csv.reader(csvfile, delimiter=',')
-            for rowNumber, row in enumerate(csv_reader):
-                # First csv row contains keys
-                if rowNumber == 0:
-                    keys = row
-                else:
-                    values.append(row)
+            # format result to JSON
+            keys = []
+            values = []
+            with open(f'{tempdir}/results', 'r') as csvfile:
+                csv_reader = csv.reader(csvfile, delimiter=',')
+                for rowNumber, row in enumerate(csv_reader):
+                    # First csv row contains keys
+                    if rowNumber == 0:
+                        keys = row
+                    else:
+                        values.append(row)
 
-            outputs = []
-            for value in values:
-                outputs.append(dict(zip(keys, value)))
+                outputs = []
+                for value in values:
+                    outputs.append(dict(zip(keys, value)))
 
-    return outputs
+                return outputs
 
 
 def main():
@@ -122,10 +128,13 @@ def main():
 
     args = parser.parse_args()
 
-    with open(args.geometries) as json_data:
-        results = generate_zonal_stats(
-            rastermap=args.cog, geometries=json.load(json_data))
-        print(results)
+    with open(args.geometries) as geojson:
+        try:
+            results = generate_zonal_stats(
+                rastermap=args.cog, geometries=json.load(geojson))
+            print(results)
+        except Exception as e:
+            print(e)
 
 
 if __name__ == '__main__':
