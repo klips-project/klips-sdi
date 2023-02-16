@@ -1,6 +1,18 @@
 html, body {
   margin: 0;
   height: 100%;
+  overflow: hidden;
+}
+.controls {
+  padding: 10px;
+}
+
+.controls > label {
+  padding-left: 20px;
+}
+
+select#dataset {
+  width: 300px;
 }
 #main {
   width: 100%;
@@ -8,26 +20,29 @@ html, body {
   display: table;
 }
 #map {
-  display: table-cell;
   height: 100%;
 }
+pre {
+  height: 25vh;
+  overflow: auto;
+}
 #wrapper {
-  display: table-row;
   height: 100%;
 }
 #api-output {
   height: 100%;
 }
 #sider {
-  width: 400px;
+  width: 300px;
+  max-width: 400px;
   display: table-cell;
   vertical-align: top;
   padding: 10px;
   height: 100%;
-  overflow: auto;
+  overflow: scroll;
 }
 #chart {
-  height: 400px;
+  height: 30vh;
 }
 code {
   white-space: pre-line;

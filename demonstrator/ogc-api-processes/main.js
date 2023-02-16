@@ -7,8 +7,65 @@ let processId = '';
 // The OpenLayers Draw interaction
 let olDraw;
 
-// The EPSG code of Webmercator
-const epsg3857 = 'EPSG:3857';
+// apply the projection definition for EPSG:3035
+proj4.defs('EPSG:3035','+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 ' +
+  '+ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs');
+ol.proj.proj4.register(proj4);
+
+// setting up the channel sliders
+let minValue = 0;
+let maxValue = 56;
+let channel1Active = true;
+let channel2Active = false;
+let channel3Active = false;
+const origin = window.location.origin.includes('localhost') ?
+  'http://localhost:81' :
+  window.location.origin;
+const tiffBaseUrl = origin + '/cog/dresden/dresden_temperature/';
+let tiffFileName = 'dresden_20230210T0000Z.tif';
+let tiffUrl = tiffBaseUrl + tiffFileName;
+const minSlider = document.querySelector("input[id=min]");
+const maxSlider = document.querySelector("input[id=max]");
+const cb1 = document.querySelector("input[id=channel1]");
+const cb2 = document.querySelector("input[id=channel2]");
+const cb3 = document.querySelector("input[id=channel3]");
+
+const createTiffSource = () => {
+  const bands = [];
+  channel1Active ? bands.push(1) : null;
+  channel2Active ? bands.push(2) : null;
+  channel3Active ? bands.push(3) : null;
+  return new ol.source.GeoTIFF({
+    sources: [{
+      bands,
+      min: minValue,
+      max: maxValue,
+      nodata: -9999,
+      url: tiffUrl
+    }]
+  })
+};
+
+minSlider.addEventListener('input', (evt) => {
+  minValue = evt.target.value;
+  tiffLayer.setSource(createTiffSource());
+});
+maxSlider.addEventListener('input', (evt) => {
+  maxValue = evt.target.value;
+  tiffLayer.setSource(createTiffSource());
+});
+cb1.addEventListener('change', (evt) => {
+  channel1Active = evt.target.value === 'on';
+  tiffLayer.setSource(createTiffSource());
+});
+cb2.addEventListener('change', (evt) => {
+  channel2Active = evt.target.value === 'on';
+  tiffLayer.setSource(createTiffSource());
+});
+cb3.addEventListener('change', (evt) => {
+  channel3Active = evt.target.value === 'on';
+  tiffLayer.setSource(createTiffSource());
+});
 
 /**
  * Adjusts the app to one chosen process.
@@ -34,18 +91,18 @@ const setProcess = (process) => {
   });
 
   olDraw.on('drawend', (event) => {
-    const feature3857 = event.feature;
+    const feature = event.feature;
     let x;
     let y;
-    if (feature3857.getGeometry().getType() === 'Point') {
-      x = feature3857.getGeometry().getCoordinates()[0]
-      y = feature3857.getGeometry().getCoordinates()[1]
+    if (feature.getGeometry().getType() === 'Point') {
+      x = feature.getGeometry().getCoordinates()[0]
+      y = feature.getGeometry().getCoordinates()[1]
     }
 
     const formatGeoJson = new ol.format.GeoJSON({
-      featureProjection: epsg3857
+      featureProjection: 'EPSG:3035'
     });
-    const geoJsonGeom = formatGeoJson.writeGeometry(feature3857.getGeometry());
+    const geoJsonGeom = formatGeoJson.writeGeometry(feature.getGeometry());
 
     let payload;
     switch (processId) {
@@ -63,7 +120,7 @@ const setProcess = (process) => {
               value: JSON.parse(geoJsonGeom),
               mediaType: "application/geo+json"
             }],
-            cogUrl: "http://nginx/cog/dresden_20220216T1146Z.tif"
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName
           }
         };
         break;
@@ -71,7 +128,7 @@ const setProcess = (process) => {
         payload = {
           inputs: {
             polygonGeoJson: JSON.parse(geoJsonGeom),
-            cogUrl: "http://nginx/cog/dresden_20220216T1146Z.tif",
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName,
             statisticMethods: ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
           }
         };
@@ -80,10 +137,11 @@ const setProcess = (process) => {
         payload = {
           inputs: {
             polygonGeoJson: JSON.parse(geoJsonGeom),
-            inputCrs: epsg3857,
+            inputCrs: 'EPSG:4326',
             cogDirUrl: "http://nginx/cog/dresden/dresden_temperature/",
             startTimeStamp: "2000-10-02T12:32:00Z",
-            endTimeStamp: "2024-10-08T12:32:00Z"
+            endTimeStamp: "2024-10-08T12:32:00Z",
+            statisticMethods: ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
           }
         };
         break;
@@ -92,8 +150,8 @@ const setProcess = (process) => {
           inputs: {
             x: x,
             y: y,
-            inputCrs: epsg3857,
-            cogUrl: "http://nginx/cog/dresden/dresden_temperature/dresden_20221008T1232Z.tif"
+            inputCrs: 'EPSG:3035',
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName
           }
         };
         break;
@@ -103,7 +161,7 @@ const setProcess = (process) => {
             x: x,
             y: y,
             cogDirUrl: "http://nginx/cog/dresden/dresden_temperature/",
-            inputCrs: epsg3857,
+            inputCrs: 'EPSG:3035',
             startTimeStamp: "2000-01-01T12:32:00Z",
             endTimeStamp: "2024-12-31T12:32:00Z"
           }
@@ -146,6 +204,7 @@ const setupChart = (json) => {
   chart.setOption(option);
 }
 
+// get all processes
 fetch(oapiProcessesUrl + "?f=json")
     .then(response => response.json())
     .then(json => {
@@ -162,8 +221,31 @@ fetch(oapiProcessesUrl + "?f=json")
     })
     .catch(error => console.log('error', error));
 
+// get all datasets
+fetch(tiffBaseUrl)
+    .then(response => response.json())
+    .then(json => {
+      const select = document.querySelector('select[name=dataset]');
+      json.filter(d => d.name.endsWith('.tif')).forEach(d => {
+        const option = document.createElement('option');
+        option.innerHTML = d.name;
+        option.value = d.name;
+        select.appendChild(option);
+      });
+      select.onchange = (evt) => {
+        tiffFileName = evt.target.value;
+        tiffUrl = tiffBaseUrl + tiffFileName;
+        tiffLayer.setSource(createTiffSource());
+      };
+    })
+    .catch(error => console.log('error', error));
+
 const osmBasemap = new ol.layer.Tile({
   source: new ol.source.OSM(),
+});
+
+const tiffLayer = new ol.layer.WebGLTile({
+  source: createTiffSource()
 });
 
 const drawSource = new ol.source.Vector();
@@ -178,14 +260,14 @@ const drawLayer = new ol.layer.Vector({
   },
 });
 
-
 const map = new ol.Map({
-  layers: [osmBasemap, drawLayer],
+  layers: [osmBasemap, tiffLayer, drawLayer],
   target: 'map',
   view: new ol.View({
-    center: [1528647, 6631453],
-    zoom: 14
-  }),
+    projection: 'EPSG:3035',
+    center: [4585363.5883901585, 3112821.319358871],
+    zoom: 11
+  })
 });
 
 /**
