@@ -18,11 +18,12 @@ let maxValue = 56;
 let channel1Active = true;
 let channel2Active = false;
 let channel3Active = false;
-const origin = window.location.origin.indexOf('localhost') > -1 ?
+const origin = window.location.origin.includes('localhost') ?
   'http://localhost:81' :
   window.location.origin;
 const tiffBaseUrl = origin + '/cog/dresden/dresden_temperature/';
-let tiffUrl = tiffBaseUrl + 'dresden_20230210T0000Z.tif';
+let tiffFileName = 'dresden_20230210T0000Z.tif';
+let tiffUrl = tiffBaseUrl + tiffFileName;
 const minSlider = document.querySelector("input[id=min]");
 const maxSlider = document.querySelector("input[id=max]");
 const cb1 = document.querySelector("input[id=channel1]");
@@ -54,15 +55,15 @@ maxSlider.addEventListener('input', (evt) => {
   tiffLayer.setSource(createTiffSource());
 });
 cb1.addEventListener('change', (evt) => {
-  channel1Active = evt.target.value === 'on' ? true : false;
+  channel1Active = evt.target.value === 'on';
   tiffLayer.setSource(createTiffSource());
 });
 cb2.addEventListener('change', (evt) => {
-  channel2Active = evt.target.value === 'on' ? true : false;
+  channel2Active = evt.target.value === 'on';
   tiffLayer.setSource(createTiffSource());
 });
 cb3.addEventListener('change', (evt) => {
-  channel3Active = evt.target.value === 'on' ? true : false;
+  channel3Active = evt.target.value === 'on';
   tiffLayer.setSource(createTiffSource());
 });
 
@@ -119,7 +120,7 @@ const setProcess = (process) => {
               value: JSON.parse(geoJsonGeom),
               mediaType: "application/geo+json"
             }],
-            cogUrl: "http://nginx/cog/dresden/dresden_temperature" + tiffUrl.substring(tiffUrl.lastIndexOf('/'))
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName
           }
         };
         break;
@@ -127,7 +128,7 @@ const setProcess = (process) => {
         payload = {
           inputs: {
             polygonGeoJson: JSON.parse(geoJsonGeom),
-            cogUrl: "http://nginx/cog/dresden/dresden_temperature" + tiffUrl.substring(tiffUrl.lastIndexOf('/')),
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName,
             statisticMethods: ['count', 'min', 'max', 'mean', 'sum', 'std', 'median', 'majority', 'minority', 'unique', 'range', 'nodata', 'nan']
           }
         };
@@ -150,7 +151,7 @@ const setProcess = (process) => {
             x: x,
             y: y,
             inputCrs: 'EPSG:3035',
-            cogUrl: "http://nginx/cog/dresden/dresden_temperature" + tiffUrl.substring(tiffUrl.lastIndexOf('/'))
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName
           }
         };
         break;
@@ -232,7 +233,8 @@ fetch(tiffBaseUrl)
         select.appendChild(option);
       });
       select.onchange = (evt) => {
-        tiffUrl = tiffBaseUrl + evt.target.value;
+        tiffFileName = evt.target.value;
+        tiffUrl = tiffBaseUrl + tiffFileName;
         tiffLayer.setSource(createTiffSource());
       };
     })
