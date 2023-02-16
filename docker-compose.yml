@@ -29,6 +29,7 @@ services:
       - PARTNER_URL_START
       - PARTNER_API_USERNAME
       - PARTNER_API_PASSWORD
+      - PINO_STREAM_LOG_LEVEL
     ports:
       - 127.0.0.1:3000:3000
     volumes:
@@ -64,6 +65,7 @@ services:
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=dispatcher
+      - PINO_STREAM_LOG_LEVEL
 
   error-handler:
     container_name: ${CN_PREFIX}-error-handler
@@ -80,6 +82,7 @@ services:
       - RESULTSQUEUE=dispatcher
       - WORKERQUEUE=DeadLetterQueue
       - DEV_MODE=${ERROR_HANDLER_DEV_MODE}
+      - PINO_STREAM_LOG_LEVEL
 
   rollback-handler:
     container_name: ${CN_PREFIX}-rollback-handler
@@ -99,6 +102,7 @@ services:
       - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
       - GEOSERVER_USER=${GEOSERVER_USER}
       - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - PINO_STREAM_LOG_LEVEL
 
   send-mattermost-message:
     container_name: ${CN_PREFIX}-send-mattermost-message
@@ -116,6 +120,7 @@ services:
       - WORKERQUEUE=send-mattermost-message
       - MATTERMOST_HOOK_URL=${MATTERMOST_HOOK_URL}
       - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - PINO_STREAM_LOG_LEVEL
 
   send-email:
     container_name: ${CN_PREFIX}-send-email
@@ -133,6 +138,7 @@ services:
       - AUTHPASS=${MAILAUTHPASS}
       - FROMSENDERNAME=${MAILFROMSENDERNAME}
       - FROMSENDEREMAIL=${MAILFROMSENDEREMAIL}
+      - PINO_STREAM_LOG_LEVEL
     volumes:
       - ./logs:/home/logs:Z
     depends_on:
@@ -150,15 +156,16 @@ services:
       - rabbitmq
       - geoserver
     environment:
-    - RABBITHOST=${RABBITMQ_HOSTNAME}
-    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
-    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
-    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-    - WORKERQUEUE=geoserver-publish-imagemosaic
-    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
-    - GEOSERVER_USER=${GEOSERVER_USER}
-    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
-    - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geoserver-publish-imagemosaic
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+      - PINO_STREAM_LOG_LEVEL
 
   geoserver-create-imagemosaic-datastore:
     container_name: ${CN_PREFIX}-geoserver-create-imagemosaic-datastore
@@ -171,21 +178,22 @@ services:
       - rabbitmq
       - geoserver
     environment:
-    - RABBITHOST=${RABBITMQ_HOSTNAME}
-    - RABBITUSER=${RABBITMQ_DEFAULT_USER}
-    - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
-    - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-    - WORKERQUEUE=geoserver-create-imagemosaic-datastore
-    - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
-    - GEOSERVER_USER=${GEOSERVER_USER}
-    - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
-    - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
-    - POSTGRES_HOST=${POSTGRES_HOST}
-    - POSTGRES_PORT=${POSTGRES_PORT}
-    - POSTGRES_SCHEMA=${POSTGRES_SCHEMA}
-    - POSTGRES_DB=${POSTGRES_DB}
-    - POSTGRES_USER=${POSTGRES_USER}
-    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geoserver-create-imagemosaic-datastore
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_SCHEMA=${POSTGRES_SCHEMA}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PINO_STREAM_LOG_LEVEL
 
   download-file:
     container_name: ${CN_PREFIX}-download-file
@@ -202,6 +210,7 @@ services:
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=download-file
+      - PINO_STREAM_LOG_LEVEL
 
   geotiff-optimizer:
     container_name: ${CN_PREFIX}-geotiff-optimizer
@@ -219,6 +228,7 @@ services:
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=geotiff-optimizer
+      - PINO_STREAM_LOG_LEVEL
 
   geotiff-validator:
     container_name: ${CN_PREFIX}-geotiff-validator
@@ -235,6 +245,7 @@ services:
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
       - WORKERQUEUE=geotiff-validator
+      - PINO_STREAM_LOG_LEVEL
 
   geoserver:
     container_name: ${CN_PREFIX}-geoserver
@@ -264,6 +275,7 @@ services:
         - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
         - GEOSERVER_USER=${GEOSERVER_USER}
         - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+        - PINO_STREAM_LOG_LEVEL
     command: [ "./wait-for.sh", "--timeout=180", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "start"]
 
   postgres:

@@ -166,7 +166,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
     email: email
   };
 
-  logger.info({ job: job }, 'Successfully created job');
+  logger.info('Successfully created job');
+  logger.debug({ job: job });
 
   return job;
 };
