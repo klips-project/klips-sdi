@@ -261,6 +261,7 @@ services:
       - STABLE_EXTENSIONS=importer
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx2g
       - SKIP_DEMO_DATA=true
+      - GEOSERVER_CSRF_DISABLED=true
 
   geoserver-init:
     container_name: ${CN_PREFIX}-geoserver-init
