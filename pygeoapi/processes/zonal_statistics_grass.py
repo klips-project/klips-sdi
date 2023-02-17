@@ -165,15 +165,10 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
                 cog_crs = get_crs_from_cog(cog_url)
 
                 if input_crs != cog_crs:
-
                     # reproject
                     collection = reproject(collection, input_crs, cog_crs)
                     # transform back to geojson
                     geoms = mapping(collection)
-                else:
-                    # provided CRS by user is identical to COG
-                    # no conversion needed
-                    pass
             else:
                 raise Exception(
                     'Provided CRS from user is not valid: {}'.format(input_crs)
@@ -187,7 +182,8 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
                 crs=cog_crs
             )
         except Exception as e:
-            LOGGER.debug(f'Failed to generate zonal stats for {cog_url}.', e)
+            LOGGER.debug(f'Failed to generate zonal stats for {cog_url}.')
+            LOGGER.debug(e)
             raise e
 
         LOGGER.debug(f'Successfully generated zonal stats for {cog_url}.')
