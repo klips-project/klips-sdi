@@ -117,7 +117,7 @@ PROCESS_METADATA = {
         },
         'inputCrs': {
             'title': 'Coordinate reference system',
-            'description': 'The coordinate reference system of the provided geometry. If not provided, crs of cog is assumed',  # noqa: E501
+            'description': 'The coordinate reference system (CRS) of the provided geometry. If not provided, CRS of COG is assumed',  # noqa: E501
             'schema': {
                 'type': 'string'
             },
