@@ -24,7 +24,7 @@ sys.path.append(
         ["grass", "--config", "python_path"], text=True).strip()
 )
 
-# Import GRASS Python bindings after GRASS paths are set (important order)
+# GRASS imports must be after GRASS paths are set (order is important)
 import grass.script.setup as gsetup  # noqa: E402
 from grass.pygrass.modules.shortcuts import vector as v  # noqa: E402
 from grass.pygrass.modules.shortcuts import raster as r  # noqa: E402
