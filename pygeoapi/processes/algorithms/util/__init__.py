@@ -57,7 +57,7 @@ def get_available_cog_file_objects(cog_dir_url: str):
     response = requests.get(cog_dir_url)
     file_objects = response.json()
 
-    # only keep files having the '.tif' suffix
+    # remove files not having the '.tif' suffix
     result = filter(
         lambda file: file['name'].endswith(TIF_SUFFIX),
         file_objects
