@@ -30,6 +30,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Lint Python files
-        run: cd pygeoapi && bash dev_scripts/lint.sh
+        run: bash dev_scripts/lint.sh
+        working-directory: pygeoapi
       - name: Test Python files
-        run: cd pygeoapi && bash dev_scripts/test.sh
+        run: bash dev_scripts/test.sh
+        working-directory: pygeoapi
