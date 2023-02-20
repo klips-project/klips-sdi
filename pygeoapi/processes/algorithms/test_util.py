@@ -4,7 +4,8 @@ from datetime import datetime
 from .util import (
     timestamp_from_file_name,
     url_exists,
-    timestamp_within_range
+    timestamp_within_range,
+    get_available_cog_file_objects
 )
 
 
@@ -18,6 +19,12 @@ def test_timestamp_from_file_name():
         'dresden_20191127T1000Z.tif')
     iso_string = extracted_timestamp.isoformat()
     assert iso_string == '2019-11-27T10:00:00+00:00'
+
+
+def test_get_available_cog_file_objects():
+    cog_dir_url = "http://localhost:81/dummy-mosaic/"
+    result_list = get_available_cog_file_objects(cog_dir_url)
+    assert (len(result_list) == 4)
 
 
 def test_timestamp_within_range():
@@ -45,9 +52,9 @@ def test_timestamp_within_range():
     # raises exception on invalid range
     with pytest.raises(Exception):
         assert timestamp_within_range(
-           datetime(2000,1,1),
-           datetime(1999,1,1),
-           datetime(1998,1,1)
+            datetime(2000, 1, 1),
+            datetime(1999, 1, 1),
+            datetime(1998, 1, 1)
         )
 
     # without end timestamp

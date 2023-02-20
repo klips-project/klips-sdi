@@ -45,12 +45,24 @@ def timestamp_from_file_name(file_name: str):
 def get_available_cog_file_objects(cog_dir_url: str):
     """Read available COG file objects from an URL.
 
+    Only COG files ending with '.tif' are returned.
+
     :param cog_dir_url: The URL to check
 
     :returns: The containing COG image objects
     """
+    # the required suffix of the tif files
+    TIF_SUFFIX = '.tif'
+
     response = requests.get(cog_dir_url)
-    return response.json()
+    file_objects = response.json()
+
+    # remove files not having the '.tif' suffix
+    result = filter(
+        lambda file: file['name'].endswith(TIF_SUFFIX),
+        file_objects
+    )
+    return list(result)
 
 
 def timestamp_within_range(timestamp: datetime,

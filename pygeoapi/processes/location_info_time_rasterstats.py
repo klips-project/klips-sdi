@@ -22,8 +22,8 @@ PROCESS_METADATA = {
         'de': 'Zeitbasierte Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get time-based information of a location of an publicly accessible COG. Only queries the data from the first raster band.',  # noqa: E501
-        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen COGs basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'  # noqa: E501
+        'en': 'Get time-based information of a location of an publicly accessible COG.',  # noqa: E501
+        'de': 'Fragt zeitbasierte Rasterwerte eines öffentlich zugänglichen COGs basierend auf Input-Koordinaten ab'  # noqa: E501
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
@@ -90,7 +90,16 @@ PROCESS_METADATA = {
             },
             'minOccurs': 1,
             'maxOccurs': 1
-        }
+        },
+        'bands': {
+            'title': 'Rasterbands',
+            'description': 'The rasterbands to query',  # noqa: E501
+            'schema': {
+                'type': 'array'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1
+        },
     },
     'outputs': {
         "values": {
@@ -107,7 +116,8 @@ PROCESS_METADATA = {
             "y": 3115558.3,
             "cogDirUrl": "http://localhost/cog/dresden/dresden_temperature/",
             "startTimeStamp": "2022-10-02T12:32:00Z",
-            "endTimeStamp": "2022-10-08T12:32:00Z"
+            "endTimeStamp": "2022-10-08T12:32:00Z",
+            "bands": [1, 2, 3]
         }
     }
 }
@@ -126,6 +136,7 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         end_ts = data.get('endTimeStamp')
         input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
+        bands = data.get('bands') or [1]
 
         if not url_exists(cog_dir_url):
             raise Exception('Cannot access provided URL: {}'
@@ -157,9 +168,9 @@ class LocationInfoTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
                 raise Exception(
                     'Provided CRS from user is not valid: {}'.format(input_crs)
                 )
-
         results = get_location_info_time(
-            cog_dir_url, point,  start_ts, end_ts)
+            cog_dir_url, point,  start_ts, end_ts, bands)
+
         outputs = {
             'values': results
         }

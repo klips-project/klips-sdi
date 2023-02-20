@@ -1,4 +1,4 @@
-name: Lint and test KLIPS API files
+name: Lint and test pygeoapi files
 on:
   push:
     branches:
@@ -10,6 +10,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Install program "wait-for-it"
+        run: sudo apt install wait-for-it
       - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -18,7 +20,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest rio-cogeo rasterstats
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - run: set -e
+      - name: Ensures job is exited on error
+        run: set -e
+      - name: Provide a .env file for running the docker-compose setup
+        run: cp .env.example .env
+      - name: Run NGINX from docker-compose setup to create a dummy webspace for the test
+        run: docker-compose -f docker-compose.yml up -d nginx
+      - name: Wait until dummy webspace is available
+        run: wait-for-it localhost:81
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Lint Python files

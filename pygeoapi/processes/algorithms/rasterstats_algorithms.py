@@ -10,12 +10,13 @@ from .util import (url_exists, timestamp_from_file_name,
                    timestamp_within_range, get_available_cog_file_objects)
 
 
-def get_location_info(cog_url: str, point: Point):
+def get_location_info(cog_url: str, point: Point, bands: list = [1]):
     """
-    Extract the value at the location of the first band of the provided COG.
+    Extract values at a location of a provided COG.
 
-    :param cog_url: the URL of the COG
+    :param cog_url: The URL of the COG
     :param point: The shapely Point of the location
+    :param bands: The bands to query
 
     :returns: the value at the location of the first band
     """
@@ -23,23 +24,25 @@ def get_location_info(cog_url: str, point: Point):
     if not url_exists(cog_url):
         raise Exception('URL cannot be called: {}'.format(cog_url))
 
-    # request value from COG
-    response = point_query([point], cog_url)
-    return [
-        {
-            'band_0': response[0]
-        }
-    ]
+    results = {}
+    for band in bands:
+        response = point_query([point], cog_url, band)
+        property_name = f'band_{band}'
+        results[property_name] = response[0]
+
+    return [results]
 
 
 def get_location_info_time(cog_dir_url: str, point: Point,
-                           start_ts: datetime = None, end_ts: datetime = None):
+                           start_ts: datetime = None, end_ts: datetime = None,
+                           bands: list = [1]):
     """Return locationinfo of many timestamps.
 
     :param cog_dir_url: The URL of the COG directory
     :param point: The shapely Point of the location
-    :param start_ts: The start timestamp, example: "2022-10-02T12:32:00Z"
-    :param end_ts: The end timestamp, example: "2022-10-09T12:32:00Z"
+    :param start_ts: The start timestamp
+    :param end_ts: The end timestamp
+    :param bands: The bands to query
 
     :returns: A dict with the timestamps and its values
     """
@@ -70,7 +73,10 @@ def get_location_info_time(cog_dir_url: str, point: Point,
             iso_timestamp = iso_timestamp.replace('+00:00', 'Z')
 
             if url_exists(cog_url):
-                loc_info = get_location_info(cog_url, point)
+                if bands is not None:
+                    loc_info = get_location_info(cog_url, point, bands)
+                else:
+                    loc_info = get_location_info(cog_url, point)
 
                 result = loc_info[0]
                 result['timestamp'] = iso_timestamp
@@ -95,7 +101,8 @@ def get_location_info_time(cog_dir_url: str, point: Point,
 def get_zonal_stats(cog_url: str, polygon: Polygon,
                     statistic_methods: list = ['count',
                                                'min',
-                                               'mean', 'max', 'median']
+                                               'mean', 'max', 'median'],
+                    bands: list = [1]
                     ):
     """Create zonal statistics from a COG using a single polygon as input.
 
@@ -106,6 +113,7 @@ def get_zonal_stats(cog_url: str, polygon: Polygon,
                   'std', 'median', 'majority', 'minority', 'unique',
                   'range', 'nodata', 'nan']
                   defaults to ['count', 'min', 'mean', 'max', 'median']
+    :param bands: The bands to query
 
     :returns The zonal statistics
     """
@@ -121,17 +129,26 @@ def get_zonal_stats(cog_url: str, polygon: Polygon,
     # convert list of statistic methods to string
     stats = ' '.join(statistic_methods)
 
-    return zonal_stats(
-        polygon,
-        cog_url,
-        stats=stats
-    )
+    # compute results and reshape to expected structure
+    results = []
+    for band in bands:
+        band_result = zonal_stats(
+            polygon,
+            cog_url,
+            stats=stats,
+            band=band
+        )
+        band_result = band_result[0]
+        band_result['band'] = band
+        results.append(band_result)
+    return results
 
 
 def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
                          start_ts: datetime = None, end_ts: datetime = None,
                          statistic_methods=['count', 'min',
                                             'mean', 'max', 'median'],
+                         bands: list = [1]
                          ):
     """Create time-based zonal statistics.
 
@@ -142,8 +159,9 @@ def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
                   'std', 'median', 'majority', 'minority', 'unique',
                   'range', 'nodata', 'nan']
                   defaults to ['count', 'min', 'mean', 'max', 'median']
-    :param start_ts: The start timestamp, example: "2022-10-02T12:32:00Z"
-    :param end_ts: The end timestamp, example: "2022-10-09T12:32:00Z"
+    :param start_ts: The start timestamp
+    :param end_ts: The end timestamp
+    :param bands: The bands to query
 
     :returns: A dict with the timestamps and its values
     """
@@ -174,13 +192,14 @@ def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
             iso_timestamp = iso_timestamp.replace('+00:00', 'Z')
 
             if url_exists(cog_url):
-                loc_info = get_zonal_stats(
-                    cog_url, polygon, statistic_methods=statistic_methods)
+                band_results = get_zonal_stats(
+                    cog_url, polygon, statistic_methods=statistic_methods,
+                    bands=bands)
 
-                result = loc_info[0]
-                result['timestamp'] = iso_timestamp
+                for band_result in band_results:
+                    band_result['timestamp'] = iso_timestamp
 
-                return result
+                return band_results
             else:
                 # TODO: handle case URL cannot be reached
                 return None
@@ -189,9 +208,14 @@ def get_zonal_stats_time(cog_dir_url, polygon: Polygon,
             return None
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        results = executor.map(location_info_from_cog_url, cog_list)
+        results_per_cog = executor.map(location_info_from_cog_url, cog_list)
 
     # remove empty values
-    results = list(filter(None, results))
+    results_per_cog = list(filter(None, results_per_cog))
 
-    return list(results)
+    # flatten the resulting list of lists
+    flattened = []
+    for single_cog_result in results_per_cog:
+        flattened += single_cog_result
+
+    return flattened

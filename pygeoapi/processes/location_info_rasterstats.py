@@ -19,8 +19,8 @@ PROCESS_METADATA = {
         'de': 'Standortinformation eines COGs mit rasterstats'
     },
     'description': {
-        'en': 'Get information of a location of an publicly accessible COG. Only queries the data from the first raster band.',  # noqa: E501
-        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend auf Input-Koordinaten ab. Dabei wird nur das erste Band abgefragt.'  # noqa: E501
+        'en': 'Get information of a location of an publicly accessible COG.',  # noqa: E501
+        'de': 'Fragt Rasterwerte eines öffentlich zugänglichen COG basierend auf Input-Koordinaten ab.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'locationinfo', 'featureinfo'],
     'links': [],
@@ -58,7 +58,7 @@ PROCESS_METADATA = {
             'schema': {
                 'type': 'string'
             },
-            'minOccurs': 1,
+            'minOccurs': 0,
             'maxOccurs': 1
         },
         'returnGeoJson': {
@@ -67,14 +67,23 @@ PROCESS_METADATA = {
             'schema': {
                 'type': 'boolean'
             },
-            'minOccurs': 1,
+            'minOccurs': 0,
             'maxOccurs': 1
-        }
+        },
+        'bands': {
+            'title': 'Rasterbands',
+            'description': 'The rasterbands to query',  # noqa: E501
+            'schema': {
+                'type': 'array'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1
+        },
     },
     'outputs': {
         'value': {
             'title': 'location value',
-            'description': 'The value of the location at the first band of the COG.',  # noqa: E501
+            'description': 'The values at the requested location of the of the COG.',  # noqa: E501
             'schema': {
                 'type': 'string'
             }
@@ -84,7 +93,8 @@ PROCESS_METADATA = {
         "inputs": {
             "x": 12.2,
             "y": 50.4,
-            "cogUrl": "https://example.com/sample-cog.tif"
+            "cogUrl": "https://example.com/sample-cog.tif",
+            "bands": [1, 2, 3]
         }
     }
 }
@@ -102,6 +112,7 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
         cog_url = data.get('cogUrl')
         input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
+        bands = data.get('bands') or [1]
 
         point = Point(x, y)
 
@@ -120,9 +131,9 @@ class LocationInfoRasterstatsProcessor(BaseProcessor):  # noqa: D101
                     'Provided CRS from user is not valid: {}'.format(input_crs)
                 )
 
-        value = get_location_info(cog_url, point)
+        value = get_location_info(cog_url, point, bands)
 
-        if return_geojson is True:
+        if return_geojson:
             geojson_feature = shapely.geometry.mapping(point)
             geojson_feature['properties'] = value[0]
             mimetype = 'application/geo+json'
