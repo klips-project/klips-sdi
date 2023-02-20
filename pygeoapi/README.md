@@ -18,8 +18,23 @@ docker-compose up --build -d pygeoapi ; docker-compose logs -f
 
 # lint using flake8
 dev_scripts/lint.sh
+```
 
-# tests using py_test
+## Tests
+
+The tests require a mocked webserver containing dummy COGs. It is included in the top-level docker-compose setup by the `nginx` service. Run it like this:
+
+```shell
+# navigate to the root of the top-level project 'klips-sdi'
+cd ..
+# start the nginx service
+docker-compose -f docker-compose.yml up nginx
+```
+
+In a different terminal navigate to the directory of `pygeoapi`:
+
+```shell
+# run tests using py_test
 dev_scripts/test.sh
 ```
 
