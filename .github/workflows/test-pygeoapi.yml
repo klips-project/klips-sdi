@@ -19,7 +19,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest rio-cogeo rasterstats
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Ensures job is exited on error
         run: set -e
       - name: Provide a .env file for running the docker-compose setup
