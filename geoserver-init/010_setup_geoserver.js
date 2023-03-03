@@ -36,7 +36,7 @@ async function createWorkspaces() {
     const workspaceOverLayUri = `https://www.meggsimum.de/namespace/klips/${workspace}`;
 
     if (wsOverLayerExists) {
-      logger.info(`Workspace '${workspace}' already exists.`);
+      logger.info(`Workspace '${workspace}' already exists`);
     } else {
       try {
         logger.info(`Created Workspace: '${workspace}'`);
@@ -52,7 +52,7 @@ async function createWorkspaces() {
  * Loops over all files of the SLD directory and publishes them to GeoServer.
  */
 async function createStyles() {
-  logger.info('Start creating styles.')
+  logger.info('Start creating styles')
   const sldFiles = await fs.readdirSync(SLD_DIRECTORY);
 
   // loop over SLD files
@@ -83,7 +83,7 @@ async function createSingleStyle(workspace, styleName) {
   const styleExists = await grc.styles.getStyleInformation(workspace, styleName);
 
   if (styleExists) {
-    logger.info(`Style '${styleName}' already exists.`);
+    logger.info(`Style '${styleName}' already exists`);
   } else {
     const sldFilePath = path.join(SLD_DIRECTORY, styleFile);
     const sldBody = fs.readFileSync(sldFilePath, 'utf8');

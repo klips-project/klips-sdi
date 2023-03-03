@@ -40,7 +40,7 @@ async function adaptSecurity () {
     const userPw = newGeoserverPw;
 
     if (!user || !userPw || user === '' || userPw === '') {
-      logger.error('No valid user or user password given - EXIT.');
+      logger.error('No valid user or user password given - EXIT');
       return;
     }
 
@@ -60,7 +60,7 @@ async function adaptSecurity () {
     //       moment until the newly created user is usable.
     //       Ideally here we have a function that waits for the moment until we can successfully login
     const secondsToWait = 10;
-    logger.debug(`Waiting for ${secondsToWait} seconds to give GeoServer time to register the new user.`);
+    logger.debug(`Waiting for ${secondsToWait} seconds to give GeoServer time to register the new user`);
 
     await sleep(secondsToWait);
     logger.debug('Waiting over...');
