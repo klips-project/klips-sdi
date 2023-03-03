@@ -8,8 +8,6 @@
     "lint-fix": "eslint --fix",
     "start": "node 000_change_auth.js && node 010_setup_geoserver.js"
   },
-  "author": "meggsimum",
-  "license": "MIT",
   "dependencies": {
     "geoserver-node-client": "1.2.2",
     "pino": "^8.8.0",
