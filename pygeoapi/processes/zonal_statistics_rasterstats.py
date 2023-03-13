@@ -17,8 +17,8 @@ PROCESS_METADATA = {
         'de': 'Zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'
     },
     'description': {
-        'en': 'Compute zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',  # noqa: E501
-        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'  # noqa: E501
+        'en': 'Compute zonal statistics of a subset of a public accessible COG.',  # noqa: E501
+        'de': 'Berechnet zonale Statistiken eines öffentlich zugänglichen COGs.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
@@ -66,7 +66,16 @@ PROCESS_METADATA = {
             },
             'minOccurs': 1,
             'maxOccurs': 1
-        }
+        },
+        'bands': {
+            'title': 'Rasterbands',
+            'description': 'The rasterbands to query',  # noqa: E501
+            'schema': {
+                'type': 'array'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1
+        },
     },
     'outputs': {
         'values': {
@@ -81,6 +90,7 @@ PROCESS_METADATA = {
         "inputs": {
             "cogUrl": "https://example.com/sample-cog.tif",
             "statisticMethods": ["count", "majority"],
+            "bands": [1, 2, 3],
             "polygonGeoJson": {
                 "coordinates": [
                     [
@@ -122,9 +132,11 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
 
         cog_url = data.get('cogUrl')
         polygon_geojson = data.get('polygonGeoJson')
-        statistic_methods = data.get('statisticMethods')
         input_crs = data.get('inputCrs')
         return_geojson = data.get('returnGeoJson')
+        statistic_methods = data.get('statisticMethods') or \
+            ['count', 'min', 'mean', 'max', 'median']
+        bands = data.get('bands') or [1]
 
         # TODO: ensure polygon is not too large,
         #       otherwise process takes very long or even crashes
@@ -147,17 +159,12 @@ class ZonalStatisticsRasterstatsProcessor(BaseProcessor):  # noqa: D101
                     'Provided CRS from user is not valid: {}'.format(input_crs)
                 )
 
-        if statistic_methods:
-            result = get_zonal_stats(
-                cog_url,
-                polygon,
-                statistic_methods=statistic_methods
-            )
-        else:
-            result = get_zonal_stats(
-                cog_url,
-                polygon
-            )
+        result = get_zonal_stats(
+            cog_url,
+            polygon,
+            statistic_methods=statistic_methods,
+            bands=bands
+        )
 
         if return_geojson is True:
             geojson_feature = shapely.geometry.mapping(polygon)

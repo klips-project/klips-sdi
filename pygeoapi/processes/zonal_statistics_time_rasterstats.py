@@ -24,8 +24,8 @@ PROCESS_METADATA = {
         'de': 'Zeitbasierte zonale Statistiken einer COG-Datei mit Hilfe von rasterstats'  # noqa: E501
     },
     'description': {
-        'en': 'Compute time-based zonal statistics of a subset of a public accessible COG. Only queries data of the first raster band.',  # noqa: E501
-        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich zugänglichen COGs. Fragt nur Daten vom ersten Rasterband ab.'  # noqa: E501
+        'en': 'Compute time-based zonal statistics of a subset of a public accessible COG.',  # noqa: E501
+        'de': 'Berechnet zeitbasierte zonale Statistiken eines öffentlich zugänglichen COGs.'  # noqa: E501
     },
     'keywords': ['rasterstats', 'zonal statistics'],
     'links': [],
@@ -83,7 +83,16 @@ PROCESS_METADATA = {
             },
             'minOccurs': 1,
             'maxOccurs': 1
-        }
+        },
+        'bands': {
+            'title': 'Rasterbands',
+            'description': 'The rasterbands to query',  # noqa: E501
+            'schema': {
+                'type': 'array'
+            },
+            'minOccurs': 0,
+            'maxOccurs': 1
+        },
     },
     'outputs': {
         'values': {
@@ -99,6 +108,7 @@ PROCESS_METADATA = {
             "cogDirUrl": "http://nginx/cog/dresden/dresden_temperature/",
             "startTimeStamp": "2022-10-02T12:32:00Z",
             "endTimeStamp": "2022-10-08T12:32:00Z",
+            "bands": [1, 2, 3],
             "statisticMethods": [
                 "count",
                 "majority"
@@ -149,7 +159,10 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
         return_geojson = data.get('returnGeoJson')
 
         polygon_geojson = data.get('polygonGeoJson')
-        statistic_methods = data.get('statisticMethods')
+        statistic_methods = data.get('statisticMethods') or \
+            ['count', 'min', 'mean', 'max', 'median']
+        bands = data.get('bands') or [1]
+
         # TODO: ensure polygon is not too large, otherwise process
         #       takes very long or even crashes
 
@@ -185,21 +198,14 @@ class ZonalStatisticsTimeRasterstatsProcessor(BaseProcessor):  # noqa: D101
                     'Provided CRS from user is not valid: {}'.format(input_crs)
                 )
 
-        if statistic_methods:
-            result = get_zonal_stats_time(
-                cog_dir_url,
-                polygon,
-                start_ts=start_ts,
-                end_ts=end_ts,
-                statistic_methods=statistic_methods
-            )
-        else:
-            result = get_zonal_stats_time(
-                cog_dir_url,
-                polygon,
-                start_ts=start_ts,
-                end_ts=end_ts,
-            )
+        result = get_zonal_stats_time(
+            cog_dir_url,
+            polygon,
+            start_ts=start_ts,
+            end_ts=end_ts,
+            statistic_methods=statistic_methods,
+            bands=bands
+        )
 
         outputs = {
             'values': result
