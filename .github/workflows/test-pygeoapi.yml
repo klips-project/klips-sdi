@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest rio-cogeo rasterstats
+          pip install flake8 pytest black rio-cogeo rasterstats
       - name: Ensures job is exited on error
         run: set -e
       - name: Provide a .env file for running the docker-compose setup
@@ -26,10 +26,12 @@ jobs:
       - name: Run NGINX from docker-compose setup to create a dummy webspace for the test
         run: docker-compose -f docker-compose.yml up -d nginx
       - name: Wait until dummy webspace is available
-        run: wait-for-it localhost:81
+        run: wait-for-it "localhost:81"
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Lint Python files
-        run: cd pygeoapi && bash dev_scripts/lint.sh
+        run: bash dev_scripts/lint.sh
+        working-directory: pygeoapi
       - name: Test Python files
-        run: cd pygeoapi && bash dev_scripts/test.sh
+        run: bash dev_scripts/test.sh
+        working-directory: pygeoapi
