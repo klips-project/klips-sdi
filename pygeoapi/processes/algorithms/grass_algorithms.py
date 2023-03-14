@@ -51,17 +51,20 @@ def generate_zonal_stats(rastermap, geometries, crs="EPSG:4326"):
             demo_raster_name = "demo-raster"
 
             try:
+                print("Try to load rastermap: " + rastermap)
                 r.external(
                     input="/vsicurl/" + rastermap,
                     output=demo_raster_name,
                     flags="e",
                     verbose=True,
+                    # TODO Use an input param here
+                    band=1,
                 )
             except Exception as e:
                 print(f"Failed to load raster {rastermap}.")
                 raise e
 
-            # set region
+            # update region
             g.region(raster=demo_raster_name)
 
             # write tmp geojson

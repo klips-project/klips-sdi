@@ -5,9 +5,13 @@ from .algorithms.grass_algorithms import generate_zonal_stats
 
 from .algorithms.util import url_exists, get_crs_from_cog, reproject
 
-from shapely.geometry import shape, GeometryCollection, mapping
+from shapely.geometry import GeometryCollection, mapping
+
+from shapely import from_geojson
 
 import logging
+
+import json
 
 LOGGER = logging.getLogger(__name__)
 
@@ -113,17 +117,21 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
         if not url_exists(cog_url):
             raise Exception(f"Cannot access provided URL: {cog_url}.")
 
-        # create GeometryCollection
-        features = geoms["features"]
-        collection = GeometryCollection(
-            [shape(feature["geometry"]).buffer(0) for feature in features]
-        )
+        try:
+            # create GeometryCollection
+            # TODO handle multiple geometries / features
+            feature = from_geojson(json.dumps(geoms))
+            collection = GeometryCollection([feature])
+        except Exception as e:
+            print("Failed to create geometry from input.")
+            raise Exception(e)
 
         if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith("EPSG:"):
                 cog_crs = get_crs_from_cog(cog_url)
 
                 if input_crs != cog_crs:
+                    LOGGER.debug("Reproject input geometries")
                     # reproject
                     collection = reproject(collection, input_crs, cog_crs)
                     # transform back to geojson

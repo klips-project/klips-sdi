@@ -116,11 +116,9 @@ const setProcess = (process) => {
       case 'zonal-statistics-grass':
         payload = {
           inputs: {
-            inputGeometries: [{
-              value: JSON.parse(geoJsonGeom),
-              mediaType: "application/geo+json"
-            }],
-            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName
+            polygonGeoJson: JSON.parse(geoJsonGeom),
+            cogUrl: "http://nginx/cog/dresden/dresden_temperature/" + tiffFileName,
+            inputCrs: "EPSG:4326"
           }
         };
         break;
