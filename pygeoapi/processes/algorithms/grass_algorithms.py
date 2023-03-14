@@ -58,7 +58,7 @@ def generate_zonal_stats(rastermap, geometries, crs="EPSG:4326"):
                     flags="e",
                     verbose=True,
                     # TODO Use an input param here
-                    band=1
+                    band=1,
                 )
             except Exception as e:
                 print(f"Failed to load raster {rastermap}.")

@@ -5,7 +5,7 @@ from .algorithms.grass_algorithms import generate_zonal_stats
 
 from .algorithms.util import url_exists, get_crs_from_cog, reproject
 
-from shapely.geometry import shape, GeometryCollection, mapping
+from shapely.geometry import GeometryCollection, mapping
 
 from shapely import from_geojson
 
@@ -121,11 +121,10 @@ class ZonalStatisticsGrassProcessor(BaseProcessor):  # noqa: D101
             # create GeometryCollection
             # TODO handle multiple geometries / features
             feature = from_geojson(json.dumps(geoms))
-            collection = GeometryCollection(
-                [feature]
-            )
+            collection = GeometryCollection([feature])
         except Exception as e:
-            raise Exception("Failed to create geometry from input.")
+            print("Failed to create geometry from input.")
+            raise Exception(e)
 
         if input_crs is not None:
             if isinstance(input_crs, str) and input_crs.startswith("EPSG:"):
