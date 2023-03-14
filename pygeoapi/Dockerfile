@@ -13,7 +13,7 @@ RUN apt -y install grass gdal-bin
 #       otherwise pygeoapi might not start up at all
 
 # install 'rasterstats' for zonal statistics, 'click' needed for compatibility with pygeoapi
-RUN pip3 install rasterstats click==7.1.2 rio-cogeo==3.4.1
+RUN pip3 install rasterstats click==7.1.2 rio-cogeo==3.4.1 shapely==2.0.1
 
 # install 'rio-cogeo' to query information about COG
 RUN pip3 install rio-cogeo==3.4.1
