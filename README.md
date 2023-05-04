@@ -95,3 +95,7 @@ amqp-publish \
   -u=amqp://rabbit:rabbit@localhost:5672 \
   -r=dispatcher < workflows/publish-geotiff-with-validator.json
 ```
+
+## Licence
+
+BSD 2-Clause License (see LICENSE document)
