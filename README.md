@@ -96,6 +96,6 @@ amqp-publish \
   -r=dispatcher < workflows/publish-geotiff-with-validator.json
 ```
 
-## Licence
+## License 
 
 BSD 2-Clause License (see LICENSE document)
