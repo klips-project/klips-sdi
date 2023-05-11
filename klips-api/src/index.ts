@@ -8,6 +8,8 @@ import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
+import temperatureCurveRoutes from './routes/temperature_curve';
+
 import { logger } from './logger';
 import createJobFromApiInput from './converter';
 import {
@@ -164,6 +166,8 @@ const startApi = async () => {
       routeJob,
       postJobHandler
     );
+
+    app.use(temperatureCurveRoutes);
 
     logger.info(`Application successfully started on port ${port}`);
   } catch (error) {
