@@ -12,6 +12,6 @@
   "license": "BSD 2-Clause",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "node-fetch": "^3.2.6"
+    "node-fetch": "^3.2.10"
   }
 }
