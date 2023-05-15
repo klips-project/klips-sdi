@@ -35,6 +35,12 @@ export const getParams = (locationType: string) => {
   }
 };
 
+/**
+ * Parses the pathnames from a URL and extracts the corresponding parameters based on the provided configuration.
+ * @param {string} locationPathname - The URL pathname to parse.
+ * @param {PathNameConfig} config - The configuration object that maps parameter keys to their corresponding index in the URL pathname.
+ * @returns {Params} - An object containing the extracted parameters.
+ */
 export const parseURLPathnames = (locationPathname: string, config: PathNameConfig): Params => {
   let params: Params = {};
 
