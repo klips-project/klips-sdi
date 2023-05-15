@@ -305,6 +305,7 @@ services:
       - 127.0.0.1:5000:80
 
   demonstrator:
+    container_name: ${CN_PREFIX}-demonstrator
     image: nginx
     restart: unless-stopped
     ports:
