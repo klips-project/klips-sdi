@@ -1,38 +1,51 @@
-html, body {
+:root {
+  font-family: Helvetica;
+  font-weight: 400;
+}
+
+html,
+body {
   margin: 0;
   height: 100%;
   overflow: hidden;
 }
+
 .controls {
   padding: 10px;
 }
 
-.controls > label {
+.controls>label {
   padding-left: 20px;
 }
 
 select#dataset {
   width: 300px;
 }
+
 #main {
   width: 100%;
   height: 100%;
   display: table;
 }
+
 #map {
   height: 100%;
 }
+
 pre {
   height: 25vh;
   overflow: auto;
 }
+
 #wrapper {
   height: 100%;
 }
+
 #api-output {
   height: 100%;
   overflow: auto;
 }
+
 #sider {
   width: 500px;
   max-width: 500px;
@@ -41,13 +54,230 @@ pre {
   padding: 10px;
   height: 100%;
 }
+
 #chart {
   height: 30vh;
 }
+
 code {
   white-space: pre-line;
 }
+
 video {
   width: 100%;
   height: 100%;
+}
+
+#imprintButton {
+  margin-right: 10px;
+  padding: 0.4em 1em;
+  background: #e55f25;
+  border-color: transparent;
+  color: #ffffff;
+  border-radius: 25px;
+}
+
+#imprintButton:hover{
+  background: white;
+  border-color: #e55f25;
+  border-width: 3px;
+  color: #e55f25;
+  border-style: solid;
+  border-radius: 25px;
+}
+
+#infoButton {
+  padding: 0.4em 1em;
+  background: #e55f25;
+  border-color: transparent;
+  color: #ffffff;
+  border-radius: 25px;
+}
+
+#buttonWrapper {
+ width: 200px;
+ height: auto;
+ position: absolute;
+ bottom: 50px;
+ left: 50px;
+ z-index: 999;
+ display: flex;
+}
+
+#infoButton:hover{
+  background: white;
+  border-color: #e55f25;
+  border-width: 3px;
+  color: #e55f25;
+  border-style: solid;
+  border-radius: 25px;
+}
+
+.modal-background {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 9998;
+}
+
+.modalImprint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  margin: auto;
+  width: 30%;
+  height: 53%;
+  background-color: #fff;
+  box-sizing: border-box;
+  z-index: 9999;
+  border-style: solid;
+  border-color: lightgrey;
+}
+
+.modalImprint.open {
+  display: block;
+}
+
+.modalText {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalText>a {
+  padding-bottom: 4%;
+}
+
+.socialMediaIcons i {
+  color: #e55f25;
+  font-size: 2em;
+  padding-bottom: 4%;
+}
+
+.creators {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  align-items: center;
+}
+
+.modalInfo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  margin: auto;
+  width: 60%;
+  height: 70%;
+  background-color: #fff;
+  box-sizing: border-box;
+  z-index: 9999;
+  border-style: solid;
+  border-color: lightgrey;
+}
+
+.modalInfo.open {
+  display: block;
+}
+
+.modalInfo>p {
+  padding: 15px;
+  margin: 0;
+}
+
+.modal-header {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #dddddd;
+  box-sizing: border-box;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-header h4 {
+  margin: 0;
+  box-sizing: border-box;
+  padding-left: 15px;
+  line-height: 50px;
+  color: #4d4d4d;
+  display: inline-block;
+}
+
+#closeModal {
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#closeInfo {
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ol-zoom .ol-zoom-in {
+  border-radius: 2px 2px 0 0;
+  background: #e55f25;
+  border-color:  #e55f25;
+  color: #ffffff;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.ol-zoom .ol-zoom-in:hover {
+  border-radius: 2px 2px 0 0;
+  background: white;
+  border-color: #e55f25;
+  color: #e55f25;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.ol-zoom .ol-zoom-in:focus {
+  border-radius: 2px 2px 0 0;
+  background: white;
+  border-color: #e55f25;
+  color: #e55f25;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.ol-zoom .ol-zoom-out {
+  border-radius: 2px 2px 0 0;
+  background: #e55f25;
+  border-color:  #e55f25;
+  color: #ffffff;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.ol-zoom .ol-zoom-out:hover {
+  border-radius: 2px 2px 0 0;
+  background: white;
+  border-color: #e55f25;
+  color: #e55f25;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.ol-zoom .ol-zoom-out:focus {
+  border-radius: 2px 2px 0 0;
+  background: white;
+  border-color: #e55f25;
+  color: #e55f25;
+  border-width: 2px;
+  border-style: solid;
 }
