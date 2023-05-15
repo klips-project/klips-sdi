@@ -5,7 +5,7 @@ import * as echarts from 'echarts';
 
 export type EChartsOption = echarts.EChartsOption;
 
-export const chartApi = class ChartAPI {
+export class ChartAPI {
   public params: Params;
   public chartData: any;
   public chart: any;
