@@ -8,7 +8,7 @@ import ChartApi from './components/Chart/index.js';
 import { Params } from './types';
 import { pathNameConfig } from './constants/index.js';
 
-const widgetApi = class WidgetAPI {
+class WidgetAPI {
   public params: Params | undefined = undefined;
   // TODO define type for widget
   public widget: any = undefined;
