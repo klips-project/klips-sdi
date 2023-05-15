@@ -1,49 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon"
-      href="https://openlayers.org/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js" integrity="sha512-OTbGFYPLe3jhy4bUwbB8nls0TFgz10kn0TLkmyA+l3FyivDs31zsXCjOis7YGDtE2Jsy0+fzW+3/OVoPVujPmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.1/proj4.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css">
-    <link rel="stylesheet" href="./style.css">
-    <title>OGC API Processes - Demonstrator</title>
-  </head>
-  <body>
-    <div id="main">
-      <div class="controls">
-        <label>Bands min value
-          <input type="range" id="min" value="0" min="-255" max="255">
-        </label>
-        <label>Bands max value
-          <input type="range" id="max" value="0" min="-255" max="255">
-        </label>
-        <label>channel 1
-          <input type="radio" id="channel1" name="channel" checked>
-        </label>
-        <label>channel 2
-          <input type="radio" id="channel2" name="channel">
-        </label>
-        <label>channel 3
-          <input type="radio" id="channel3" name="channel">
-        </label>
-        <label>Select Dataset
-          <select id= "dataset" name="dataset"></select>
-        </label>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js"
+    integrity="sha512-OTbGFYPLe3jhy4bUwbB8nls0TFgz10kn0TLkmyA+l3FyivDs31zsXCjOis7YGDtE2Jsy0+fzW+3/OVoPVujPmQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.1/proj4.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.2.2/ol.css">
+  <link rel="stylesheet" href="./style.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <title>OGC API Processes - Demonstrator</title>
+</head>
+
+<body>
+  <div id="main">
+    <div class="controls">
+      <label>Bands min value
+        <input type="range" id="min" value="0" min="-255" max="255">
+      </label>
+      <label>Bands max value
+        <input type="range" id="max" value="0" min="-255" max="255">
+      </label>
+      <label>channel 1
+        <input type="radio" id="channel1" name="channel" checked>
+      </label>
+      <label>channel 2
+        <input type="radio" id="channel2" name="channel">
+      </label>
+      <label>channel 3
+        <input type="radio" id="channel3" name="channel">
+      </label>
+      <label>Select Dataset
+        <select id="dataset" name="dataset"></select>
+      </label>
+    </div>
+    <div id="buttonWrapper">
+      <button id="imprintButton">Imprint</button>
+      <button id="infoButton">Information</button>
+    </div>
+    <div id="imprint" class="modalImprint">
+      <div class="modal-header">
+        <h4>Imprint</h4>
+        <div id="closeModal">
+          <i class="fa fa-close" style="font-size: 2em"></i>
+        </div>
       </div>
-      <div id="wrapper" style="display: table-row;">
-        <div id="map"></div>
-        <div id="sider">
-          <select name="processes"></select>
-          <div id="api-output"></div>
-          <div id="chart"></div>
+      <div class="modalText">
+        <p><strong>This is a demonstrator for OGC API Processes</strong></p>
+        <p>For more information visit: </p>
+        <a href="https://www.klips-projekt.de/ueber-das-projekt/"><img
+            src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" width="130em"
+            height="auto"></img></a>
+        <div class="socialMediaIcons">
+          <a href="https://github.com/klips-project/"><i class='fa fa-github'></i></a>
+          <a
+            href="https://twitter.com/intent/tweet?text=%C3%9Cber%20das%20Projekt%20%E2%80%93%20KLIPS&url=https%3A%2F%2Fwww.klips-projekt.de%2Fueber-das-projekt%2F"><i
+              class='fa fa-twitter'></i></a>
+          <a
+            href="https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttps%253A%252F%252Fwww.klips-projekt.de%252Fueber-das-projekt%252F%26quote%3D%25C3%259Cber%2Bdas%2BProjekt%2B%25E2%2580%2593%2BKLIPS&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=de_DE"><i
+              class='fa fa-facebook'></i></a>
+        </div>
+        <p>Input-Data provided by:</p>
+        <a href="https://www.hhi.fraunhofer.de/index.html"><img
+            src="https://www.hhi.fraunhofer.de/fileadmin/Logos/hhi_logo_de.svg" width="80em" height="auto"></img></a>
+
+        <p>Demonstrator created by:</p>
+        <div class="creators">
+          <a href="https://www.terrestris.de/de/"><img
+              src="https://www.terrestris.de/wp-content/uploads/2014/03/logo_terrestris_small3.png" width="70em"
+              height="auto"></img></a>
+          <a href="https://meggsimum.de/"><img src="https://meggsimum.de/img/logo.png" width="110em"
+              height="auto"></img></a>
         </div>
       </div>
     </div>
-    <script type="module" src="./main.js"></script>
-  </body>
+    <div id="info" class="modalInfo">
+      <div class="modal-header">
+        <h4>Definitions and Information</h4>
+        <div id="closeInfo">
+          <i class="fa fa-close" style="font-size: 2em"></i>
+        </div>
+      </div>
+      <div class="modalText">
+        <p><strong>UHI – Urban Heat Index/städtischer Hitzeinseleffekt</strong></p>
+        <p>Difference in temperature between urban areas (developed) and rural areas (natural). Considered are warm days
+          with minimal global weather influences, so called <i>autochthonous summer days</i>. Since these days are
+          characterized by calm conditions they can be defined using measured wind speed at nearby DWD weather stations.
+          Additionally, the number of summer days and tropical nights enter into the index. The UHI is calculated on a
+          hourly basis for all 24 hours.</p>
+        <p>Temperaturdifferenz zwischen Stadt (bebaut) und Land (natürlich).
+          Betrachtet werden warme Tage, an denen globale Wettereinflüsse minimal sind, sogenannte <i>autochthone
+            Sommertage</i>.
+          Da diese Tage unter anderem durch Windstille charakterisiert sind, können sie über gemessene
+          Windgeschwindigkeiten an umliegenden DWD Wetterstationen definiert werden. Des weiteren fließen die Anzahl der
+          Sommertage und Tropennächte in den Index ein. Berechnet wird der Hitzeinseleffekt stündlich für alle 24 Tages-
+          und Nachtstunden.</p>
+        <p><strong>Heat Index/Hitzeindex</strong></p>
+        <p>Index for calculating perceived temperature. Measured data at the stations include temperature, humidity, and
+          radiation temperature. From this data the heat index following Steadman (1979), as well as the humidex
+          (humidity index, Masterton & Richardson, 1979) were derived. Both give information on felt temperature allow
+          for potential heat alerts.</p>
+        <p>Index zur Berechnung der gefühlten Temperatur. Gemessen werden an den Stationen Temperaturen, Luftfeuchte,
+          und
+          Strahlungstemperatur, woraus der Temperatur-Feuchte-Index nach Steadman (1979), sowie der Humidex nach
+          Masterton
+          & Richardson (1979) berechnet werden, die Aussagen über die gefühlte Temperatur als „Warn-Indizes“ erlauben.
+        </p>
+      </div>
+    </div>
+    <div id="wrapper" style="display: table-row;">
+      <div id="map"></div>
+      <div id="sider">
+        <select name="processes"></select>
+        <div id="api-output"></div>
+        <div id="chart"></div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./main.js"></script>
+</body>
+
 </html>

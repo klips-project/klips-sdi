@@ -8,7 +8,7 @@ let processId = '';
 let olDraw;
 
 // apply the projection definition for EPSG:3035
-proj4.defs('EPSG:3035','+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 ' +
+proj4.defs('EPSG:3035', '+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 ' +
   '+ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs');
 ol.proj.proj4.register(proj4);
 
@@ -22,7 +22,7 @@ const origin = window.location.origin.includes('localhost') ?
   'http://localhost:81' :
   window.location.origin;
 const tiffBaseUrl = origin + '/cog/dresden/dresden_temperature/';
-let tiffFileName = 'dresden_20230210T0000Z.tif';
+let tiffFileName = 'dresden_20230510T0600Z.tif';
 let tiffUrl = tiffBaseUrl + tiffFileName;
 const minSlider = document.querySelector("input[id=min]");
 const maxSlider = document.querySelector("input[id=max]");
@@ -41,7 +41,8 @@ const createTiffSource = () => {
       min: minValue,
       max: maxValue,
       nodata: -9999,
-      url: tiffUrl
+      url: tiffUrl,
+      attributions: ["HHI"]
     }]
   })
 };
@@ -75,7 +76,9 @@ cb3.addEventListener('change', (evt) => {
 const setProcess = (process) => {
   // set global variable processId
   processId = process;
-  map.removeInteraction(olDraw);
+  if (olDraw) {
+    map.removeInteraction(olDraw);
+  }
   let type = 'Polygon';
   if (process === 'location-info-rasterstats' || process === 'location-info-time-rasterstats') {
     type = 'Point';
@@ -175,7 +178,7 @@ const setProcess = (process) => {
         break;
       default:
         console.error('unknown process: ', processId);
-      }
+    }
 
     requestOapiProcesses(oapiProcessesUrl, payload)
   })
@@ -212,46 +215,47 @@ const setupChart = (json) => {
 
 // get all processes
 fetch(oapiProcessesUrl + "?f=json")
-    .then(response => response.json())
-    .then(json => {
-      const select =  document.querySelector('select[name=processes]');
-      json.processes.forEach(p => {
-        const option = document.createElement('option');
-        option.innerHTML = p.title;
-        option.value = p.id;
-        select.appendChild(option);
-      });
-      select.onchange = (evt) => setProcess(evt.target.value);
-      // trigger for first render
-      setProcess(json.processes[0].id);
-    })
-    .catch(error => console.log('error', error));
+  .then(response => response.json())
+  .then(json => {
+    const select = document.querySelector('select[name=processes]');
+    json.processes.forEach(p => {
+      const option = document.createElement('option');
+      option.innerHTML = p.title;
+      option.value = p.id;
+      select.appendChild(option);
+    });
+    select.onchange = (evt) => setProcess(evt.target.value);
+    // trigger for first render
+    setProcess(json.processes[0].id);
+  })
+  .catch(error => console.log('error', error));
 
 // get all datasets
 fetch(tiffBaseUrl)
-    .then(response => response.json())
-    .then(json => {
-      const select = document.querySelector('select[name=dataset]');
-      json.filter(d => d.name.endsWith('.tif')).forEach(d => {
-        const option = document.createElement('option');
-        option.innerHTML = d.name;
-        option.value = d.name;
-        select.appendChild(option);
-      });
-      select.onchange = (evt) => {
-        tiffFileName = evt.target.value;
-        tiffUrl = tiffBaseUrl + tiffFileName;
-        tiffLayer.setSource(createTiffSource());
-      };
-    })
-    .catch(error => console.log('error', error));
+  .then(response => response.json())
+  .then(json => {
+    const select = document.querySelector('select[name=dataset]');
+    json.filter(d => d.name.endsWith('.tif')).forEach(d => {
+      const option = document.createElement('option');
+      option.innerHTML = d.name;
+      option.value = d.name;
+      select.appendChild(option);
+    });
+    select.onchange = (evt) => {
+      tiffFileName = evt.target.value;
+      tiffUrl = tiffBaseUrl + tiffFileName;
+      tiffLayer.setSource(createTiffSource());
+    };
+  })
+  .catch(error => console.log('error', error));
 
 const osmBasemap = new ol.layer.Tile({
   source: new ol.source.OSM(),
 });
 
 const tiffLayer = new ol.layer.WebGLTile({
-  source: createTiffSource()
+  source: createTiffSource(),
+  attributions: ["HHI"]
 });
 
 const drawSource = new ol.source.Vector();
@@ -259,10 +263,10 @@ const drawLayer = new ol.layer.Vector({
   source: drawSource,
   style: {
     'fill-color': 'rgba(255, 255, 255, 0.7)',
-    'stroke-color': 'black',
+    'stroke-color': '#e55f25',
     'stroke-width': 4,
     'circle-radius': 7,
-    'circle-fill-color': 'black',
+    'circle-fill-color': '#e55f25',
   },
 });
 
@@ -272,10 +276,11 @@ const map = new ol.Map({
   view: new ol.View({
     projection: 'EPSG:3035',
     center: [4585363.5883901585, 3112821.319358871],
-    zoom: 11
+    zoom: 13
   })
 });
 
+window.map = map;
 /**
  * Request a OGC API Process and display results.
  *
@@ -335,3 +340,31 @@ const requestOapiProcesses = (url, payload) => {
     })
     .catch(error => console.log('error', error));
 }
+
+// Add Imprint
+const toggleImprint = function () {
+  const imprint = document.querySelector("#imprint");
+  if (!imprint) {
+    return;
+  }
+  imprint.classList.toggle("open");
+};
+
+document.querySelector("#imprintButton").onclick = toggleImprint;
+
+document.querySelector("#closeModal").onclick = toggleImprint;
+
+// Add Information page
+const toggleInfo = function () {
+  const info = document.querySelector("#info");
+  if (!info) {
+    return;
+  }
+  info.classList.toggle("open");
+};
+
+document.querySelector("#infoButton").onclick = toggleInfo;
+
+document.querySelector("#closeInfo").onclick = toggleInfo;
+
+
