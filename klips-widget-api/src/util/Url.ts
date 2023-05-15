@@ -1,4 +1,4 @@
-import { Params, PathNameConfig } from "../types";
+import { Params, PathNameConfig } from '../types';
 
 /**
  * Parses query string like a=b&c=d&e=f etc of the given search part (querySearch) of an URL
@@ -36,9 +36,11 @@ export const getParams = (locationType: string) => {
 };
 
 /**
- * Parses the pathnames from a URL and extracts the corresponding parameters based on the provided configuration.
+ * Parses the pathnames from a URL and extracts the corresponding parameters
+ * based on the provided configuration.
  * @param {string} locationPathname - The URL pathname to parse.
- * @param {PathNameConfig} config - The configuration object that maps parameter keys to their corresponding index in the URL pathname.
+ * @param {PathNameConfig} config - The configuration object that maps parameter
+ * keys to their corresponding index in the URL pathname.
  * @returns {Params} - An object containing the extracted parameters.
  */
 export const parseURLPathnames = (locationPathname: string, config: PathNameConfig): Params => {
@@ -51,4 +53,4 @@ export const parseURLPathnames = (locationPathname: string, config: PathNameConf
   });
 
   return params;
-}
+};

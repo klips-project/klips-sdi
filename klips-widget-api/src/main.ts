@@ -1,4 +1,5 @@
-import './style.css'
+/* eslint-disable no-console */
+import './style.css';
 import { getParams, parseURLPathnames } from './util/Url';
 import { validateParams } from './util/Config.js';
 
@@ -17,14 +18,14 @@ const widgetApi = class WidgetAPI {
   constructor() {
     // parse params
     if (document.location.search) {
-      this.params = getParams("search");
+      this.params = getParams('search');
     } else if (document.location.pathname.length > 1) {
       this.params = parseURLPathnames(document.location.pathname, pathNameConfig);
     }
 
     // validate params
     if (!this.params || !validateParams(this.params)) {
-      this.errorMessage = "Invalid url params.";
+      this.errorMessage = 'Invalid url params.';
       console.error(this.errorMessage);
       this.error = true;
       return;
@@ -32,30 +33,30 @@ const widgetApi = class WidgetAPI {
 
     // create widget
     switch (this.params.widget) {
-      case 'chart':
-        this.widget = new ChartApi(this.params);
-        break;
-      default:
-        return;
+    case 'chart':
+      this.widget = new ChartApi(this.params);
+      break;
+    default:
+      return;
     }
 
   }
 
   render() {
     if (this.error) {
-      return (`<div>${this.errorMessage}</div>`)
+      return (`<div>${this.errorMessage}</div>`);
     }
     if (this.widget) {
       this.widget.render();
     }
     else {
       return (
-        `<div>empty</div>`
-      )
+        '<div>empty</div>'
+      );
     }
   };
 
-}
+};
 
 try {
   const api = new widgetApi();
