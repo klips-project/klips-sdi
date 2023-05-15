@@ -3,7 +3,7 @@ import './style.css';
 import { getParams, parseURLPathnames } from './util/Url';
 import { validateParams } from './util/Config.js';
 
-import ChartApi from './components/Chart/index.js';
+import { ChartAPI } from './components/Chart/index.js';
 
 import { Params } from './types';
 import { pathNameConfig } from './constants/index.js';
@@ -34,7 +34,7 @@ class WidgetAPI {
     // create widget
     switch (this.params.widget) {
     case 'chart':
-      this.widget = new ChartApi(this.params);
+      this.widget = new ChartAPI(this.params);
       break;
     default:
       return;
@@ -59,7 +59,7 @@ class WidgetAPI {
 };
 
 try {
-  const api = new widgetApi();
+  const api = new WidgetAPI();
 
   api.render();
 } catch (error) {

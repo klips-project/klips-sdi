@@ -52,5 +52,3 @@ export class ChartAPI {
   }
 
 };
-
-export default chartApi;
