@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Params } from '../../types';
 
 import * as echarts from 'echarts';
@@ -19,13 +20,13 @@ export const chartApi = class ChartAPI {
     if (!chartDom) {
       throw new Error('No div found for chart rendering.');
     }
-    
+
     this.chart = echarts.init(chartDom as HTMLElement);
 
   }
-  
+
   createChartOptions(params: Params) {
-    console.log("create chart data");
+    console.log('create chart data');
     console.log(params);
 
     return {
@@ -44,12 +45,12 @@ export const chartApi = class ChartAPI {
       ]
     };
   }
-  
+
   render() {
     // this will trigger rendering of chart
-    this.chart.setOption(this.chartData);  
+    this.chart.setOption(this.chartData);
   }
 
-}
+};
 
 export default chartApi;
