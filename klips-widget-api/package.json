@@ -1,0 +1,25 @@
+{
+  "name": "klips-widget-api",
+  "private": true,
+  "description": "High Level API to create charts and timelapse videos to visualize temperature heat islands.",
+  "author": {
+    "name": "Hannes Blitza",
+    "email": "blitza@terrestris.de",
+    "url": "https://www.terrestris.de"
+  },
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2"
+  },
+  "dependencies": {
+    "echarts": "^5.4.2"
+  }
+}
