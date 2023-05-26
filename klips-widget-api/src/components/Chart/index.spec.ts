@@ -16,7 +16,7 @@ describe('<ChartAPI>', () => {
 
   });
 
-  test('test dom', () => {
+  it('target dom should exist', () => {
     const domEl = document.querySelector('#widget');
 
     expect(domEl).not.toBeNull();
@@ -24,7 +24,7 @@ describe('<ChartAPI>', () => {
     expect(domEl).toBeInTheDocument();
   });
 
-  test('test chart api', () => {
+  it('should initialize', () => {
     const domEl = document.querySelector('#widget');
 
     if (!domEl) {
