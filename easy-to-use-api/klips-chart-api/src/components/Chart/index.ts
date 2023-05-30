@@ -7,21 +7,21 @@ export type EChartsOption = echarts.EChartsOption;
 
 export class ChartAPI {
   public params: Params;
+  public domElement: HTMLElement;
   public chartData: any;
   public chart: any;
 
-  constructor(params: Params) {
+  constructor(params: Params, domElement: HTMLElement) {
     this.params = params;
+    this.domElement = domElement;
 
     this.chartData = this.createChartOptions(this.params);
 
-    const chartDom = document.querySelector('#widget');
-
-    if (!chartDom) {
-      throw new Error('No div found for chart rendering.');
+    if (!domElement) {
+      throw new Error('No DOM element found for rendering.');
     }
 
-    this.chart = echarts.init(chartDom as HTMLElement);
+    this.chart = echarts.init(domElement);
 
   }
 
