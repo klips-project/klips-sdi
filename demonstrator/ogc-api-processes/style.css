@@ -31,19 +31,23 @@ pre {
 }
 #api-output {
   height: 100%;
+  overflow: auto;
 }
 #sider {
-  width: 300px;
-  max-width: 400px;
+  width: 500px;
+  max-width: 500px;
   display: table-cell;
   vertical-align: top;
   padding: 10px;
   height: 100%;
-  overflow: scroll;
 }
 #chart {
   height: 30vh;
 }
 code {
   white-space: pre-line;
+}
+video {
+  width: 100%;
+  height: 100%;
 }

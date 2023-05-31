@@ -81,6 +81,11 @@ resources:
         processor:
             name: processes.zonal_statistics_time_rasterstats.ZonalStatisticsTimeRasterstatsProcessor
 
+    timelapse-video:
+        type: process
+        processor:
+            name: processes.timelapse_video.TimelapseVideoProcessor
+
     hello-world:
         type: process
         processor:

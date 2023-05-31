@@ -164,6 +164,14 @@ const setProcess = (process) => {
             endTimeStamp: "2024-12-31T12:32:00Z"
           }
         };
+        case 'timelapse-video':
+        payload = {
+          inputs: {
+            polygonGeoJson: JSON.parse(geoJsonGeom),
+            inputCrs: 'EPSG:3035',
+            title: 'my test video'
+          }
+        };
         break;
       default:
         console.error('unknown process: ', processId);
@@ -275,6 +283,7 @@ const map = new ol.Map({
  * @param {Object} payload The payload to send to the process
  */
 const requestOapiProcesses = (url, payload) => {
+
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
 
@@ -284,6 +293,30 @@ const requestOapiProcesses = (url, payload) => {
     body: JSON.stringify(payload),
     redirect: 'follow'
   };
+
+  if (processId === 'timelapse-video') {
+    const outputDiv = document.querySelector('#api-output');
+    outputDiv.innerHTML = `
+      <h2>Process input</h2>
+      <pre>${JSON.stringify(payload, null, 2)}</pre>
+      <h2>Process output</h2>
+    `;
+    const loadMsg = document.createElement('p');
+    loadMsg.innerHTML = 'Please wait while the video is loading...';
+    outputDiv.appendChild(loadMsg);
+    const video = document.createElement('video');
+    video.type='video/mp4';
+    video.setAttribute('controls', '');
+    outputDiv.appendChild(video);
+    fetch(url + processId + '/execution', requestOptions)
+      .then(response => response.blob())
+      .then(blob => {
+        loadMsg.innerHTML = '';
+        const videoUrl = URL.createObjectURL(blob);
+        video.src = videoUrl;
+      });
+    return;
+  }
 
   fetch(url + processId + '/execution', requestOptions)
     .then(response => response.json())
