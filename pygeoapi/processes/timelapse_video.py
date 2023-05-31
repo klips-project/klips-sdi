@@ -11,7 +11,7 @@ PROCESS_METADATA = {
     "id": "timelapse-video",
     "title": {"en": "Timelapse video", "de": "Zeitraffer Video"},
     "description": {
-        "en": "Creates a timelapse video for  the last and upcoming 48 hours and the given area based on HHI result data",  # noqa: E501
+        "en": "Creates a timelapse video for the last and upcoming 48 hours and the given area based on HHI result data",  # noqa: E501
         "de": "Erstellt ein Zeitraffervideo für die letzten und kommenden 48h und den gegebenen Ausschnitt basierend auf den Ergbnisdaten des HHI",  # noqa: E501
     },
     "keywords": ["video", "timelapse", "prediction"],
