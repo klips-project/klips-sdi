@@ -100,7 +100,7 @@ def generate_timelapse_video(title, geojson):
                         )
                     # insert datetime into images
                     ImageDraw.Draw(image).text(
-                        (10, height - 20), timestring, (0, 0, 0), font
+                        (10, height - 30), time.strftime("%d.%m.%Y, %H:%M:%S"), (0, 0, 0), font
                     )
                     image.save(f"{targetFolder}/{timestring}.png")
                 except Exception as e:
