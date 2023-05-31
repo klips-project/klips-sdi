@@ -6,8 +6,7 @@ from requests.models import PreparedRequest
 from datetime import datetime, timedelta
 from shapely import from_geojson, buffer
 from .util import reproject
-from PIL import Image
-from PIL import ImageDraw
+from PIL import Image, ImageFont, ImageDraw
 
 import logging
 
@@ -87,16 +86,21 @@ def generate_timelapse_video(title, geojson):
                 f.write(response.content)
                 try:
                     image = Image.open(f"{targetFolder}/{timestring}.png")
+                    image = image.convert("RGBA")
+                    fonts_path = os.path.join(
+                        os.path.dirname(os.path.dirname(__file__)), "fonts"
+                    )
+                    font = ImageFont.truetype(
+                        os.path.join(fonts_path, "OpenSans-Regular.ttf"), 16
+                    )
                     # insert title into images
                     if title is not None:
                         ImageDraw.Draw(image).text(
-                            (10, 10), title, (0, 0, 0)  # Coordinates  # Text  # Color
+                            (10, 10), title, (0, 0, 0, 128), font
                         )
                     # insert datetime into images
                     ImageDraw.Draw(image).text(
-                        (10, height - 20),  # Coordinates
-                        timestring,  # Text
-                        (0, 0, 0),  # Color
+                        (10, height - 20), timestring, (0, 0, 0), font
                     )
                     image.save(f"{targetFolder}/{timestring}.png")
                 except Exception as e:
