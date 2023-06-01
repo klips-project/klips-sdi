@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import dayjs from 'dayjs';
 import { fetchTimeSeriesData } from '../../service/ogc-api-service';
 import { Params, TimeSeriesData } from '../../types';
 
@@ -43,13 +44,23 @@ export class ChartAPI {
     console.log('create chart data');
     console.log(params);
     console.log(data);
-
+    console.log(data.length);
+    debugger
     // Define threshold
     const threshold: number = params.threshold ? parseInt(params.threshold, 10) : 20;
 
-    const inputHours = ['-48 hours', '-47 hours', '-46 hours', '-45 hours', '-4 hours', '-43 hours', '-42 hours', '-41 hours', '-40 hours', '-39 hours', '-38 hours', '-37 hours', '-36 hours', '-35 hours', '-34 hours', '-33 hours', '-32 hours', '-31 hours', '-30 hours', '-29 hours', '-28 hours', '-27 hours', '-26 hours', '-25 hours', '-24 hours', '-23 hours', '-22 hours', '-21 hours', '-20 hours', '-19 hours', '-18 hours', '-17 hours', '-16 hours', '-15 hours', '-14 hours', '-13 hours', '-12 hours', '-11 hours', '-10 hours', '-9 hours', '-8 hours', '-7 hours', '-6 hours', '-5 hours', '-4 hours', '-3 hours', '-2 hours', '-1 hours', 'now', '1 hours', '2 hours', '3 hours', '4 hours', '5 hours', '6 hours', '7 hours', '8 hours', '9 hours', '10 hours', '11 hours', '12 hours', '13 hours', '14 hours', '15 hours', '16 hours', '17 hours', '18 hours', '19 hours', '20 hours', '21 hours', '22 hours', '23 hours', '24 hours', '25 hours', '26 hours', '27 hours', '28 hours', '29 hours', '30 hours', '31 hours', '32 hours', '33 hours', '34 hours', '35 hours', '36 hours', '37 hours', '38 hours', '39 hours', '40 hours', '41 hours', '42 hours', '43 hours', '44 hours', '45 hours', '46 hours', '47 hours', '48 hours'];
+    // const inputHours = ['-48 hours', '-47 hours', '-46 hours', '-45 hours', '-4 hours', '-43 hours', '-42 hours', '-41 hours', '-40 hours', '-39 hours', '-38 hours', '-37 hours', '-36 hours', '-35 hours', '-34 hours', '-33 hours', '-32 hours', '-31 hours', '-30 hours', '-29 hours', '-28 hours', '-27 hours', '-26 hours', '-25 hours', '-24 hours', '-23 hours', '-22 hours', '-21 hours', '-20 hours', '-19 hours', '-18 hours', '-17 hours', '-16 hours', '-15 hours', '-14 hours', '-13 hours', '-12 hours', '-11 hours', '-10 hours', '-9 hours', '-8 hours', '-7 hours', '-6 hours', '-5 hours', '-4 hours', '-3 hours', '-2 hours', '-1 hours', 'now', '1 hours', '2 hours', '3 hours', '4 hours', '5 hours', '6 hours', '7 hours', '8 hours', '9 hours', '10 hours', '11 hours', '12 hours', '13 hours', '14 hours', '15 hours', '16 hours', '17 hours', '18 hours', '19 hours', '20 hours', '21 hours', '22 hours', '23 hours', '24 hours', '25 hours', '26 hours', '27 hours', '28 hours', '29 hours', '30 hours', '31 hours', '32 hours', '33 hours', '34 hours', '35 hours', '36 hours', '37 hours', '38 hours', '39 hours', '40 hours', '41 hours', '42 hours', '43 hours', '44 hours', '45 hours', '46 hours', '47 hours', '48 hours'];
+    // create list from -48...0...48
+    const hoursRange = [];
+    for (let i = -48; i <= 48; i++) {
+      hoursRange.push(`${i}h`);
+    }
+    hoursRange[48] = 'now';
+    console.log(hoursRange.length);
+
 
     return {
+      useUTC: true,
       title: {
         text: 'Temperature developement for 48h',
         subtext: 'Dummy Data'
@@ -64,7 +75,7 @@ export class ChartAPI {
         }
       },
       grid: {
-        top: 75,
+        top: 100,
         bottom: 100
       },
       legend: {
@@ -89,12 +100,38 @@ export class ChartAPI {
       xAxis: [
         {
           type: 'category',
-          data: inputHours,
+          position: 'top',
+          boundaryGap: false,
+          data: data.map(function (item) {
+            return dayjs(item.timestamp).format('DD.MM HH:mm')
+          }),
           zlevel: 2,
           axisLine: {
-            min: 'dataMin',
-            animation: false,
             onZero: false,
+            animation: false,
+            show: true,
+            lineStyle: {
+              color: 'black',
+              width: 1.5,
+            },
+          },
+          axisTick: {
+            show: true
+          },
+          axisLabel: {
+            interval: 5,
+            rotate: -30
+          }
+        },
+        {
+          type: 'category',
+          position: 'bottom',
+          boundaryGap: false,
+          data: hoursRange,
+          zlevel: 2,
+          axisLine: {
+            onZero: false,
+            animation: false,
             position: "bottom",
             show: true,
             lineStyle: {
@@ -103,34 +140,10 @@ export class ChartAPI {
             },
           },
           axisTick: {
-            show: false
-          }
-        },
-        {
-          type: 'time',
-          position: 'top',
-          data: data.map(function (item) {
-            return item.timestamp;
-          }),
-          zlevel: 2,
-          axisLine: {
-            min: 'dataMin',
-            animation: false,
-            onZero: false,
-            show: true,
-            lineStyle: {
-              color: 'black',
-              width: 1.5,
-            },
-          },
-          axisTick: {
-            show: false
+            show: true
           },
           axisLabel: {
-            formatter: {
-              year: '{yyyy}',
-              month: '{MM}'
-            }
+            interval: 5
           }
         },
         {
@@ -144,13 +157,21 @@ export class ChartAPI {
           }
         }
       ],
-      yAxis: {
-        type: 'value',
-        axisLabel: {
-          // ToDo adapt formatter for temperature difference
-          formatter: '{value} °C'
+      yAxis: [
+        {
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} °C'
+          }
         },
-      },
+        {
+          type: 'value',
+          position: 'left',
+          axisLabel: {
+            formatter: '{value} K'
+          }
+        }
+      ],
       toolbox: {
         right: 75,
         feature: {
@@ -165,8 +186,6 @@ export class ChartAPI {
         {
           type: 'slider',
           silent: true,
-          startValue: '-48 hours',
-          endValue: '48 hours',
           fillerColor: 'rgba(0, 0, 0, 0)',
           dataBackground: {
             lineStyle: {
@@ -217,6 +236,7 @@ export class ChartAPI {
       series: [
         {
           name: 'perceived temperature',
+          yAxisIndex: 0,
           silent: true,
           type: 'line',
           smooth: false,
@@ -231,66 +251,27 @@ export class ChartAPI {
             return item.band_1
           }
           ),
-        },
-        {
-          name: 'temperature',
-          silent: true,
-          type: 'line',
-          smooth: false,
-          showSymbol: false,
-          lineStyle: {
-            width: 3,
-            shadowColor: 'rgba(0,0,0,0.3)',
-            shadowBlur: 10,
-            shadowOffsetY: 3
-          },
-          data: data.map((item) => {
-            return item.band_1
-          }
-          ),
-        },
-        {
-          name: 'temperature difference',
-          silent: true,
-          type: 'line',
-          smooth: false,
-          showSymbol: false,
-          lineStyle: {
-            width: 3,
-            shadowColor: 'rgba(0,0,0,0.3)',
-            shadowBlur: 10,
-            shadowOffsetY: 3
-          },
-          data: data.map((item) => {
-            return item.band_1
-          }
-          ),
-        },
-        {
-          name: 'vertical line',
-          type: 'line',
-          silent: true,
           markArea: {
             itemStyle: {
               color: '#f2f2f2',
-              opacity: 0.5,
+              opacity: 0.8,
               z: 0
             },
             data: [
               [
                 {
-                  xAxis: '-48 hours'
+                  xAxis: 0
                 },
                 {
-                  xAxis: '-24 hours'
+                  xAxis: 24
                 }
               ],
               [
                 {
-                  xAxis: '24 hours'
+                  xAxis: 72
                 },
                 {
-                  xAxis: '48 hours'
+                  xAxis: 96
                 }
               ],
             ]
@@ -301,9 +282,7 @@ export class ChartAPI {
             silent: true,
             label: {
               normal: {
-                distance: -18,
-                position: 'end',
-                show: true
+                show: false
               }
             },
             lineStyle: {
@@ -311,14 +290,162 @@ export class ChartAPI {
             },
             data: [
               {
-                xAxis: 'now'
+                xAxis: 48
               },
+              {
+                yAxis: threshold, 
+                lineStyle: {
+                  normal: {
+                    type: 'solid'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          name: 'temperature',
+          yAxisIndex: 0,
+          silent: true,
+          type: 'line',
+          smooth: false,
+          showSymbol: false,
+          lineStyle: {
+            width: 3,
+            shadowColor: 'rgba(0,0,0,0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 3
+          },
+          data: data.map((item) => {
+            return item.band_1
+          }
+          ),
+          markArea: {
+            itemStyle: {
+              color: '#f2f2f2',
+              opacity: 0.8,
+              z: 0
+            },
+            data: [
+              [
+                {
+                  xAxis: 0
+                },
+                {
+                  xAxis: 24
+                }
+              ],
+              [
+                {
+                  xAxis: 72
+                },
+                {
+                  xAxis: 96
+                }
+              ],
+            ]
+          },
+          markLine: {
+            symbol: 'none',
+            animation: false,
+            silent: true,
+            label: {
+              normal: {
+                show: false
+              }
+            },
+            lineStyle: {
+              color: '#333'
+            },
+            data: [
+              {
+                xAxis: 48
+              },
+              {
+                yAxis: threshold,
+                lineStyle: {
+                  normal: {
+                    type: 'solid'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          name: 'temperature difference',
+          yAxisIndex: 1,
+          silent: true,
+          type: 'line',
+          smooth: false,
+          showSymbol: false,
+          lineStyle: {
+            width: 3,
+            shadowColor: 'rgba(0,0,0,0.3)',
+            shadowBlur: 10,
+            shadowOffsetY: 3
+          },
+          data: data.map((item) => {
+            return item.band_1
+          }
+          ),
+          markArea: {
+            itemStyle: {
+              color: '#f2f2f2',
+              opacity: 0.5,
+              z: 0
+            },
+            data: [
+              [
+                {
+                  xAxis: 0
+                },
+                {
+                  xAxis: 24
+                }
+              ],
+              [
+                {
+                  xAxis: 72
+                },
+                {
+                  xAxis: 96
+                }
+              ],
+            ]
+          },
+          markLine: {
+            symbol: 'none',
+            animation: false,
+            silent: true,
+            label: {
+              normal: {
+                show: false
+              }
+            },
+            lineStyle: {
+              color: '#333'
+            },
+            data: [
+              {
+                xAxis: 48
+              },
+              {
+                yAxis: threshold,
+                lineStyle: {
+                  normal: {
+                    type: 'solid'
+                  }
+                }
+              }
             ]
           }
         },
         {
           name: 'horizontal line',
           type: 'line',
+          yAxisIndex: 0,
+          silent: true,
           animation: false,
           markArea: {
             itemStyle: {
@@ -337,22 +464,30 @@ export class ChartAPI {
               ],
             ]
           },
-          markLine: {
-            symbol: 'none',
-            label: {
-              normal: {
-                show: false
-              }
-            },
-            lineStyle: {
-              color: '#333'
+        },
+        {
+          name: 'horizontal line',
+          type: 'line',
+          yAxisIndex: 1,
+          silent: true,
+          animation: false,
+          markArea: {
+            itemStyle: {
+              color: '#a81a04',
+              opacity: 0.05,
+              z: 1
             },
             data: [
-              {
-                yAxis: threshold
-              }
+              [
+                {
+                  yAxis: threshold
+                },
+                {
+                  yAxis: 100
+                }
+              ],
             ]
-          }
+          },
         }
       ]
     };
