@@ -386,6 +386,10 @@ export const fetchTimeSeriesData = (
         {
             "timestamp": "2023-05-31T23:00:00Z",
             "band_1": 8
+        },
+        {
+            "timestamp": "2023-06-01T00:00:00Z",
+            "band_1": 8
         }
     ]
     )
