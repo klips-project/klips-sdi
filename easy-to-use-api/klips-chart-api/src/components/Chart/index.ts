@@ -12,6 +12,8 @@ import {
   createVisualMap, createXaxisOptions, createYaxisOptions, formatChartData, setupBaseChart
 } from '../../util/Chart';
 
+import WKTParser from 'jsts/org/locationtech/jts/io/WKTParser';
+
 export class ChartAPI {
   public params: Params;
   public chartData: TimeSeriesData;
@@ -22,10 +24,10 @@ export class ChartAPI {
   public yAxesOptions: EChartsYaxisOption;
   public currentTimestamp: string;
 
-  constructor(params: Params) {
+  constructor(params: Params, data: any) {
     this.params = params;
-    this.chartData = this.getChartData('Peter', [1, 2]);
-    this.currentTimestamp = this.chartData[48]?.timestamp;
+    this.chartData = data;
+    this.currentTimestamp = this.chartData[1].timestamp;
 
     // setup chart
     this.chartOptions = setupBaseChart();
@@ -68,7 +70,7 @@ export class ChartAPI {
     // create series based on chart data
     this.seriesData = [];
     const formattedData = formatChartData(this.chartData);
-    Object.entries(formattedData).forEach(([band, dataArray]) => {
+    Object.entries(formattedData).forEach(([, dataArray]) => {
       let series = createSeriesData({
         name: 'perceived temperature',
         data: dataArray.map(dataPoint => {
@@ -133,10 +135,20 @@ export class ChartAPI {
   static async getChartData(
     params: Params
   ) {
+    // TODO use time stamps as soon as real data is available
+    // const currentTimestamp = dayjs();
+    // const startTimestamp = dayjs().subtract(48, "hours");
+    // const endTimestamp = dayjs().add(48, "hours");
+    // check wkt param TODO validation and reprojection
+    const wktReader = new WKTParser();
+    if (!params.geomwkt) {
+      return;
+    }
+    const wkgGeometry = wktReader.read(params.geomwkt);
     // Retrieve chart data from ogc-api-process
-    const data = await fetchTimeSeriesData(params);
-    debugger
-    return new ChartAPI(params);
+    const data = await fetchTimeSeriesData(params, wkgGeometry.getCoordinates()[0]);
+
+    return new ChartAPI(params, data.values);
   }
 
   render() {
