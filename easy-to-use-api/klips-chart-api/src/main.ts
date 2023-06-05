@@ -28,9 +28,10 @@ try {
   }
 
   const chartApi = await ChartAPI.getChartData(params);
-  debugger
 
-  chartApi.render();
+  if (chartApi) {
+    chartApi.render();
+  }
 } catch (error) {
   console.error(error);
   const errorElement: HTMLElement | null = document.querySelector('#error');
