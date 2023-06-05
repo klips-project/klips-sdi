@@ -1,4 +1,4 @@
-import { Params } from '../types';
+import { Params, TimeSeriesData, DataPointObject } from '../types';
 
 // TODO improve validation (geometry checking etc.)
 export const validateParams = (params: Params) => {

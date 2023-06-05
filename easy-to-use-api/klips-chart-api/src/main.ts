@@ -27,7 +27,8 @@ try {
     throw new Error('Could not find target element in dom.');
   }
 
-  const chartApi = new ChartAPI(params, domEl as HTMLElement);
+  const chartApi = await ChartAPI.getChartData(params);
+  debugger
 
   chartApi.render();
 } catch (error) {
