@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KLIPS Alert API</title>
+</head>
+
+<body>
+  <div id="error"></div>
+  <script type="module" src="/src/main.ts"></script>
+
+
+  <div id='warning' class='notice-wrapper-warning'>
+    <div class='alert-header-warning'>
+      <div class='alert-header-date'>
+        <i id='icon-warning' class="fa-solid fa-clock"></i>
+        <div class='current-date'></div>
+      </div>
+      <div class='alert-header-location'>
+        <i id='icon-warning' class="fa-solid fa-location-dot"></i>
+        <div class='current-location'></div>
+      </div>
+    </div>
+    <div class='alert-box-warning'>
+      <div class='alert-icon'>!</div>
+      <div class='alert-content'>
+        <div class='alert-message'><span>Heat Island Warning: </span>Potential heat island in the next 48h. &nbsp;</div>
+      </div>
+      <button class='alert-refresh-warning' onclick="location.reload();"><i id='icon-warning'
+          class="fa-solid fa-rotate-right"></i></button>
+    </div>
+  </div>
+
+
+  <div id=noWarning class='notice-wrapper-noWarning'>
+    <div class='alert-header-noWarning'>
+      <div class='alert-header-date'>
+        <i id='icon-noWarning' class="fa-solid fa-clock"></i>
+        <div class='current-date'></div>
+      </div>
+      <div class='alert-header-location'>
+        <i id='icon-noWarning' class="fa-solid fa-location-dot"></i>
+        <div class='current-location'></div>
+      </div>
+    </div>
+    <div class='alert-box-noWarning'>
+      <div class='alert-icon'>
+        <i id='icon-warning' class="fa-solid fa-check"></i>
+      </div>
+      <div class='alert-content'>
+        <div class='alert-message'><span>No Heat Island Warning: </span>No potential heat island in the next 48h. &nbsp;
+        </div>
+      </div>
+      <button class='alert-refresh-noWarning' onclick="location.reload();"><i id='icon-warning'
+          class="fa-solid fa-rotate-right"></i></button>
+    </div>
+  </div>
+
+
+</body>
+
+</html>
