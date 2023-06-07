@@ -63,4 +63,3 @@ else {
   currentLocationElement.innerHTML = currentLocation;
   console.log(currentLocation);
 }
-
