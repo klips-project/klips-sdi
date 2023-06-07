@@ -1,0 +1,22 @@
+{
+    "en": {
+        "uhi": {
+            "title": "Urban Heat Index",
+            "text": "Difference in temperature between urban areas (developed) and rural areas (natural). Considered are warm days with minimal global weather influences, so called autochthonous summer days. Since these days are characterized by calm conditions they can be defined using measured wind speed at nearby DWD weather stations. Additionally, the number of summer days and tropical nights enter into the index. The UHI is calculated on a hourly basis for all 24 hours."
+        },
+        "heatIndex": {
+            "title": "Heat Index",
+            "text": "Index for calculating perceived temperature. Measured data at the stations include temperature, humidity, and radiation temperature. From this data the heat index following Steadman (1979), as well as the humidex (humidity index, Masterton & Richardson, 1979) were derived. Both give information on felt temperature allow for potential heat alerts."
+        }
+    },
+    "de": {
+        "uhi": {
+            "title": "Städtischer Hitzeinseleffekt",
+            "text": "Temperaturdifferenz zwischen Stadt (bebaut) und Land (natürlich). Betrachtet werden warme Tage, an denen globale Wettereinflüsse minimal sind, sogenannte autochthone Sommertage. Da diese Tage unter anderem durch Windstille charakterisiert sind, können sie über gemessene Windgeschwindigkeiten an umliegenden DWD Wetterstationen definiert werden. Des weiteren fließen die Anzahl der Sommertage und Tropennächte in den Index ein. Berechnet wird der Hitzeinseleffekt stündlich für alle 24 Tages- und Nachtstunden."
+        },
+        "heatIndex": {
+            "title": "Hitzeindex",
+            "text": "Index zur Berechnung der gefühlten Temperatur. Gemessen werden an den Stationen Temperaturen, Luftfeuchte, und Strahlungstemperatur, woraus der Temperatur-Feuchte-Index nach Steadman (1979), sowie der Humidex nach Masterton & Richardson (1979) berechnet werden, die Aussagen über die gefühlte Temperatur als „Warn-Indizes“ erlauben."
+        }
+    }
+}

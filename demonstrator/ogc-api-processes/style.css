@@ -214,6 +214,13 @@ video {
   display: inline-block;
 }
 
+.modalText h4 {
+  margin: 0;
+  line-height: 50px;
+  color: #4d4d4d;
+  display: inline-block;
+}
+
 #closeModal {
   padding-right: 10px;
   display: flex;
