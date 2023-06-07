@@ -354,7 +354,36 @@ document.querySelector("#imprintButton").onclick = toggleImprint;
 
 document.querySelector("#closeModal").onclick = toggleImprint;
 
-// Add Information page
+// Add Information modal
+// load text using fetch, import json assertion won't work on Firefox
+window.onload = async () => {
+  let imprintText;
+  try {
+    const resp = await fetch('imprint.json');
+    if (!resp.ok) {
+      throw new Error("Could not fetch imprint data");
+    }
+    imprintText = await resp.json();
+    
+  } catch (error) {
+    console.log(error);
+  }
+  // Maybe TODO: implement simple language switcher, if both languages are really necessary
+  const uhiTitleElement = document.querySelector("#uhi-title");
+  const uhiTextElement = document.querySelector("#uhi-text");
+  if (uhiTextElement && uhiTextElement) {
+    uhiTitleElement.innerHTML = `UHI ${imprintText.en.uhi.title}/ ${imprintText.de.uhi.title}`;
+    uhiTextElement.innerHTML = `${imprintText.en.uhi.text}<p/>${imprintText.de.uhi.text}`;
+  }
+  
+  const heatIndexTitleElement = document.querySelector("#heatIndex-title");
+  const heatIndexTextElement = document.querySelector("#heatIndex-text");
+  if (heatIndexTextElement && heatIndexTextElement) {
+    heatIndexTitleElement.innerHTML = `${imprintText.en.uhi.title}/ ${imprintText.de.uhi.title}`;
+    heatIndexTextElement.innerHTML = `${imprintText.en.heatIndex.text}<p/>${imprintText.de.heatIndex.text}`;
+  }
+}
+
 const toggleInfo = function () {
   const info = document.querySelector("#info");
   if (!info) {
@@ -364,7 +393,4 @@ const toggleInfo = function () {
 };
 
 document.querySelector("#infoButton").onclick = toggleInfo;
-
 document.querySelector("#closeInfo").onclick = toggleInfo;
-
-
