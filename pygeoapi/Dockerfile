@@ -5,9 +5,8 @@ RUN apt -y update && \
     apt -y install software-properties-common && \
     add-apt-repository ppa:ubuntugis/ubuntugis-unstable && \
     apt -y update && \
-    apt -y upgrade
-
-RUN apt -y install grass gdal-bin ffmpeg
+    apt -y upgrade && \
+    apt -y install grass gdal-bin ffmpeg
 
 # NOTE: ensure the minor versions of added libraries are compatible with each other,
 #       otherwise pygeoapi might not start up at all

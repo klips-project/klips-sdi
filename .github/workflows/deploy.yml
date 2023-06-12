@@ -88,6 +88,11 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/klips-api:latest
             ghcr.io/${{ github.repository_owner }}/klips-api:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build easy-to-use chart api
-        working-directory: ./easy-to-use-api/klips-chart-api
-        run: npm ci && npm run build
+      - name: Build and push klips-chart-api
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./easy-to-use-api/klips-chart-api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/klips-chart-api:latest
+            ghcr.io/${{ github.repository_owner }}/klips-chart-api:${{ steps.timestamp.outputs.timestamp }}
