@@ -313,3 +313,12 @@ services:
     volumes:
       - ./demonstrator/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./demonstrator/ogc-api-processes:/usr/share/nginx/html/ogc-api-demo:ro
+
+  easy-to-use-api:
+    container_name: ${CN_PREFIX}-easy-to-use-api
+    image: nginx:alpine3.17-slim
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:80"
+    volumes:
+      - ./easy-to-use-api/klips-chart-api/dist:/usr/share/nginx/html/easy-to-use-api/chart:ro

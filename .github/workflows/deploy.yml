@@ -18,6 +18,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Setup Node.js 19
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Get current timestamp
         id: timestamp
         run: echo "::set-output name=timestamp::$(date +'%Y%m%dT%H%M')"
@@ -82,3 +87,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/klips-api:latest
             ghcr.io/${{ github.repository_owner }}/klips-api:${{ steps.timestamp.outputs.timestamp }}
+
+      - name: Build easy-to-use chart api
+        working-directory: ./easy-to-use-api/klips-chart-api
+        run: npm ci && npm run build
