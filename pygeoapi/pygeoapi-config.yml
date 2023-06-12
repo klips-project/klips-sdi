@@ -85,8 +85,3 @@ resources:
         type: process
         processor:
             name: processes.timelapse_video.TimelapseVideoProcessor
-
-    hello-world:
-        type: process
-        processor:
-            name: HelloWorld
