@@ -20,8 +20,8 @@ export class ChartAPI {
   public chart: EChart;
   public chartOptions: echarts.EChartsOption;
   public seriesData: EChartsLineSeriesOption[];
-  public xAxesOptions: EChartsXaxisOption[];
-  public yAxesOptions: EChartsYaxisOption;
+  public xAxisOptions: EChartsXaxisOption[];
+  public yAxisOptions: EChartsYaxisOption;
   public currentTimestamp: string;
 
   constructor(params: Params, data: any) {
@@ -144,9 +144,9 @@ export class ChartAPI {
     if (!params.geomwkt) {
       return;
     }
-    const wkgGeometry = wktReader.read(params.geomwkt);
+    const wktGeometry = wktReader.read(params.geomwkt);
     // Retrieve chart data from ogc-api-process
-    const data = await fetchTimeSeriesData(params, wkgGeometry.getCoordinates()[0]);
+    const data = await fetchTimeSeriesData(params, wktGeometry.getCoordinates()[0]);
 
     return new ChartAPI(params, data.values);
   }
