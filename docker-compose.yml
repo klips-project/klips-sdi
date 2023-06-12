@@ -319,6 +319,6 @@ services:
     image: nginx:alpine3.17-slim
     restart: unless-stopped
     ports:
-      - "127.0.0.1:3001:80"
+      - "3001:80"
     volumes:
       - ./easy-to-use-api/klips-chart-api/dist:/usr/share/nginx/html/easy-to-use-api/chart:ro
