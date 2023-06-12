@@ -64,8 +64,8 @@ export class ChartAPI {
         rotate: -30
       }
     });
-    this.xAxesOptions = [xAxis1, xAxis2];
-    this.yAxesOptions = createYaxisOptions();
+    this.xAxisOptions = [xAxis1, xAxis2];
+    this.yAxisOptions = createYaxisOptions();
 
     // create series based on chart data
     this.seriesData = [];
@@ -117,8 +117,8 @@ export class ChartAPI {
 
     // set chart options
     this.chart.setOption({
-      xAxis: this.xAxesOptions,
-      yAxis: this.yAxesOptions,
+      xAxis: this.xAxisOptions,
+      yAxis: this.yAxisOptions,
       series: this.seriesData,
       toolbox: {
         right: 75,

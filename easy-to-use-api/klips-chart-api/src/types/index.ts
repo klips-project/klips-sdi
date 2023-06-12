@@ -1,5 +1,4 @@
 export type Params = {
-  widget?: string;
   region?: string;
   geomwkt?: string;
   threshold?: string;
