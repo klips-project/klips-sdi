@@ -57,3 +57,6 @@ services:
 
   pygeoapi:
     build: ./pygeoapi
+
+  easy-to-use-api:
+    build: ./easy-to-use-api/klips-chart-api
