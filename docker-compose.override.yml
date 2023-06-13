@@ -1,7 +1,9 @@
+# this compose file contains overrides for local development
 services:
-
   klips-api:
     build: ./klips-api
+    ports:
+      - 3000:3000
 
   dispatcher:
     build:
@@ -51,15 +53,36 @@ services:
 
   geoserver:
     build: ./geoserver
+    ports:
+     - 8080:8080
 
   geoserver-init:
     build: ./geoserver-init
 
   pygeoapi:
     build: ./pygeoapi
+    ports:
+      - 127.0.0.1:5000:80
 
   klips-chart-api:
     build: ./easy-to-use-api/klips-chart-api
+    ports:
+      - 3001:80
 
   klips-timelapse-video-api:
     build: ./easy-to-use-api/klips-timelapse-video-api
+    ports:
+      - 3002:80
+
+  postgres:
+    ports:
+      - 5432:5432
+
+  demonstrator:
+    ports:
+      - 8888:80
+
+  rabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
