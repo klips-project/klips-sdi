@@ -316,7 +316,7 @@ services:
 
   klips-chart-api:
     container_name: ${CN_PREFIX}-chart-api
-    image: ghcr.io/klips-project/chart-api:latest
+    image: ghcr.io/klips-project/klips-chart-api:latest
     restart: unless-stopped
     ports:
       - 3001:80
