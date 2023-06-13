@@ -50,6 +50,10 @@ An example directory could look like this:
       └── dresden_20221105T1000Z.tif
 ```
 
+## nginx
+
+There are several `nginx` services within the docker setup. The service `klips-nginx` serves as a reverse-proxy and forwards all requests from clients to the backend applications or webspaces. The specific nginx configuration can be found in `./nginx/default.conf`
+
 ## Workflows
 
 The directory `workflows` contains workflows that can be sent to the `dispatcher`.
