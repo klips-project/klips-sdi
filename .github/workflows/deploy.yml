@@ -1,4 +1,4 @@
-name: Create and publish the 'geoserver-init' Docker image
+name: Create and publish Docker images
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push geoserver-init
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./geoserver-init
@@ -43,7 +43,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/geoserver-init:latest
             ghcr.io/${{ github.repository_owner }}/geoserver-init:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push pygeoapi
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./pygeoapi
@@ -52,7 +52,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/pygeoapi:latest
             ghcr.io/${{ github.repository_owner }}/pygeoapi:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push error-handler worker
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./worker/error-handler
@@ -61,7 +61,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/mqm-worker/error-handler:latest
             ghcr.io/${{ github.repository_owner }}/mqm-worker/error-handler:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push rollback handler worker
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./worker/rollback-handler
@@ -70,7 +70,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/mqm-worker/rollback-handler:latest
             ghcr.io/${{ github.repository_owner }}/mqm-worker/rollback-handler:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push GeoServer
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./geoserver
@@ -79,7 +79,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/geoserver:latest
             ghcr.io/${{ github.repository_owner }}/geoserver:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push klips api
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./klips-api
