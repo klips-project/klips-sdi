@@ -60,3 +60,6 @@ services:
 
   klips-chart-api:
     build: ./easy-to-use-api/klips-chart-api
+
+  klips-timelapse-video-api:
+    build: ./easy-to-use-api/klips-timelapse-video-api
