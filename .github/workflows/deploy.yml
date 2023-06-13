@@ -96,3 +96,12 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/klips-chart-api:latest
             ghcr.io/${{ github.repository_owner }}/klips-chart-api:${{ steps.timestamp.outputs.timestamp }}
+
+      - name: Build and push klips-timelapse-video-api
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./easy-to-use-api/klips-timelapse-video-api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/klips-timelapse-video-api:latest
+            ghcr.io/${{ github.repository_owner }}/klips-timelapse-video-api:${{ steps.timestamp.outputs.timestamp }}

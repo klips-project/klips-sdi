@@ -320,3 +320,10 @@ services:
     restart: unless-stopped
     ports:
       - 3001:80
+
+  klips-timelapse-video-api:
+    container_name: ${CN_PREFIX}-timelapse-video-api
+    image: ghcr.io/klips-project/klips-timelapse-video-api:latest
+    restart: unless-stopped
+    ports:
+      - 3002:80
