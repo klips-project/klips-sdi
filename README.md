@@ -18,16 +18,16 @@ development:
 
 ```shell
 # expects the referenced repo located next to this directory
-docker-compose up --build
+docker compose -f docker-compose.yml -f docker-compose.localdev.yml up --build -d
 ```
 
-production:
+test:
 
 ```shell
 # download latest images if they have changed
 docker-compose -f docker-compose.yml pull
 
-docker-compose -f docker-compose.yml up
+docker-compose -f docker-compose.yml up -d
 ```
 
 ## COG Webspace
