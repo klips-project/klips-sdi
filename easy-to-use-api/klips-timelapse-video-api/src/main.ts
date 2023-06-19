@@ -44,7 +44,7 @@ try {
   const videoEl: HTMLVideoElement | null = document.querySelector('#video-element');
 
   if (!loadmask || !videoEl) {
-    throw new Error('Could not find required dom elements');
+    throw new Error('Benötigte DOM Elemente konnten nicht gefunden werden.');
   }
 
   loadmask.style.visibility = 'visible';
@@ -75,6 +75,6 @@ try {
 
   if (errorElement) {
     errorElement.style.display = 'block';
-    errorElement.textContent = 'An unexpected error has occured. Please check the console.';
+    errorElement.textContent = 'Unerwarteter Fehler. Bitte überprüfen Sie die Konsole.';
   }
 }

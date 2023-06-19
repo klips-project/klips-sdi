@@ -19,14 +19,14 @@ import './style.css';
 
     // validate params
     if (!params || !validateParams(params)) {
-      throw new Error('Invalid url params.');
+      throw new Error('Ungültige Parameter in der URL.');
     }
 
     // get dom
     const domEl = document.querySelector('#chart');
 
     if (!domEl) {
-      throw new Error('Could not find target element in dom.');
+      throw new Error('Zielelement wurde nicht gefunden.');
     }
 
     const chartApi = await ChartAPI.getChartData(params);
@@ -40,7 +40,7 @@ import './style.css';
 
     if (errorElement) {
       errorElement.style.display = 'block';
-      errorElement.textContent = 'An unexpected error has occured. Please check the console.';
+      errorElement.textContent = 'Unerwarteter Fehler. Bitte überprüfen Sie die Konsole.';
     }
   }
 })();
