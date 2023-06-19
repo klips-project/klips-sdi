@@ -20,39 +20,40 @@
 <body>
   <div id="main">
     <div class="controls">
-      <label>Bands min value
+      <label>Minimalwert
         <input type="range" id="min" value="0" min="-255" max="255">
       </label>
-      <label>Bands max value
+      <label>Maximalwert
         <input type="range" id="max" value="0" min="-255" max="255">
       </label>
-      <label>channel 1
-        <input type="radio" id="channel1" name="channel" checked>
-      </label>
-      <label>channel 2
-        <input type="radio" id="channel2" name="channel">
-      </label>
-      <label>channel 3
-        <input type="radio" id="channel3" name="channel">
-      </label>
-      <label>Select Dataset
+      <div class="channelSelection"><label>Kanal 1
+          <input type="radio" id="channel1" name="channel" checked>
+        </label>
+        <label>Kanal 2
+          <input type="radio" id="channel2" name="channel">
+        </label>
+        <label>Kanal 3
+          <input type="radio" id="channel3" name="channel">
+        </label>
+      </div>
+      <label>Datenauswahl
         <select id="dataset" name="dataset"></select>
       </label>
     </div>
     <div id="buttonWrapper">
-      <button id="imprintButton">Imprint</button>
-      <button id="infoButton">Information</button>
+      <button id="imprintButton" class="button">Impressum</button>
+      <button id="infoButton" class="button">Info</button>
     </div>
-    <div id="imprint" class="modalImprint">
+    <div id="imprint" class="modalImprint modal">
       <div class="modal-header">
-        <h4>Imprint</h4>
-        <div id="closeModal">
+        <h4>Impressum</h4>
+        <div id="closeModal" class="close">
           <i class="fa fa-close" style="font-size: 2em"></i>
         </div>
       </div>
       <div class="modalText">
-        <p><strong>This is a demonstrator for OGC API Processes</strong></p>
-        <p>For more information visit: </p>
+        <p><strong>Dies ist ein Demonstrator für OGC API Prozesse</strong></p>
+        <p>Mehr Informationen finden Sie hier: </p>
         <a href="https://www.klips-projekt.de/ueber-das-projekt/"><img
             src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" width="130em"
             height="auto"></img></a>
@@ -65,11 +66,11 @@
             href="https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttps%253A%252F%252Fwww.klips-projekt.de%252Fueber-das-projekt%252F%26quote%3D%25C3%259Cber%2Bdas%2BProjekt%2B%25E2%2580%2593%2BKLIPS&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=de_DE"><i
               class='fa fa-facebook'></i></a>
         </div>
-        <p>Input-Data provided by:</p>
+        <p>Input-Daten bereitgestellt durch:</p>
         <a href="https://www.hhi.fraunhofer.de/index.html"><img
             src="https://www.hhi.fraunhofer.de/fileadmin/Logos/hhi_logo_de.svg" width="80em" height="auto"></img></a>
 
-        <p>Demonstrator created by:</p>
+        <p>Demonstrator erstellt durch:</p>
         <div class="creators">
           <a href="https://www.terrestris.de/de/"><img
               src="https://www.terrestris.de/wp-content/uploads/2014/03/logo_terrestris_small3.png" width="70em"
@@ -79,12 +80,10 @@
         </div>
       </div>
     </div>
-    <div id="info" class="modalInfo">
+    <div id="info" class="modalInfo modal">
       <div class="modal-header">
-        <h4>Definitions and Information</h4>
-        <div id="languageSwitcher">
-        </div>
-        <div id="closeInfo">
+        <h4>Definitionen</h4>
+        <div id="closeInfo" class="close">
           <i class="fa fa-close" style="font-size: 2em"></i>
         </div>
       </div>
@@ -93,12 +92,15 @@
         <p id="uhi-text"></p>
         <h4 id="heatIndex-title"></h4>
         <p id="heatIndex-text"></p>
+        <div>
+          <button id="language" class="de en button">English</button>
+        </div>
       </div>
     </div>
     <div id="wrapper" style="display: table-row;">
       <div id="map"></div>
       <div id="sider">
-        <select name="processes"></select>
+        <select id="processes" name="processes"></select>
         <div id="api-output"></div>
         <div id="chart"></div>
       </div>

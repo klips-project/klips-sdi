@@ -12,14 +12,17 @@ body {
 
 .controls {
   padding: 10px;
-}
-
-.controls>label {
-  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  line-height: 150%;
 }
 
 select#dataset {
-  width: 300px;
+  width: auto;
+}
+
+select#processes {
+  width: auto;
 }
 
 #main {
@@ -35,6 +38,7 @@ select#dataset {
 pre {
   height: 25vh;
   overflow: auto;
+  width: 100%;
 }
 
 #wrapper {
@@ -44,11 +48,12 @@ pre {
 #api-output {
   height: 100%;
   overflow: auto;
+  padding: 10px;
 }
 
 #sider {
-  width: 500px;
-  max-width: 500px;
+  width: 20%;
+  max-width: 20%;
   display: table-cell;
   vertical-align: top;
   padding: 10px;
@@ -68,7 +73,7 @@ video {
   height: 100%;
 }
 
-#imprintButton {
+.button {
   margin-right: 10px;
   padding: 0.4em 1em;
   background: #e55f25;
@@ -77,40 +82,23 @@ video {
   border-radius: 25px;
 }
 
-#imprintButton:hover{
+.button:hover {
   background: white;
   border-color: #e55f25;
   border-width: 3px;
   color: #e55f25;
   border-style: solid;
-  border-radius: 25px;
-}
-
-#infoButton {
-  padding: 0.4em 1em;
-  background: #e55f25;
-  border-color: transparent;
-  color: #ffffff;
   border-radius: 25px;
 }
 
 #buttonWrapper {
- width: 200px;
- height: auto;
- position: absolute;
- bottom: 15px;
- left: 15px;
- z-index: 999;
- display: flex;
-}
-
-#infoButton:hover{
-  background: white;
-  border-color: #e55f25;
-  border-width: 3px;
-  color: #e55f25;
-  border-style: solid;
-  border-radius: 25px;
+  width: 200px;
+  height: auto;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  z-index: 999;
+  display: flex;
 }
 
 .modal-background {
@@ -124,7 +112,7 @@ video {
   z-index: 9998;
 }
 
-.modalImprint {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -141,13 +129,19 @@ video {
   border-color: lightgrey;
 }
 
-.modalImprint.open {
+#info {
+  width: 60%;
+  height: 50%;
+}
+
+.modal.open {
   display: block;
 }
 
 .modalText {
   padding-left: 15px;
   padding-right: 15px;
+  padding-top: 15px;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -155,6 +149,18 @@ video {
 
 .modalText>a {
   padding-bottom: 4%;
+}
+
+.modalText h4 {
+  margin: 0;
+  line-height: 30px;
+  color: #4d4d4d;
+  display: inline-block;
+}
+
+.modal>p {
+  padding: 15px;
+  margin: 0;
 }
 
 .socialMediaIcons i {
@@ -170,34 +176,8 @@ video {
   align-items: center;
 }
 
-.modalInfo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: none;
-  margin: auto;
-  width: 60%;
-  height: 70%;
-  background-color: #fff;
-  box-sizing: border-box;
-  z-index: 9999;
-  border-style: solid;
-  border-color: lightgrey;
-}
-
-.modalInfo.open {
-  display: block;
-}
-
-.modalInfo>p {
-  padding: 15px;
-  margin: 0;
-}
-
 .modal-header {
-  background-color: #f9f9f9;
+  background: #f5f5f5;
   border-bottom: 1px solid #dddddd;
   box-sizing: border-box;
   height: 50px;
@@ -214,77 +194,89 @@ video {
   display: inline-block;
 }
 
-.modalText h4 {
-  margin: 0;
-  line-height: 50px;
-  color: #4d4d4d;
-  display: inline-block;
-}
-
-#closeModal {
+.close {
   padding-right: 10px;
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-#closeInfo {
-  padding-right: 10px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.ol-zoom {
+  border-radius: 2px 2px 0 0;
+  border-color: #e55f25;
+  background: #e55f25;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .ol-zoom .ol-zoom-in {
-  border-radius: 2px 2px 0 0;
   background: #e55f25;
-  border-color:  #e55f25;
   color: #ffffff;
-  border-width: 2px;
-  border-style: solid;
 }
 
 .ol-zoom .ol-zoom-in:hover {
-  border-radius: 2px 2px 0 0;
   background: white;
-  border-color: #e55f25;
   color: #e55f25;
-  border-width: 2px;
-  border-style: solid;
 }
 
 .ol-zoom .ol-zoom-in:focus {
-  border-radius: 2px 2px 0 0;
   background: white;
-  border-color: #e55f25;
   color: #e55f25;
-  border-width: 2px;
-  border-style: solid;
 }
 
 .ol-zoom .ol-zoom-out {
-  border-radius: 2px 2px 0 0;
   background: #e55f25;
-  border-color:  #e55f25;
   color: #ffffff;
-  border-width: 2px;
-  border-style: solid;
 }
 
 .ol-zoom .ol-zoom-out:hover {
-  border-radius: 2px 2px 0 0;
   background: white;
-  border-color: #e55f25;
   color: #e55f25;
-  border-width: 2px;
-  border-style: solid;
 }
 
 .ol-zoom .ol-zoom-out:focus {
-  border-radius: 2px 2px 0 0;
   background: white;
-  border-color: #e55f25;
   color: #e55f25;
-  border-width: 2px;
-  border-style: solid;
+}
+
+@media (max-width: 1000px) {
+  #sider {
+    display: table-row;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #map {
+    height: 50%;
+  }
+
+  pre {
+    height: 10vh;
+    overflow: scroll;
+  }
+
+  .modalText {
+    padding-top: 15%;
+  }
+
+  .modal {
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+  }
+
+  #info {
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+  }
+
+  .modal-header {
+    width: 98.5%;
+    position: fixed;
+  }
+
+  .ol-attribution.ol-uncollapsible {
+    right: auto;
+  }
 }
