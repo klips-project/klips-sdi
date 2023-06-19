@@ -139,8 +139,8 @@ export const createVisualMap = (threshold: number): echarts.VisualMapComponentOp
 export const setupBaseChart = (): echarts.EChartsOption => {
   return {
     title: {
-      text: 'Temperature developement for 48h',
-      subtext: 'Dummy Data'
+      text: 'Temperaturentwicklung der vergangenen und folgenden 48 Stunden',
+      subtext: 'Dummy-Daten'
     },
     tooltip: {
       trigger: 'axis',
@@ -148,7 +148,7 @@ export const setupBaseChart = (): echarts.EChartsOption => {
     legend: {
       data: [
         {
-          name: 'perceived temperature',
+          name: 'gefühlte Temperatur',
           // TODO choose decent icon
           icon: 'none'
         }
