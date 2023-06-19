@@ -167,7 +167,7 @@ const setProcess = (process) => {
             endTimeStamp: "2024-12-31T12:32:00Z"
           }
         };
-        case 'timelapse-video':
+      case 'timelapse-video':
         payload = {
           inputs: {
             polygonGeoJson: JSON.parse(geoJsonGeom),
@@ -276,7 +276,7 @@ const map = new ol.Map({
   view: new ol.View({
     projection: 'EPSG:3035',
     center: [4585363.5883901585, 3112821.319358871],
-    zoom: 13
+    zoom: 12
   })
 });
 
@@ -310,7 +310,7 @@ const requestOapiProcesses = (url, payload) => {
     loadMsg.innerHTML = 'Please wait while the video is loading...';
     outputDiv.appendChild(loadMsg);
     const video = document.createElement('video');
-    video.type='video/mp4';
+    video.type = 'video/mp4';
     video.setAttribute('controls', '');
     outputDiv.appendChild(video);
     fetch(url + processId + '/execution', requestOptions)
@@ -351,7 +351,6 @@ const toggleImprint = function () {
 };
 
 document.querySelector("#imprintButton").onclick = toggleImprint;
-
 document.querySelector("#closeModal").onclick = toggleImprint;
 
 // Add Information modal
@@ -364,26 +363,56 @@ window.onload = async () => {
       throw new Error("Could not fetch imprint data");
     }
     imprintText = await resp.json();
-    
+
   } catch (error) {
     console.log(error);
   }
-  // Maybe TODO: implement simple language switcher, if both languages are really necessary
+ 
   const uhiTitleElement = document.querySelector("#uhi-title");
   const uhiTextElement = document.querySelector("#uhi-text");
   if (uhiTextElement && uhiTextElement) {
-    uhiTitleElement.innerHTML = `UHI ${imprintText.en.uhi.title}/ ${imprintText.de.uhi.title}`;
-    uhiTextElement.innerHTML = `${imprintText.en.uhi.text}<p/>${imprintText.de.uhi.text}`;
+    uhiTitleElement.innerHTML = imprintText.de.uhi.title;
+    uhiTextElement.innerHTML = imprintText.de.uhi.text;
   }
-  
+
   const heatIndexTitleElement = document.querySelector("#heatIndex-title");
   const heatIndexTextElement = document.querySelector("#heatIndex-text");
   if (heatIndexTextElement && heatIndexTextElement) {
-    heatIndexTitleElement.innerHTML = `${imprintText.en.uhi.title}/ ${imprintText.de.uhi.title}`;
-    heatIndexTextElement.innerHTML = `${imprintText.en.heatIndex.text}<p/>${imprintText.de.heatIndex.text}`;
+    heatIndexTitleElement.innerHTML = imprintText.de.heatIndex.title;
+    heatIndexTextElement.innerHTML = imprintText.de.heatIndex.text;
   }
+
+  // Language Switcher
+  const languageButton = document.querySelector("#language");
+
+  const toggleLanguage = function (event) {
+    let languageKey
+
+
+
+    if (languageButton.innerHTML == 'Deutsch') {
+      languageKey = event.target.classList[0];
+      languageButton.innerHTML = 'English'
+    } else if (languageButton.innerHTML == 'English') {
+      languageKey = event.target.classList[1];
+      languageButton.innerHTML = 'Deutsch'
+    }
+
+    if (!languageKey) {
+      return
+    } else {
+      heatIndexTitleElement.innerHTML = imprintText[languageKey].heatIndex.title;
+      uhiTitleElement.innerHTML = imprintText[languageKey].uhi.title;
+      heatIndexTextElement.innerHTML = imprintText[languageKey].heatIndex.text;
+      uhiTextElement.innerHTML = imprintText[languageKey].uhi.text;
+    };
+
+  };
+  languageButton.onclick = toggleLanguage;
 }
 
+
+// Ass Info
 const toggleInfo = function () {
   const info = document.querySelector("#info");
   if (!info) {
