@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.jsdelivr.net/npm/ol@v7.2.2/dist/ol.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js"
@@ -40,24 +39,24 @@
         <select id="dataset" name="dataset"></select>
       </label>
     </div>
-    <div id="buttonWrapper">
+    <div id="button-wrapper">
       <button id="imprintButton" class="button">Impressum</button>
       <button id="infoButton" class="button">Info</button>
     </div>
-    <div id="imprint" class="modalImprint modal">
+    <div id="imprint" class="modal">
       <div class="modal-header">
         <h4>Impressum</h4>
         <div id="closeModal" class="close">
           <i class="fa fa-close" style="font-size: 2em"></i>
         </div>
       </div>
-      <div class="modalText">
+      <div class="modal-text">
         <p><strong>Dies ist ein Demonstrator für OGC API Prozesse</strong></p>
         <p>Mehr Informationen finden Sie hier: </p>
         <a href="https://www.klips-projekt.de/ueber-das-projekt/"><img
             src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" width="130em"
             height="auto"></img></a>
-        <div class="socialMediaIcons">
+        <div class="social-media-icons">
           <a href="https://github.com/klips-project/"><i class='fa fa-github'></i></a>
           <a
             href="https://twitter.com/intent/tweet?text=%C3%9Cber%20das%20Projekt%20%E2%80%93%20KLIPS&url=https%3A%2F%2Fwww.klips-projekt.de%2Fueber-das-projekt%2F"><i
@@ -71,7 +70,7 @@
             src="https://www.hhi.fraunhofer.de/fileadmin/Logos/hhi_logo_de.svg" width="80em" height="auto"></img></a>
 
         <p>Demonstrator erstellt durch:</p>
-        <div class="creators">
+        <div class="project-partner">
           <a href="https://www.terrestris.de/de/"><img
               src="https://www.terrestris.de/wp-content/uploads/2014/03/logo_terrestris_small3.png" width="70em"
               height="auto"></img></a>
@@ -87,7 +86,7 @@
           <i class="fa fa-close" style="font-size: 2em"></i>
         </div>
       </div>
-      <div class="modalText">
+      <div class="modal-text">
         <h4 id="uhi-title"></h4>
         <p id="uhi-text"></p>
         <h4 id="heatIndex-title"></h4>

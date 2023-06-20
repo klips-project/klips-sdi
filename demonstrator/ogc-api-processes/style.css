@@ -91,54 +91,35 @@ video {
   border-radius: 25px;
 }
 
-#buttonWrapper {
+#button-wrapper {
   width: 200px;
   height: auto;
   position: absolute;
   bottom: 15px;
   left: 15px;
-  z-index: 999;
+  z-index: 5;
   display: flex;
-}
-
-.modal-background {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: none;
-  z-index: 9998;
 }
 
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   display: none;
   margin: auto;
-  width: 30%;
-  height: 53%;
+  width: 30vw;
+  height: 55vh;
   background-color: #fff;
   box-sizing: border-box;
-  z-index: 9999;
+  z-index: 10;
   border-style: solid;
   border-color: lightgrey;
-}
-
-#info {
-  width: 60%;
-  height: 50%;
 }
 
 .modal.open {
   display: block;
 }
 
-.modalText {
+.modal-text {
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 15px;
@@ -147,11 +128,16 @@ video {
   flex-direction: column;
 }
 
-.modalText>a {
+#info {
+  width: 60vw;
+  height: 50vh;
+}
+
+.modal-text > a {
   padding-bottom: 4%;
 }
 
-.modalText h4 {
+.modal-text h4 {
   margin: 0;
   line-height: 30px;
   color: #4d4d4d;
@@ -163,13 +149,13 @@ video {
   margin: 0;
 }
 
-.socialMediaIcons i {
+.social-media-icons i {
   color: #e55f25;
   font-size: 2em;
   padding-bottom: 4%;
 }
 
-.creators {
+.project-partner {
   display: flex;
   gap: 10px;
   flex-direction: row;
@@ -255,7 +241,7 @@ video {
     overflow: scroll;
   }
 
-  .modalText {
+  .modal-text {
     padding-top: 15%;
   }
 
