@@ -109,13 +109,6 @@ const setProcess = (process) => {
 
     let payload;
     switch (processId) {
-      case 'hello-world':
-        payload = {
-          inputs: {
-            name: "Peter"
-          }
-        };
-        break;
       case 'zonal-statistics-grass':
         payload = {
           inputs: {
@@ -280,7 +273,6 @@ const map = new ol.Map({
   })
 });
 
-window.map = map;
 /**
  * Request a OGC API Process and display results.
  *
@@ -340,7 +332,6 @@ const requestOapiProcesses = (url, payload) => {
     })
     .catch(error => console.log('error', error));
 }
-
 // Add Imprint
 const toggleImprint = function () {
   const imprint = document.querySelector("#imprint");
@@ -353,8 +344,21 @@ const toggleImprint = function () {
 document.querySelector("#imprintButton").onclick = toggleImprint;
 document.querySelector("#closeModal").onclick = toggleImprint;
 
+// Add Info
+const toggleInfo = function () {
+  const info = document.querySelector("#info");
+  if (!info) {
+    return;
+  }
+  info.classList.toggle("open");
+};
+
+document.querySelector("#infoButton").onclick = toggleInfo;
+document.querySelector("#closeInfo").onclick = toggleInfo;
+
 // Add Information modal
 // load text using fetch, import json assertion won't work on Firefox
+
 window.onload = async () => {
   let imprintText;
   try {
@@ -367,7 +371,7 @@ window.onload = async () => {
   } catch (error) {
     console.log(error);
   }
- 
+
   const uhiTitleElement = document.querySelector("#uhi-title");
   const uhiTextElement = document.querySelector("#uhi-text");
   if (uhiTextElement && uhiTextElement) {
@@ -384,11 +388,12 @@ window.onload = async () => {
 
   // Language Switcher
   const languageButton = document.querySelector("#language");
+  if (!languageButton) {
+    return;
+  }
 
   const toggleLanguage = function (event) {
-    let languageKey
-
-
+    let languageKey;
 
     if (languageButton.innerHTML == 'Deutsch') {
       languageKey = event.target.classList[0];
@@ -410,16 +415,3 @@ window.onload = async () => {
   };
   languageButton.onclick = toggleLanguage;
 }
-
-
-// Ass Info
-const toggleInfo = function () {
-  const info = document.querySelector("#info");
-  if (!info) {
-    return;
-  }
-  info.classList.toggle("open");
-};
-
-document.querySelector("#infoButton").onclick = toggleInfo;
-document.querySelector("#closeInfo").onclick = toggleInfo;
