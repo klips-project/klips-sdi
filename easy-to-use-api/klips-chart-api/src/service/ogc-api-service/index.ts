@@ -12,7 +12,8 @@ export const fetchTimeSeriesData = async (
       cogDirUrl: `http://nginx/cog/${params.region}/${params.region}_temperature/`,
       inputCrs: 'EPSG:4326',
       startTimeStamp: '2000-01-01T12:32:00Z',
-      endTimeStamp: '2024-12-31T12:32:00Z'
+      endTimeStamp: '2024-12-31T12:32:00Z',
+      bands: [1, 2, 3]
     }
   };
   const url = processURL;

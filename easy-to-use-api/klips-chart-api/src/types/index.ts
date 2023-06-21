@@ -26,3 +26,4 @@ export type EChart = echarts.ECharts;
 export type EChartsLineSeriesOption = echarts.LineSeriesOption;
 export type EChartsXaxisOption = echarts.XAXisComponentOption;
 export type EChartsYaxisOption = echarts.YAXisComponentOption;
+// export type EChartsOptionName = echarts.

@@ -148,8 +148,15 @@ export const setupBaseChart = (): echarts.EChartsOption => {
     legend: {
       data: [
         {
-          name: 'gefühlte Temperatur',
-          // TODO choose decent icon
+          name: 'Gefühlte Temperatur',
+          icon: 'none'
+        },
+        {
+          name: 'Physikalische Temperatur',
+          icon: 'none'
+        },
+        {
+          name: 'Temperaturdifferenz zum Umland',
           icon: 'none'
         }
       ],

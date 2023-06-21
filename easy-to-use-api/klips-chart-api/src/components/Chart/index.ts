@@ -27,8 +27,9 @@ export class ChartAPI {
   constructor(params: Params, data: any) {
     this.params = params;
     this.chartData = data;
+    // TODO define current timestamp. e.g. index at position 49
+    // or current timestamp via date.now()
     this.currentTimestamp = this.chartData[1].timestamp;
-
     // setup chart
     this.chartOptions = setupBaseChart();
 
@@ -41,6 +42,7 @@ export class ChartAPI {
     this.chart = echarts.init(chartDom as HTMLElement);
 
     // create bottom xAxis to display hours range (from -48h to +48h)
+    // TODO check if this xAxis can be created dynamically based on input data
     const hoursRange = [];
     for (let i = -48; i <= 48; i++) {
       hoursRange.push(`${i}h`);
@@ -70,9 +72,20 @@ export class ChartAPI {
     // create series based on chart data
     this.seriesData = [];
     const formattedData = formatChartData(this.chartData);
-    Object.entries(formattedData).forEach(([, dataArray]) => {
+    Object.entries(formattedData).forEach(([, dataArray], index) => {
+      // TODO define right type
+      let name: any;
+      if (index === 0) {
+        name = 'Gefühlte Temperatur';
+      }
+      if (index === 1) {
+        name = 'Physikalische Temperatur';
+      }
+      if (index === 2) {
+        name = 'Temperaturdifferenz zum Umland';
+      }
       let series = createSeriesData({
-        name: 'perceived temperature',
+        name: name ? name : '',
         data: dataArray.map(dataPoint => {
           return dataPoint[1];
         }),
