@@ -22,14 +22,11 @@ export class ChartAPI {
   public seriesData: EChartsLineSeriesOption[];
   public xAxisOptions: EChartsXaxisOption[];
   public yAxisOptions: EChartsYaxisOption;
-  public currentTimestamp: string;
 
   constructor(params: Params, data: any) {
     this.params = params;
     this.chartData = data;
-    // TODO define current timestamp. e.g. index at position 49
-    // or current timestamp via date.now()
-    this.currentTimestamp = this.chartData[1].timestamp;
+  
     // setup chart
     this.chartOptions = setupBaseChart();
 
@@ -48,7 +45,7 @@ export class ChartAPI {
       hoursRange.push(`${i}h`);
     }
     // TODO check easy and lightweight i18n solution
-    hoursRange[48] = 'now';
+    hoursRange[48] = 'jetzt';
     const xAxis1 = createXaxisOptions({
       data: hoursRange,
       axisLabel: {
