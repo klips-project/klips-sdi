@@ -52,31 +52,6 @@ export const createSeriesData = (inputOptions?: EChartsLineSeriesOption): EChart
       shadowBlur: 10,
       shadowOffsetY: 3
     },
-    markArea: {
-      itemStyle: {
-        color: '#f2f2f2',
-        opacity: 0.8
-      },
-      silent: true,
-      data: [
-        [
-          {
-            xAxis: 0
-          },
-          {
-            xAxis: 24
-          }
-        ],
-        [
-          {
-            xAxis: 48
-          },
-          {
-            xAxis: 72
-          }
-        ],
-      ]
-    },
     markLine: {
       symbol: 'none',
       animation: false,
@@ -84,12 +59,25 @@ export const createSeriesData = (inputOptions?: EChartsLineSeriesOption): EChart
       label: {
         show: false
       },
-      lineStyle: {
-        color: '#333'
-      },
       data: [
         {
-          xAxis: 48
+          xAxis: 48,
+          lineStyle: {
+            color: '#333',
+            type: 'solid'
+          },
+        },
+        {
+          xAxis: 24,
+          lineStyle: {
+            color: 'lightgrey'
+          },
+        },
+        {
+          xAxis: 72,
+          lineStyle: {
+            color: 'lightgrey'
+          },
         }
       ]
     }
