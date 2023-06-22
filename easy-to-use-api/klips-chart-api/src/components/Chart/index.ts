@@ -84,7 +84,7 @@ export class ChartAPI {
       let series = createSeriesData({
         name: name as string,
         data: dataArray.map(dataPoint => {
-          return dataPoint[1];
+          return parseFloat(dataPoint[1]).toFixed(1);
         }),
         // TODO make this dependant on data (°C vs Kelvin axis)
         xAxisIndex: 1

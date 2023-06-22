@@ -87,16 +87,16 @@ export const createSeriesData = (inputOptions?: EChartsLineSeriesOption): EChart
 
 export const formatChartData = (data: TimeSeriesData): DataPointObject => {
   const result: DataPointObject = {};
-
   data.forEach(obj => {
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key, index) => {
       if (key !== 'timestamp') {
         if (!result[key]) {
           result[key] = [];
         }
         result[key].push([
           obj.timestamp,
-          obj.band_1
+          // band number = current index + 1
+          obj[`band_${index + 1}`]
         ]
         );
       }
