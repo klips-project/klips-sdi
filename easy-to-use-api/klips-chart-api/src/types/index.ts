@@ -9,7 +9,7 @@ export type PathNameConfig = {
 };
 
 export type TimeSeriesDatapoint = {
-  'band_1': string;
+  [bandName: string]: string;
   'timestamp': string;
 };
 
