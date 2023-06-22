@@ -71,7 +71,7 @@ export class ChartAPI {
     const formattedData = formatChartData(this.chartData);
     Object.entries(formattedData).forEach(([, dataArray], index) => {
       // TODO define right type
-      let name: any;
+      let name: string = '';
       if (index === 0) {
         name = 'Gefühlte Temperatur';
       }
@@ -82,7 +82,7 @@ export class ChartAPI {
         name = 'Temperaturdifferenz zum Umland';
       }
       let series = createSeriesData({
-        name: name ? name : '',
+        name: name as string,
         data: dataArray.map(dataPoint => {
           return dataPoint[1];
         }),
