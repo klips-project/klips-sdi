@@ -102,8 +102,7 @@ export const formatChartData = (data: TimeSeriesData): DataPointObject => {
         }
         result[key].push([
           obj.timestamp,
-          // band number = current index + 1
-          obj[`band_${index + 1}`]
+          parseFloat(obj.band_1).toFixed(1)
         ]
         );
       }
@@ -135,7 +134,6 @@ export const setupBaseChart = (): echarts.EChartsOption => {
   return {
     title: {
       text: 'Temperaturentwicklung der vergangenen und folgenden 48 Stunden',
-      subtext: 'Dummy-Daten'
     },
     tooltip: {
       trigger: 'axis',
@@ -165,6 +163,17 @@ export const setupBaseChart = (): echarts.EChartsOption => {
       top: 100,
       bottom: 100
     },
+    graphic: [{
+      type: 'image',
+      onclick:  function () { window.open('http://www.klips-projekt.de/'); },
+      style: {
+        x: 8,
+        y: 20,
+        height: 40,
+        image: 'https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png',
+      },
+    },
+    ],
     dataZoom: [
       {
         type: 'slider',
