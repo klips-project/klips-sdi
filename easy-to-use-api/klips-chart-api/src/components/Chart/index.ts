@@ -2,14 +2,55 @@
 import dayjs from 'dayjs';
 import { fetchTimeSeriesData } from '../../service/ogc-api-service';
 import {
-  EChart,
-  EChartsLineSeriesOption, EChartsXaxisOption, EChartsYaxisOption, Params, TimeSeriesData
+  Params,
+  TimeSeriesData
 } from '../../types';
 
-import * as echarts from 'echarts';
+// import echart types
+import {
+  EChartsOption,
+  LineSeriesOption,
+  XAXisComponentOption,
+  YAXisComponentOption,
+} from 'echarts';
+
+import * as echarts from 'echarts/core';
+import {
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  MarkLineComponent,
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent
+} from 'echarts/components';
+
+import { LineChart } from 'echarts/charts';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([
+  CanvasRenderer,
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  LineChart,
+  MarkLineComponent,
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  UniversalTransition,
+  VisualMapComponent
+]);
+
 import {
   createSeriesData,
-  createVisualMap, createXaxisOptions, createYaxisOptions, formatChartData, setupBaseChart
+  createVisualMap,
+  createXaxisOptions,
+  createYaxisOptions,
+  formatChartData,
+  setupBaseChart
 } from '../../util/Chart';
 
 import WKTParser from 'jsts/org/locationtech/jts/io/WKTParser';
@@ -17,16 +58,16 @@ import WKTParser from 'jsts/org/locationtech/jts/io/WKTParser';
 export class ChartAPI {
   public params: Params;
   public chartData: TimeSeriesData;
-  public chart: EChart;
-  public chartOptions: echarts.EChartsOption;
-  public seriesData: EChartsLineSeriesOption[];
-  public xAxisOptions: EChartsXaxisOption[];
-  public yAxisOptions: EChartsYaxisOption;
+  public chart: echarts.ECharts;
+  public chartOptions: EChartsOption;
+  public seriesData: LineSeriesOption[];
+  public xAxisOptions: XAXisComponentOption[];
+  public yAxisOptions: YAXisComponentOption;
 
   constructor(params: Params, data: any) {
     this.params = params;
     this.chartData = data;
-  
+
     // setup chart
     this.chartOptions = setupBaseChart();
 
@@ -100,7 +141,7 @@ export class ChartAPI {
         visualMap: visualMap
       });
       // add dummy series to display threshold line and markarea
-      const thresholdSeries: echarts.LineSeriesOption = {
+      const thresholdSeries: LineSeriesOption = {
         name: 'threshold dummy series',
         type: 'line',
         silent: true,

@@ -1,10 +1,17 @@
 import {
   DataPointObject,
-  EChartsLineSeriesOption, EChartsXaxisOption, EChartsYaxisOption, TimeSeriesData
+  TimeSeriesData
 } from '../types';
 
-export const createYaxisOptions = (): EChartsYaxisOption => {
-  let option: EChartsYaxisOption;
+// import echart types
+import {
+  LineSeriesOption,
+  XAXisComponentOption,
+  YAXisComponentOption,
+} from 'echarts';
+
+export const createYaxisOptions = (): YAXisComponentOption => {
+  let option: YAXisComponentOption;
   option = {
     type: 'value',
     axisLabel: {
@@ -15,8 +22,8 @@ export const createYaxisOptions = (): EChartsYaxisOption => {
   return option;
 };
 
-export const createXaxisOptions = (inputOptions?: EChartsXaxisOption): EChartsXaxisOption => {
-  let option: EChartsXaxisOption;
+export const createXaxisOptions = (inputOptions?: XAXisComponentOption): XAXisComponentOption => {
+  let option: XAXisComponentOption;
   option = {
     type: 'category',
     boundaryGap: false,
@@ -40,8 +47,8 @@ export const createXaxisOptions = (inputOptions?: EChartsXaxisOption): EChartsXa
   return { ...option, ...inputOptions };
 };
 
-export const createSeriesData = (inputOptions?: EChartsLineSeriesOption): EChartsLineSeriesOption => {
-  let option: EChartsLineSeriesOption;
+export const createSeriesData = (inputOptions?: LineSeriesOption): LineSeriesOption => {
+  let option: LineSeriesOption;
   option = {
     type: 'line',
     silent: false,
