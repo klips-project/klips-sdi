@@ -102,7 +102,7 @@ export const formatChartData = (data: TimeSeriesData): DataPointObject => {
         }
         result[key].push([
           obj.timestamp,
-          parseFloat(obj.band_1).toFixed(1)
+          obj[`band_${index + 1}`]
         ]
         );
       }
