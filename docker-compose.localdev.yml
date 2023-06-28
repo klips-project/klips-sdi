@@ -51,6 +51,11 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/geotiff-validator/Dockerfile
 
+  dataset-rotation:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/dataset-rotation/Dockerfile
+
   geoserver:
     build: ./geoserver
     ports:

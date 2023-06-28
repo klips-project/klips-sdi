@@ -134,17 +134,28 @@ const createGeoTiffPublicationJob = (requestBody: any,
       },
       {
         id: 3,
-        type: 'geotiff-optimizer',
+        type: 'dataset-rotation',
         inputs: [
           {
             outputOfId: 2,
+            outputIndex: 0
+          },
+          cogWebspaceBasePath
+        ]
+      },
+      {
+        id: 4,
+        type: 'geotiff-optimizer',
+        inputs: [
+          {
+            outputOfId: 3,
             outputIndex: 0
           },
           filePathOnWebspace
         ]
       },
       {
-        id: 4,
+        id: 5,
         type: 'geoserver-create-imagemosaic-datastore',
         inputs: [
           geoServerWorkspace,
@@ -153,7 +164,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 5,
+        id: 6,
         type: 'geoserver-publish-imagemosaic',
         inputs: [
           geoServerWorkspace,
