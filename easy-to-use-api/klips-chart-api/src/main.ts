@@ -26,7 +26,6 @@ import './style.css';
       throw new Error('Invalid region.');
     }
 
-
     // get dom
     const domEl = document.querySelector('#chart');
 
