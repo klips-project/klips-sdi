@@ -1,6 +1,8 @@
 import {
   DataPointObject,
-  TimeSeriesData
+  TimeSeriesData,
+  BoundaryBox,
+  Envelope
 } from '../types';
 
 // import echart types
@@ -9,6 +11,16 @@ import {
   XAXisComponentOption,
   YAXisComponentOption,
 } from 'echarts';
+
+// check geometry
+export const pointInRect = (
+  region: string,
+  box: BoundaryBox,
+  point: Envelope,
+): boolean => (
+  (point._minx > box[region].x1 && point._maxx < box[region].x2) &&
+  (point._miny > box[region].y1 && point._maxy < box[region].y2)
+)
 
 export const createYaxisOptions = (): YAXisComponentOption => {
   let option: YAXisComponentOption;
@@ -53,41 +65,13 @@ export const createSeriesData = (inputOptions?: LineSeriesOption): LineSeriesOpt
     type: 'line',
     silent: false,
     showSymbol: true,
+    xAxisIndex: 1,
     lineStyle: {
       width: 3,
       shadowColor: 'rgba(0,0,0,0.3)',
       shadowBlur: 10,
       shadowOffsetY: 3
     },
-    markLine: {
-      symbol: 'none',
-      animation: false,
-      silent: true,
-      label: {
-        show: false
-      },
-      data: [
-        {
-          xAxis: 48,
-          lineStyle: {
-            color: '#333',
-            type: 'solid'
-          },
-        },
-        {
-          xAxis: 24,
-          lineStyle: {
-            color: 'lightgrey'
-          },
-        },
-        {
-          xAxis: 72,
-          lineStyle: {
-            color: 'lightgrey'
-          },
-        }
-      ]
-    }
   };
   return { ...option, ...inputOptions };
 };
@@ -165,7 +149,7 @@ export const setupBaseChart = (): echarts.EChartsOption => {
     },
     graphic: [{
       type: 'image',
-      onclick:  function () { window.open('http://www.klips-projekt.de/'); },
+      onclick: function () { window.open('http://www.klips-projekt.de/'); },
       style: {
         x: 8,
         y: 20,
@@ -177,15 +161,12 @@ export const setupBaseChart = (): echarts.EChartsOption => {
     dataZoom: [
       {
         type: 'slider',
-        xAxisIndex: 1,
+        xAxisIndex: [1, 0],
         fillerColor: 'rgba(0, 0, 0, 0)',
         dataBackground: {
           lineStyle: {
             color: 'lightgrey'
           },
-          areaStyle: {
-            color: '#f2f2f2'
-          }
         },
         selectedDataBackground: {
           lineStyle: {
@@ -208,7 +189,7 @@ export const setupBaseChart = (): echarts.EChartsOption => {
             color: 'none'
           }
         }
-      }
+      },
     ]
   };
 };

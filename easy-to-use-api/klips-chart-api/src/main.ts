@@ -2,7 +2,7 @@
 import { ChartAPI } from './components/Chart';
 import { getParams, parseURLPathnames } from './util/Url';
 import { pathNameConfig } from './constants';
-import { validateParams } from './util/Config';
+import { validateParams, validateParamsRegion } from './util/Config';
 
 import './style.css';
 
@@ -21,6 +21,11 @@ import './style.css';
     if (!params || !validateParams(params)) {
       throw new Error('Invalid url params.');
     }
+
+    if (!params || !validateParamsRegion(params)) {
+      throw new Error('Invalid region.');
+    }
+
 
     // get dom
     const domEl = document.querySelector('#chart');
