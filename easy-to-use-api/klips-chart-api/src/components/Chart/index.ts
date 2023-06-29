@@ -8,8 +8,6 @@ import {
 
 import { boundaryBox } from '../../constants';
 
-import { pointInRect } from '../../util/Chart';
-
 // import echart types
 import {
   EChartsOption,
@@ -54,7 +52,8 @@ import {
   createXaxisOptions,
   createYaxisOptions,
   formatChartData,
-  setupBaseChart
+  setupBaseChart,
+  pointInRect
 } from '../../util/Chart';
 
 import WKTParser from 'jsts/org/locationtech/jts/io/WKTParser';
