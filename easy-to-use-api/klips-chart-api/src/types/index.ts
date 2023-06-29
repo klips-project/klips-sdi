@@ -2,6 +2,9 @@ export type Params = {
   region?: string;
   geomwkt?: string;
   threshold?: string;
+  currentTimestamp?: string;
+  startTimestamp?: string;
+  endTimestamp?: string;
 };
 
 export type PathNameConfig = {

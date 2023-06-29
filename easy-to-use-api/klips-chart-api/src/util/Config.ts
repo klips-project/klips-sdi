@@ -10,3 +10,13 @@ export const validateParams = (params: Params) => {
     return true;
   }
 };
+
+// check params content
+export const validateParamsRegion = (params: Params) => {
+  if (
+    params.region?.includes('dresden') || 
+    params.region?.includes('langenfeld')
+  ) {
+    return true;
+  }
+};
