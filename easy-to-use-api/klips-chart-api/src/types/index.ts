@@ -23,3 +23,14 @@ export type Datapoint = [string, string];
 export type DataPointObject = {
   [key: string]: Datapoint[];
 };
+
+export type BoundingBoxObject = {
+  [key: string]: BoundingBox;
+};
+
+export type BoundingBox = [
+  number,
+  number,
+  number,
+  number
+];
