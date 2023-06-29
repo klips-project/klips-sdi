@@ -1,8 +1,7 @@
 import {
   DataPointObject,
   TimeSeriesData,
-  BoundaryBox,
-  Envelope
+  BoundingBox
 } from '../types';
 
 // import echart types
@@ -14,13 +13,18 @@ import {
 
 // check geometry
 export const pointInRect = (
-  region: string,
-  box: BoundaryBox,
-  point: Envelope,
-): boolean => (
-  (point._minx > box[region].x1 && point._maxx < box[region].x2) &&
-  (point._miny > box[region].y1 && point._maxy < box[region].y2)
-)
+  inputBbox: BoundingBox,
+  point: any
+): boolean => {
+  // get bbox of for input point
+  const envelope = point.getEnvelopeInternal();
+  return (
+    envelope.getMinX() > inputBbox[0] &&
+    envelope.getMinY() > inputBbox[1] &&
+    envelope.getMaxX() < inputBbox[2] &&
+    envelope.getMaxY() < inputBbox[3]
+  );
+};
 
 export const createYaxisOptions = (): YAXisComponentOption => {
   let option: YAXisComponentOption;

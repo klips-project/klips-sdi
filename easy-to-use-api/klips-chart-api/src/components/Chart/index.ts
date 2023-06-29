@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 
-import { boundaryBox } from '../../constants';
+import { boundingBox } from '../../constants';
 
 // import echart types
 import {
@@ -241,10 +241,9 @@ export class ChartAPI {
       return;
     }
     const wktGeometry = wktReader.read(params.geomwkt);
-    // check if geometry is within boundary box
-    const wktEnvelope = wktGeometry.getEnvelopeInternal();
-    if (!pointInRect(params.region!, boundaryBox, wktEnvelope)) {
-      throw new Error('Point outside of boundary box');
+    // check if point geometry is within boundary box
+    if (!pointInRect(boundingBox[params.region!], wktGeometry)) {
+      throw new Error(`Point coordinates outside of boundary box: ${boundingBox[params.region!].toString()}`);
     }
     // Retrieve chart data from ogc-api-process
     const data = await fetchTimeSeriesData(params, wktGeometry.getCoordinates()[0]);

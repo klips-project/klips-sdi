@@ -24,18 +24,13 @@ export type DataPointObject = {
   [key: string]: Datapoint[];
 };
 
-export type BoundaryBox = {
-  [property: string]: {
-    x1: number;
-    x2: number;
-    y1: number;
-    y2: number;
-  }
-}
+export type BoundingBoxObject = {
+  [key: string]: BoundingBox;
+};
 
-export type Envelope = {
-  _minx: number;
-  _maxx: number;
-  _miny: number;
-  _maxy: number;
-}
+export type BoundingBox = [
+  number,
+  number,
+  number,
+  number
+];
