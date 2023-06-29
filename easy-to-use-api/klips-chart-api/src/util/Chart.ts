@@ -40,8 +40,7 @@ export const createXaxisOptions = (inputOptions?: XAXisComponentOption): XAXisCo
       hideOverlap: false,
       showMinLabel: true,
       showMaxLabel: true,
-      rotate: -45,
-      formatter: '{dd}.{MM} {HH}:{mm}'
+      rotate: -45
     }
   };
   return { ...option, ...inputOptions };

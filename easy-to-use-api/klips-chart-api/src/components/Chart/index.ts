@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
-import dayjs from 'dayjs';
 import { fetchTimeSeriesData } from '../../service/ogc-api-service';
 import {
   Params,
   TimeSeriesData
 } from '../../types';
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+dayjs.extend(utc);
 
 // import echart types
 import {
@@ -17,6 +20,7 @@ import {
 import * as echarts from 'echarts/core';
 import {
   DataZoomComponent,
+  GraphicComponent,
   GridComponent,
   LegendComponent,
   MarkLineComponent,
@@ -33,6 +37,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 echarts.use([
   CanvasRenderer,
   DataZoomComponent,
+  GraphicComponent,
   GridComponent,
   LegendComponent,
   LineChart,
@@ -220,9 +225,9 @@ export class ChartAPI {
     params: Params
   ) {
     // Create Timestamps for ogc-api-process, round to full hours
-    const currentTimestamp = dayjs().format('YYYY-MM-DDTHH:00:00Z');
-    const startTimestamp = dayjs().subtract(48, 'hours').format('YYYY-MM-DDTHH:00:00Z');
-    const endTimestamp = dayjs().add(48, 'hours').format('YYYY-MM-DDTHH:00:00Z');
+    const currentTimestamp = dayjs().utc().format('YYYY-MM-DDTHH:00:00Z');
+    const startTimestamp = dayjs().subtract(49, 'hours').utc().format('YYYY-MM-DDTHH:00:00Z');
+    const endTimestamp = dayjs().add(49, 'hours').utc().format('YYYY-MM-DDTHH:00:00Z');
     // Append Timestamps to params
     params.currentTimestamp = currentTimestamp;
     params.startTimestamp = startTimestamp;
