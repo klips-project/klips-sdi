@@ -221,7 +221,7 @@ export class ChartAPI {
   ) {
     // Create Timestamps for ogc-api-process, round to full hours
     const currentTimestamp = dayjs().format('YYYY-MM-DDTHH:00:00Z');
-    const startTimestamp = dayjs().subtract(48, "hours").format('YYYY-MM-DDTHH:00:00Z');
+    const startTimestamp = dayjs().subtract(48, 'hours').format('YYYY-MM-DDTHH:00:00Z');
     const endTimestamp = dayjs().add(48, 'hours').format('YYYY-MM-DDTHH:00:00Z');
     // Append Timestamps to params
     params.currentTimestamp = currentTimestamp;
