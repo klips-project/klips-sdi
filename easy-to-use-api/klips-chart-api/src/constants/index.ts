@@ -1,5 +1,4 @@
 import {
-  BoundingBox,
   BoundingBoxObject,
   PathNameConfig
 } from '../types';
