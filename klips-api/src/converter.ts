@@ -138,7 +138,10 @@ const createGeoTiffPublicationJob = (requestBody: any,
         inputs: [
           {
             outputOfId: 2,
-            outputIndex: 0
+            outputIndex: 0,
+            geoServerWorkspace,
+            mosaicStoreName,
+            fileUrlOnWebspace
           },
           cogWebspaceBasePath
         ]
