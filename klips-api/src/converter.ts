@@ -145,6 +145,17 @@ const createGeoTiffPublicationJob = (requestBody: any,
       },
       {
         id: 4,
+        type: 'dataset-archive',
+        inputs: [
+          {
+            outputOfId: 2,
+            outputIndex: 0
+          },
+          cogWebspaceBasePath
+        ]
+      },
+      {
+        id: 5,
         type: 'geotiff-optimizer',
         inputs: [
           {
@@ -155,7 +166,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 5,
+        id: 6,
         type: 'geoserver-create-imagemosaic-datastore',
         inputs: [
           geoServerWorkspace,
@@ -164,7 +175,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 6,
+        id: 7,
         type: 'geoserver-publish-imagemosaic',
         inputs: [
           geoServerWorkspace,
