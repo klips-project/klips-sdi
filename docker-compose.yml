@@ -257,7 +257,11 @@ services:
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-      - WORKERQUEUE=dataset-rotation
+      - WORKERQUEUE=dataset-rotation 
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
       - PINO_STREAM_LOG_LEVEL
 
   geoserver:
@@ -282,13 +286,21 @@ services:
     volumes:
       - ./logs:/home/logs:Z
     environment:
-        - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
-        - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
-        - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
-        - GEOSERVER_USER=${GEOSERVER_USER}
-        - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
-        - PINO_STREAM_LOG_LEVEL
-    command: [ "./wait-for.sh", "--timeout=180", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "start"]
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
+      - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - PINO_STREAM_LOG_LEVEL
+    command:
+      [
+        "./wait-for.sh",
+        "--timeout=180",
+        "${GEOSERVER_HOSTNAME}:8080",
+        "--",
+        "npm",
+        "start"
+      ]
 
   postgres:
     container_name: ${CN_PREFIX}-postgres
