@@ -145,17 +145,6 @@ const createGeoTiffPublicationJob = (requestBody: any,
       },
       {
         id: 4,
-        type: 'dataset-archive',
-        inputs: [
-          {
-            outputOfId: 2,
-            outputIndex: 0
-          },
-          cogWebspaceBasePath
-        ]
-      },
-      {
-        id: 5,
         type: 'geotiff-optimizer',
         inputs: [
           {
@@ -163,6 +152,17 @@ const createGeoTiffPublicationJob = (requestBody: any,
             outputIndex: 0
           },
           filePathOnWebspace
+        ]
+      },
+      {
+        id: 5,
+        type: 'dataset-archive',
+        inputs: [
+          {
+            outputOfId: 2,
+            outputIndex: 0
+          },
+          cogWebspaceBasePath
         ]
       },
       {
