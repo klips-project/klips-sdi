@@ -56,6 +56,11 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/dataset-rotation/Dockerfile
 
+  dataset-archive:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/dataset-archive/Dockerfile
+
   geoserver:
     build: ./geoserver
     ports:

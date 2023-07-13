@@ -264,6 +264,24 @@ services:
       - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
       - PINO_STREAM_LOG_LEVEL
 
+  dataset-archive:
+    container_name: ${CN_PREFIX}-dataset-archive
+    image: ghcr.io/klips-project/mqm-worker/dataset-archive:latest
+    restart: unless-stopped
+    volumes:
+      - ./staging:/opt/staging:Z
+      - ./cog_data:/opt/cog:Z
+      - ./logs:/home/logs:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=dataset-archive
+      - PINO_STREAM_LOG_LEVEL
+
   geoserver:
     container_name: ${CN_PREFIX}-geoserver
     image: ghcr.io/klips-project/geoserver:latest
