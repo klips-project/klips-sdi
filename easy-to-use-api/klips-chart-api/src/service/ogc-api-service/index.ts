@@ -1,5 +1,7 @@
 import { Params } from '../../types';
-import { processURL } from '../../constants';
+import { processURL, boundingBox } from '../../constants';
+import { validateParams, validateParamsRegion } from '../../util/Config';
+import { pointInRect } from '../../util/Chart';
 
 export const fetchTimeSeriesData = async (
   params: Params,
@@ -31,3 +33,38 @@ export const fetchTimeSeriesData = async (
 
   return await response.json();
 };
+
+export const generateErrorMessages = (
+  params: Params
+): any => {
+
+  // validate params
+  const errorElementURL: HTMLElement | null = document.querySelector('#error-URL');
+  const linkDocs: String = './docs'
+  const linkDocsHTML: String = `<div><a href = ${linkDocs}>Informationen zu den Eingabeparametern</a></div>`
+
+  if (!validateParams(params)) {
+    if (errorElementURL) {
+      errorElementURL.style.display = 'block';
+      errorElementURL.innerHTML = `<div><span>Ungültige URL. Bitte prüfen Sie die eingegebenen Parameter.</span></div>${linkDocsHTML}`;
+    }
+    throw new Error('Invalid param names in URL.');
+  }
+  // validate region parameter
+  if (!validateParamsRegion(params)) {
+    if (errorElementURL) {
+      errorElementURL.style.display = 'block';
+      errorElementURL.innerHTML = `<div><span>Ungültige URL. Bitte prüfen Sie die eingegebenen Parameter für "region".</span></div>${linkDocsHTML}`;
+    }
+    throw new Error('Invalid region.');
+  }
+  // check if point geometry is within boundary box
+  if (!pointInRect(boundingBox[params.region!], params.wktGeometry)) {
+    if (errorElementURL) {
+      errorElementURL.style.display = 'block';
+      errorElementURL.innerHTML = `<div><span>Ungültige Koordinateneingabe. Die eingegebenen Koordinaten liegen nicht in der ausgewählten Region. Bitte prüfen Sie die eingegebenen Parameter für "geomwkt".</span></div>${linkDocsHTML}`;
+    }
+    throw new Error(`Point coordinates outside of boundary box: ${boundingBox[params.region!].toString()}`);
+  }
+
+}
