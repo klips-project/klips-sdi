@@ -1,6 +1,5 @@
 import { Params } from '../types';
 
-// TODO improve validation (geometry checking etc.)
 export const validateParams = (params: Params) => {
   if (
     params.hasOwnProperty('region') &&
@@ -10,7 +9,6 @@ export const validateParams = (params: Params) => {
     return true;
   }
 };
-
 // check params content
 export const validateParamsRegion = (params: Params) => {
   if (

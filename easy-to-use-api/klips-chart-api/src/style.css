@@ -18,4 +18,69 @@ body {
 
 #error {
   display: none;
+  font-family: Verdana, Geneva, sans-serif;
+  color: #E55F25;
+}
+
+#error-URL {
+  display: none;
+  margin-top: 1%;
+  text-align: center;
+  width: 50vw;
+  font-family: Verdana, Geneva, sans-serif;
+  color: #E55F25;
+}
+
+#url-params-documentation {
+  display: none;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #e55f25;
+  padding: 5px;
+  margin: 0px 15px;
+  position: relative;
+  color: white;
+}
+
+#heading {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+#table {
+  display: table;
+  background-color: white;
+  padding: 5px;
+  margin: 0px 15px;
+  position: relative;
+  color: #e55f25;
+  border: 1px solid #e55f25;
+}
+
+th {
+  display: table-cell;
+  font-weight: bold;
+  text-align: left;
+}
+
+tr:hover {
+  background-color: #f7e7e0;
+}
+
+tr:first-child {
+  font-weight: 700;
+}
+
+#example {
+  display: flex;
+  justify-content: space-between;
+  background-color: #e55f25;
+  padding: 5px;
+  margin: 0px 15px;
+  position: relative;
+  color: white;
 }
