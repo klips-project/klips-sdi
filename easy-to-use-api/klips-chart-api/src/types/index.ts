@@ -5,6 +5,8 @@ export type Params = {
   currentTimestamp?: string;
   startTimestamp?: string;
   endTimestamp?: string;
+  pointInRegion?: string;
+  wktGeometry?: string;
 };
 
 export type PathNameConfig = {

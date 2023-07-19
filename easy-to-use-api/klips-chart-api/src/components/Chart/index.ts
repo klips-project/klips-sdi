@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { fetchTimeSeriesData } from '../../service/ogc-api-service';
+import { fetchTimeSeriesData, generateErrorMessages } from '../../service/ogc-api-service';
 import {
   Params,
   TimeSeriesData
@@ -8,8 +8,6 @@ import {
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
-
-import { boundingBox } from '../../constants';
 
 // import echart types
 import {
@@ -57,7 +55,6 @@ import {
   createXaxisOptions,
   createYaxisOptions,
   formatChartData,
-  pointInRect,
   setupBaseChart
 } from '../../util/Chart';
 
@@ -235,16 +232,18 @@ export class ChartAPI {
     params.currentTimestamp = currentTimestamp;
     params.startTimestamp = startTimestamp;
     params.endTimestamp = endTimestamp;
-    // check wkt param TODO validation and reprojection
+
+    // get wkt Geometry
     const wktReader = new WKTParser();
     if (!params.geomwkt) {
       return;
     }
     const wktGeometry = wktReader.read(params.geomwkt);
-    // check if point geometry is within boundary box
-    if (!pointInRect(boundingBox[params.region!], wktGeometry)) {
-      throw new Error(`Point coordinates outside of boundary box: ${boundingBox[params.region!].toString()}`);
-    }
+    params.wktGeometry = wktGeometry;
+
+    // validate params
+    await generateErrorMessages(params)
+
     // Retrieve chart data from ogc-api-process
     const data = await fetchTimeSeriesData(params, wktGeometry.getCoordinates()[0]);
 
