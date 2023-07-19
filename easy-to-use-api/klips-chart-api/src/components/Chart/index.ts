@@ -178,39 +178,36 @@ export class ChartAPI {
       this.chart.setOption({
         visualMap: visualMap
       });
-      // add dummy series to display threshold line and markarea
+      // add series to display threshold line and markarea
       const thresholdSeries: LineSeriesOption = {
-        name: 'threshold dummy series',
+        name: 'threshold series',
         type: 'line',
         silent: true,
         animation: false,
-        markArea: {
+        markLine: {
+          label: {
+            show: false
+          },
+          symbol: 'none',
           itemStyle: {
-            color: '#a81a04',
-            opacity: 0.05
+            color: '#a81a04'
           },
           data: [
-            [
               {
-                yAxis: this.params.threshold
-              },
-              {
-                yAxis: 100
+                yAxis: parseFloat(this.params.threshold),
               }
             ],
-          ]
         },
       };
       this.seriesData.push(thresholdSeries);
     };
-
     // set chart options
     this.chart.setOption({
       xAxis: this.xAxisOptions,
       yAxis: this.yAxisOptions,
       series: this.seriesData,
       toolbox: {
-        right: 75,
+        right: 15,
         feature: {
           dataZoom: {
             yAxisIndex: 'none'
