@@ -7,7 +7,8 @@ import {
 export const pathNameConfig: PathNameConfig = {
   path2: 'region',
   path3: 'geomwkt',
-  path4: 'threshold'
+  path4: 'threshold',
+  path5: 'band'
 };
 
 export const processURL = window.location.href.indexOf('localhost') > -1 ?

@@ -18,7 +18,7 @@ export class ChartAPIDocs {
         const docElement: HTMLElement | null = document.querySelector('#url-params-documentation');
         if (docElement) {
             let table = '';
-            for (let i = 0; i < this.params.length; i++) {
+            for (let i = 0; i < this.params[0].length; i++) {
                 let tr = '<tr>';
                 tr += '<td>' + this.params[0][i] + '</td>';
                 tr += '<td>' + this.params[1][i] + '</td>';
@@ -27,7 +27,7 @@ export class ChartAPIDocs {
                 tr += '</tr>';
                 table += tr;
             }
-            
+
             const header = `<div id='heading'><span> ${this.title} </span></div><span> ${this.text} </span>`
             const example = `<span> Beispiel-URL: </span><a href = ${this.example}>${this.example}</a>`
 
