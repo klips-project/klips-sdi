@@ -2,6 +2,7 @@ export type Params = {
   region?: string;
   geomwkt?: string;
   threshold?: string;
+  band?: string;
   currentTimestamp?: string;
   startTimestamp?: string;
   endTimestamp?: string;
@@ -36,3 +37,17 @@ export type BoundingBox = [
   number,
   number
 ];
+
+export type LegendSelect = [ {
+  name?: string;
+  icon?: string
+},
+{
+  name?: string;
+  icon?: string
+},
+{
+  name?: string;
+  icon?: string
+}
+]

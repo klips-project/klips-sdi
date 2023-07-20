@@ -55,7 +55,8 @@ import {
   createXaxisOptions,
   createYaxisOptions,
   formatChartData,
-  setupBaseChart
+  setupBaseChart,
+  legendSelect
 } from '../../util/Chart';
 
 import WKTParser from 'jsts/org/locationtech/jts/io/WKTParser';
@@ -80,9 +81,22 @@ export class ChartAPI {
 
     if (!chartDom) {
       throw new Error('No div found for chart rendering.');
-    }
+    };
 
     this.chart = echarts.init(chartDom as HTMLElement);
+
+    // select band to display
+    let lineTypeCompare: string = "solid";
+    if (params.band?.includes('perceived')) {
+      [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[0], legendSelect[1], legendSelect[2]];
+    } else if (params.band?.includes('physical')) {
+      [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[1], legendSelect[0], legendSelect[2]];
+    } else if (params.band?.includes('difference')) {
+      [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[2], legendSelect[0], legendSelect[1]];
+    } else if (params.band?.includes('compare')) {
+      [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[0], legendSelect[0], legendSelect[2]];
+      lineTypeCompare = "dotted"
+    };
 
     // create top xAxis to display timestamps
     const TimeSeries = this.chartData.map((dataPoint) => {
@@ -122,17 +136,21 @@ export class ChartAPI {
     Object.entries(formattedData).forEach(([, dataArray], index) => {
       // TODO define right type
       let name: string = '';
+      let lineType: any = '';
       if (index === 0) {
         name = 'Gefühlte Temperatur';
+        lineType = lineTypeCompare;
       }
       if (index === 1) {
         name = 'Physikalische Temperatur';
       }
       if (index === 2) {
         name = 'Temperaturdifferenz zum Umland';
+        lineType = lineTypeCompare;
       }
       let series = createSeriesData({
         name: name as string,
+        lineStyle: { type: lineType },
         data: dataArray.map(dataPoint => {
           return parseFloat(dataPoint[1]).toFixed(1);
         }),

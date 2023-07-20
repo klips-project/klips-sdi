@@ -1,7 +1,8 @@
 import {
   DataPointObject,
   TimeSeriesData,
-  BoundingBox
+  BoundingBox,
+  LegendSelect,
 } from '../types';
 
 // import echart types
@@ -67,7 +68,7 @@ export const createSeriesData = (inputOptions?: LineSeriesOption): LineSeriesOpt
   option = {
     type: 'line',
     silent: false,
-    showSymbol: true,
+    showSymbol: false,
     xAxisIndex: 1,
     lineStyle: {
       width: 3,
@@ -117,6 +118,21 @@ export const createVisualMap = (threshold: number): echarts.VisualMapComponentOp
   };
 };
 
+export let legendSelect: LegendSelect = [
+  {
+    name: 'Gefühlte Temperatur',
+    icon: 'none'
+  },
+  {
+    name: 'Physikalische Temperatur',
+    icon: 'none'
+  },
+  {
+    name: 'Temperaturdifferenz zum Umland',
+    icon: 'none',
+  }
+];
+
 export const setupBaseChart = (): echarts.EChartsOption => {
   return {
     title: {
@@ -126,22 +142,9 @@ export const setupBaseChart = (): echarts.EChartsOption => {
       trigger: 'axis',
     },
     legend: {
-      data: [
-        {
-          name: 'Gefühlte Temperatur',
-          icon: 'none'
-        },
-        {
-          name: 'Physikalische Temperatur',
-          icon: 'none'
-        },
-        {
-          name: 'Temperaturdifferenz zum Umland',
-          icon: 'none'
-        }
-      ],
+      data: legendSelect,
       selectedMode: 'single',
-      bottom: 50
+      bottom: 50,
     },
     xAxis: [],
     yAxis: [],
