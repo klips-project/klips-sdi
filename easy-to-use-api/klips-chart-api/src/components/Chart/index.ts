@@ -172,7 +172,11 @@ export class ChartAPI {
     });
 
     // check if threshold is given
-    if (this.params && this.params.threshold) {
+    if (!this.params.threshold) {
+    this.params.threshold = '30';
+    }
+
+    if (this.params) {
       // define visualMap for chart
       const visualMap = createVisualMap(parseInt(this.params.threshold, 10));
       this.chart.setOption({
