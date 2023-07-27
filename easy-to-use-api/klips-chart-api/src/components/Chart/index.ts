@@ -173,8 +173,8 @@ export class ChartAPI {
 
     // check if threshold is given
     if (!this.params.threshold) {
-    this.params.threshold = '30';
-    }
+      this.params.threshold = '30';
+    };
 
     if (this.params) {
       // define visualMap for chart
