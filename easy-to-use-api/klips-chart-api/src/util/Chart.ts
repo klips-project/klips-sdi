@@ -118,7 +118,7 @@ export const createVisualMap = (threshold: number): echarts.VisualMapComponentOp
   };
 };
 
-export let legendSelect: LegendSelect = [
+export const legendSelect: LegendSelect = [
   {
     name: 'Gefühlte Temperatur',
     icon: 'none'
