@@ -1,5 +1,5 @@
 import { Params } from '../../types';
-import { processURL, boundingBox } from '../../constants';
+import { processURL, processURLPolygon, boundingBox } from '../../constants';
 import { validateParams, validateParamsRegion } from '../../util/Config';
 import { pointInRect } from '../../util/Chart';
 
@@ -19,6 +19,37 @@ export const fetchTimeSeriesData = async (
     }
   };
   const url = processURL;
+  const response = await fetch(url, {
+    body: JSON.stringify(body),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error status: ${response.status}`);
+  }
+
+  return await response.json();
+};
+
+export const fetchTimeSeriesDataPolygon = async (
+  params: Params,
+  coordinates: any
+): Promise<any> => {
+  const body = {
+    inputs: {
+      polygonGeoJson: coordinates,
+      cogDirUrl: `http://nginx/cog/${params.region}/${params.region}_temperature/`,
+      statisticMethods: ['mean', 'max', 'min'],
+      inputCrs: 'EPSG:4326',
+      startTimeStamp: params.startTimestamp,
+      endTimeStamp: params.endTimestamp,
+      bands: [1, 2, 3]
+    }
+  };
+  const url = processURLPolygon;
   const response = await fetch(url, {
     body: JSON.stringify(body),
     method: 'POST',

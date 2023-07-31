@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { fetchTimeSeriesData, generateErrorMessages } from '../../service/ogc-api-service';
+import { fetchTimeSeriesData, fetchTimeSeriesDataPolygon, generateErrorMessages } from '../../service/ogc-api-service';
 import {
   Params,
   TimeSeriesData
@@ -60,6 +60,8 @@ import {
 } from '../../util/Chart';
 
 import WKTParser from 'jsts/org/locationtech/jts/io/WKTParser';
+// @ts-ignore
+import GeoJSONWriter from 'jsts/org/locationtech/jts/io/GeoJSONWriter';
 
 export class ChartAPI {
   public params: Params;
@@ -100,9 +102,11 @@ export class ChartAPI {
     };
 
     // create top xAxis to display timestamps
-    const TimeSeries = this.chartData.map((dataPoint) => {
+    let TimeSeries = this.chartData.map((dataPoint) => {
       return dayjs(dataPoint.timestamp).format('DD.MM HH:mm');
     });
+    // remove duplicates
+    TimeSeries = [...new Set(TimeSeries)];
     // dummy, replace by currentTimestamp
     const now = TimeSeries.indexOf(dayjs(params.currentTimestamp).format('DD.MM HH:mm'));
     if (!now || now === -1) {
@@ -253,20 +257,40 @@ export class ChartAPI {
     params.startTimestamp = startTimestamp;
     params.endTimestamp = endTimestamp;
 
-    // get wkt Geometry
-    const wktReader = new WKTParser();
+    // Retrieve chart data from ogc-api-process
     if (!params.geomwkt) {
       return;
     }
+
+    // adapt geomwkt format
+    if (params.geomwkt.includes('Polygon')) {
+      params.geomwkt = 'POLYGON(' +
+        JSON.parse(params.geomwkt).coordinates.map(function (ring: any) {
+          return '(' + ring.map(function (p: any) {
+            return p[0] + ' ' + p[1];
+          }).join(', ') + ')';
+        }).join(', ') + ')';
+    }
+    // get wkt Geometry
+    const wktReader = new WKTParser();
     const wktGeometry = wktReader.read(params.geomwkt);
     params.wktGeometry = wktGeometry;
+
+    // get GeoJSON
+    const geoJSONWriter = new GeoJSONWriter();
+    const geoJSONGeometry = geoJSONWriter.write(wktGeometry);
+    params.geoJSONGeometry = geoJSONGeometry;
 
     // validate params
     await generateErrorMessages(params)
 
-    // Retrieve chart data from ogc-api-process
-    const data = await fetchTimeSeriesData(params, wktGeometry.getCoordinates()[0]);
-
+    // get data
+    let data: TimeSeriesData;
+    if (params.geomwkt.includes('POLYGON')) {
+      data = await fetchTimeSeriesDataPolygon(params, params.geoJSONGeometry);
+    } else {
+      data = await fetchTimeSeriesData(params, wktGeometry.getCoordinates()[0]);
+    };
     return new ChartAPI(params, data.values);
   }
 

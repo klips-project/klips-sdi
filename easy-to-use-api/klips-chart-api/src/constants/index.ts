@@ -12,8 +12,13 @@ export const pathNameConfig: PathNameConfig = {
 };
 
 export const processURL = window.location.href.indexOf('localhost') > -1 ?
-'https://klips-dev.terrestris.de/processes/location-info-time-rasterstats/execution' :
+  'https://klips-dev.terrestris.de/processes/location-info-time-rasterstats/execution' :
   'https://klips-dev.terrestris.de/processes/location-info-time-rasterstats/execution';
+
+export const processURLPolygon = window.location.href.indexOf('localhost') > -1 ?
+  'https://klips-dev.terrestris.de/processes/zonal-statistics-time-rasterstats/execution' :
+  'https://klips-dev.terrestris.de/processes/zonal-statistics-time-rasterstats/execution';
+
 
 export const boundingBox: BoundingBoxObject = {
   dresden: [

@@ -8,6 +8,7 @@ export type Params = {
   endTimestamp?: string;
   pointInRegion?: string;
   wktGeometry?: string;
+  geoJSONGeometry?: string;
 };
 
 export type PathNameConfig = {
