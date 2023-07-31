@@ -1,10 +1,15 @@
-export class ChartAPIDocs {
-    public params: String[];
+
+import {
+    DocsContent
+  } from '../../types';
+  
+  export class ChartAPIDocs {
+    public params: DocsContent;
     public title: String;
     public text: String;
     public example: String;
 
-    constructor(params: String[], title: String, text: String, example: String) {
+    constructor(params: DocsContent, title: String, text: String, example: String) {
         this.params = params;
         this.title = title;
         this.text = text;
@@ -18,12 +23,12 @@ export class ChartAPIDocs {
         const docElement: HTMLElement | null = document.querySelector('#url-params-documentation');
         if (docElement) {
             let table = '';
-            for (let i = 0; i < this.params[0].length; i++) {
+            for (let i = 0; i < this.params.parameter.length; i++) {
                 let tr = '<tr>';
-                tr += '<td>' + this.params[0][i] + '</td>';
-                tr += '<td>' + this.params[1][i] + '</td>';
-                tr += '<td>' + this.params[2][i] + '</td>';
-                tr += '<td>' + this.params[3][i] + '</td>';
+                tr += '<td>' + this.params.parameter[i] + '</td>';
+                tr += '<td>' + this.params.values[i] + '</td>';
+                tr += '<td>' + this.params.example[i] + '</td>';
+                tr += '<td>' + this.params.content[i] + '</td>';
                 tr += '</tr>';
                 table += tr;
             }
