@@ -82,7 +82,8 @@ export const createSeriesData = (inputOptions?: LineSeriesOption): LineSeriesOpt
 
 export const formatChartData = (data: TimeSeriesData): DataPointObject => {
   const result: DataPointObject = {};
-  data.forEach(obj => {
+  if (!data[0].band) {
+    data.forEach(obj => {
     Object.keys(obj).forEach((key, index) => {
       if (key !== 'timestamp') {
         if (!result[key]) {
@@ -95,7 +96,12 @@ export const formatChartData = (data: TimeSeriesData): DataPointObject => {
         );
       }
     });
-  });
+  }); } else {
+    data.map(band => band.band)
+    .filter((value, index, self) => self.indexOf(value) === index).forEach(value => {
+      result[value] = data.filter(item => item.band === value).map(item => [item.timestamp, item.mean]);
+    });
+  }
   return result;
 };
 
