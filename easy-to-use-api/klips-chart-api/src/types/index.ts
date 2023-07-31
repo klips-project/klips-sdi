@@ -14,6 +14,13 @@ export type PathNameConfig = {
   [pathName: string]: string;
 };
 
+export type DocsContent = {
+  parameter: String[];
+  values: String[];
+  example: String[];
+  content: String[];
+};
+
 export type TimeSeriesDatapoint = {
   [bandName: string]: string;
   'timestamp': string;
