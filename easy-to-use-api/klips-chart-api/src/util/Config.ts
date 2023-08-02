@@ -3,8 +3,8 @@ import { Params } from '../types';
 export const validateParams = (params: Params) => {
   if (
     params.hasOwnProperty('region') &&
-    params.hasOwnProperty('geomwkt') 
-   // params.hasOwnProperty('threshold')
+    params.hasOwnProperty('geom') &&
+    // params.hasOwnProperty('threshold')
   ) {
     return true;
   }

@@ -82,25 +82,31 @@ export const createSeriesData = (inputOptions?: LineSeriesOption): LineSeriesOpt
 
 export const formatChartData = (data: TimeSeriesData): DataPointObject => {
   const result: DataPointObject = {};
+  // for point geometry 
   if (!data[0].band) {
     data.forEach(obj => {
-    Object.keys(obj).forEach((key, index) => {
-      if (key !== 'timestamp') {
-        if (!result[key]) {
-          result[key] = [];
+      Object.keys(obj).forEach((key, index) => {
+        if (key !== 'timestamp') {
+          if (!result[key]) {
+            result[key] = [];
+          }
+          result[key].push([
+            obj.timestamp,
+            obj[`band_${index + 1}`]
+          ]
+          );
         }
-        result[key].push([
-          obj.timestamp,
-          obj[`band_${index + 1}`]
-        ]
-        );
-      }
+      });
+      // for polygon geometry
+      // output structure of the ogc-api-process zonal-statistics-time-rasterstats gives output as individual objects for each band. Thus the output data is restructured here.
     });
-  }); } else {
+  } else {
     data.map(band => band.band)
-    .filter((value, index, self) => self.indexOf(value) === index).forEach(value => {
-      result[value] = data.filter(item => item.band === value).map(item => [item.timestamp, item.mean]);
-    });
+      .filter((value, index, self) => self.indexOf(value) === index) // get number of bands
+      .forEach(value => {
+        result[value] = data.filter(item => item.band === value) // filter data array by each band number
+        .map(item => [item.timestamp, item.mean]); // map the correct parameters to each object
+      });
   }
   return result;
 };

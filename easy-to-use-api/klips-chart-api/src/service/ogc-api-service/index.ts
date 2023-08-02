@@ -93,7 +93,7 @@ export const generateErrorMessages = (
   if (!pointInRect(boundingBox[params.region!], params.wktGeometry)) {
     if (errorElementURL) {
       errorElementURL.style.display = 'block';
-      errorElementURL.innerHTML = `<div><span>Ungültige Koordinateneingabe. Die eingegebenen Koordinaten liegen nicht in der ausgewählten Region. Bitte prüfen Sie die eingegebenen Parameter für "geomwkt".</span></div>${linkDocsHTML}`;
+      errorElementURL.innerHTML = `<div><span>Ungültige Koordinateneingabe. Die eingegebenen Koordinaten liegen nicht in der ausgewählten Region. Bitte prüfen Sie die eingegebenen Parameter für "geom".</span></div>${linkDocsHTML}`;
     }
     throw new Error(`Point coordinates outside of boundary box: ${boundingBox[params.region!].toString()}`);
   }
