@@ -11,6 +11,7 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./mocked-webspace:/usr/share/nginx/html:ro
       - ./cog_data:/opt/cog:ro
+      - ./data/images:/data/images:ro
 
   klips-api:
     container_name: ${CN_PREFIX}-api

@@ -157,7 +157,7 @@ export const setupBaseChart = (): echarts.EChartsOption => {
         x: 8,
         y: 20,
         height: 40,
-        image: 'https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png',
+        image: 'https://klips-dev.terrestris.de/images/KLIPS-Logo.png',
       },
     },
     ],
