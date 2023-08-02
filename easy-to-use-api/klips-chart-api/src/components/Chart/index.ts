@@ -258,14 +258,15 @@ export class ChartAPI {
     params.endTimestamp = endTimestamp;
 
     // Retrieve chart data from ogc-api-process
-    if (!params.geomwkt) {
+    if (!params.geom) {
       return;
     }
 
-    // adapt geomwkt format
-    if (params.geomwkt.includes('Polygon')) {
-      params.geomwkt = 'POLYGON(' +
-        JSON.parse(params.geomwkt).coordinates.map(function (ring: any) {
+    // adapt geometry format
+    // if geom-parameter is not given in WKT-format in the url, the parameter is reformatted here.
+    if (params.geom.includes('Polygon')) {
+      params.geom = 'POLYGON(' +
+        JSON.parse(params.geom).coordinates.map(function (ring: any) {
           return '(' + ring.map(function (p: any) {
             return p[0] + ' ' + p[1];
           }).join(', ') + ')';
@@ -273,7 +274,7 @@ export class ChartAPI {
     }
     // get wkt Geometry
     const wktReader = new WKTParser();
-    const wktGeometry = wktReader.read(params.geomwkt);
+    const wktGeometry = wktReader.read(params.geom);
     params.wktGeometry = wktGeometry;
 
     // get GeoJSON
@@ -286,7 +287,7 @@ export class ChartAPI {
 
     // get data
     let data: TimeSeriesData;
-    if (params.geomwkt.includes('POLYGON')) {
+    if (params.geom.includes('POLYGON')) {
       data = await fetchTimeSeriesDataPolygon(params, params.geoJSONGeometry);
     } else {
       data = await fetchTimeSeriesData(params, wktGeometry.getCoordinates()[0]);

@@ -6,9 +6,9 @@ import {
 // define pathname for widget, e.g. /chart/dresden/Point(xy)/20
 export const pathNameConfig: PathNameConfig = {
   path2: 'region',
-  path3: 'geomwkt',
+  path3: 'geom',
   path4: 'threshold',
-  path5: 'band'
+  path5: 'band',
 };
 
 export const processURL = window.location.href.indexOf('localhost') > -1 ?

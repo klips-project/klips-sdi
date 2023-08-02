@@ -1,6 +1,6 @@
 export type Params = {
   region?: string;
-  geomwkt?: string;
+  geom?: string;
   threshold?: string;
   band?: string;
   currentTimestamp?: string;
