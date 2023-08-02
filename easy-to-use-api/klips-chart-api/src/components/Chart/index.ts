@@ -86,6 +86,7 @@ export class ChartAPI {
     this.chart = echarts.init(chartDom as HTMLElement);
 
     // select band to display
+    // changes order of imported array 'legendSelect' implicitly. A default order for legendSelect is declared in '../../util/Chart'. The variable is then used to set legend options for setupBaseChart ('../../util/Chart').
     let lineTypeCompare: string = "solid";
     if (params.band?.includes('perceived')) {
       [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[0], legendSelect[1], legendSelect[2]];
