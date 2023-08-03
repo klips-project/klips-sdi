@@ -2,16 +2,7 @@ import { GeoServerRestClient } from 'geoserver-node-client';
 import fs from 'fs';
 import path from 'path';
 import { logger } from './logger.js';
-
-const geoserverUrl = process.env.GEOSERVER_REST_URL;
-
-const geoserverUser = process.env.GEOSERVER_USER;
-const geoserverPw = process.env.GEOSERVER_PASSWORD;
-
-/** Workspace for generic objects like styles */
-const genericWorkspace = 'klips';
-
-const workspaces = ['dresden', 'langenfeld', genericWorkspace];
+import { geoserverUrl, geoserverUser, geoserverPw, genericWorkspace, workspaces } from './constants.js'
 
 // constants
 const SLD_SUFFIX = '.sld';
@@ -95,26 +86,7 @@ async function createSingleStyle(workspace, styleName) {
   }
 }
 
-/**
- * Adds basic contact information
- */
-async function addContactInformation() {
-  const address = undefined;
-  const city = undefined;
-  const country = 'Germany';
-  const state = undefined;
-  const postalCode = undefined;
-  const email = undefined;
-  const organization = 'KLIPS Project';
-  const contactPerson = undefined;
-  const phoneNumber = undefined;
 
-  try {
-    await grc.settings.updateContactInformation(address, city, country, postalCode, state, email, organization, contactPerson, phoneNumber);
-    logger.info('Changed contact information');
-  } catch (error) {
-    logger.error({ error }, 'Changing contact information failed');
-  }
-}
-
+// Adds basic contact information
+addContactInformation() 
 main();

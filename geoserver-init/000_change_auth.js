@@ -1,20 +1,10 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
 import { logger } from './logger.js';
 import { sleep } from './util.js';
-
-const geoserverUrl = process.env.GEOSERVER_REST_URL;
-const geoserverDefaultUser = process.env.GEOSERVER_DEFAULT_USER;
-const geoserverDefaultPw = process.env.GEOSERVER_DEFAULT_PASSWORD;
-
-// the GeoServer role to assign to the new user
-const role = 'ADMIN';
-
-// read GS login from secrets
-const newGeoserverUser = process.env.GEOSERVER_USER;
-const newGeoserverPw = process.env.GEOSERVER_PASSWORD;
+import { geoserverUrl, geoserverDefaultUser, geoserverDefaultPw, geoserverUser, geoserverPw, genericWorkspace, workspaces } from './constants.js'
 
 // check if all variables are present
-if (!geoserverUrl || !geoserverDefaultUser || !geoserverDefaultPw || !newGeoserverUser || !newGeoserverPw) {
+if (!geoserverUrl || !geoserverDefaultUser || !geoserverDefaultPw || !geoserverUser || !geoserverPw) {
   logger.error('Not all variables provided. Please specify these env vars: \n ' +
    'GEOSERVER_REST_URL\n GEOSERVER_DEFAULT_USER\n GEOSERVER_DEFAULT_PASSWORD\n GEOSERVER_USER\n GEOSERVER_PASSWORD\n');
   process.exit(1);
@@ -36,8 +26,8 @@ grc.about.exists()
  */
 async function adaptSecurity () {
   try {
-    const user = newGeoserverUser;
-    const userPw = newGeoserverPw;
+    const user = geoserverUser;
+    const userPw = geoserverPw;
 
     if (!user || !userPw || user === '' || userPw === '') {
       logger.error('No valid user or user password given - EXIT');
