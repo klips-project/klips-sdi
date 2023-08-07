@@ -1,3 +1,7 @@
+import {
+    GeoServerRestClient
+} from 'geoserver-node-client';
+
 // the GeoServer role to assign to the new user
 export const role = 'ADMIN';
 
