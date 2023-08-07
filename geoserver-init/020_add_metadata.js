@@ -1,3 +1,7 @@
+import { grc } from './constants.js'
+import { logger } from './logger.js';
+
+
 // Adds basic contact information
 export const addContactInformation = async () => {
     const address = 'Kölnstr. 99';
