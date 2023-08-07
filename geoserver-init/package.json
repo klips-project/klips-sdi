@@ -6,10 +6,10 @@
   "scripts": {
     "lint": "eslint  -c .eslintrc.yml '**/*.js'",
     "lint-fix": "eslint --fix",
-    "start": "node 000_change_auth.js && node 010_setup_geoserver.js"
+    "start": "node 000_change_auth.js && node 010_setup_geoserver.js && 020_add_metadata.js"
   },
   "dependencies": {
-    "geoserver-node-client": "1.2.2",
+    "geoserver-node-client": "^1.2.2",
     "pino": "^8.8.0",
     "pino-pretty": "^9.1.1"
   },
