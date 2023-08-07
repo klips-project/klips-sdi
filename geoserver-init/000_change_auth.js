@@ -1,7 +1,7 @@
 import { GeoServerRestClient } from 'geoserver-node-client';
 import { logger } from './logger.js';
 import { sleep } from './util.js';
-import { geoserverUrl, geoserverDefaultUser, geoserverDefaultPw, geoserverUser, geoserverPw, genericWorkspace, workspaces } from './constants.js'
+import { geoserverUrl, geoserverDefaultUser, geoserverDefaultPw, geoserverUser, geoserverPw } from './constants.js'
 
 // check if all variables are present
 if (!geoserverUrl || !geoserverDefaultUser || !geoserverDefaultPw || !geoserverUser || !geoserverPw) {

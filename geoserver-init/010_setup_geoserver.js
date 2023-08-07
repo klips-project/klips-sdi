@@ -1,8 +1,21 @@
-import { GeoServerRestClient } from 'geoserver-node-client';
+import {
+  GeoServerRestClient
+} from 'geoserver-node-client';
 import fs from 'fs';
 import path from 'path';
-import { logger } from './logger.js';
-import { geoserverUrl, geoserverUser, geoserverPw, genericWorkspace, workspaces } from './constants.js'
+import {
+  logger
+} from './logger.js';
+import {
+  addContactInformation
+} from './020_add_metadata.js';
+import {
+  geoserverUrl,
+  geoserverUser,
+  geoserverPw,
+  genericWorkspace,
+  workspaces
+} from './constants.js'
 
 // constants
 const SLD_SUFFIX = '.sld';
@@ -13,8 +26,9 @@ const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
 
 async function main() {
   await createWorkspaces();
+  await createWMS()
   await addContactInformation();
-  await createStyles();
+  await createStyles()
 }
 
 /**
@@ -34,7 +48,7 @@ async function createWorkspaces() {
         logger.info(`Created Workspace: '${workspace}'`);
         await grc.namespaces.create(workspace, workspaceOverLayUri);
       } catch (error) {
-        logger.error(error)
+        logger.error(error);
       }
     }
   }
@@ -88,5 +102,5 @@ async function createSingleStyle(workspace, styleName) {
 
 
 // Adds basic contact information
-addContactInformation() 
+addContactInformation()
 main();
