@@ -27,7 +27,7 @@ const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
 async function main() {
   await createWorkspaces();
   await addContactInformation();
-  await createStyles()
+  await createStyles();
 }
 
 /**
