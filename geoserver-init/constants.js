@@ -9,6 +9,8 @@ export const geoserverUrl = process.env.GEOSERVER_REST_URL;
 export const geoserverUser = process.env.GEOSERVER_USER;
 export const geoserverPw = process.env.GEOSERVER_PASSWORD;
 
+export const grc = new GeoServerRestClient(geoserverUrl, geoserverDefaultUser, geoserverDefaultPw);
+
 // Workspaces
 /** Workspace for generic objects like styles */
 export const genericWorkspace = 'klips';
