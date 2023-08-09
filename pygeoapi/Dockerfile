@@ -5,6 +5,7 @@ RUN apt -y update && \
     apt -y install software-properties-common && \
     add-apt-repository ppa:ubuntugis/ubuntugis-unstable && \
     apt -y update && \
+    apt-mark hold python3-mapscript && \
     apt -y upgrade && \
     apt -y install grass gdal-bin ffmpeg
 

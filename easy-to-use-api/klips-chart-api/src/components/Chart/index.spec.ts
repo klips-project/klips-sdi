@@ -31,7 +31,7 @@ describe('<ChartAPI>', () => {
       return;
     }
     const testParams: Params = {
-      geomwkt: 'POINT(10 30)',
+      geom: 'POINT(10 30)',
       region: 'dresden',
       threshold: '25'
     };
