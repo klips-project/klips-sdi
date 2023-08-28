@@ -95,6 +95,4 @@ async function createSingleStyle(workspace, styleName) {
   }
 }
 
-
-// Adds basic contact information
 main();
