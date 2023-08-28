@@ -7,9 +7,6 @@ import {
   logger
 } from './logger.js';
 import {
-  addContactInformation
-} from './020_add_metadata.js';
-import {
   geoserverUrl,
   geoserverUser,
   geoserverPw,
@@ -26,7 +23,6 @@ const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
 
 async function main() {
   await createWorkspaces();
-  await addContactInformation();
   await createStyles();
 }
 
@@ -101,5 +97,4 @@ async function createSingleStyle(workspace, styleName) {
 
 
 // Adds basic contact information
-addContactInformation()
 main();

@@ -1,6 +1,18 @@
-import { grc } from './constants.js'
-import { logger } from './logger.js';
+import {
+    GeoServerRestClient
+} from 'geoserver-node-client';
+import {
+    logger
+} from './logger.js';
+import {
+    geoserverUrl,
+    geoserverUser,
+    geoserverPw,
+} from './constants.js'
 
+
+// check if we can connect to GeoServer REST API
+const grc = new GeoServerRestClient(geoserverUrl, geoserverUser, geoserverPw);
 
 // Adds basic contact information
 export const addContactInformation = async () => {
@@ -23,3 +35,5 @@ export const addContactInformation = async () => {
         }, 'Changing contact information failed');
     }
 }
+
+addContactInformation();
