@@ -1,9 +1,9 @@
 
 import {
     DocsContent
-  } from '../../types';
-  
-  export class ChartAPIDocs {
+} from '../../types';
+
+export class ChartAPIDocs {
     public params: DocsContent;
     public title: String;
     public text: String;
@@ -34,7 +34,7 @@ import {
             }
 
             const header = `<div id='heading'><span> ${this.title} </span></div><span> ${this.text} </span>`
-            const example = `<span> Beispiel-URL: </span><a href = ${this.example}>${this.example}</a>`
+            const example = `<span> Beispiel-URL: </span><a href = ${process.env.VITE_SERVER_URL}${this.example}>${process.env.VITE_SERVER_URL}${this.example}</a>`
 
             docElement.style.display = 'block';
             docElement.innerHTML =
