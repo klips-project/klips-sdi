@@ -2,7 +2,7 @@ name: Lint and test pygeoapi files
 on:
   push:
     branches:
-      - main
+      - fix-pipeline
   pull_request:
     branches:
       - main
@@ -23,8 +23,10 @@ jobs:
         run: set -e
       - name: Provide a .env file for running the docker-compose setup
         run: cp .env.example .env
-      - name: Run NGINX from docker-compose setup to create a dummy webspace for the test
-        run: docker-compose -f docker-compose.yml up -d nginx
+      # - name: Run NGINX from docker-compose setup to create a dummy webspace for the test
+      #   run: docker-compose -f docker-compose.yml up -d nginx
+      - name: start dummy nginx on port 81
+        run: docker run -p 81:80 nginx
       - name: Wait until dummy webspace is available
         run: wait-for-it "localhost:81"
       - name: Checkout repository
