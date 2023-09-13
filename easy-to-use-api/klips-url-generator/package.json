@@ -9,18 +9,11 @@
     "url": "https://www.terrestris.de"
   },
   "dependencies": {
-    "@terrestris/react-geo": "^22.4.2",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "antd": "^4.17",
-    "buffer": "^6.0.3",
-    "ol": "^7.5.2",
+    "@terrestris/react-geo": "^23.0.0",
+    "ol": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "^2.1.3",
-    "typescript": "^5.2.2",
-    "web-vitals": "^2.1.4"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

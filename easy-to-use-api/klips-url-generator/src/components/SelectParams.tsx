@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState } from 'react';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 
-
 interface OwnProps {
   inputRegions?: [{
     name: string;

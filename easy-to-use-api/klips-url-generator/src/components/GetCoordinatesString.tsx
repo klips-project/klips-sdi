@@ -176,13 +176,12 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
         drawInteraction.setActive(pressed);
     };
 
-    // Optional: Display output coordinates
-    // const Text = (
-    //     <div className='text-wrapper'>
-    //         <span>{output?.coordinatesWKT?.includes(drawType.toUpperCase()) ? output.coordinatesWKT : ''}</span>
-    //         <span>{output?.coordinatesGeoJSON?.includes(drawType) ? output.coordinatesGeoJSON : ''} </span>
-    //     </div>
-    // );
+    // Optional: Display output coordinatess
+    const text = (
+        <div className='text-wrapper'>
+            <span>{output?.coordinatesGeoJSON?.includes(drawType) ? output.coordinatesGeoJSON : ''} </span>
+        </div>
+    );
 
     return (
         <div>
@@ -190,7 +189,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
                 onClick={handleFeatureSelect}
                 {...passThroughProps}
             />
-            {/* {Text} */}
+            {text}
         </div>);
 };
 
