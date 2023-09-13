@@ -33,7 +33,12 @@ body,
   font-size: 20px;
   padding-bottom: 2%;
   border-bottom: 3px solid;
+  margin-top: 2%;
   width: 100%;
+}
+
+.text-wrapper {
+  font-size: 15px;
 }
 
 .button {
@@ -41,10 +46,11 @@ body,
   color: white;
   padding: 10px;
   font-size: 16px;
-  margin: 5%;
+  margin-top: 5%;
+  margin-bottom: 2%;
   border: none;
   border-radius: 4px;
-  width: 150%;
+  width: 100%;
 }
 
 button:hover {
@@ -59,7 +65,7 @@ button:hover {
 
 .link-wrapper {
   border: 3px solid;
-  padding: 3%;
+  margin-top: 2%;
 }
 
 .number-content {
