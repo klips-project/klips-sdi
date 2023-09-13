@@ -358,3 +358,8 @@ services:
     container_name: ${CN_PREFIX}-timelapse-video-api
     image: ghcr.io/klips-project/klips-timelapse-video-api:latest
     restart: unless-stopped
+
+  klips-url-generator:
+    container_name: ${CN_PREFIX}-url-generator
+    image: ghcr.io/klips-project/klips-url-generator:latest
+    restart: unless-stopped

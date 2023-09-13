@@ -26,7 +26,7 @@ jobs:
       - name: Run NGINX from docker-compose setup to create a dummy webspace for the test
         run: docker-compose -f docker-compose.yml up -d nginx
       - name: Wait until dummy webspace is available
-        run: wait-for-it "localhost:81"
+        run: wait-for-it "localhost:80"
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Lint Python files

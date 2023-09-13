@@ -12,7 +12,6 @@ import { EventsKey } from 'ol/events';
 import OlFormatWKT from 'ol/format/WKT';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 
-import ToggleButton, { ToggleButtonProps } from '@terrestris/react-geo/dist/Button/ToggleButton/ToggleButton';
 import { useMap } from '@terrestris/react-geo/dist/Hook/useMap';
 import { DigitizeUtil } from '@terrestris/react-geo/dist/Util/DigitizeUtil';
 
@@ -53,30 +52,24 @@ interface OwnProps {
     drawInteractionConfig?: Omit<OlDrawOptions, 'source' | 'type' | 'geometryFunction' | 'style' | 'freehandCondition'>;
 }
 
-export type GetCoordinatesStringProps = OwnProps & Partial<ToggleButtonProps>;
-
-/**
- * The className added to this component.
- */
-// const defaultClassName = 'Geometry';
+export type GetCoordinatesStringProps = OwnProps;
 
 /**
  * The DrawButton.
  */
 const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
-    className,
     drawInteractionConfig,
     drawStyle,
     drawType,
     onDrawEnd,
     onDrawStart,
-    onToggle,
     passOutput,
     ...passThroughProps
 }) => {
 
     const [drawInteraction, setDrawInteraction] = useState<OlInteractionDraw>();
     const [layer, setLayer] = useState<OlVectorLayer<OlVectorSource<OlGeometry>> | null>(null);
+    // eslint-disable-next-line 
     const [output, setOutput] = useState<Output | undefined>(undefined);
 
 
@@ -161,7 +154,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
             if (features) {
                 const lastFeature = features[features.length - 1];
                 layer?.getSource()?.removeFeature(lastFeature);
-            }
+            };
         });
 
         return () => {
@@ -169,7 +162,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
             unByKey(startKey);
         };
         // eslint-disable-next-line 
-    }, [onDrawStart, onDrawEnd, drawInteraction]);
+    }, [drawInteraction, onDrawStart, onDrawEnd]);
 
     if (!drawInteraction || !layer) {
         return null;
@@ -179,29 +172,25 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
      * Called when the draw button is toggled. If the button state is pressed,
      * the draw interaction will be activated.
      */
-    const onToggleInternal = (pressed: boolean, lastClickEvent: any) => {
+    const handleFeatureSelect = (pressed: any) => {
         drawInteraction.setActive(pressed);
-        onToggle?.(pressed, lastClickEvent);
     };
 
-    const btnWrapperClass = 'button';
-
-    const Text = (
-        <div className='text-wrapper'>
-            <span>{output?.coordinatesWKT?.includes(drawType.toUpperCase()) ? output.coordinatesWKT : ''}</span>
-            <span>{output?.coordinatesGeoJSON?.includes(drawType) ? output.coordinatesGeoJSON : ''} </span>
-        </div>
-    );
+    // Optional: Display output coordinates
+    // const Text = (
+    //     <div className='text-wrapper'>
+    //         <span>{output?.coordinatesWKT?.includes(drawType.toUpperCase()) ? output.coordinatesWKT : ''}</span>
+    //         <span>{output?.coordinatesGeoJSON?.includes(drawType) ? output.coordinatesGeoJSON : ''} </span>
+    //     </div>
+    // );
 
     return (
-        <div className='ouput-wrapper'>
-            <span className={btnWrapperClass} >
-                <ToggleButton
-                    onToggle={onToggleInternal}
-                    {...passThroughProps}
-                />
-            </span>
-            {Text}
+        <div>
+            <button
+                onClick={handleFeatureSelect}
+                {...passThroughProps}
+            />
+            {/* {Text} */}
         </div>);
 };
 
