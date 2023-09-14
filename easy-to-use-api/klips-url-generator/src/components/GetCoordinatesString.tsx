@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react';
 import { StyleLike as OlStyleLike } from 'ol/style/Style';
 import OlInteractionDraw, { DrawEvent as OlDrawEvent, Options as OlDrawOptions } from 'ol/interaction/Draw';
 import * as OlEventConditions from 'ol/events/condition';
-import { unByKey } from 'ol/Observable';
 import OlVectorSource from 'ol/source/Vector';
 import OlGeometry from 'ol/geom/Geometry';
 import OlVectorLayer from 'ol/layer/Vector';
-import { EventsKey } from 'ol/events';
 import OlFormatWKT from 'ol/format/WKT';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
 
@@ -70,7 +68,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
     const [drawInteraction, setDrawInteraction] = useState<OlInteractionDraw>();
     const [layer, setLayer] = useState<OlVectorLayer<OlVectorSource<OlGeometry>> | null>(null);
     // eslint-disable-next-line 
-    const [output, setOutput] = useState<Output | undefined>(undefined);
+    const [outputGeom, setOutputGeom] = useState<Output | undefined>(undefined);
 
 
 
@@ -98,6 +96,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
         const newInteraction = new OlInteractionDraw({
             source: layer.getSource() || undefined,
             type: type,
+            stopClick: true,
             geometryFunction: geometryFunction,
             style: drawStyle ?? DigitizeUtil.defaultDigitizeStyleFunction,
             freehandCondition: OlEventConditions.never,
@@ -112,12 +111,6 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
         setDrawInteraction(newInteraction);
 
-        let key: EventsKey;
-
-        return () => {
-            unByKey(key);
-            map.removeInteraction(newInteraction);
-        };
     }, [drawType, layer, drawInteractionConfig, drawStyle, map]);
 
     useEffect(() => {
@@ -128,27 +121,27 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
          * Called when the drawing interaction is finished. 
          * Coordinates of the Feature are given as string in WKT- and GeoJSON-format.
          */
-        const endKey = drawInteraction.on('drawend', (evt) => {
+        drawInteraction.on('drawend', (evt) => {
             onDrawEnd?.(evt);
             const geometry = evt.feature.getGeometry();
             const formatWKT = new OlFormatWKT();
             const formatGeoJSON = new OlFormatGeoJSON();
 
-            if (geometry && formatWKT && formatGeoJSON) {
+            if (geometry) {
                 const coordinatesWKT = formatWKT.writeGeometry(geometry);
                 const coordinatesGeoJSON = formatGeoJSON.writeGeometry(geometry);
 
-                setOutput({
+                setOutputGeom({
                     coordinatesWKT: coordinatesWKT,
                     coordinatesGeoJSON: coordinatesGeoJSON
                 });
-                passOutput?.(coordinatesWKT);
+                drawInteraction.setActive(false);
             };
         });
         /** 
          * Called when the drawing interaction is started. Previously drawn feature is removed.
          */
-        const startKey = drawInteraction.on('drawstart', (evt) => {
+        drawInteraction.on('drawstart', (evt) => {
             onDrawStart?.(evt);
             const features = layer?.getSource()?.getFeatures();
             if (features) {
@@ -157,12 +150,15 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
             };
         });
 
-        return () => {
-            unByKey(endKey);
-            unByKey(startKey);
-        };
         // eslint-disable-next-line 
-    }, [drawInteraction, onDrawStart, onDrawEnd]);
+    }, [drawInteraction, onDrawStart, onDrawEnd, layer, map]);
+
+    useEffect(() => {
+        if (!outputGeom) {
+            return;
+        }
+        passOutput?.(outputGeom.coordinatesWKT);
+    }, [outputGeom, passOutput]);
 
     if (!drawInteraction || !layer) {
         return null;
@@ -175,11 +171,10 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
     const handleFeatureSelect = (pressed: any) => {
         drawInteraction.setActive(pressed);
     };
-
     // Optional: Display output coordinatess
     const text = (
         <div className='text-wrapper'>
-            <span>{output?.coordinatesGeoJSON?.includes(drawType) ? output.coordinatesGeoJSON : ''} </span>
+            <span>{outputGeom?.coordinatesGeoJSON?.includes(drawType) ? outputGeom.coordinatesGeoJSON : ''} </span>
         </div>
     );
 
