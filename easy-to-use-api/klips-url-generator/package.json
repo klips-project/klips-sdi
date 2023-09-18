@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@terrestris/react-geo": "^23.0.0",
+    "@types/geojson": "^7946.0.10",
     "ol": "^7.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

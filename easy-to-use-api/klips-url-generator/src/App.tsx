@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 
-import { layer, optionsRegion, optionsBand, style } from './constants/index.js'
+import { optionsRegion, optionsBand, style } from './constants/index.ts'
 
 import GetCoordinatesString from './components/GetCoordinatesString.tsx';
 import SelectParams from './components/SelectParams.tsx';
@@ -11,73 +11,71 @@ import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapCompone
 
 import OlMap from 'ol/Map.js';
 import OlView from 'ol/View.js';
-import OlVectorLayer from 'ol/layer/Vector.js';
-import OlVectorSource from 'ol/source/Vector.js';
-import OlFormatGeoJSON from 'ol/format/GeoJSON.js';
+import OlLayerTile from 'ol/layer/Tile';
+import OlSourceOsm from 'ol/source/OSM';
 
 import { transform } from 'ol/proj.js';
 
 import 'ol/ol.css';
 import './style.css';
+import SelectRegion from './components/SelectRegion.tsx';
 
-function App() {
+const App: React.FC = ({
+}) => {
 
-  const [region, setRegion] = useState(optionsRegion[0]);
+  const [region, setRegion] = useState();
   const [band, setBand] = useState(optionsBand[0]);
   const [threshold, setThreshold] = useState('25');
   const [output, setOutput] = useState('');
   const [map, setMap] = useState<OlMap>();
+  const [url, setURL] = useState('')
 
   useEffect(() => {
-    // create map layers
-    const format = new OlFormatGeoJSON({
-      featureProjection: 'EPSG:3857'
-    });
-    const features = format.readFeatures(region.feature);
-
-    const layerFeatures = new OlVectorLayer({
-      source: new OlVectorSource({
-        features
-      }),
-      style: style.feature,
-    });
-
     // create map
+    const layer = new OlLayerTile({
+      source: new OlSourceOsm({
+      }
+      )
+    });
+
     setMap(new OlMap({
       view: new OlView({
-        center: transform(region.center, 'EPSG:4326', 'EPSG:3857'),
+        center: transform([
+          13.800524701521447,
+          51.05873868269184
+        ], 'EPSG:4326', 'EPSG:3857'),
         zoom: 12,
       }),
-      layers: [layer, layerFeatures]
+      layers: [layer]
     }))
-
-    // wenn sich die region ändert soll nur das view neu gesetzt werden
-  }, [])
+  }, []);
 
   useEffect(() => {
-
-  }, [region])
+    if (region && output && threshold && band) {
+      setURL(`https://klips-dev.terrestris.de/?region=${region.name.toLowerCase()}&geom=${output}&threshold=${threshold}&band=${band}`)
+    };
+  }, []);
 
   const changeRegion = (newRegion: any) => {
     setRegion(newRegion);
-  }
+  };
 
   const changeBand = (newBand: string) => {
     setBand(newBand);
-  }
+  };
 
   const changeThreshold = (newThreshold: any) => {
     setThreshold(newThreshold);
-  }
+  };
 
   const onDrawEnd = (wktOutput: string) => {
     setOutput(wktOutput);
     console.log(wktOutput);
-  }
+  };
 
   if (!map) {
     return <></>;
-  }
+  };
 
   return (
     <div className='App'>
@@ -110,25 +108,25 @@ function App() {
           </div>
           <legend className='heading'>Parameter</legend>
           <SelectParams
-            inputRegions={optionsRegion}
             inputBands={optionsBand}
-            changeRegion={changeRegion}
             changeBand={changeBand}
             changeThreshold={changeThreshold}
-          ></SelectParams>
+          />
+          <SelectRegion
+            inputRegions={optionsRegion}
+            onChangeRegion={changeRegion}
+            selectedRegion={region}
+
+          />
           <legend className='heading'>URL</legend>
-          <table className='link-wrapper'>
-            <tr><a href={`https://klips-dev.terrestris.de/?region=${region.name.toLowerCase()}&geom=${output}&threshold=${threshold}&band=${band}`}>
-              https://klips-dev.terrestris.de/?region={region.name.toLowerCase()}&geom={output}&threshold={threshold}&band={band}</a></tr>
-            <tr><td>{`<iframe src="https://klips-dev.terrestris.de/?region=${region.name.toLowerCase()}&geom=${output}&threshold=${threshold}&band=${band}" />`}</td></tr>
-          </table>
+          <div>{url}</div>
         </div>
         <MapComponent
           map={map}
         />
-      </MapContext.Provider>
-    </div>
+      </MapContext.Provider >
+    </div >
   );
-}
+};
 
 export default App;

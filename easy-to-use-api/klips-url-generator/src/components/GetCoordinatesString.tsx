@@ -16,7 +16,7 @@ import { DigitizeUtil } from '@terrestris/react-geo/dist/Util/DigitizeUtil';
 type DrawType = 'Point' | 'Polygon';
 type Output = { coordinatesWKT?: string; coordinatesGeoJSON?: string; } | undefined;
 
-interface OwnProps {
+interface GetCoordinatesStringProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     /**
      * Whether a point or polygon should
      * be drawn.
@@ -29,7 +29,7 @@ interface OwnProps {
     /**
      * Listener function for the 'drawend' event of an ol.interaction.Draw.
      */
-    onDrawEnd?: (event: OlDrawEvent) => void;
+    onDrawEnd?: (wktOutput: string) => void;
     /**
      * Listener function for the 'drawstart' event of an ol.interaction.Draw.
      */
@@ -49,11 +49,8 @@ interface OwnProps {
      */
     drawInteractionConfig?: Omit<OlDrawOptions, 'source' | 'type' | 'geometryFunction' | 'style' | 'freehandCondition'>;
 }
-
-export type GetCoordinatesStringProps = OwnProps;
-
 /**
- * The DrawButton.
+ * The Button.
  */
 const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
     drawInteractionConfig,
@@ -132,7 +129,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
             const geometry = evt.feature.getGeometry();
             const formatWKT = new OlFormatWKT();
             const formatGeoJSON = new OlFormatGeoJSON();
-            
+
             if (geometry) {
                 const coordinatesWKT = formatWKT.writeGeometry(geometry);
                 const coordinatesGeoJSON = formatGeoJSON.writeGeometry(geometry);
@@ -162,9 +159,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
      * Called when the draw button is toggled. If the button state is pressed,
      * the draw interaction will be activated.
      */
-    const handleFeatureSelect = (clickEvt: React.MouseEvent<HTMLButtonElement>) => {
-        console.log(clickEvt);
-        
+    const handleFeatureSelect = () => {
         drawInteraction.setActive(true);
     };
     // Optional: Display output coordinatess

@@ -1,26 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
-import OlFormatGeoJSON from 'ol/format/GeoJSON';
+import { Bands } from '../types';
 
-interface OwnProps {
-  inputRegions?: [{
-    name: string;
-    center: number[];
-    feature: OlFormatGeoJSON;
-  },
-    {
-      name: string;
-      center: number[];
-      feature: OlFormatGeoJSON;
-    }
-  ];
-
-  inputBands?: [
-    string,
-    string,
-    string,
-    string
-  ];
+export interface paramProps {
+  inputBands?: Bands;
 
   changeRegion?: (newRegion: any) => void;
 
@@ -29,27 +12,22 @@ interface OwnProps {
   changeThreshold?: (newThreshold: any) => void;
 };
 
-export type SelectParamsProps = OwnProps;
+export type SelectParamsProps = paramProps;
 
-const SelectParams: React.FC<SelectParamsProps> = ({ inputRegions, inputBands, changeRegion, changeBand, changeThreshold }) => {
+const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, changeThreshold }) => {
   const [open, setOpen] = useState(false);
   const [threshold, setThreshold] = useState('25');
 
-  const region = inputRegions;
   const band = inputBands;
   // newThreshold = { input: '' };
 
-  if (!region || !band) {
+  if (!band) {
     return null
   };
 
   // Menu handler 
   const handleMenuBand = (input: any) => {
     changeBand?.(input);
-  }
-
-  const handleMenuRegion = (input: any) => {
-    changeRegion?.(input);
   }
 
   const selectThreshold = (event: any) => {
@@ -61,20 +39,12 @@ const SelectParams: React.FC<SelectParamsProps> = ({ inputRegions, inputBands, c
     setOpen(!open);
   };
 
-  const optionsRegion = region.map((input) =>
-    <li key={input.name} onClick={() => handleMenuRegion(input)}>{input.name}</li>
-  );
-
   const optionsBand = band.map((input) =>
     <li key={input.toString()} onClick={() => handleMenuBand(input)}>{input}</li>
   );
 
   return (
     <div className='select-params-wrapper'>
-      <div className={'dropdown'}>
-        <button onClick={handleOpen} className={'button'}>Region</button>
-        <div className={'dropdown-content'}><ul>{optionsRegion}</ul></div >
-      </div>
       <div className={'dropdown'}>
         <button onClick={handleOpen} className={'button'}>Aktives Band</button>
         <div className={'dropdown-content'}><ul>{optionsBand}</ul></div >
