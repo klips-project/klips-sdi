@@ -1,34 +1,61 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 
 import { optionsRegion, optionsBand, style } from './constants/index.ts'
 
 import GetCoordinatesString from './components/GetCoordinatesString.tsx';
-import SelectParams from './components/SelectParams.tsx';
+import SelectBand from './components/SelectBand.tsx';
+import SelectThreshold from './components/SelectThreshold.tsx';
 
 import MapContext from '@terrestris/react-geo/dist/Context/MapContext/MapContext.js';
 import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent.js';
+
+import { CopyOutlined } from '@ant-design/icons'
+import { Button, message, Tooltip } from 'antd';
 
 import OlMap from 'ol/Map.js';
 import OlView from 'ol/View.js';
 import OlLayerTile from 'ol/layer/Tile';
 import OlSourceOsm from 'ol/source/OSM';
+import OlGeometry from 'ol/geom/Geometry';
+import OlFormatWKT from 'ol/format/WKT';
+import OlFormatGeoJSON from 'ol/format/GeoJSON';
 
 import { transform } from 'ol/proj.js';
 
 import 'ol/ol.css';
 import './style.css';
+import "antd/dist/antd.css";
+
 import SelectRegion from './components/SelectRegion.tsx';
+
+import copy from 'copy-to-clipboard';
 
 const App: React.FC = ({
 }) => {
 
   const [region, setRegion] = useState();
   const [band, setBand] = useState(optionsBand[0]);
-  const [threshold, setThreshold] = useState('25');
-  const [output, setOutput] = useState('');
+  const [threshold, setThreshold] = useState();
+  const [geom, setGeom] = useState<OlGeometry | null>(null);
   const [map, setMap] = useState<OlMap>();
   const [url, setURL] = useState('')
+
+  const wktGeom = useMemo(() => {
+    if (!geom) {
+      return ''
+    };
+    const formatWKT = new OlFormatWKT();
+    return formatWKT.writeGeometry(geom);
+  }, [geom])
+
+  const geoJsonGeom = useMemo(() => {
+    if (!geom) {
+      return ''
+    };
+    const formatGeoJSON = new OlFormatGeoJSON();
+    return formatGeoJSON.writeGeometry(geom);
+  }, [geom])
 
   useEffect(() => {
     // create map
@@ -51,10 +78,10 @@ const App: React.FC = ({
   }, []);
 
   useEffect(() => {
-    if (region && output && threshold && band) {
-      setURL(`https://klips-dev.terrestris.de/?region=${region.name.toLowerCase()}&geom=${output}&threshold=${threshold}&band=${band}`)
+    if (region && wktGeom && threshold && band) {
+      setURL(`https://klips-dev.terrestris.de/?region=${region.name.toLowerCase()}&geom=${wktGeom}&threshold=${threshold}&band=${band}`)
     };
-  }, []);
+  }, [region, wktGeom, threshold, band]);
 
   const changeRegion = (newRegion: any) => {
     setRegion(newRegion);
@@ -68,14 +95,25 @@ const App: React.FC = ({
     setThreshold(newThreshold);
   };
 
-  const onDrawEnd = (wktOutput: string) => {
-    setOutput(wktOutput);
-    console.log(wktOutput);
+  const onDrawEnd = (geom: OlGeometry) => {
+    setGeom(geom);
+  };
+
+  const onDrawStart = () => {
   };
 
   if (!map) {
     return <></>;
   };
+
+  function onCopyClick() {
+    const success = copy(geoJsonGeom);
+    if (success) {
+      message.info('GeoJSON wurde zur Zwischenablage hinzugefügt.');
+    } else {
+      message.info('GeoJSON konnte nicht zur Zwischenablage hinzugeügt werden.');
+    }
+  }
 
   return (
     <div className='App'>
@@ -93,6 +131,7 @@ const App: React.FC = ({
               drawStyle={style.point}
               className='button'
               onDrawEnd={onDrawEnd}
+              onDrawStart={onDrawStart}
             >
               Punkt
             </GetCoordinatesString>
@@ -102,14 +141,24 @@ const App: React.FC = ({
               drawStyle={style.polygon}
               className='button'
               onDrawEnd={onDrawEnd}
+              onDrawStart={onDrawStart}
             >
               Fläche
             </GetCoordinatesString>
+            {!geoJsonGeom ? <></> : <div>
+              <div>{geoJsonGeom}</div>
+              <Tooltip title='Copy GeoJSON'>
+               <Button icon={ <CopyOutlined/>}  onClick={onCopyClick} type='text' /> 
+              </Tooltip>
+            </div>
+            }
           </div>
           <legend className='heading'>Parameter</legend>
-          <SelectParams
+          <SelectBand
             inputBands={optionsBand}
             changeBand={changeBand}
+          />
+          <SelectThreshold
             changeThreshold={changeThreshold}
           />
           <SelectRegion

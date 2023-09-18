@@ -55,6 +55,7 @@ const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegio
         const features = format.readFeatures(selectedRegion.feature);
         vectorLayer.getSource()?.addFeatures(features);
         // update map center
+        map?.getView()?.setZoom(12);
         map?.getView()?.setCenter(transform(selectedRegion.center, 'EPSG:4326', 'EPSG:3857'));
 
         return (() => { vectorLayer.getSource()?.clear() })

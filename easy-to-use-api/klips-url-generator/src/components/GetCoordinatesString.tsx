@@ -7,15 +7,11 @@ import * as OlEventConditions from 'ol/events/condition';
 import OlVectorSource from 'ol/source/Vector';
 import OlGeometry from 'ol/geom/Geometry';
 import OlVectorLayer from 'ol/layer/Vector';
-import OlFormatWKT from 'ol/format/WKT';
-import OlFormatGeoJSON from 'ol/format/GeoJSON';
 
 import { useMap } from '@terrestris/react-geo/dist/Hook/useMap';
 import { DigitizeUtil } from '@terrestris/react-geo/dist/Util/DigitizeUtil';
 
 type DrawType = 'Point' | 'Polygon';
-type Output = { coordinatesWKT?: string; coordinatesGeoJSON?: string; } | undefined;
-
 interface GetCoordinatesStringProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     /**
      * Whether a point or polygon should
@@ -29,7 +25,7 @@ interface GetCoordinatesStringProps extends React.ButtonHTMLAttributes<HTMLButto
     /**
      * Listener function for the 'drawend' event of an ol.interaction.Draw.
      */
-    onDrawEnd?: (wktOutput: string) => void;
+    onDrawEnd?: (geom: OlGeometry) => void;
     /**
      * Listener function for the 'drawstart' event of an ol.interaction.Draw.
      */
@@ -48,6 +44,8 @@ interface GetCoordinatesStringProps extends React.ButtonHTMLAttributes<HTMLButto
      *       specific cause.
      */
     drawInteractionConfig?: Omit<OlDrawOptions, 'source' | 'type' | 'geometryFunction' | 'style' | 'freehandCondition'>;
+
+    outputVisibility?: boolean;
 }
 /**
  * The Button.
@@ -59,12 +57,12 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
     onDrawEnd,
     onDrawStart,
     passOutput,
+    outputVisibility,
     ...passThroughProps
 }) => {
 
     const [drawInteraction, setDrawInteraction] = useState<OlInteractionDraw>();
     const [layer, setLayer] = useState<OlVectorLayer<OlVectorSource<OlGeometry>> | null>(null);
-    const [outputGeom, setOutputGeom] = useState<Output | undefined>(undefined);
 
     /**
   * Currently drawn feature which should be represent as label or postit.
@@ -127,29 +125,13 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
         drawInteraction.on('drawend', (evt) => {
             const geometry = evt.feature.getGeometry();
-            const formatWKT = new OlFormatWKT();
-            const formatGeoJSON = new OlFormatGeoJSON();
-
             if (geometry) {
-                const coordinatesWKT = formatWKT.writeGeometry(geometry);
-                const coordinatesGeoJSON = formatGeoJSON.writeGeometry(geometry);
-                setOutputGeom({
-                    coordinatesWKT: coordinatesWKT,
-                    coordinatesGeoJSON: coordinatesGeoJSON
-                });
+                onDrawEnd?.(geometry);
                 drawInteraction.setActive(false);
-                onDrawEnd?.(coordinatesWKT);
             };
         });
 
     }, [drawInteraction, onDrawEnd, onDrawStart, layer]);
-
-    // useEffect(() => {
-    //     if (!outputGeom) {
-    //         return;
-    //     }
-    //     passOutput?.(outputGeom.coordinatesWKT);
-    // }, [outputGeom, passOutput]);
 
     if (!drawInteraction || !layer) {
         return null;
@@ -163,11 +145,6 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
         drawInteraction.setActive(true);
     };
     // Optional: Display output coordinatess
-    const text = (
-        <div className='text-wrapper'>
-            <span>{outputGeom?.coordinatesGeoJSON?.includes(drawType) ? outputGeom.coordinatesGeoJSON : ''} </span>
-        </div>
-    );
 
     return (
         <div>
@@ -175,7 +152,6 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
                 onClick={handleFeatureSelect}
                 {...passThroughProps}
             />
-            {text}
         </div>);
 };
 
