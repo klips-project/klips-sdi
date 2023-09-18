@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 import { layer, optionsRegion, optionsBand, style } from './constants/index.js'
@@ -17,7 +17,6 @@ import OlFormatGeoJSON from 'ol/format/GeoJSON.js';
 
 import { transform } from 'ol/proj.js';
 
-
 import 'ol/ol.css';
 import './style.css';
 
@@ -27,50 +26,57 @@ function App() {
   const [band, setBand] = useState(optionsBand[0]);
   const [threshold, setThreshold] = useState('25');
   const [output, setOutput] = useState('');
+  const [map, setMap] = useState<OlMap>();
 
+  useEffect(() => {
+    // create map layers
+    const format = new OlFormatGeoJSON({
+      featureProjection: 'EPSG:3857'
+    });
+    const features = format.readFeatures(region.feature);
 
-  const changeRegion = (newRegion) => {
+    const layerFeatures = new OlVectorLayer({
+      source: new OlVectorSource({
+        features
+      }),
+      style: style.feature,
+    });
+
+    // create map
+    setMap(new OlMap({
+      view: new OlView({
+        center: transform(region.center, 'EPSG:4326', 'EPSG:3857'),
+        zoom: 12,
+      }),
+      layers: [layer, layerFeatures]
+    }))
+
+    // wenn sich die region ändert soll nur das view neu gesetzt werden
+  }, [])
+
+  useEffect(() => {
+
+  }, [region])
+
+  const changeRegion = (newRegion: any) => {
     setRegion(newRegion);
   }
 
-  const changeBand = (newBand) => {
+  const changeBand = (newBand: string) => {
     setBand(newBand);
   }
 
-  const changeThreshold = (newThreshold) => {
+  const changeThreshold = (newThreshold: any) => {
     setThreshold(newThreshold);
   }
 
-  const passOutput = (wktOutput) => {
+  const onDrawEnd = (wktOutput: string) => {
     setOutput(wktOutput);
+    console.log(wktOutput);
   }
 
-  // create map layers
-  const format = new OlFormatGeoJSON({
-    featureProjection: 'EPSG:3857'
-  });
-  const features = format.readFeatures(region.feature);
-
-
-  const layerFeatures = new OlVectorLayer({
-    source: new OlVectorSource({
-      features
-    }),
-    style: style.feature,
-  });
-
-  // create map
-  const map = new OlMap({
-    view: new OlView({
-      center: transform(region.center, 'EPSG:4326', 'EPSG:3857'),
-      zoom: 12,
-    }),
-    layers: [layer, layerFeatures]
-  });
-
-
   if (!map) {
-    return null;
+    return <></>;
   }
 
   return (
@@ -88,7 +94,7 @@ function App() {
               drawType='Point'
               drawStyle={style.point}
               className='button'
-              passOutput={passOutput}
+              onDrawEnd={onDrawEnd}
             >
               Punkt
             </GetCoordinatesString>
@@ -97,7 +103,7 @@ function App() {
               drawType='Polygon'
               drawStyle={style.polygon}
               className='button'
-              passOutput={passOutput}
+              onDrawEnd={onDrawEnd}
             >
               Fläche
             </GetCoordinatesString>

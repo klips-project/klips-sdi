@@ -67,10 +67,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
     const [drawInteraction, setDrawInteraction] = useState<OlInteractionDraw>();
     const [layer, setLayer] = useState<OlVectorLayer<OlVectorSource<OlGeometry>> | null>(null);
-    // eslint-disable-next-line 
     const [outputGeom, setOutputGeom] = useState<Output | undefined>(undefined);
-
-
 
     /**
   * Currently drawn feature which should be represent as label or postit.
@@ -86,6 +83,10 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
     }, [map]);
 
     useEffect(() => {
+
+        if (drawInteraction) {
+            return;
+        }
         if (!map || !layer) {
             return undefined;
         }
@@ -111,36 +112,13 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
         setDrawInteraction(newInteraction);
 
-    }, [drawType, layer, drawInteractionConfig, drawStyle, map]);
+    }, [drawType, layer, drawInteractionConfig, drawStyle, map, drawInteraction]);
 
     useEffect(() => {
         if (!drawInteraction) {
             return undefined;
         }
-        /**
-         * Called when the drawing interaction is finished. 
-         * Coordinates of the Feature are given as string in WKT- and GeoJSON-format.
-         */
-        drawInteraction.on('drawend', (evt) => {
-            onDrawEnd?.(evt);
-            const geometry = evt.feature.getGeometry();
-            const formatWKT = new OlFormatWKT();
-            const formatGeoJSON = new OlFormatGeoJSON();
 
-            if (geometry) {
-                const coordinatesWKT = formatWKT.writeGeometry(geometry);
-                const coordinatesGeoJSON = formatGeoJSON.writeGeometry(geometry);
-
-                setOutputGeom({
-                    coordinatesWKT: coordinatesWKT,
-                    coordinatesGeoJSON: coordinatesGeoJSON
-                });
-                drawInteraction.setActive(false);
-            };
-        });
-        /** 
-         * Called when the drawing interaction is started. Previously drawn feature is removed.
-         */
         drawInteraction.on('drawstart', (evt) => {
             onDrawStart?.(evt);
             const features = layer?.getSource()?.getFeatures();
@@ -150,15 +128,31 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
             };
         });
 
-        // eslint-disable-next-line 
-    }, [drawInteraction, onDrawStart, onDrawEnd, layer, map]);
+        drawInteraction.on('drawend', (evt) => {
+            const geometry = evt.feature.getGeometry();
+            const formatWKT = new OlFormatWKT();
+            const formatGeoJSON = new OlFormatGeoJSON();
+            
+            if (geometry) {
+                const coordinatesWKT = formatWKT.writeGeometry(geometry);
+                const coordinatesGeoJSON = formatGeoJSON.writeGeometry(geometry);
+                setOutputGeom({
+                    coordinatesWKT: coordinatesWKT,
+                    coordinatesGeoJSON: coordinatesGeoJSON
+                });
+                drawInteraction.setActive(false);
+                onDrawEnd?.(coordinatesWKT);
+            };
+        });
 
-    useEffect(() => {
-        if (!outputGeom) {
-            return;
-        }
-        passOutput?.(outputGeom.coordinatesWKT);
-    }, [outputGeom, passOutput]);
+    }, [drawInteraction, onDrawEnd, onDrawStart, layer]);
+
+    // useEffect(() => {
+    //     if (!outputGeom) {
+    //         return;
+    //     }
+    //     passOutput?.(outputGeom.coordinatesWKT);
+    // }, [outputGeom, passOutput]);
 
     if (!drawInteraction || !layer) {
         return null;
@@ -168,8 +162,10 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
      * Called when the draw button is toggled. If the button state is pressed,
      * the draw interaction will be activated.
      */
-    const handleFeatureSelect = (pressed: any) => {
-        drawInteraction.setActive(pressed);
+    const handleFeatureSelect = (clickEvt: React.MouseEvent<HTMLButtonElement>) => {
+        console.log(clickEvt);
+        
+        drawInteraction.setActive(true);
     };
     // Optional: Display output coordinatess
     const text = (
