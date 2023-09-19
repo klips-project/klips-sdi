@@ -11,7 +11,7 @@ import MapContext from '@terrestris/react-geo/dist/Context/MapContext/MapContext
 import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent.js';
 
 import { CopyOutlined } from '@ant-design/icons'
-import { Button, message, Tooltip } from 'antd';
+import { Button, Input, message, Tooltip } from 'antd';
 
 import OlMap from 'ol/Map.js';
 import OlView from 'ol/View.js';
@@ -30,11 +30,12 @@ import "antd/dist/antd.css";
 import SelectRegion from './components/SelectRegion.tsx';
 
 import copy from 'copy-to-clipboard';
+import TextArea from 'antd/lib/input/TextArea';
 
 const App: React.FC = ({
 }) => {
 
-  const [region, setRegion] = useState();
+  const [region, setRegion] = useState<string | undefined>();
   const [band, setBand] = useState(optionsBand[0]);
   const [threshold, setThreshold] = useState();
   const [geom, setGeom] = useState<OlGeometry | null>(null);
@@ -79,11 +80,13 @@ const App: React.FC = ({
 
   useEffect(() => {
     if (region && wktGeom && threshold && band) {
-      setURL(`https://klips-dev.terrestris.de/?region=${region.name.toLowerCase()}&geom=${wktGeom}&threshold=${threshold}&band=${band}`)
+      setURL(`https://klips-dev.terrestris.de/?region=${region.toLowerCase()}&geom=${wktGeom}&threshold=${threshold}&band=${band}`)
     };
   }, [region, wktGeom, threshold, band]);
 
-  const changeRegion = (newRegion: any) => {
+  const changeRegion = (newRegion: string) => {
+    // console.log(newRegion);
+
     setRegion(newRegion);
   };
 
@@ -106,12 +109,21 @@ const App: React.FC = ({
     return <></>;
   };
 
-  function onCopyClick() {
+  function onCopyClickGeom() {
     const success = copy(geoJsonGeom);
     if (success) {
       message.info('GeoJSON wurde zur Zwischenablage hinzugefügt.');
     } else {
       message.info('GeoJSON konnte nicht zur Zwischenablage hinzugeügt werden.');
+    }
+  }
+
+  function onCopyClickUrl() {
+    const success = copy(url);
+    if (success) {
+      message.info('URL wurde zur Zwischenablage hinzugefügt.');
+    } else {
+      message.info('URL konnte nicht zur Zwischenablage hinzugeügt werden.');
     }
   }
 
@@ -121,12 +133,15 @@ const App: React.FC = ({
         <div className='output-wrapper'>
           <div className='header'>
             <img src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
-            <span>Widget URL Generator</span>
+            <h2>Widget URL Generator</h2>
           </div>
-          <legend className='heading'>Einstellungen</legend>
-          <div className='select-feature-wrapper'>
+          <SelectRegion
+            inputRegions={optionsRegion}
+            onChangeRegion={changeRegion}
+            regionName={region}
+          />
+          <div className='geometry'>
             <GetCoordinatesString
-              name='drawPoint'
               drawType='Point'
               drawStyle={style.point}
               className='button'
@@ -136,7 +151,6 @@ const App: React.FC = ({
               Punkt
             </GetCoordinatesString>
             <GetCoordinatesString
-              name='drawPolygon'
               drawType='Polygon'
               drawStyle={style.polygon}
               className='button'
@@ -145,30 +159,31 @@ const App: React.FC = ({
             >
               Fläche
             </GetCoordinatesString>
-            {!geoJsonGeom ? <></> : <div>
-              <div>{geoJsonGeom}</div>
-              <Tooltip title='Copy GeoJSON'>
-               <Button icon={ <CopyOutlined/>}  onClick={onCopyClick} type='text' /> 
-              </Tooltip>
-            </div>
+            {!geoJsonGeom ? <></> :
+              <div>
+                <TextArea readOnly value={geoJsonGeom} />
+                <Tooltip title='Copy GeoJSON'>
+                  <Button icon={<CopyOutlined />} onClick={onCopyClickGeom} type='text' />
+                </Tooltip>
+              </div>
             }
           </div>
-          <legend className='heading'>Parameter</legend>
-          <SelectBand
-            inputBands={optionsBand}
-            changeBand={changeBand}
-          />
-          <SelectThreshold
-            changeThreshold={changeThreshold}
-          />
-          <SelectRegion
-            inputRegions={optionsRegion}
-            onChangeRegion={changeRegion}
-            selectedRegion={region}
+          <div className='attributes'>
+            <SelectBand
+              inputBands={optionsBand}
+              changeBand={changeBand}
+            />
+            <SelectThreshold
+              changeThreshold={changeThreshold}
+            />
 
-          />
-          <legend className='heading'>URL</legend>
-          <div>{url}</div>
+          </div>
+          <div className='permalink'>
+          <Input readOnly value={url} />
+          <Tooltip title='Copy GeoJSON'>
+            <Button icon={<CopyOutlined />} onClick={onCopyClickUrl} type='text' />
+          </Tooltip>
+          </div>
         </div>
         <MapComponent
           map={map}

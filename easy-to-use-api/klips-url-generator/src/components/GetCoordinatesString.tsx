@@ -10,9 +10,11 @@ import OlVectorLayer from 'ol/layer/Vector';
 
 import { useMap } from '@terrestris/react-geo/dist/Hook/useMap';
 import { DigitizeUtil } from '@terrestris/react-geo/dist/Util/DigitizeUtil';
+import { Button } from 'antd';
+import { ButtonGroupProps } from 'antd/lib/button';
 
 type DrawType = 'Point' | 'Polygon';
-interface GetCoordinatesStringProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface GetCoordinatesStringProps extends ButtonGroupProps {
     /**
      * Whether a point or polygon should
      * be drawn.
@@ -148,10 +150,11 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
     return (
         <div>
-            <button
+            <Button
+                type='primary'
                 onClick={handleFeatureSelect}
                 {...passThroughProps}
-            />
+            >{drawType}</Button>
         </div>);
 };
 
