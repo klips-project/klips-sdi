@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { optionsRegion, optionsBand, style } from './constants/index.ts'
 
-import GetCoordinatesString from './components/GetCoordinatesString.tsx';
+import GetCoordinatesString from './components/DrawGeometry.tsx';
 import SelectBand from './components/SelectBand.tsx';
 import SelectThreshold from './components/SelectThreshold.tsx';
 
@@ -31,9 +31,9 @@ import SelectRegion from './components/SelectRegion.tsx';
 
 import copy from 'copy-to-clipboard';
 import TextArea from 'antd/lib/input/TextArea';
+import BasicNominatimSearch from './components/BasicNominatimSearch.tsx';
 
-const App: React.FC = ({
-}) => {
+const App: React.FC = () => {
 
   const [region, setRegion] = useState<string | undefined>();
   const [band, setBand] = useState(optionsBand[0]);
@@ -85,8 +85,6 @@ const App: React.FC = ({
   }, [region, wktGeom, threshold, band]);
 
   const changeRegion = (newRegion: string) => {
-    // console.log(newRegion);
-
     setRegion(newRegion);
   };
 
@@ -135,6 +133,7 @@ const App: React.FC = ({
             <img src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
             <h2>Widget URL Generator</h2>
           </div>
+          <BasicNominatimSearch className='nominatim-search' />
           <SelectRegion
             inputRegions={optionsRegion}
             onChangeRegion={changeRegion}
@@ -144,26 +143,29 @@ const App: React.FC = ({
             <GetCoordinatesString
               drawType='Point'
               drawStyle={style.point}
-              className='button'
               onDrawEnd={onDrawEnd}
               onDrawStart={onDrawStart}
-            >
-              Punkt
-            </GetCoordinatesString>
+            />
             <GetCoordinatesString
               drawType='Polygon'
               drawStyle={style.polygon}
-              className='button'
               onDrawEnd={onDrawEnd}
               onDrawStart={onDrawStart}
-            >
-              Fläche
-            </GetCoordinatesString>
+            />
             {!geoJsonGeom ? <></> :
               <div>
-                <TextArea readOnly value={geoJsonGeom} />
-                <Tooltip title='Copy GeoJSON'>
-                  <Button icon={<CopyOutlined />} onClick={onCopyClickGeom} type='text' />
+                <TextArea
+                  readOnly
+                  value={geoJsonGeom}
+                />
+                <Tooltip
+                  title='Copy GeoJSON'
+                >
+                  <Button
+                    icon={<CopyOutlined />}
+                    onClick={onCopyClickGeom}
+                    type='text'
+                  />
                 </Tooltip>
               </div>
             }
@@ -179,10 +181,19 @@ const App: React.FC = ({
 
           </div>
           <div className='permalink'>
-          <Input readOnly value={url} />
-          <Tooltip title='Copy GeoJSON'>
-            <Button icon={<CopyOutlined />} onClick={onCopyClickUrl} type='text' />
-          </Tooltip>
+            <Input
+              readOnly
+              value={url}
+            />
+            <Tooltip
+              title='Copy GeoJSON'
+            >
+              <Button
+                icon={<CopyOutlined />}
+                onClick={onCopyClickUrl}
+                type='text'
+              />
+            </Tooltip>
           </div>
         </div>
         <MapComponent

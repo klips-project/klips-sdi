@@ -5,7 +5,7 @@ import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlVectorLayer from 'ol/layer/Vector.js';
 import OlVectorSource from 'ol/source/Vector.js';
 
-import { optionsRegion, style } from '../constants/index.ts'
+import { tiffExtentDresden, tiffExtentLangenfeld, bboxStyle, optionsRegion, style } from '../constants/index.ts'
 import { transform } from 'ol/proj.js';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
@@ -56,6 +56,37 @@ const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegio
         }
         const features = format.readFeatures(myRegion?.feature);
         vectorLayer.getSource()?.addFeatures(features);
+
+      
+        // new vectorlayer for bbox
+        let tiffExtentVectorLayer = MapUtil.getLayerByName(map, 'BboxLayer') as OlVectorLayer<OlVectorSource>;
+
+        if (!tiffExtentVectorLayer) {
+            // create empty vector layer
+            tiffExtentVectorLayer = new OlVectorLayer({
+                source: new OlVectorSource(),
+                style: bboxStyle.feature
+            });
+            tiffExtentVectorLayer.set('name', 'BboxLayer');
+            map?.addLayer(tiffExtentVectorLayer);
+        };
+
+        const tiffExtentformat = new OlFormatGeoJSON({
+            featureProjection: 'EPSG:3857'
+        });
+
+        let tiffExtentFeatures;
+
+        if (regionName === "Langenfeld") {
+            tiffExtentFeatures = tiffExtentformat.readFeatures(tiffExtentLangenfeld);
+        }
+        else if (regionName === "Dresden") {
+            tiffExtentFeatures = tiffExtentformat.readFeatures(tiffExtentDresden);
+        }
+        if (tiffExtentFeatures) {
+            vectorLayer.getSource()?.addFeatures(tiffExtentFeatures);
+        }
+   
         // update map center
         map.getView().setZoom(12);
         map?.getView()?.setCenter(transform(myRegion?.center, 'EPSG:4326', 'EPSG:3857'));

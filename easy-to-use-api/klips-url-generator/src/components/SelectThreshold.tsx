@@ -16,13 +16,11 @@ const SelectThreshold: React.FC<SelectParamsProps> = ({ changeThreshold }) => {
     }
 
     return (
-        <div className='select-params-wrapper'>
             <Input
                 placeholder="Grenzwert"
                 value={threshold}
                 onChange={selectThreshold}
-            ></Input>
-        </div >
+            />
     );
 };
 

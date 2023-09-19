@@ -13,6 +13,9 @@ import { DigitizeUtil } from '@terrestris/react-geo/dist/Util/DigitizeUtil';
 import { Button } from 'antd';
 import { ButtonGroupProps } from 'antd/lib/button';
 
+import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
+
+
 type DrawType = 'Point' | 'Polygon';
 interface GetCoordinatesStringProps extends ButtonGroupProps {
     /**
@@ -108,6 +111,9 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
         map.addInteraction(newInteraction);
 
         setDrawInteraction(newInteraction);
+
+        // todo: check if the bboxlayer intersects with coordinate
+        const tiffExtentVectorLayer = MapUtil.getLayerByName(map, 'BboxLayer') as OlVectorLayer<OlVectorSource>;
 
     }, [drawType, layer, drawInteractionConfig, drawStyle, map, drawInteraction]);
 
