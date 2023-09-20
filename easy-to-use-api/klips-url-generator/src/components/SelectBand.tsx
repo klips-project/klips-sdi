@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { useState } from 'react';
 import { Bands } from '../types';
 import { Select } from 'antd';
 
@@ -24,7 +23,7 @@ const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, sel
   }, [inputBands])
 
   return (
-    <div className='threshold-selector'>
+    <div className='band-selector'>
       {selectedBand ? <></> :
         <div>Bitte wählen Sie ein Band für die Anzeige im Diagramm aus</div>
       }

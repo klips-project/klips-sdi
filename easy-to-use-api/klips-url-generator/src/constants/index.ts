@@ -32,6 +32,16 @@ export const optionsBand = [
     'compare',
 ];
 
+export const optionsWidget = [
+    'chart',
+    'video',
+    'warning'
+];
+
+export const optionsVideoFormat = [
+    'mp4'
+];
+
 export const style = {
     point: new Style({
         image: new Circle({

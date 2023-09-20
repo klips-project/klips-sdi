@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Input } from 'antd';
+import { useState } from 'react';
 
 export interface paramProps {
     changeThreshold?: (newThreshold: any) => void;
@@ -8,7 +9,7 @@ export interface paramProps {
 export type SelectParamsProps = paramProps;
 
 const SelectThreshold: React.FC<SelectParamsProps> = ({ changeThreshold }) => {
-    const [threshold, setThreshold] = React.useState();
+    const [threshold, setThreshold] = useState();
 
     const selectThreshold = (event: any) => {
         setThreshold(event.target.value);
