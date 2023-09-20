@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Bands } from '../types';
+import { Bands } from '../../types';
 import { Select } from 'antd';
 
 export interface paramProps {

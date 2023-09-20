@@ -1,54 +1,46 @@
+import React, { useEffect, useState } from "react";
+import GetCoordinatesString from "../DrawGeometry";
+import { optionsVideoFormat, style } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
-import { optionsBand, style } from "../constants";
-import GetCoordinatesString from "./DrawGeometry";
-import { CopyOutlined } from '@ant-design/icons';
 import { Button, Input, Tooltip } from "antd";
-import { onCopyClickGeom, onCopyClickUrl } from "../service";
-import { useEffect, useState } from "react";
+import { CopyOutlined } from '@ant-design/icons'
+import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import OlGeometry from 'ol/geom/Geometry';
-import SelectBand from "./SelectBand";
-import SelectThreshold from "./SelectThreshold";
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
+import SelectVideoFormat from "./SelectVideoFormat";
+import WritePersonalTitle from "./WritePersonalTitle";
 
-
-export interface ChartProps {
+export interface VideoProps {
     geoJsonGeom: string,
     region: string;
-    wktGeom: string;
     onDrawEnd?: (geom: OlGeometry) => void;
     onDrawStart?: (event: OlDrawEvent) => void;
 };
 
-export type ChartComponentProps = ChartProps;
+export type VideoComponentProps = VideoProps;
 
-const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wktGeom, onDrawEnd, onDrawStart }) => {
-    const [band, setBand] = useState('');
-    const [threshold, setThreshold] = useState();
+const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, geoJsonGeom, region}) => {
     const [url, setURL] = useState('');
+    const [videoFormat, setVideoFormat] = useState('');
+    const [personalTitle, setPersonalTitle] = useState('');
 
     useEffect(() => {
-        if (region && wktGeom && threshold && band) {
-            setURL(`https://klips-dev.terrestris.de/?region=${region.toLowerCase()}&geom=${wktGeom}&threshold=${threshold}&band=${band}`)
+        if (region && geoJsonGeom && videoFormat && personalTitle) {
+            setURL(`https://klips-dev.terrestris.de/?region=${region.toLowerCase()}&area-of-interest=${geoJsonGeom}&output=${videoFormat}&title=${personalTitle}`)
         };
-    }, [region, wktGeom, threshold, band]);
+    }, [region, geoJsonGeom, videoFormat, personalTitle]);
 
-    const changeBand = (newBand: string) => {
-        setBand(newBand);
+    const changeVideoFormat = (newFormat: string) => {
+        setVideoFormat(newFormat);
     };
 
-    const changeThreshold = (newThreshold: any) => {
-        setThreshold(newThreshold);
+    const changeTitle = (newTitle: string) => {
+        setPersonalTitle(newTitle);
     };
 
     return (
-        <>
+        <div className='video-component'>
             <div className='geometry'>
-                <GetCoordinatesString
-                    drawType='Point'
-                    drawStyle={style.point}
-                    onDrawEnd={onDrawEnd}
-                    onDrawStart={onDrawStart}
-                />
                 <GetCoordinatesString
                     drawType='Polygon'
                     drawStyle={style.polygon}
@@ -74,13 +66,13 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                 }
             </div>
             <div className='attributes'>
-                <SelectBand
-                    inputBands={optionsBand}
-                    changeBand={changeBand}
-                    selectedBand={band}
+                <SelectVideoFormat
+                    selectedVideoFormat={videoFormat}
+                    changeVideoFormat={changeVideoFormat}
+                    inputVideoFormats={optionsVideoFormat}
                 />
-                <SelectThreshold
-                    changeThreshold={changeThreshold}
+                <WritePersonalTitle
+                    changeTitle={changeTitle}
                 />
             </div>
             <div className='permalink'>
@@ -98,16 +90,8 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                     />
                 </Tooltip>
             </div>
-        </>
-    )
+        </div >
+    );
 };
 
-export default ChartComponent;
-
-
-
-
-
-
-
-
+export default VideoComponent;

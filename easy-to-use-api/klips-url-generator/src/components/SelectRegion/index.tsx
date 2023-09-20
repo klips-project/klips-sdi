@@ -5,7 +5,7 @@ import OlFormatGeoJSON from 'ol/format/GeoJSON';
 import OlVectorLayer from 'ol/layer/Vector.js';
 import OlVectorSource from 'ol/source/Vector.js';
 
-import { tiffExtentDresden, tiffExtentLangenfeld, optionsRegion, style } from '../constants/index.ts'
+import { tiffExtentDresden, tiffExtentLangenfeld, optionsRegion, style } from '../../constants'
 import { transform } from 'ol/proj.js';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
@@ -13,7 +13,7 @@ import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
 import {
     useMap
 } from '@terrestris/react-geo/dist/Hook/useMap';
-import { Region } from '../types/index.js';
+import { Region } from '../../types/index.js';
 import { Select } from 'antd';
 
 export interface RegionProps {

@@ -22,12 +22,13 @@ import 'ol/ol.css';
 import './style.css';
 import "antd/dist/antd.css";
 
-import SelectRegion from './components/SelectRegion.tsx';
+import SelectRegion from './components/SelectRegion/index.tsx';
 
-import BasicNominatimSearch from './components/BasicNominatimSearch.tsx';
-import SelectWidget from './components/SelectWidget.tsx';
-import ChartComponent from './components/ChartComponent.tsx';
-import VideoComponent from './components/VideoComponent.tsx';
+import BasicNominatimSearch from './components/BasicNominatimSearch/index.tsx';
+import SelectWidget from './components/SelectWidget/index.tsx';
+import ChartComponent from './components/ChartComponent/index.tsx';
+import VideoComponent from './components/VideoComponent/index.tsx';
+import WarningComponent from './components/WarningComponent/index.tsx';
 
 const App: React.FC = () => {
 
@@ -87,8 +88,9 @@ const App: React.FC = () => {
     setGeom(geom);
   };
 
-  const onDrawStart = () => {
-  };
+  // const onDrawStart = () => {
+  //   setIsLegal(true);
+  // };
 
   const changeWidget = (newWidget: string) => {
     setWidget(newWidget);
@@ -106,17 +108,23 @@ const App: React.FC = () => {
           region={region}
           wktGeom={wktGeom}
           onDrawEnd={onDrawEnd}
-          onDrawStart={onDrawStart}
+          // onDrawStart={onDrawStart}
         />
       case 'video':
         return <VideoComponent
           geoJsonGeom={geoJsonGeom}
           region={region}
           onDrawEnd={onDrawEnd}
-          onDrawStart={onDrawStart}
+          // onDrawStart={onDrawStart}
         />
       case 'warning':
-        return <div>warning</div>
+        return <WarningComponent
+          wktGeom={wktGeom}
+          geoJsonGeom={geoJsonGeom}
+          region={region}
+          onDrawEnd={onDrawEnd}
+          // onDrawStart={onDrawStart}
+        />
     }
   }
 
