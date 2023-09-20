@@ -20,6 +20,8 @@ import OlSourceOsm from 'ol/source/OSM';
 import OlGeometry from 'ol/geom/Geometry';
 import OlFormatWKT from 'ol/format/WKT';
 import OlFormatGeoJSON from 'ol/format/GeoJSON';
+import OlVectorLayer from 'ol/layer/Vector.js';
+import OlVectorSource from 'ol/source/Vector.js';
 
 import { transform } from 'ol/proj.js';
 
@@ -36,7 +38,7 @@ import BasicNominatimSearch from './components/BasicNominatimSearch.tsx';
 const App: React.FC = () => {
 
   const [region, setRegion] = useState<string | undefined>();
-  const [band, setBand] = useState(optionsBand[0]);
+  const [band, setBand] = useState('');
   const [threshold, setThreshold] = useState();
   const [geom, setGeom] = useState<OlGeometry | null>(null);
   const [map, setMap] = useState<OlMap>();
@@ -66,6 +68,13 @@ const App: React.FC = () => {
       )
     });
 
+    // create empty vector layer
+    const tiffExtentVectorLayer = new OlVectorLayer({
+      source: new OlVectorSource(),
+      style: style.boundingBox
+  });
+  tiffExtentVectorLayer.set('name', 'BboxLayer');
+
     setMap(new OlMap({
       view: new OlView({
         center: transform([
@@ -74,8 +83,8 @@ const App: React.FC = () => {
         ], 'EPSG:4326', 'EPSG:3857'),
         zoom: 12,
       }),
-      layers: [layer]
-    }))
+      layers: [layer, tiffExtentVectorLayer]
+    }))    
   }, []);
 
   useEffect(() => {
@@ -174,6 +183,7 @@ const App: React.FC = () => {
             <SelectBand
               inputBands={optionsBand}
               changeBand={changeBand}
+              selectedBand={band}
             />
             <SelectThreshold
               changeThreshold={changeThreshold}

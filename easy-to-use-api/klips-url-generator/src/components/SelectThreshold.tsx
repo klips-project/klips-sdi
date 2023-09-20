@@ -16,11 +16,16 @@ const SelectThreshold: React.FC<SelectParamsProps> = ({ changeThreshold }) => {
     }
 
     return (
+        <div className='threshold-selector'>
+            {threshold ? <></> :
+                <div>Bitte wählen Sie einen Temperatur-Grenzwert für die Anzeige im Diagramm aus</div>
+            }
             <Input
                 placeholder="Grenzwert"
                 value={threshold}
                 onChange={selectThreshold}
             />
+        </div>
     );
 };
 

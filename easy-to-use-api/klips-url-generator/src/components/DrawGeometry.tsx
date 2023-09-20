@@ -10,11 +10,10 @@ import OlVectorLayer from 'ol/layer/Vector';
 
 import { useMap } from '@terrestris/react-geo/dist/Hook/useMap';
 import { DigitizeUtil } from '@terrestris/react-geo/dist/Util/DigitizeUtil';
-import { Button } from 'antd';
+import { Alert, Button } from 'antd';
 import { ButtonGroupProps } from 'antd/lib/button';
 
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
-
 
 type DrawType = 'Point' | 'Polygon';
 interface GetCoordinatesStringProps extends ButtonGroupProps {
@@ -68,6 +67,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
     const [drawInteraction, setDrawInteraction] = useState<OlInteractionDraw>();
     const [layer, setLayer] = useState<OlVectorLayer<OlVectorSource<OlGeometry>> | null>(null);
+    const [isLegal, setIsLegal] = useState<Boolean>(true);
 
     /**
   * Currently drawn feature which should be represent as label or postit.
@@ -112,9 +112,6 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
         setDrawInteraction(newInteraction);
 
-        // todo: check if the bboxlayer intersects with coordinate
-        const tiffExtentVectorLayer = MapUtil.getLayerByName(map, 'BboxLayer') as OlVectorLayer<OlVectorSource>;
-
     }, [drawType, layer, drawInteractionConfig, drawStyle, map, drawInteraction]);
 
     useEffect(() => {
@@ -129,17 +126,47 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
                 const lastFeature = features[features.length - 1];
                 layer?.getSource()?.removeFeature(lastFeature);
             };
+            setIsLegal(true);
         });
 
         drawInteraction.on('drawend', (evt) => {
+            if (!map) return;
+
+            const tiffExtentVectorLayer = MapUtil.getLayerByName(map, 'BboxLayer') as OlVectorLayer<OlVectorSource>;
+            let feature = evt.feature as any;
+            let coords = [];
+            if (drawType === 'Point') {
+                coords.push((feature).getGeometry().getCoordinates())
+            }
+            if (drawType === 'Polygon') {
+                coords = feature.getGeometry().getCoordinates()[0];
+            }
+
             const geometry = evt.feature.getGeometry();
             if (geometry) {
                 onDrawEnd?.(geometry);
+                let isWithinBoundaries: boolean[] = [];
+
                 drawInteraction.setActive(false);
+                const features = tiffExtentVectorLayer.getSource()?.getFeatures();
+
+                if (!features || features.length === 0) {
+                    isWithinBoundaries.push(false);
+                    return;
+                }
+                const geom = features[0].getGeometry();
+
+                coords.forEach((coordinate: [number, number]) => {
+                    if (!geom) return;
+                    isWithinBoundaries.push(geom.intersectsCoordinate(coordinate));
+                });
+
+                setIsLegal(!isWithinBoundaries.includes(false))
             };
+
         });
 
-    }, [drawInteraction, onDrawEnd, onDrawStart, layer]);
+    }, [drawInteraction, drawType, onDrawEnd, onDrawStart, layer, map]);
 
     if (!drawInteraction || !layer) {
         return null;
@@ -152,7 +179,6 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
     const handleFeatureSelect = () => {
         drawInteraction.setActive(true);
     };
-    // Optional: Display output coordinatess
 
     return (
         <div>
@@ -160,7 +186,16 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
                 type='primary'
                 onClick={handleFeatureSelect}
                 {...passThroughProps}
-            >{drawType}</Button>
+            >
+                {drawType}
+            </Button>
+            {!isLegal ?
+                <Alert
+                    message="Error"
+                    description="Die Geometrie befindet sich außerhalb der gewählten Region."
+                    type="error"
+                    showIcon
+                /> : <></>}
         </div>);
 };
 

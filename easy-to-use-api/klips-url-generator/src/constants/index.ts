@@ -55,26 +55,14 @@ export const style = {
         }),
     }),
     feature: new Style({
-        fill: new Fill({
-            color: 'rgb(255, 255, 255, 0.5)',
-        }),
         stroke: new Stroke({
             color: 'white',
-            width: 3,
+            width: 2,
         }),
     }),
-}
-
-export const bboxStyle = {
-    polygon: new Style({
+    boundingBox: new Style({
         stroke: new Stroke({
-            color: 'rgb(250,128,114)',
-            width: 3,
-        }),
-    }),
-    feature: new Style({
-        stroke: new Stroke({
-            color: 'red',
+            color: 'rgb(229, 95, 37, 0.5)',
             width: 3,
         }),
     }),

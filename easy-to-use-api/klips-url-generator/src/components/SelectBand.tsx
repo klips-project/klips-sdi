@@ -1,16 +1,18 @@
 import * as React from 'react';
+// import { useState } from 'react';
 import { Bands } from '../types';
 import { Select } from 'antd';
 
 export interface paramProps {
   inputBands?: Bands;
-
   changeBand?: (newBand: any) => void;
+  selectedBand: String;
 };
 
 export type SelectParamsProps = paramProps;
 
-const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand }) => {
+const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, selectedBand }) => {
+  // const [selected, setSelected] = useState<Boolean>(false);
 
   const bandOptions = React.useMemo(() => {
     return inputBands?.map((band) => {
@@ -22,7 +24,10 @@ const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand }) =
   }, [inputBands])
 
   return (
-    <div className='select-params-wrapper'>
+    <div className='threshold-selector'>
+      {selectedBand ? <></> :
+        <div>Bitte wählen Sie ein Band für die Anzeige im Diagramm aus</div>
+      }
       <Select
         showSearch
         placeholder="Aktives Band"
