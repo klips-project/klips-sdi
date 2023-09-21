@@ -4,6 +4,6 @@
 
 `npm  i` && `npm run serve`
 
-To receive a chart, params have to be added, e.g. http://localhost:5173/?region=dresden&geomwkt=POINT(1,2)&threshold=2.
+To receive a chart, params have to be added, e.g. http://localhost:5173/?region=dresden&geom=POINT(13.740893%2051.056977)&threshold=15&band=physical.
 
 

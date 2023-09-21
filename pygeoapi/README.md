@@ -20,6 +20,37 @@ docker-compose up --build -d pygeoapi ; docker-compose logs -f
 dev_scripts/lint.sh
 ```
 
+### Debugging
+
+1. Set env variable `DEBUG=True` and add port mapping for `5678` for the `pygeoapi` service in the `docker-compose.yml` file.
+2. Add a vscode debug configuration file (`klips-sdi/pygeoapi/.vscode/launch.json`):
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Remoteanfügung",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "127.0.0.1",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/processes",
+                    "remoteRoot": "/pygeoapi/processes"
+                }
+            ],
+            "justMyCode": false
+        }
+    ]
+}
+```
+3. Restart the docker container. Press `F5` in VSCode to connect the debugger.
+
+Furthermore, the log level can be changed to DEBUG in `pygeoapi-config.yml`.
+
 ## Tests
 
 The tests require a mocked webserver containing dummy COGs. It is included in the top-level docker-compose setup by the `nginx` service. Run it like this:

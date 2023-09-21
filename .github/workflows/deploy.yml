@@ -1,4 +1,4 @@
-name: Create and publish the 'geoserver-init' Docker image
+name: Create and publish Docker images
 
 on:
   push:
@@ -18,6 +18,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
       - name: Get current timestamp
         id: timestamp
         run: echo "::set-output name=timestamp::$(date +'%Y%m%dT%H%M')"
@@ -29,7 +34,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push geoserver-init
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./geoserver-init
@@ -38,7 +43,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/geoserver-init:latest
             ghcr.io/${{ github.repository_owner }}/geoserver-init:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push pygeoapi
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./pygeoapi
@@ -47,7 +52,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/pygeoapi:latest
             ghcr.io/${{ github.repository_owner }}/pygeoapi:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push error-handler worker
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./worker/error-handler
@@ -56,7 +61,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/mqm-worker/error-handler:latest
             ghcr.io/${{ github.repository_owner }}/mqm-worker/error-handler:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push rollback handler worker
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./worker/rollback-handler
@@ -65,7 +70,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/mqm-worker/rollback-handler:latest
             ghcr.io/${{ github.repository_owner }}/mqm-worker/rollback-handler:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push GeoServer
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./geoserver
@@ -74,7 +79,7 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/geoserver:latest
             ghcr.io/${{ github.repository_owner }}/geoserver:${{ steps.timestamp.outputs.timestamp }}
 
-      - name: Build and push Docker image
+      - name: Build and push klips api
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: ./klips-api
@@ -82,3 +87,21 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/klips-api:latest
             ghcr.io/${{ github.repository_owner }}/klips-api:${{ steps.timestamp.outputs.timestamp }}
+
+      - name: Build and push klips-chart-api
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./easy-to-use-api/klips-chart-api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/klips-chart-api:latest
+            ghcr.io/${{ github.repository_owner }}/klips-chart-api:${{ steps.timestamp.outputs.timestamp }}
+
+      - name: Build and push klips-timelapse-video-api
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./easy-to-use-api/klips-timelapse-video-api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/klips-timelapse-video-api:latest
+            ghcr.io/${{ github.repository_owner }}/klips-timelapse-video-api:${{ steps.timestamp.outputs.timestamp }}

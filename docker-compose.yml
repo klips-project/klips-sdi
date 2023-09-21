@@ -30,8 +30,6 @@ services:
       - PARTNER_API_USERNAME
       - PARTNER_API_PASSWORD
       - PINO_STREAM_LOG_LEVEL
-    ports:
-      - 127.0.0.1:3000:3000
     volumes:
       - ./configs:/klips-conf
       - ./logs:/home/logs:Z
@@ -42,9 +40,6 @@ services:
     restart: unless-stopped
     # hostname required for mounted data
     hostname: ${RABBITMQ_HOSTNAME}
-    ports:
-      - 127.0.0.1:5672:5672
-      - 127.0.0.1:15672:15672
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq:Z
     environment:
@@ -247,13 +242,51 @@ services:
       - WORKERQUEUE=geotiff-validator
       - PINO_STREAM_LOG_LEVEL
 
+  dataset-rotation:
+    container_name: ${CN_PREFIX}-dataset-rotation
+    image: ghcr.io/klips-project/mqm-worker/dataset-rotation:latest
+    restart: unless-stopped
+    volumes:
+      - ./staging:/opt/staging:Z
+      - ./cog_data:/opt/cog:Z
+      - ./logs:/home/logs:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=dataset-rotation 
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+      - PINO_STREAM_LOG_LEVEL
+
+  dataset-archive:
+    container_name: ${CN_PREFIX}-dataset-archive
+    image: ghcr.io/klips-project/mqm-worker/dataset-archive:latest
+    restart: unless-stopped
+    volumes:
+      - ./staging:/opt/staging:Z
+      - ./cog_data:/opt/cog:Z
+      - ./logs:/home/logs:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=dataset-archive
+      - PINO_STREAM_LOG_LEVEL
+
   geoserver:
     container_name: ${CN_PREFIX}-geoserver
     image: ghcr.io/klips-project/geoserver:latest
     restart: unless-stopped
     hostname: ${GEOSERVER_HOSTNAME}
-    ports:
-     - 8080:8080
     volumes:
       - ./geoserver_data:/opt/geoserver_data/:Z
     environment:
@@ -271,13 +304,21 @@ services:
     volumes:
       - ./logs:/home/logs:Z
     environment:
-        - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
-        - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
-        - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
-        - GEOSERVER_USER=${GEOSERVER_USER}
-        - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
-        - PINO_STREAM_LOG_LEVEL
-    command: [ "./wait-for.sh", "--timeout=180", "${GEOSERVER_HOSTNAME}:8080", "--", "npm", "start"]
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_DEFAULT_USER=${GEOSERVER_DEFAULT_USER}
+      - GEOSERVER_DEFAULT_PASSWORD=${GEOSERVER_DEFAULT_PASSWORD}
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - PINO_STREAM_LOG_LEVEL
+    command:
+      [
+        "./wait-for.sh",
+        "--timeout=180",
+        "${GEOSERVER_HOSTNAME}:8080",
+        "--",
+        "npm",
+        "start"
+      ]
 
   postgres:
     container_name: ${CN_PREFIX}-postgres
@@ -286,8 +327,6 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-    ports:
-      - "127.0.0.1:5432:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -301,15 +340,21 @@ services:
       - PYTHONPATH=/usr/lib/grass82/etc/python/
       - GISBASE=/usr/lib/grass82/
       - PYGEOAPI_BASEURL=${PYGEOAPI_BASEURL}
-    ports:
-      - 127.0.0.1:5000:80
 
   demonstrator:
     container_name: ${CN_PREFIX}-demonstrator
     image: nginx
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:8888:80"
     volumes:
       - ./demonstrator/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./demonstrator/ogc-api-processes:/usr/share/nginx/html/ogc-api-demo:ro
+
+  klips-chart-api:
+    container_name: ${CN_PREFIX}-chart-api
+    image: ghcr.io/klips-project/klips-chart-api:latest
+    restart: unless-stopped
+
+  klips-timelapse-video-api:
+    container_name: ${CN_PREFIX}-timelapse-video-api
+    image: ghcr.io/klips-project/klips-timelapse-video-api:latest
+    restart: unless-stopped

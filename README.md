@@ -18,16 +18,16 @@ development:
 
 ```shell
 # expects the referenced repo located next to this directory
-docker-compose up --build
+docker compose -f docker-compose.yml -f docker-compose.localdev.yml up --build -d
 ```
 
-production:
+test:
 
 ```shell
 # download latest images if they have changed
 docker-compose -f docker-compose.yml pull
 
-docker-compose -f docker-compose.yml up
+docker-compose -f docker-compose.yml up -d
 ```
 
 ## COG Webspace
@@ -49,6 +49,10 @@ An example directory could look like this:
       ├── dresden_20221104T1000Z.tif
       └── dresden_20221105T1000Z.tif
 ```
+
+## nginx
+
+There are several `nginx` services within the docker setup. The service `klips-nginx` serves as a reverse-proxy and forwards all requests from clients to the backend applications or webspaces. The specific nginx configuration can be found in `./nginx/default.conf`
 
 ## Workflows
 
