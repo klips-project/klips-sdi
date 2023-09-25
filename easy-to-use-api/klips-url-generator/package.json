@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "High Level API to create charts to visualize temperature heat islands.",
+  "homepage": ".",
   "author": {
     "name": "Svenja Dobbert",
     "email": "dobbert@terrestris.de",

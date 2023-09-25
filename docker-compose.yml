@@ -337,8 +337,8 @@ services:
     image: ghcr.io/klips-project/pygeoapi:latest
     restart: unless-stopped
     environment:
-      - PYTHONPATH=/usr/lib/grass82/etc/python/
-      - GISBASE=/usr/lib/grass82/
+      - PYTHONPATH=/usr/lib/grass83/etc/python/
+      - GISBASE=/usr/lib/grass83/
       - PYGEOAPI_BASEURL=${PYGEOAPI_BASEURL}
 
   demonstrator:
