@@ -1,9 +1,9 @@
 {
   "name": "klips-chart-api",
   "private": true,
-  "description": "High Level API to create charts to visualize temperature heat islands.",
+  "description": "API to give out a warning at selected thresholds",
   "author": {
-    "name": "Hannes Blitza",
+    "name": "Svenja Dobbert",
     "email": "blitza@terrestris.de",
     "url": "https://www.terrestris.de"
   },
@@ -25,8 +25,6 @@
     "@types/jest": "^29.5.1",
     "@typescript-eslint/eslint-plugin": "^5.59.5",
     "eslint-plugin-import": "^2.27.5",
-    "jest": "^29.5.0",
-    "jest-dom": "^4.0.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
@@ -34,9 +32,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
-    "dayjs": "^1.11.7",
-    "echarts": "^5.4.2",
-    "jest-environment-jsdom": "^29.5.0",
-    "jsts": "^2.9.3"
+    "native-base": "^3.4.28",
+    "react": "^18.2.0"
   }
 }
