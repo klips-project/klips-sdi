@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 
-import { optionsRegion, style, optionsWidget } from './constants/index.ts'
+import { optionsRegion, style, optionsWidget } from './constants'
 
 import MapContext from '@terrestris/react-geo/dist/Context/MapContext/MapContext.js';
 import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent.js';
@@ -22,13 +22,13 @@ import 'ol/ol.css';
 import './style.css';
 import "antd/dist/antd.css";
 
-import SelectRegion from './components/SelectRegion/index.tsx';
+import SelectRegion from './components/SelectRegion'
 
-import BasicNominatimSearch from './components/BasicNominatimSearch/index.tsx';
-import SelectWidget from './components/SelectWidget/index.tsx';
-import ChartComponent from './components/ChartComponent/index.tsx';
-import VideoComponent from './components/VideoComponent/index.tsx';
-import WarningComponent from './components/WarningComponent/index.tsx';
+import BasicNominatimSearch from './components/BasicNominatimSearch';
+import SelectWidget from './components/SelectWidget';
+import ChartComponent from './components/ChartComponent';
+import VideoComponent from './components/VideoComponent';
+import WarningComponent from './components/WarningComponent';
 
 const App: React.FC = () => {
 

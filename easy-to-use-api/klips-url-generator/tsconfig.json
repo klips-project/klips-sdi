@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -25,7 +25,6 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "src",
-    "./jest-setup.ts"
+    "src"
   ]
 }

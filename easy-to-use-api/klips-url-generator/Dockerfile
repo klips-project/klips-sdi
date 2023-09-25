@@ -7,4 +7,6 @@ COPY ./ ./
 RUN npm ci
 RUN npm run build
 
-CMD ["npm", "start"]
+FROM nginx:alpine-slim
+
+COPY --from=0 /usr/build/ /usr/share/nginx/html/klips-url-generator
