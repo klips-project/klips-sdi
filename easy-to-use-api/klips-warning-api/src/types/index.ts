@@ -13,5 +13,4 @@ export type NotificationInput = {
     color: String,
     notification: String,
     text: String,
-
 };
