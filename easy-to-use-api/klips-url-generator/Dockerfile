@@ -9,4 +9,4 @@ RUN npm run build
 
 FROM nginx:alpine-slim
 
-COPY --from=0 /usr/build/ /usr/share/nginx/html/klips-url-generator
+COPY --from=0 /usr/build/build/ /usr/share/nginx/html/
