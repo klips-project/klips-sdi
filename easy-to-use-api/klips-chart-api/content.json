@@ -30,6 +30,6 @@
         ]
     },
     "text": "Definieren Sie eine URL, in der Sie über folgende Parameter Ihre Ausgabe konfigureren können.",
-    "example": "https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geomwkt=POINT(13.740893%2051.056977)&threshold=25.5&band=physical",
+    "example": "/easy-to-use-api/chart/?region=dresden&geomwkt=POINT(13.740893%2051.056977)&threshold=25.5&band=physical",
     "title": "KLIPS Chart API: URL Prameter"
 }

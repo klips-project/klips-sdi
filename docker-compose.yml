@@ -340,6 +340,7 @@ services:
       - PYTHONPATH=/usr/lib/grass83/etc/python/
       - GISBASE=/usr/lib/grass83/
       - PYGEOAPI_BASEURL=${PYGEOAPI_BASEURL}
+      - SERVER_URL=${SERVER_URL}
 
   demonstrator:
     container_name: ${CN_PREFIX}-demonstrator
@@ -353,11 +354,15 @@ services:
     container_name: ${CN_PREFIX}-chart-api
     image: ghcr.io/klips-project/klips-chart-api:latest
     restart: unless-stopped
+    environment:
+     - VITE_SERVER_URL=${SERVER_URL}
 
   klips-timelapse-video-api:
     container_name: ${CN_PREFIX}-timelapse-video-api
     image: ghcr.io/klips-project/klips-timelapse-video-api:latest
     restart: unless-stopped
+    environment:
+     - VITE_SERVER_URL=${SERVER_URL}
 
   klips-url-generator:
     container_name: ${CN_PREFIX}-url-generator
