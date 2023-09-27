@@ -14,3 +14,16 @@ export type NotificationInput = {
     notification: String,
     text: String,
 };
+
+export type ResultObject = {
+    band_1: Number,
+    band_2: Number,
+    band_3: Number,
+    timestamp: any,
+}
+
+export type ResultThreshold = {
+    green: ResultObject[],
+    orange: ResultObject[],
+    red: ResultObject[],
+}

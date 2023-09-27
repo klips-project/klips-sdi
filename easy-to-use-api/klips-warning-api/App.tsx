@@ -5,7 +5,7 @@ import CreateAlert from './src/components/CreateAlert';
 import temperature from './src/components/GetData';
 import params from './src/Url';
 import { notificationOptions } from './src/constants';
-import { NotificationInput } from './src/types';
+import { NotificationInput, ResultObject, ResultThreshold } from './src/types';
 
 import { Alert } from 'antd';
 
@@ -13,24 +13,24 @@ const App: React.FC = () => {
     const [warning, setWarning] = useState<NotificationInput>(notificationOptions[0]);
     const [criticalDate, setCriticalDate] = useState<Date>();
 
-    let band: any = 'band_1'
+    let band: keyof ResultObject = 'band_1'
     if (params.band === 'perceived') {
         band = 'band_2'
     } else if (params.band === 'difference') {
         band = 'band_3'
     }
-    const resultThreshold = {
-        green: temperature.filter((obj: any) => {
+    const resultThreshold: ResultThreshold = {
+        green: temperature.filter((obj: ResultObject) => {
             return obj[band] > params.thresholdgreen!
         }),
-        orange: temperature.filter((obj: any) => {
+        orange: temperature.filter((obj: ResultObject) => {
             return obj[band] > params.thresholdorange!
         }),
-        red: temperature.filter((obj: any) => {
+        red: temperature.filter((obj: ResultObject) => {
             return obj[band] > params.thresholdred!
         }),
     };
-
+debugger
     useEffect(() => {
         if (resultThreshold.red.length > 0) {
             setWarning(notificationOptions[3])
