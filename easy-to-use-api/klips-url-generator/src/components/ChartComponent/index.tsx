@@ -31,7 +31,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
 
     useEffect(() => {
         if (region && wktGeom && threshold && band) {
-            setURL(`https://klips-dev.terrestris.de/?region=${region.toLowerCase()}&geom=${wktGeom}&threshold=${threshold}&band=${band}`)
+            setURL(`https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=${region.toLowerCase()}&geom=${wktGeom}&threshold=${threshold}&band=${band}`)
         };
     }, [region, wktGeom, threshold, band]);
 
