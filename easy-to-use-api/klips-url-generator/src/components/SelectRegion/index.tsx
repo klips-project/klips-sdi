@@ -22,11 +22,14 @@ export interface RegionProps {
     onChangeRegion?: (newRegion: any) => void;
 
     regionName: string | undefined;
+
+    selectStatus: "" | "error" | "warning" | undefined;
 };
 
 export type SelectRegionProps = RegionProps;
 
-const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegion, regionName }) => {
+const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegion, regionName, selectStatus }) => {
+
     const map = useMap();
 
     useEffect(() => {
@@ -98,13 +101,14 @@ const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegio
     return (
         <div className='region-selector'>
             {regionName ? <></> :
-                <div>Bitte wählen Sie eine Region aus</div>
+                <div className='no-selection-text'>Bitte wählen Sie eine Region aus</div>
             }
             <Select
-                className={'button'}
+                style={{ width: '100%' }}
                 options={selectOptions}
                 onChange={onChangeRegion}
                 placeholder='Region'
+                status={selectStatus}
             />
         </div>
     );

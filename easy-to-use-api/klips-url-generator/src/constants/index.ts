@@ -66,13 +66,13 @@ export const style = {
     }),
     feature: new Style({
         stroke: new Stroke({
-            color: 'white',
-            width: 2,
+            color: 'rgb(229, 95, 37)',
+            width: 1,
         }),
     }),
     boundingBox: new Style({
         stroke: new Stroke({
-            color: 'rgb(229, 95, 37, 0.5)',
+            color: 'rgb(229, 95, 37)',
             width: 3,
         }),
     }),

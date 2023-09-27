@@ -1,8 +1,8 @@
 import TextArea from "antd/lib/input/TextArea";
 import { optionsBand, style } from "../../constants";
-import GetCoordinatesString from "../DrawGeometry";
+import DrawGeometry from "../DrawGeometry";
 import { CopyOutlined } from '@ant-design/icons';
-import { Button, Input, Tooltip } from "antd";
+import { Button, Row, Tooltip } from "antd";
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import { useEffect, useState } from "react";
 import OlGeometry from 'ol/geom/Geometry';
@@ -13,7 +13,7 @@ import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
 export type Threshold = {
     green: String,
     orange: String,
-    red: String 
+    red: String
 }
 
 export interface WarningProps {
@@ -28,7 +28,7 @@ export type WarningComponentProps = WarningProps;
 
 const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region, wktGeom, onDrawEnd, onDrawStart }) => {
     const [band, setBand] = useState('');
-    const [threshold, setThreshold] = useState<Threshold>({green: '0', orange: '30', red: '35' });
+    const [threshold, setThreshold] = useState<Threshold>({ green: '0', orange: '30', red: '35' });
     const [url, setURL] = useState('');
 
     useEffect(() => {
@@ -52,22 +52,22 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
     };
 
     return (
-        <>
-            <div className='geometry'>
-                <GetCoordinatesString
+        <Row gutter={[0, 20]}>
+            <Row gutter={[0, 5]} className='geometry'>
+                <DrawGeometry
                     drawType='Point'
                     drawStyle={style.point}
                     onDrawEnd={onDrawEnd}
                     onDrawStart={onDrawStart}
                 />
-                <GetCoordinatesString
+                <DrawGeometry
                     drawType='Polygon'
                     drawStyle={style.polygon}
                     onDrawEnd={onDrawEnd}
                     onDrawStart={onDrawStart}
                 />
                 {!geoJsonGeom ? <></> :
-                    <div>
+                    <div className='permalink'>
                         <TextArea
                             readOnly
                             value={geoJsonGeom}
@@ -83,8 +83,8 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                         </Tooltip>
                     </div>
                 }
-            </div>
-            <div className='attributes'>
+            </Row>
+            <Row gutter={[0, 10]} className='attributes'>
                 <SelectBand
                     inputBands={optionsBand}
                     changeBand={changeBand}
@@ -99,9 +99,9 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                 <SelectThreshold
                     changeThreshold={changeThreshold('red')}
                 />
-            </div>
+            </Row>
             <div className='permalink'>
-                <Input
+                <TextArea
                     readOnly
                     value={url}
                 />
@@ -115,7 +115,7 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                     />
                 </Tooltip>
             </div>
-        </>
+        </Row>
     )
 };
 

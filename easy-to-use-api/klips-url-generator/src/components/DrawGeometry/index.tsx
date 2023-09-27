@@ -54,7 +54,7 @@ interface GetCoordinatesStringProps extends ButtonGroupProps {
 /**
  * The Button.
  */
-const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
+const DrawGeometry: React.FC<GetCoordinatesStringProps> = ({
     drawInteractionConfig,
     drawStyle,
     drawType,
@@ -134,6 +134,8 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
             const tiffExtentVectorLayer = MapUtil.getLayerByName(map, 'BboxLayer') as OlVectorLayer<OlVectorSource>;
             let feature = evt.feature as any;
+            feature.setStyle(drawStyle);
+            
             let coords = [];
             if (drawType === 'Point') {
                 coords.push((feature).getGeometry().getCoordinates())
@@ -166,7 +168,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
 
         });
 
-    }, [drawInteraction, drawType, onDrawEnd, onDrawStart, layer, map]);
+    }, [drawInteraction, drawType, drawStyle, onDrawEnd, onDrawStart, layer, map]);
 
     if (!drawInteraction || !layer) {
         return null;
@@ -191,6 +193,7 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
             </Button>
             {!isLegal ?
                 <Alert
+                    style={{ marginTop: 5}}
                     message="Error"
                     description="Die Geometrie befindet sich außerhalb der gewählten Region."
                     type="error"
@@ -199,4 +202,4 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
         </div>);
 };
 
-export default GetCoordinatesString;
+export default DrawGeometry;

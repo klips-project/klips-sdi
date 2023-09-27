@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import GetCoordinatesString from "../DrawGeometry";
+import DrawGeometry from "../DrawGeometry";
 import { optionsVideoFormat, style } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
-import { Button, Input, Tooltip } from "antd";
+import { Button, Row, Tooltip } from "antd";
 import { CopyOutlined } from '@ant-design/icons'
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import OlGeometry from 'ol/geom/Geometry';
@@ -19,7 +19,7 @@ export interface VideoProps {
 
 export type VideoComponentProps = VideoProps;
 
-const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, geoJsonGeom, region}) => {
+const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart, geoJsonGeom, region }) => {
     const [url, setURL] = useState('');
     const [videoFormat, setVideoFormat] = useState('');
     const [personalTitle, setPersonalTitle] = useState('');
@@ -39,16 +39,16 @@ const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, 
     };
 
     return (
-        <div className='video-component'>
-            <div className='geometry'>
-                <GetCoordinatesString
+        <Row gutter={[0, 20]} className='video-component'>
+            <Row gutter={[0, 5]} className='geometry'>
+                <DrawGeometry
                     drawType='Polygon'
                     drawStyle={style.polygon}
                     onDrawEnd={onDrawEnd}
                     onDrawStart={onDrawStart}
                 />
                 {!geoJsonGeom ? <></> :
-                    <div>
+                    <div className='permalink'>
                         <TextArea
                             readOnly
                             value={geoJsonGeom}
@@ -64,8 +64,8 @@ const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, 
                         </Tooltip>
                     </div>
                 }
-            </div>
-            <div className='attributes'>
+            </Row>
+            <Row gutter={[0, 10]} className='attributes'>
                 <SelectVideoFormat
                     selectedVideoFormat={videoFormat}
                     changeVideoFormat={changeVideoFormat}
@@ -74,9 +74,9 @@ const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, 
                 <WritePersonalTitle
                     changeTitle={changeTitle}
                 />
-            </div>
+            </Row>
             <div className='permalink'>
-                <Input
+                <TextArea
                     readOnly
                     value={url}
                 />
@@ -90,7 +90,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, 
                     />
                 </Tooltip>
             </div>
-        </div >
+        </Row >
     );
 };
 

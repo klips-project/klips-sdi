@@ -1,15 +1,18 @@
-import TextArea from "antd/lib/input/TextArea";
-import { optionsBand, style } from "../../constants";
-import GetCoordinatesString from "../DrawGeometry";
-import { CopyOutlined } from '@ant-design/icons';
-import { Button, Input, Tooltip } from "antd";
-import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import { useEffect, useState } from "react";
+
+import { Button, Row, Tooltip } from "antd";
+import TextArea from "antd/lib/input/TextArea";
+import { CopyOutlined } from '@ant-design/icons';
+
 import OlGeometry from 'ol/geom/Geometry';
-import SelectBand from "../SelectBand";
-import SelectThreshold from "../SelectThreshold";
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
 
+import { optionsBand, style } from "../../constants";
+import { onCopyClickGeom, onCopyClickUrl } from "../../service";
+
+import DrawGeometry from "../DrawGeometry";
+import SelectBand from "../SelectBand";
+import SelectThreshold from "../SelectThreshold";
 
 export interface ChartProps {
     geoJsonGeom: string,
@@ -41,22 +44,22 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
     };
 
     return (
-        <>
-            <div className='geometry'>
-                <GetCoordinatesString
+        <Row gutter={[0, 20]}>
+            <Row gutter={[0, 5]} className='geometry' >
+                <DrawGeometry
                     drawType='Point'
                     drawStyle={style.point}
                     onDrawEnd={onDrawEnd}
                     onDrawStart={onDrawStart}
                 />
-                <GetCoordinatesString
+                <DrawGeometry
                     drawType='Polygon'
                     drawStyle={style.polygon}
                     onDrawEnd={onDrawEnd}
                     onDrawStart={onDrawStart}
                 />
                 {!geoJsonGeom ? <></> :
-                    <div>
+                    <div className='permalink'>
                         <TextArea
                             readOnly
                             value={geoJsonGeom}
@@ -72,8 +75,8 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                         </Tooltip>
                     </div>
                 }
-            </div>
-            <div className='attributes'>
+            </Row>
+            <Row gutter={[0, 10]} className='attributes'>
                 <SelectBand
                     inputBands={optionsBand}
                     changeBand={changeBand}
@@ -82,9 +85,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                 <SelectThreshold
                     changeThreshold={changeThreshold}
                 />
-            </div>
+            </Row>
             <div className='permalink'>
-                <Input
+                <TextArea
                     readOnly
                     value={url}
                 />
@@ -98,7 +101,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                     />
                 </Tooltip>
             </div>
-        </>
+        </Row>
     )
 };
 

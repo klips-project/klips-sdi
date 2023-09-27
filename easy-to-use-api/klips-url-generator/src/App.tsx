@@ -20,7 +20,6 @@ import { transform } from 'ol/proj.js';
 
 import 'ol/ol.css';
 import './style.css';
-import "antd/dist/antd.css";
 
 import SelectRegion from './components/SelectRegion'
 
@@ -29,6 +28,7 @@ import SelectWidget from './components/SelectWidget';
 import ChartComponent from './components/ChartComponent';
 import VideoComponent from './components/VideoComponent';
 import WarningComponent from './components/WarningComponent';
+import { ConfigProvider, theme, Row } from 'antd';
 
 const App: React.FC = () => {
 
@@ -36,6 +36,8 @@ const App: React.FC = () => {
   const [geom, setGeom] = useState<OlGeometry | null>(null);
   const [map, setMap] = useState<OlMap>();
   const [widget, setWidget] = useState<string>('');
+  const [selectStatusRegion, setSelectStatusRegion] = useState<"" | "error" | "warning" | undefined>('error');
+  const [selectStatusWidget, setSelectStatusWidget] = useState<"" | "error" | "warning" | undefined>('error');
 
   const wktGeom = useMemo(() => {
     if (!geom) {
@@ -82,9 +84,11 @@ const App: React.FC = () => {
 
   const changeRegion = (newRegion: string) => {
     setRegion(newRegion);
+    setSelectStatusRegion("");
   };
 
   const onDrawEnd = (geom: OlGeometry) => {
+    
     setGeom(geom);
   };
 
@@ -94,6 +98,7 @@ const App: React.FC = () => {
 
   const changeWidget = (newWidget: string) => {
     setWidget(newWidget);
+    setSelectStatusWidget("");
   };
 
   if (!map) {
@@ -108,14 +113,12 @@ const App: React.FC = () => {
           region={region}
           wktGeom={wktGeom}
           onDrawEnd={onDrawEnd}
-          // onDrawStart={onDrawStart}
         />
       case 'video':
         return <VideoComponent
           geoJsonGeom={geoJsonGeom}
           region={region}
           onDrawEnd={onDrawEnd}
-          // onDrawStart={onDrawStart}
         />
       case 'warning':
         return <WarningComponent
@@ -123,36 +126,48 @@ const App: React.FC = () => {
           geoJsonGeom={geoJsonGeom}
           region={region}
           onDrawEnd={onDrawEnd}
-          // onDrawStart={onDrawStart}
         />
     }
   }
 
   return (
     <div className='App'>
-      <MapContext.Provider value={map}>
-        <div className='output-wrapper'>
-          <div className='header'>
-            <img src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
-            <h2>Widget URL Generator</h2>
+      <ConfigProvider
+        theme={{
+          algorithm: theme.defaultAlgorithm,
+          token: {
+            colorPrimary: '#e45f24',
+          },
+        }}
+      >
+        <MapContext.Provider value={map}>
+          <div className='output-wrapper'>
+            <div className='header'>
+              <img src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
+              <h2>Widget URL Generator</h2>
+            </div>
+            <Row gutter={[0, 10]} className='base-components-wrapper'>
+              <BasicNominatimSearch className='nominatim-search' />
+              <SelectRegion
+                inputRegions={optionsRegion}
+                onChangeRegion={changeRegion}
+                regionName={region}
+                selectStatus={selectStatusRegion}
+              />
+              <SelectWidget
+                changeWidget={changeWidget}
+                selectedWidget={widget}
+                inputWidget={optionsWidget}
+                selectStatus={selectStatusWidget}
+              />
+            </Row>
+            {getWidget()}
           </div>
-          <BasicNominatimSearch className='nominatim-search' />
-          <SelectRegion
-            inputRegions={optionsRegion}
-            onChangeRegion={changeRegion}
-            regionName={region}
+          <MapComponent
+            map={map}
           />
-          <SelectWidget
-            changeWidget={changeWidget}
-            selectedWidget={widget}
-            inputWidget={optionsWidget}
-          />
-          {getWidget()}
-        </div>
-        <MapComponent
-          map={map}
-        />
-      </MapContext.Provider >
+        </MapContext.Provider >
+      </ConfigProvider>
     </div >
   );
 };

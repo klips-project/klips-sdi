@@ -25,9 +25,10 @@ const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, sel
   return (
     <div className='band-selector'>
       {selectedBand ? <></> :
-        <div>Bitte wählen Sie ein Band für die Anzeige im Diagramm aus</div>
+        <div className='no-selection-text'>Bitte wählen Sie ein Band für die Anzeige im Diagramm aus</div>
       }
       <Select
+        style={{ width: '100%' }}
         showSearch
         placeholder="Aktives Band"
         options={bandOptions}
