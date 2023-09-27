@@ -83,6 +83,11 @@ services:
     build: ./easy-to-use-api/klips-timelapse-video-api
     ports:
       - 3002:80
+  
+  klips-url-generator:
+    build: ./easy-to-use-api/klips-url-generator
+    ports:
+      - 3003:3000
 
   postgres:
     ports:
