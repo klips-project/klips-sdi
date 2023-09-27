@@ -24,7 +24,7 @@ import "antd/dist/antd.css";
 
 import SelectRegion from './components/SelectRegion'
 
-import BasicNominatimSearch from './components/BasicNominatimSearch';
+import PhotonSearch from './components/PhotonSearch';
 import SelectWidget from './components/SelectWidget';
 import ChartComponent from './components/ChartComponent';
 import VideoComponent from './components/VideoComponent';
@@ -136,7 +136,7 @@ const App: React.FC = () => {
             <img src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
             <h2>Widget URL Generator</h2>
           </div>
-          <BasicNominatimSearch className='nominatim-search' />
+          <PhotonSearch />
           <SelectRegion
             inputRegions={optionsRegion}
             onChangeRegion={changeRegion}
