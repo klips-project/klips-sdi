@@ -88,7 +88,6 @@ const App: React.FC = () => {
   };
 
   const onDrawEnd = (geom: OlGeometry) => {
-
     setGeom(geom);
   };
 
