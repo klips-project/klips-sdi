@@ -76,6 +76,18 @@ export const style = {
             width: 3,
         }),
     }),
+    searchFeature: new Style({
+        image: new Circle({
+            radius: 7,
+            fill: new Fill({
+                color: 'rgb(229, 95, 37, 0.5)',
+            }),
+            stroke: new Stroke({
+                color: 'red',
+                width: 3,
+            }),
+        })
+    }),
 }
 
 export const tiffExtentLangenfeld: GeoJSONFeatureCollection = {

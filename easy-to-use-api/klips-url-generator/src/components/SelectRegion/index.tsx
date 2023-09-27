@@ -60,8 +60,14 @@ const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegio
 
         // new vectorlayer for bbox
         let tiffExtentVectorLayer = MapUtil.getLayerByName(map, 'BboxLayer') as OlVectorLayer<OlVectorSource>;
+        if (tiffExtentVectorLayer) {
+            tiffExtentVectorLayer.getSource()?.clear();
+        };
 
-        tiffExtentVectorLayer.getSource()?.clear();
+        let searchRestultsVectorLayer = MapUtil.getLayerByName(map, 'SearchResults') as OlVectorLayer<OlVectorSource>;
+        if (searchRestultsVectorLayer) {
+            searchRestultsVectorLayer.getSource()?.clear();
+        }
 
         const tiffExtentformat = new OlFormatGeoJSON({
             featureProjection: 'EPSG:3857'
