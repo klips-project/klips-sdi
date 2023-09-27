@@ -125,3 +125,8 @@ export const tiffExtentDresden: GeoJSONFeatureCollection = {
         }
     ]
 }
+
+export const configToken = {
+    colorPrimary: '#e45f24',
+  }
+  

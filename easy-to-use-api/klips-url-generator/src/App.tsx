@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 
-import { optionsRegion, style, optionsWidget } from './constants'
+import { optionsRegion, style, optionsWidget, configToken } from './constants'
 
 import MapContext from '@terrestris/react-geo/dist/Context/MapContext/MapContext.js';
 import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent.js';
@@ -88,7 +88,7 @@ const App: React.FC = () => {
   };
 
   const onDrawEnd = (geom: OlGeometry) => {
-    
+
     setGeom(geom);
   };
 
@@ -135,9 +135,7 @@ const App: React.FC = () => {
       <ConfigProvider
         theme={{
           algorithm: theme.defaultAlgorithm,
-          token: {
-            colorPrimary: '#e45f24',
-          },
+          token: configToken,
         }}
       >
         <MapContext.Provider value={map}>
