@@ -12,6 +12,4 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.SSH_HOST }}
     - name: trigger deploy script
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_DEV }} pwd
-    - name: trigger deploy script
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_DEV }} 'sh /home/${{ secrets.SSH_USER }}/klips-sdi/deploy.sh'
