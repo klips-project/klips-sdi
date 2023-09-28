@@ -7,7 +7,6 @@ export type Params = {
     band?: string;
 };
 
-
 export type NotificationInput = {
     name: String,
     color: String,
