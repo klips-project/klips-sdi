@@ -15,10 +15,7 @@ import logging
 
 LOGGER = logging.getLogger(__name__)
 url = os.environ["SERVER_URL"]
-geoserverUrl = (
-    url 
-    + "/geoserver/dresden/wms?"
-)
+geoserverUrl = url + "/geoserver/dresden/wms?"
 baseurl = (
     geoserverUrl
     + "SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&STYLES&LAYERS=dresden%3Adresden_temperature&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A3035&"  # noqa: E501
