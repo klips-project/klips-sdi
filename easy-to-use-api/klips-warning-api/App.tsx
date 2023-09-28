@@ -11,7 +11,7 @@ import { Alert } from 'antd';
 
 const App: React.FC = () => {
     const [warning, setWarning] = useState<NotificationInput>(notificationOptions[0]);
-    const [criticalDate, setCriticalDate] = useState<Date>();
+    const [criticalDate, setCriticalDate] = useState<Date | undefined>();
 
     let band: keyof ResultObject = 'band_1'
     if (params.band === 'perceived') {
