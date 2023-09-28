@@ -30,7 +30,7 @@ const App: React.FC = () => {
             return obj[band] > params.thresholdred!
         }),
     };
-debugger
+    
     useEffect(() => {
         if (resultThreshold.red.length > 0) {
             setWarning(notificationOptions[3])

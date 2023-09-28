@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from "@rneui/base";
 import { View, Text, ColorValue } from "react-native";
 
-import { ClockCircleOutlined, ExclamationCircleOutlined, PushpinOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, ExclamationCircleOutlined, PushpinOutlined, RedoOutlined } from '@ant-design/icons';
 
 import { NotificationInput } from '../../types';
 
@@ -48,7 +48,7 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
         shadowOpacity: 0.26,
         backgroundColor: color,
         borderColor: color,
-        width: 650,
+        width: 'auto',
         padding: 0,
         borderWidth: 2,
         borderRadius: 10
@@ -124,6 +124,14 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
             >
               {warning.text}   ({date})
             </Text>
+            <RedoOutlined
+              onClick={() => window.location.reload()}
+              style={{
+                color: 'white',
+                fontSize: 20,
+                marginLeft: 5,
+              }}
+            ></RedoOutlined>
           </View>
         </View>
         <View>
@@ -137,8 +145,6 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
             Temperaturparameter: {temperatureParameter}
           </Text>
         </View>
-        {/* <button className='alert-refresh' id='alert-refresh-warning' onClick="location.reload();"><i id='icon-warning'
-                className="fa-solid fa-rotate-right"></i></button> */}
       </Card>
 
     </View>
