@@ -43,8 +43,6 @@ debugger
         };
     }, [resultThreshold, notificationOptions, warning]);
 
-    console.log(criticalDate);
-    
 
     // Get Timeframe
     const date = new Date();
