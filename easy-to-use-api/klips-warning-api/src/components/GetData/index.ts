@@ -8,9 +8,6 @@ import params from '../../Url';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
-
-
-
 // Get Timeframe
 const startDate = dayjs().utc().format('YYYY-MM-DDTHH:00:00Z');
 const endDate = dayjs().add(49, 'hours').utc().format('YYYY-MM-DDTHH:00:00Z');
