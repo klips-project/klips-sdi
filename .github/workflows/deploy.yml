@@ -3,7 +3,7 @@ name: Deploy on Server
 on: workflow_dispatch
 
 jobs:
-  deploy:
+  deploy_dev:
     runs-on: ubuntu-latest
     steps:
     - name: Install SSH key
@@ -12,4 +12,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         known_hosts: ${{ secrets.SSH_HOST }}
     - name: trigger deploy script
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_IP }} 'sh /home/${{ secrets.SSH_USER }}/klips-sdi/deploy.sh'
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_DEV }} pwd
+    - name: trigger deploy script
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST_DEV }} 'sh /home/${{ secrets.SSH_USER }}/klips-sdi/deploy.sh'
