@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "./easy-to-use-api/klips-chart-api"
+    schedule:
+      interval: "daily"
+      time: "04.00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
