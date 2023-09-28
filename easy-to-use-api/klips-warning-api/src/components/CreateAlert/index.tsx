@@ -141,7 +141,6 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
                 className="fa-solid fa-rotate-right"></i></button> */}
       </Card>
 
-
     </View>
   );
 };
