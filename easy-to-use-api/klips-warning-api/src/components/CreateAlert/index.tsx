@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from "@rneui/base";
 import { View, Text, ColorValue } from "react-native";
 
-import { ClockCircleOutlined, ExclamationCircleOutlined, PushpinOutlined, RedoOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, ClockCircleOutlined, ExclamationCircleOutlined, PushpinOutlined, RedoOutlined } from '@ant-design/icons';
 
 import { NotificationInput } from '../../types';
 
@@ -100,11 +100,17 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
             flexDirection: 'row',
           }}
         >
-          <ExclamationCircleOutlined style={{
-            fontSize: 40,
-            color: 'white',
-            paddingRight: 10,
-          }} />
+          {warning.name === 'green' ?
+            <CheckCircleOutlined style={{
+              fontSize: 40,
+              color: 'white',
+              paddingRight: 10,
+            }} /> :
+            <ExclamationCircleOutlined style={{
+              fontSize: 40,
+              color: 'white',
+              paddingRight: 10,
+            }} />}
           <View style={{
             alignItems: "center",
             flexDirection: 'row',
