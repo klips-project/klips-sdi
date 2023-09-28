@@ -43,7 +43,6 @@ const App: React.FC = () => {
         };
     }, [resultThreshold, notificationOptions, warning]);
 
-
     // Get Timeframe
     const date = new Date();
 
