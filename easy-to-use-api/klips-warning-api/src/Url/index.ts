@@ -44,8 +44,6 @@ const parseURLPathnames = (locationPathname: string, config: any): Params => {
     return params;
 };
 
-
-
 let params;
 if (document.location.search) {
     params = getParams('search');
