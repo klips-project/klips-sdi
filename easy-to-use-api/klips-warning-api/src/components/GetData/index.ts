@@ -81,7 +81,6 @@ const fetchTemperaturePolygon = async (
     return await response.json().then(response => { return response });
 };
 
-
 // get WKT
 const wktReader = new WKTParser();
 const wktGeometry = wktReader.read(params.geom);
