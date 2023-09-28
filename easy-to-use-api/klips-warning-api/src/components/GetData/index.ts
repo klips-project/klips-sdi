@@ -19,7 +19,6 @@ const endDate = dayjs().add(49, 'hours').utc().format('YYYY-MM-DDTHH:00:00Z');
 const processURL = 'https://klips-dev.terrestris.de/processes/location-info-time-rasterstats/execution';
 const processURLPolygon = 'https://klips-dev.terrestris.de/processes/zonal-statistics-time-rasterstats/execution';
 
-
 const fetchTemperaturePoint = async (
     params: Params,
     coordinates: any
