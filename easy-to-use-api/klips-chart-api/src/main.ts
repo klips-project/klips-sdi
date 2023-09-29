@@ -3,6 +3,7 @@ import { ChartAPI } from './components/Chart';
 import { ChartAPIDocs } from './components/Docs';
 import { getParams, parseURLPathnames } from './util/Url';
 import { pathNameConfig } from './constants';
+import 'dotenv/config';
 
 import './style.css';
 
@@ -49,7 +50,7 @@ import './style.css';
     }
 
     const chartApi = await ChartAPI.getChartData(params);
-    
+
     if (chartApi) {
       chartApi.render();
     }
