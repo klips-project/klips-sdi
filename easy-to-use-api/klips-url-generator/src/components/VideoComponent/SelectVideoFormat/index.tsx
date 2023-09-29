@@ -23,7 +23,7 @@ const SelectVideoFormat: React.FC<SelectVideoProps> = ({ inputVideoFormats, chan
 
     return (
         <div className='band-selector'>
-            {selectedVideoFormat ? <></> :
+            {selectedVideoFormat ? <h3>Video Format:</h3> :
                 <div>Bitte wählen Sie ein Videoformat aus:</div>
             }
             <Select
