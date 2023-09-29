@@ -42,8 +42,8 @@ const App: React.FC = () => {
     if (!geom) {
       return ''
     };
-    const formatWKT = new OlFormatWKT();
-    return formatWKT.writeGeometry(geom);
+    const formatWKT = new OlFormatWKT();    
+    return formatWKT.writeGeometry(geom.clone().transform('EPSG:3857', 'EPSG:4326'));
   }, [geom])
 
   const geoJsonGeom = useMemo(() => {
@@ -51,15 +51,14 @@ const App: React.FC = () => {
       return ''
     };
     const formatGeoJSON = new OlFormatGeoJSON();
-    return formatGeoJSON.writeGeometry(geom);
+    return formatGeoJSON.writeGeometry(geom.clone().transform('EPSG:3857', 'EPSG:4326'));
   }, [geom])
 
   useEffect(() => {
     // create map
     const layer = new OlLayerTile({
       source: new OlSourceOsm({
-      }
-      )
+      })
     });
 
     // create empty vector layer
