@@ -7,4 +7,5 @@ git pull origin main
 echo "Pull latest images"
 docker-compose pull
 echo "Start containers" 
+docker-compose down
 docker-compose up -d
