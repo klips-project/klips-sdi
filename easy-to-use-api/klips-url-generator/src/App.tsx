@@ -20,7 +20,7 @@ import { transform } from 'ol/proj.js';
 
 import 'ol/ol.css';
 import './style.css';
-import "antd/dist/antd.css";
+import "antd/dist/antd.variable.min.css";
 
 import SelectRegion from './components/SelectRegion'
 
@@ -29,6 +29,7 @@ import SelectWidget from './components/SelectWidget';
 import ChartComponent from './components/ChartComponent';
 import VideoComponent from './components/VideoComponent';
 import WarningComponent from './components/WarningComponent';
+import { ConfigProvider } from 'antd';
 
 const App: React.FC = () => {
 
@@ -80,6 +81,12 @@ const App: React.FC = () => {
     }))
   }, []);
 
+  ConfigProvider.config({
+    theme: {
+      primaryColor: '#e45f24'
+    }
+  });
+
   const changeRegion = (newRegion: string) => {
     setRegion(newRegion);
   };
@@ -87,10 +94,6 @@ const App: React.FC = () => {
   const onDrawEnd = (geom: OlGeometry) => {
     setGeom(geom);
   };
-
-  // const onDrawStart = () => {
-  //   setIsLegal(true);
-  // };
 
   const changeWidget = (newWidget: string) => {
     setWidget(newWidget);
@@ -108,14 +111,12 @@ const App: React.FC = () => {
           region={region}
           wktGeom={wktGeom}
           onDrawEnd={onDrawEnd}
-          // onDrawStart={onDrawStart}
         />
       case 'video':
         return <VideoComponent
           geoJsonGeom={geoJsonGeom}
           region={region}
           onDrawEnd={onDrawEnd}
-          // onDrawStart={onDrawStart}
         />
       case 'warning':
         return <WarningComponent
@@ -123,7 +124,6 @@ const App: React.FC = () => {
           geoJsonGeom={geoJsonGeom}
           region={region}
           onDrawEnd={onDrawEnd}
-          // onDrawStart={onDrawStart}
         />
     }
   }
@@ -131,27 +131,30 @@ const App: React.FC = () => {
   return (
     <div className='App'>
       <MapContext.Provider value={map}>
-        <div className='output-wrapper'>
-          <div className='header'>
-            <img src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
-            <h2>Widget URL Generator</h2>
+        <ConfigProvider 
+        >
+          <div className='output-wrapper'>
+            <div className='header'>
+              <img className='logo' src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
+              <h2>Widget URL Generator</h2>
+            </div>
+            <SelectRegion
+              inputRegions={optionsRegion}
+              onChangeRegion={changeRegion}
+              regionName={region}
+            />
+            <PhotonSearch />
+            <SelectWidget
+              changeWidget={changeWidget}
+              selectedWidget={widget}
+              inputWidget={optionsWidget}
+            />
+            {getWidget()}
           </div>
-          <PhotonSearch />
-          <SelectRegion
-            inputRegions={optionsRegion}
-            onChangeRegion={changeRegion}
-            regionName={region}
+          <MapComponent
+            map={map}
           />
-          <SelectWidget
-            changeWidget={changeWidget}
-            selectedWidget={widget}
-            inputWidget={optionsWidget}
-          />
-          {getWidget()}
-        </div>
-        <MapComponent
-          map={map}
-        />
+        </ConfigProvider>
       </MapContext.Provider >
     </div >
   );

@@ -15,7 +15,6 @@ import Logger from '@terrestris/base-util/dist/Logger';
 import useMap from '@terrestris/react-geo/dist/Hook/useMap';
 import { AutoComplete } from 'antd';
 import { style } from '../../constants'
-import './index.css';
 import { Feature, FeatureCollection, Geometry } from 'geojson';
 import { DefaultOptionType } from 'antd/lib/select';
 
@@ -176,15 +175,18 @@ export const PhotonSearch: React.FC = (
 
 
   return (
-    <AutoComplete<string, PhotonOptionType>
-      className='search-bar'
-      onChange={setSearchTerm}
-      options={createOptions()}
-      placeholder={'Ortsname, Straßenname, Stadtteilname, POI usw.'}
-      onSelect={onSelect}
-      allowClear={true}
-      notFoundContent={'Keine Suchtreffer gefunden'}
-    />
+    <div className='search-bar'>
+      <h3>Suche:</h3>
+      <AutoComplete<string, PhotonOptionType>
+        className='search-bar'
+        onChange={setSearchTerm}
+        options={createOptions()}
+        placeholder={'Ortsname, Straßenname, Stadtteilname, POI usw.'}
+        onSelect={onSelect}
+        allowClear={true}
+        notFoundContent={'Keine Suchtreffer gefunden'}
+      />
+    </div>
   );
 };
 

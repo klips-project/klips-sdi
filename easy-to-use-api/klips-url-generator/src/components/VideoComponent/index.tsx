@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import GetCoordinatesString from "../DrawGeometry";
 import { optionsVideoFormat, style } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
 import { Button, Input, Tooltip } from "antd";
@@ -9,6 +8,7 @@ import OlGeometry from 'ol/geom/Geometry';
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
 import SelectVideoFormat from "./SelectVideoFormat";
 import WritePersonalTitle from "./WritePersonalTitle";
+import DrawGeometry from "../DrawGeometry";
 
 export interface VideoProps {
     geoJsonGeom: string,
@@ -19,7 +19,7 @@ export interface VideoProps {
 
 export type VideoComponentProps = VideoProps;
 
-const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, geoJsonGeom, region}) => {
+const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart, geoJsonGeom, region }) => {
     const [url, setURL] = useState('');
     const [videoFormat, setVideoFormat] = useState('');
     const [personalTitle, setPersonalTitle] = useState('');
@@ -41,12 +41,15 @@ const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, 
     return (
         <div className='video-component'>
             <div className='geometry'>
-                <GetCoordinatesString
-                    drawType='Polygon'
-                    drawStyle={style.polygon}
-                    onDrawEnd={onDrawEnd}
-                    onDrawStart={onDrawStart}
-                />
+                <h3>Geometrie:</h3>
+                <div className='geometry-button'>
+                    <DrawGeometry
+                        drawType='Polygon'
+                        drawStyle={style.polygon}
+                        onDrawEnd={onDrawEnd}
+                        onDrawStart={onDrawStart}
+                    />
+                </div>
                 {!geoJsonGeom ? <></> :
                     <div>
                         <TextArea
@@ -75,20 +78,23 @@ const VideoComponent: React.FC<VideoComponentProps> = ({onDrawEnd, onDrawStart, 
                     changeTitle={changeTitle}
                 />
             </div>
-            <div className='permalink'>
-                <Input
-                    readOnly
-                    value={url}
-                />
-                <Tooltip
-                    title='Copy GeoJSON'
-                >
-                    <Button
-                        icon={<CopyOutlined />}
-                        onClick={() => onCopyClickUrl(url)}
-                        type='text'
+            <div className='permalink-component'>
+                <h3>URL:</h3>
+                <div className="permalink">
+                    <Input
+                        readOnly
+                        value={url}
                     />
-                </Tooltip>
+                    <Tooltip
+                        title='Copy GeoJSON'
+                    >
+                        <Button
+                            icon={<CopyOutlined />}
+                            onClick={() => onCopyClickUrl(url)}
+                            type='text'
+                        />
+                    </Tooltip>
+                </div>
             </div>
         </div >
     );

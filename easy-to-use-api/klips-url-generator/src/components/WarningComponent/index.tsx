@@ -1,6 +1,5 @@
 import TextArea from "antd/lib/input/TextArea";
 import { optionsBand, style } from "../../constants";
-import GetCoordinatesString from "../DrawGeometry";
 import { CopyOutlined } from '@ant-design/icons';
 import { Button, Input, Tooltip } from "antd";
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
@@ -9,11 +8,12 @@ import OlGeometry from 'ol/geom/Geometry';
 import SelectBand from "../SelectBand";
 import SelectThreshold from "../SelectThreshold";
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
+import DrawGeometry from "../DrawGeometry";
 
 export type Threshold = {
     green: String,
     orange: String,
-    red: String 
+    red: String
 }
 
 export interface WarningProps {
@@ -28,7 +28,7 @@ export type WarningComponentProps = WarningProps;
 
 const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region, wktGeom, onDrawEnd, onDrawStart }) => {
     const [band, setBand] = useState('');
-    const [threshold, setThreshold] = useState<Threshold>({green: '0', orange: '30', red: '35' });
+    const [threshold, setThreshold] = useState<Threshold>({ green: '0', orange: '30', red: '35' });
     const [url, setURL] = useState('');
 
     useEffect(() => {
@@ -54,18 +54,21 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
     return (
         <>
             <div className='geometry'>
-                <GetCoordinatesString
-                    drawType='Point'
-                    drawStyle={style.point}
-                    onDrawEnd={onDrawEnd}
-                    onDrawStart={onDrawStart}
-                />
-                <GetCoordinatesString
-                    drawType='Polygon'
-                    drawStyle={style.polygon}
-                    onDrawEnd={onDrawEnd}
-                    onDrawStart={onDrawStart}
-                />
+                <h3>Geometrie:</h3>
+                <div className='geometry-button'>
+                    <DrawGeometry
+                        drawType='Point'
+                        drawStyle={style.point}
+                        onDrawEnd={onDrawEnd}
+                        onDrawStart={onDrawStart}
+                    />
+                    <DrawGeometry
+                        drawType='Polygon'
+                        drawStyle={style.polygon}
+                        onDrawEnd={onDrawEnd}
+                        onDrawStart={onDrawStart}
+                    />
+                </div>
                 {!geoJsonGeom ? <></> :
                     <div>
                         <TextArea
@@ -91,29 +94,35 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                     selectedBand={band}
                 />
                 <SelectThreshold
+                    warning="grüne"
                     changeThreshold={changeThreshold('green')}
                 />
                 <SelectThreshold
+                    warning="orangene"
                     changeThreshold={changeThreshold('orange')}
                 />
                 <SelectThreshold
+                    warning="rote"
                     changeThreshold={changeThreshold('red')}
                 />
             </div>
-            <div className='permalink'>
-                <Input
-                    readOnly
-                    value={url}
-                />
-                <Tooltip
-                    title='Copy GeoJSON'
-                >
-                    <Button
-                        icon={<CopyOutlined />}
-                        onClick={() => onCopyClickUrl(url)}
-                        type='text'
+            <div className='permalink-component'>
+                <h3>URL:</h3>
+                <div className="permalink">
+                    <Input
+                        readOnly
+                        value={url}
                     />
-                </Tooltip>
+                    <Tooltip
+                        title='Copy GeoJSON'
+                    >
+                        <Button
+                            icon={<CopyOutlined />}
+                            onClick={() => onCopyClickUrl(url)}
+                            type='text'
+                        />
+                    </Tooltip>
+                </div>
             </div>
         </>
     )
