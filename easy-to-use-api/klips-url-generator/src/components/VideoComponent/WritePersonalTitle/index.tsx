@@ -18,8 +18,8 @@ const WritePersonalTitle: React.FC<WritePersonalTitleProps> = ({ changeTitle }) 
 
     return (
         <div className='personal-title-selector'>
-            {personalTitle ? <></> :
-                <div>Bitte geben Sie einen Titel an.</div>
+            {personalTitle ? <h3>Titel:</h3> :
+                <div>Bitte geben Sie einen Titel an:</div>
             }
             <Input
                 placeholder="Titel"

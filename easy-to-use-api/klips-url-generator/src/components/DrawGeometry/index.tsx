@@ -16,7 +16,7 @@ import { ButtonGroupProps } from 'antd/lib/button';
 import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
 
 type DrawType = 'Point' | 'Polygon';
-interface GetCoordinatesStringProps extends ButtonGroupProps {
+interface DrawGeometryProps extends ButtonGroupProps {
     /**
      * Whether a point or polygon should
      * be drawn.
@@ -54,7 +54,7 @@ interface GetCoordinatesStringProps extends ButtonGroupProps {
 /**
  * The Button.
  */
-const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
+const DrawGeometry: React.FC<DrawGeometryProps> = ({
     drawInteractionConfig,
     drawStyle,
     drawType,
@@ -199,4 +199,4 @@ const GetCoordinatesString: React.FC<GetCoordinatesStringProps> = ({
         </div>);
 };
 
-export default GetCoordinatesString;
+export default DrawGeometry;
