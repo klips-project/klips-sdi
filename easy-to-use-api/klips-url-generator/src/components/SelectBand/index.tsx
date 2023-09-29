@@ -35,7 +35,6 @@ const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, sel
     })
   }, [inputBands])
 
-
   return (
     <div className='band-selector'>
       {selectedBand ? <h3>Band:</h3> :
