@@ -3,7 +3,6 @@ import { ChartAPI } from './components/Chart';
 import { ChartAPIDocs } from './components/Docs';
 import { getParams, parseURLPathnames } from './util/Url';
 import { pathNameConfig } from './constants';
-import 'dotenv/config';
 
 import './style.css';
 
@@ -14,7 +13,7 @@ import './style.css';
   try {
     const resp = await fetch('content.json');
     if (!resp.ok) {
-      throw new Error("Could not fetch table content");
+      throw new Error('Could not fetch table content');
     }
     tableContent = await resp.json();
 

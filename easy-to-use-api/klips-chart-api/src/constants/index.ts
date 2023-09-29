@@ -3,8 +3,6 @@ import {
   PathNameConfig
 } from '../types';
 
-import 'dotenv/config';
-
 // define pathname for widget, e.g. /chart/dresden/Point(xy)/20
 export const pathNameConfig: PathNameConfig = {
   path2: 'region',
@@ -13,9 +11,13 @@ export const pathNameConfig: PathNameConfig = {
   path5: 'band',
 };
 
-export const processURL = `${process.env.VITE_SERVER_URL}/processes/location-info-time-rasterstats/execution`;
+export const processURL =
+// @ts-ignore
+`${import.meta.env.VITE_SERVER_URL}/processes/location-info-time-rasterstats/execution`;
 
-export const processURLPolygon = `${process.env.VITE_SERVER_URL}/processes/zonal-statistics-time-rasterstats/execution`;
+export const processURLPolygon =
+// @ts-ignore
+  `${import.meta.env.VITE_SERVER_URL}/processes/zonal-statistics-time-rasterstats/execution`;
 
 export const boundingBox: BoundingBoxObject = {
   dresden: [
