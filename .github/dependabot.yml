@@ -4,7 +4,7 @@ updates:
     directory: "./easy-to-use-api/klips-chart-api"
     schedule:
       interval: "daily"
-      time: "04.00"
+      time: "04:00"
       timezone: "Europe/Berlin"
     open-pull-requests-limit: 10
     labels:
