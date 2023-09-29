@@ -24,12 +24,6 @@ body,
   padding: 30px;
 }
 
-.geom-textarea {
-  display: flex;
-  flex-direction: row;
-  padding: 30px;
-}
-
 .region-selector {
   display: flex;
   flex-direction: column;
@@ -66,9 +60,15 @@ body,
 
 .geometry-button {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   gap: 20px;
+}
+
+.geom-textarea {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 .band-selector {

@@ -181,7 +181,7 @@ const DrawGeometry: React.FC<DrawGeometryProps> = ({
     };
 
     return (
-        <div>
+        <>
             <Button
                 type='primary'
                 onClick={handleFeatureSelect}
@@ -191,12 +191,13 @@ const DrawGeometry: React.FC<DrawGeometryProps> = ({
             </Button>
             {!isLegal ?
                 <Alert
+                    className='geometry-alert'
                     message="Error"
                     description="Die Geometrie befindet sich außerhalb der gewählten Region."
                     type="error"
                     showIcon
                 /> : <></>}
-        </div>);
+        </>);
 };
 
 export default DrawGeometry;

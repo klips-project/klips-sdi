@@ -11,13 +11,26 @@ export interface paramProps {
 export type SelectParamsProps = paramProps;
 
 const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, selectedBand }) => {
-  // const [selected, setSelected] = useState<Boolean>(false);
 
   const bandOptions = React.useMemo(() => {
     return inputBands?.map((band) => {
+
+      // todo: improve i18n implementation
+      const getBandName = (band: string) => {
+        if (band === 'physical') {
+          return 'Physikalische Temperatur'
+        } else if (band === 'perceived') {
+          return 'Gefühlte Temperatur'
+        } else if (band === 'difference') {
+          return 'Temperatur Differenz'
+        } else if (band === 'compare') {
+          return 'Vergleich'
+        }
+      };
+
       return {
         'value': band,
-        'label': band
+        'label': getBandName(band)
       };
     })
   }, [inputBands])
