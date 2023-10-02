@@ -48,14 +48,14 @@ export type BoundingBox = [
 
 export type LegendSelect = [ {
   name?: string;
-  icon?: string
+  icon?: string;
 },
 {
   name?: string;
-  icon?: string
+  icon?: string;
 },
 {
   name?: string;
-  icon?: string
+  icon?: string;
 }
-]
+];

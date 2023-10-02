@@ -18,12 +18,12 @@ module.exports = {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     // https://github.com/typescript-eslint/typescript-eslint/issues/1824
-    'indent': 'off',
+    indent: 'off',
     '@typescript-eslint/indent': [
       'error',
       2,
       {
-        'ignoredNodes': [
+        ignoredNodes: [
           'FunctionExpression > .params[decorators.length > 0]',
           'FunctionExpression > .params > :matches(Decorator, :not(:first-child))',
           'ClassBody.body > PropertyDefinition[decorators.length > 0] > .key'

@@ -4,7 +4,7 @@ export const validateParams = (params: Params) => {
   if (
     params.hasOwnProperty('region') &&
     params.hasOwnProperty('geom') &&
-    params.hasOwnProperty('band') 
+    params.hasOwnProperty('band')
     // params.hasOwnProperty('threshold')
   ) {
     return true;

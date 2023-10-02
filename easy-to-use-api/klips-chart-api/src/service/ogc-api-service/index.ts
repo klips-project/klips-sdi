@@ -71,13 +71,14 @@ export const generateErrorMessages = (
 
   // validate params
   const errorElementURL: HTMLElement | null = document.querySelector('#error-URL');
-  const linkDocs: String = './docs'
-  const linkDocsHTML: String = `<div><a href = ${linkDocs}>Informationen zu den Eingabeparametern</a></div>`
+  const linkDocs: String = './docs';
+  const linkDocsHTML: String = `<div><a href = ${linkDocs}>Informationen zu den Eingabeparametern</a></div>`;
 
   if (!validateParams(params)) {
     if (errorElementURL) {
       errorElementURL.style.display = 'block';
-      errorElementURL.innerHTML = `<div><span>Ungültige URL. Bitte prüfen Sie die eingegebenen Parameter.</span></div>${linkDocsHTML}`;
+      errorElementURL.innerHTML = '<div><span>Ungültige URL. '
+      + `Bitte prüfen Sie die eingegebenen Parameter.</span></div>${linkDocsHTML}`;
     }
     throw new Error('Invalid param names in URL.');
   }
@@ -85,7 +86,8 @@ export const generateErrorMessages = (
   if (!validateParamsRegion(params)) {
     if (errorElementURL) {
       errorElementURL.style.display = 'block';
-      errorElementURL.innerHTML = `<div><span>Ungültige URL. Bitte prüfen Sie die eingegebenen Parameter für "region".</span></div>${linkDocsHTML}`;
+      errorElementURL.innerHTML = '<div><span>Ungültige URL. Bitte prüfen Sie die eingegebenen '
+      + `Parameter für "region".</span></div>${linkDocsHTML}`;
     }
     throw new Error('Invalid region.');
   }
@@ -93,9 +95,11 @@ export const generateErrorMessages = (
   if (!pointInRect(boundingBox[params.region!], params.wktGeometry)) {
     if (errorElementURL) {
       errorElementURL.style.display = 'block';
-      errorElementURL.innerHTML = `<div><span>Ungültige Koordinateneingabe. Die eingegebenen Koordinaten liegen nicht in der ausgewählten Region. Bitte prüfen Sie die eingegebenen Parameter für "geom".</span></div>${linkDocsHTML}`;
+      errorElementURL.innerHTML = '<div><span>Ungültige Koordinateneingabe. Die eingegebenen '
+      + 'Koordinaten liegen nicht in der ausgewählten Region. Bitte prüfen Sie die eingegebenen '
+      + `Parameter für "geom".</span></div>${linkDocsHTML}`;
     }
     throw new Error(`Point coordinates outside of boundary box: ${boundingBox[params.region!].toString()}`);
   }
 
-}
+};
