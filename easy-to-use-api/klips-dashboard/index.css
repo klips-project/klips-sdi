@@ -1,0 +1,107 @@
+:root {
+    --dimension: 380px;
+    --orange: rgba(255, 180, 15, 0.6);
+    --blue: rgba(0, 37, 101, 0.6);
+    --animation-duration: 0.3s;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    line-height: 1.8em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background: var(--orange);
+    background: linear-gradient(180deg, var(--orange) 0%, var(--blue) 100%);
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #000
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    gap: 1em;
+    padding: 0;
+    margin: 0;
+    flex-flow: row wrap;
+
+}
+
+li {
+    border: 1px solid rgba(0, 11, 43, 0.7);
+    border-radius: 1.5em 1.5em 1.5em 0;
+    display: block;
+    width: var(--dimension);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+    background-color: rgb(220, 220, 220);
+    box-shadow: 2px 2px 5px rgba(0, 11, 43, 0.5);
+    transition: box-shadow var(--animation-duration) ease-out;
+}
+
+li:hover {
+    background-color: rgb(220, 220, 220);
+    background-blend-mode: multiply;
+    box-shadow: 4px 8px 10px rgba(0, 11, 43, 0.8);
+}
+
+.title,
+.authors,
+.date,
+.time,
+.location {
+    display: block;
+    justify-self: flex-end;
+}
+
+a.title {
+    text-align: left;
+    transition: backdrop-filter var(--animation-duration);
+    justify-self: flex-start;
+    backdrop-filter: blur(3px);
+    margin: 0;
+    letter-spacing: 0.15rem;
+}
+
+
+a.title,
+a.title:link,
+a.title:visited,
+a.title:hover,
+a.title:active {
+    color: black;
+    font-weight: bolder;
+    padding: 1em;
+    border-radius: 1.5em 1.5em 0 0;
+}
+
+li:hover .title {
+    backdrop-filter: none;
+}
+
+.authors,
+.date,
+.time,
+.location,
+.slides {
+    text-align: right;
+    margin: 1px 1em;
+}
+
+.slides {
+  font-weight: bolder;
+}
+
+li img {
+    height: 1.4em;
+    margin-left: 0.5em;
+}
