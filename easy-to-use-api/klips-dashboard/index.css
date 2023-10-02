@@ -10,6 +10,9 @@ body {
     line-height: 1.8em;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-image: url('./img/background.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 a,
@@ -31,7 +34,7 @@ ul {
 }
 
 li {
-    border: 1px solid rgba(0, 11, 43, 0.7);
+    border: 8px solid rgba(0, 0, 0);
     border-radius: 1.5em 1.5em 1.5em 0;
     display: block;
     width: var(--dimension);
@@ -39,13 +42,13 @@ li {
     flex-direction: column;
     justify-content: flex-end;
     padding: 0;
-    background-color: rgb(220, 220, 220);
+    background-color: linen;
     box-shadow: 2px 2px 5px rgba(0, 11, 43, 0.5);
     transition: box-shadow var(--animation-duration) ease-out;
 }
 
 li:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: linen;
     background-blend-mode: multiply;
     box-shadow: 4px 8px 10px rgba(0, 11, 43, 0.8);
 }
@@ -98,7 +101,7 @@ li:hover .title {
 }
 
 .slides {
-  font-weight: bolder;
+    font-weight: bolder;
 }
 
 li img {
