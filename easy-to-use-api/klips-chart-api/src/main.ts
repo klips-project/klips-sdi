@@ -26,7 +26,8 @@ import './style.css';
     // parse params
     let params;
     if (document.location.pathname.includes('docs')) {
-      const chartAPIDocs = new ChartAPIDocs(tableContent.params, tableContent.title, tableContent.text, tableContent.example);
+      const chartAPIDocs = new ChartAPIDocs(tableContent.params,
+        tableContent.title, tableContent.text, tableContent.example);
       chartAPIDocs.render();
       return;
     }
