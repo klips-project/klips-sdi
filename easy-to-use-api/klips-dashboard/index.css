@@ -1,8 +1,5 @@
 :root {
     --dimension: 380px;
-    --orange: rgba(231, 95, 37, 0.6);
-    --blue: rgba(255, 255, 102, 0.6);
-    --animation-duration: 0.3s;
 }
 
 html {
@@ -12,8 +9,7 @@ html {
 body {
     line-height: 1.8em;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background: var(--orange);
-    background: linear-gradient(180deg, var(--orange) 0%, var(--blue) 100%);
+    background-image: url('./img/background.png');
 }
 
 a,
