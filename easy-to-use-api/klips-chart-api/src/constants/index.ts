@@ -12,12 +12,10 @@ export const pathNameConfig: PathNameConfig = {
 };
 
 export const processURL =
-// @ts-ignore
-`${import.meta.env.VITE_SERVER_URL}/processes/location-info-time-rasterstats/execution`;
+  `${process.env.VITE_SERVER_URL}/processes/location-info-time-rasterstats/execution`;
 
 export const processURLPolygon =
-// @ts-ignore
-  `${import.meta.env.VITE_SERVER_URL}/processes/zonal-statistics-time-rasterstats/execution`;
+  `${process.env.VITE_SERVER_URL}/processes/zonal-statistics-time-rasterstats/execution`;
 
 export const boundingBox: BoundingBoxObject = {
   dresden: [
