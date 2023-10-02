@@ -23,7 +23,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({ inputWidget, changeWidget, 
   return (
     <div className='widget-selector'>
       {selectedWidget ? <h3>Widget:</h3> :
-        <div>Bitte wählen Sie aus für welches Widget eine URL generiert werden soll:</div>
+        <div className='no-input'>Bitte wählen Sie aus für welches Widget eine URL generiert werden soll:</div>
       }
       <Select
         showSearch

@@ -30,6 +30,10 @@ body,
   padding: 30px;
 }
 
+.no-input {
+  color: rgba(232,98,49,255);
+}
+
 .search-bar {
   display: flex;
   position: relative;
