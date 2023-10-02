@@ -1,7 +1,7 @@
 :root {
     --dimension: 380px;
-    --orange: rgba(255, 180, 15, 0.6);
-    --blue: rgba(0, 37, 101, 0.6);
+    --orange: rgba(231, 95, 37, 0.6);
+    --blue: rgba(255, 255, 102, 0.6);
     --animation-duration: 0.3s;
 }
 
@@ -72,7 +72,6 @@ a.title {
     letter-spacing: 0.15rem;
 }
 
-
 a.title,
 a.title:link,
 a.title:visited,
@@ -82,6 +81,11 @@ a.title:active {
     font-weight: bolder;
     padding: 1em;
     border-radius: 1.5em 1.5em 0 0;
+}
+
+a.description {
+    text-align: justify;
+    padding: 20px;
 }
 
 li:hover .title {
