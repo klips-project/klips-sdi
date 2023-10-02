@@ -13,7 +13,7 @@ import './style.css';
   try {
     const resp = await fetch('content.json');
     if (!resp.ok) {
-      throw new Error("Could not fetch table content");
+      throw new Error('Could not fetch table content');
     }
     tableContent = await resp.json();
 
@@ -26,7 +26,8 @@ import './style.css';
     // parse params
     let params;
     if (document.location.pathname.includes('docs')) {
-      const chartAPIDocs = new ChartAPIDocs(tableContent.params, tableContent.title, tableContent.text, tableContent.example);
+      const chartAPIDocs = new ChartAPIDocs(tableContent.params,
+        tableContent.title, tableContent.text, tableContent.example);
       chartAPIDocs.render();
       return;
     }
@@ -49,7 +50,7 @@ import './style.css';
     }
 
     const chartApi = await ChartAPI.getChartData(params);
-    
+
     if (chartApi) {
       chartApi.render();
     }

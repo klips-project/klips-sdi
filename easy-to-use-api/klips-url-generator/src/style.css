@@ -1,0 +1,101 @@
+html,
+body,
+#root,
+.App,
+
+#map {
+  display: flex;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.output-wrapper {
+  width: 25%;
+  margin: 1%;
+  overflow-y: scroll;
+}
+
+.logo {
+  width: 100%;
+}
+
+.header {
+  padding: 30px;
+}
+
+.region-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.search-bar {
+  display: flex;
+  position: relative;
+  padding: 30px;
+  flex-direction: column;
+}
+
+.search-result-property {
+  margin: 0;
+}
+
+.search-result-name {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.widget-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.geometry {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.geometry-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.geom-textarea {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.band-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.threshold-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.permalink-component {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.permalink {
+  display: flex;
+  flex-direction: row;
+}
+
+.personal-title-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}

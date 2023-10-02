@@ -21,10 +21,8 @@ jobs:
           pip install flake8 pytest black rio-cogeo rasterstats
       - name: Ensures job is exited on error
         run: set -e
-      - name: Provide a .env file for running the docker-compose setup
-        run: cp .env.example .env
-      - name: Run NGINX from docker-compose setup to create a dummy webspace for the test
-        run: docker-compose -f docker-compose.yml up -d nginx
+      - name: Run nginx-test container to create a dummy webspace for the test
+        run: docker run -d --name nginx-test -v $(pwd)/pygeoapi/dev_scripts/default.conf:/etc/nginx/conf.d/default.conf -v $(pwd)/mocked-webspace/:/usr/share/nginx/html -p 81:80 nginx
       - name: Wait until dummy webspace is available
         run: wait-for-it "localhost:81"
       - name: Checkout repository

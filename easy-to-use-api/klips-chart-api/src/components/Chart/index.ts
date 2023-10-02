@@ -88,8 +88,10 @@ export class ChartAPI {
     this.chart = echarts.init(chartDom as HTMLElement);
 
     // select band to display
-    // changes order of imported array 'legendSelect' implicitly. A default order for legendSelect is declared in '../../util/Chart'. The variable is then used to set legend options for setupBaseChart ('../../util/Chart').
-    let lineTypeCompare: string = "solid";
+    // changes order of imported array 'legendSelect' implicitly. A default order for legendSelect
+    // is declared in '../../util/Chart'. The variable is then used to set legend options for
+    // setupBaseChart ('../../util/Chart').
+    let lineTypeCompare: string = 'solid';
     if (params.band?.includes('perceived')) {
       [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[0], legendSelect[1], legendSelect[2]];
     } else if (params.band?.includes('physical')) {
@@ -98,7 +100,7 @@ export class ChartAPI {
       [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[2], legendSelect[0], legendSelect[1]];
     } else if (params.band?.includes('compare')) {
       [legendSelect[0], legendSelect[1], legendSelect[2]] = [legendSelect[0], legendSelect[0], legendSelect[2]];
-      lineTypeCompare = "dotted"
+      lineTypeCompare = 'dotted';
     };
 
     // create top xAxis to display timestamps
@@ -220,10 +222,10 @@ export class ChartAPI {
             color: '#a81a04'
           },
           data: [
-              {
-                yAxis: parseFloat(this.params.threshold),
-              }
-            ],
+            {
+              yAxis: parseFloat(this.params.threshold),
+            }
+          ],
         },
       };
       this.seriesData.push(thresholdSeries);
@@ -283,7 +285,7 @@ export class ChartAPI {
     params.geoJSONGeometry = geoJSONGeometry;
 
     // validate params
-    await generateErrorMessages(params)
+    await generateErrorMessages(params);
 
     // get data
     let data: TimeSeriesData;
