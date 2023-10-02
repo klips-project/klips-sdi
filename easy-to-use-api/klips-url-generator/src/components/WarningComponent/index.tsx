@@ -89,7 +89,7 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
             </div>
             <div className='attributes'>
                 <SelectBand
-                    inputBands={optionsBand}
+                    inputBands={optionsBand.slice(0, -1)}
                     changeBand={changeBand}
                     selectedBand={band}
                 />

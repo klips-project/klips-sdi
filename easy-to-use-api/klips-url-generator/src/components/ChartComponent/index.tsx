@@ -1,7 +1,7 @@
 import TextArea from "antd/lib/input/TextArea";
 import { optionsBand, style } from "../../constants";
 import { CopyOutlined } from '@ant-design/icons';
-import { Button, Input, Tooltip } from "antd";
+import { Button, Tooltip } from "antd";
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import { useEffect, useState } from "react";
 import OlGeometry from 'ol/geom/Geometry';
@@ -90,7 +90,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
             <div className='permalink-component'>
                 <h3>URL:</h3>
                 <div className="permalink">
-                    <Input
+                    <TextArea
                         readOnly
                         value={url}
                     />

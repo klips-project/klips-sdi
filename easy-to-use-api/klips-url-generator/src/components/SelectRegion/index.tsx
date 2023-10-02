@@ -104,7 +104,7 @@ const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegio
     return (
         <div className='region-selector'>
             {regionName ? <h3>Region:</h3> :
-                <div>Bitte wählen Sie eine Region aus:</div>
+                <div className='no-input'>Bitte wählen Sie eine Region aus:</div>
             }
             <Select
                 className={'button'}
