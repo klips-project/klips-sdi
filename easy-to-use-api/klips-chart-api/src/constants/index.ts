@@ -11,11 +11,11 @@ export const pathNameConfig: PathNameConfig = {
   path5: 'band',
 };
 
-export const processURL =
-  `${process.env.VITE_SERVER_URL}/processes/location-info-time-rasterstats/execution`;
+// adapt process url for development if needed
+const host = import.meta.env.MODE === 'development' ? 'http://localhost:81' : 'https://klips-dev.terrestris.de';
+export const processURL = `${host}/processes/location-info-time-rasterstats/execution`;
 
-export const processURLPolygon =
-  `${process.env.VITE_SERVER_URL}/processes/zonal-statistics-time-rasterstats/execution`;
+export const processURLPolygon = `${host}/processes/zonal-statistics-time-rasterstats/execution`;
 
 export const boundingBox: BoundingBoxObject = {
   dresden: [
