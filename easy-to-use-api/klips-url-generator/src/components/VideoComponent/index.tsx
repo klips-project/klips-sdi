@@ -86,7 +86,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         value={url}
                     />
                     <Tooltip
-                        title='Copy GeoJSON'
+                        title='Copy URL'
                     >
                         <Button
                             icon={<CopyOutlined />}

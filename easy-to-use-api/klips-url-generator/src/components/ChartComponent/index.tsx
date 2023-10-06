@@ -95,7 +95,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                         value={url}
                     />
                     <Tooltip
-                        title='Copy GeoJSON'
+                        title='Copy URL'
                     >
                         <Button
                             icon={<CopyOutlined />}
