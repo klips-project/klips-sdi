@@ -114,7 +114,7 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                         value={url}
                     />
                     <Tooltip
-                        title='Copy GeoJSON'
+                        title='Copy URL'
                     >
                         <Button
                             icon={<CopyOutlined />}
