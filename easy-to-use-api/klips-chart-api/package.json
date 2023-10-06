@@ -35,7 +35,7 @@
     "vite": "^4.4.10"
   },
   "dependencies": {
-    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-replace": "^5.0.3",
     "dayjs": "^1.11.10",
     "echarts": "^5.4.2",
     "jest-environment-jsdom": "^29.5.0",
