@@ -89,9 +89,9 @@ const geoJSONGeometry = geoJSONWriter.write(wktGeometry);
 // get data
 let dataSeries: any;
 if (params.geom?.includes('POLYGON')) {
-    dataSeries = await fetchTemperaturePolygon(params, geoJSONGeometry).then(response => { return response });
+   // dataSeries = await fetchTemperaturePolygon(params, geoJSONGeometry).then(response => { return response });
 } else {
-    dataSeries = await fetchTemperaturePoint(params, wktGeometry.getCoordinates()[0]).then(response => { return response });
+   // dataSeries = await fetchTemperaturePoint(params, wktGeometry.getCoordinates()[0]).then(response => { return response });
 };
 
 const temperature = dataSeries.values;

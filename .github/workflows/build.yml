@@ -103,6 +103,15 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/klips-timelapse-video-api:latest
             ghcr.io/${{ github.repository_owner }}/klips-timelapse-video-api:${{ steps.timestamp.outputs.timestamp }}
+      
+      - name: Build and push klips-warning-api
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./easy-to-use-api/klips-warning-api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/klips-warning-api:latest
+            ghcr.io/${{ github.repository_owner }}/klips-warning-api:${{ steps.timestamp.outputs.timestamp }}
 
       - name: Build and push klips-url-generator 
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
