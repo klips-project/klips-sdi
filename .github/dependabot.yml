@@ -9,3 +9,66 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./easy-to-use-api/klips-timelapse-video-api"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./easy-to-use-api/klips-url-generator"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./klips-api"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./klips-api/api-monitor"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./worker/error-handler"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./worker/rollback-handler"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
+  - package-ecosystem: "npm"
+    directory: "./geoserver-init"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
+    labels:
+      - npm dependencies
