@@ -22,7 +22,14 @@
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "node",
+      "webpack-env"
+    ],
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
   },
   "extends": "expo/tsconfig.base"
 }
