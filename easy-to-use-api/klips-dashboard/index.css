@@ -1,5 +1,6 @@
 :root {
-    --dimension: 380px;
+    --dimension: 90%;
+    margin: auto;
 }
 
 html {
@@ -9,10 +10,11 @@ html {
 body {
     line-height: 1.8em;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-image: url('./img/background.png');
+    /* background-image: url('./img/background2.jpg'); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 a,
@@ -33,78 +35,6 @@ ul {
 
 }
 
-li {
-    border: 8px solid rgba(0, 0, 0);
-    border-radius: 1.5em 1.5em 1.5em 0;
-    display: block;
-    width: var(--dimension);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0;
-    background-color: linen;
-    box-shadow: 2px 2px 5px rgba(0, 11, 43, 0.5);
-    transition: box-shadow var(--animation-duration) ease-out;
-}
-
-li:hover {
-    background-color: linen;
-    background-blend-mode: multiply;
-    box-shadow: 4px 8px 10px rgba(0, 11, 43, 0.8);
-}
-
-.title,
-.authors,
-.date,
-.time,
-.location {
-    display: block;
-    justify-self: flex-end;
-}
-
-a.title {
-    text-align: left;
-    transition: backdrop-filter var(--animation-duration);
-    justify-self: flex-start;
-    backdrop-filter: blur(3px);
-    margin: 0;
-    letter-spacing: 0.15rem;
-}
-
-a.title,
-a.title:link,
-a.title:visited,
-a.title:hover,
-a.title:active {
-    color: black;
-    font-weight: bolder;
-    padding: 1em;
-    border-radius: 1.5em 1.5em 0 0;
-}
-
-a.description {
-    text-align: justify;
-    padding: 20px;
-}
-
-li:hover .title {
-    backdrop-filter: none;
-}
-
-.authors,
-.date,
-.time,
-.location,
-.slides {
-    text-align: right;
-    margin: 1px 1em;
-}
-
-.slides {
-    font-weight: bolder;
-}
-
-li img {
-    height: 1.4em;
-    margin-left: 0.5em;
+pre {
+    line-height: 15px;
 }
