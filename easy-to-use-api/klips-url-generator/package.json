@@ -13,7 +13,7 @@
     "@terrestris/react-geo": "^23.1.2",
     "@types/geojson": "^7946.0.11",
     "antd": "^4.24.14",
-    "ol": "^7.1.0",
+    "ol": "^7.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1"
