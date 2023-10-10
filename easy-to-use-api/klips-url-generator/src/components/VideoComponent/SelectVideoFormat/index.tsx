@@ -28,7 +28,7 @@ const SelectVideoFormat: React.FC<SelectVideoProps> = ({ inputVideoFormats, chan
             }
             <Select
                 showSearch
-                placeholder="Aktives Band"
+                placeholder="Video Format"
                 options={videoFormatOptions}
                 onChange={changeVideoFormat}
             />
