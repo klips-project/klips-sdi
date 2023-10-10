@@ -9,7 +9,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "amqplib": "^0.8.0",
+    "amqplib": "^0.10.3",
     "geoserver-node-client": "^1.1.0",
     "pino": "^8.8.0",
     "pino-pretty": "^9.1.1",
