@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "amqplib": "^0.10.3",
-    "pino": "^8.8.0",
+    "pino": "^8.16.0",
     "pino-pretty": "^10.2.3"
   },
   "devDependencies": {
