@@ -136,6 +136,12 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                         title='Mailto'>
                         <MailOutlined onClick={onMailClick} />
                     </Tooltip>
+                    <TextArea
+                        readOnly
+                        value={`<iframe id="inlineFrameExample" title="Warnung" width="90%" height="700px"
+                        src="${url}">
+                    </iframe>`}
+                    />
                 </div>
             </div>
         </>

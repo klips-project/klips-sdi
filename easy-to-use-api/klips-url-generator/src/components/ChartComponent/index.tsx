@@ -117,6 +117,12 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                         title='Mailto'>
                         <MailOutlined onClick={onMailClick} />
                     </Tooltip>
+                    <TextArea
+                        readOnly
+                        value={`<iframe id="inlineFrameExample" title="Temperaturverlauf" width="90%" height="700px"
+                        src="${url}">
+                    </iframe>`}
+                    />
                 </div>
             </div>
         </>

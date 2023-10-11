@@ -108,6 +108,12 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         title='Mailto'>
                         <MailOutlined onClick={onMailClick} />
                     </Tooltip>
+                    <TextArea
+                        readOnly
+                        value={`<iframe id="inlineFrameExample" title="Zeitraffer-Video" width="90%" height="700px"
+                        src="${url}">
+                    </iframe>`}
+                    />
                 </div>
             </div>
         </div >
