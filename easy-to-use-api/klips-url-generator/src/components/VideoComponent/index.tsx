@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { optionsVideoFormat, style } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
 import { Button, Input, Tooltip } from "antd";
-import { CopyOutlined } from '@ant-design/icons'
+import { CopyOutlined, MailOutlined } from '@ant-design/icons'
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import OlGeometry from 'ol/geom/Geometry';
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
@@ -37,6 +37,16 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
     const changeTitle = (newTitle: string) => {
         setPersonalTitle(newTitle);
     };
+
+    const onMailClick = () => {
+        const mailSubject = 'TODO: Change name';
+        const mailBody = `Hey,\r\ncheck out the new widget:\r\n\r\n${url}`;
+
+        const mailToUrl = new URL('mailto:');
+        mailToUrl.searchParams.set('subject', mailSubject);
+        mailToUrl.searchParams.set('body', mailBody);
+        window.open(mailToUrl.toString().replace(/\+/g, '%20'), '_self');
+    }
 
     return (
         <div className='video-component'>
@@ -93,6 +103,10 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                             onClick={() => onCopyClickUrl(url)}
                             type='text'
                         />
+                    </Tooltip>
+                    <Tooltip
+                        title='Mailto'>
+                        <MailOutlined onClick={onMailClick} />
                     </Tooltip>
                 </div>
             </div>

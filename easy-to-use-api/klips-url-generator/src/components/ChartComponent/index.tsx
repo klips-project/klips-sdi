@@ -1,6 +1,6 @@
 import TextArea from "antd/lib/input/TextArea";
 import { optionsBand, style } from "../../constants";
-import { CopyOutlined } from '@ant-design/icons';
+import { CopyOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Tooltip } from "antd";
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import { useEffect, useState } from "react";
@@ -39,6 +39,16 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
     const changeThreshold = (newThreshold: any) => {
         setThreshold(newThreshold);
     };
+
+    const onMailClick = () => {
+        const mailSubject = 'TODO: Change name';
+        const mailBody = `Hey,\r\ncheck out the new widget:\r\n\r\n${url}`;
+
+        const mailToUrl = new URL('mailto:');
+        mailToUrl.searchParams.set('subject', mailSubject);
+        mailToUrl.searchParams.set('body', mailBody);
+        window.open(mailToUrl.toString().replace(/\+/g, '%20'), '_self');
+    }
 
     return (
         <>
@@ -102,6 +112,10 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                             onClick={() => onCopyClickUrl(url)}
                             type='text'
                         />
+                    </Tooltip>
+                    <Tooltip
+                        title='Mailto'>
+                        <MailOutlined onClick={onMailClick} />
                     </Tooltip>
                 </div>
             </div>
