@@ -12,10 +12,22 @@ export type SelectWidgetProps = widgetProps;
 const SelectWidget: React.FC<SelectWidgetProps> = ({ inputWidget, changeWidget, selectedWidget }) => {
 
   const widgetOptions = React.useMemo(() => {
+
+    // todo: improve i18n implementation
+    const getWidgetName = (widget: string) => {
+      if (widget === 'chart') {
+        return 'Temperaturverlauf'
+      } else if (widget === 'video') {
+        return 'Zeitraffer-Video'
+      } else if (widget === 'warning') {
+        return 'Warnung'
+      } 
+    };
+
     return inputWidget?.map((widget: string) => {
       return {
         'value': widget,
-        'label': widget
+        'label': getWidgetName(widget)
       };
     })
   }, [inputWidget])
@@ -26,7 +38,6 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({ inputWidget, changeWidget, 
         <div className='no-input'>Bitte wählen Sie aus für welches Widget eine URL generiert werden soll:</div>
       }
       <Select
-        showSearch
         placeholder="Widget"
         options={widgetOptions}
         onChange={changeWidget}
