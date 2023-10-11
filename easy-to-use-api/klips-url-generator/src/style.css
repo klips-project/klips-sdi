@@ -24,6 +24,11 @@ body,
   padding: 30px;
 }
 
+.information-text {
+  padding: 30px;
+  text-align: justify;
+}
+
 .region-selector {
   display: flex;
   flex-direction: column;
