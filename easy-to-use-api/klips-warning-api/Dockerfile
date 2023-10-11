@@ -11,4 +11,5 @@ FROM nginx:alpine-slim
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 COPY --from=0 /usr/build/dist /usr/share/nginx/html/
 COPY --from=0 /usr/build/dist /etc/nginx/html/
+RUN sed -i 's;/bundle;/easy-to-use-api/warning/bundle;g' /usr/share/nginx/html/index.html
 EXPOSE 80
