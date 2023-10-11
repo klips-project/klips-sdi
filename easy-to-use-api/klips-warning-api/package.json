@@ -2,10 +2,10 @@
   "name": "klips-warning-api",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
-  "homepage": ".",
+  "homepage": "/easy-to-use-api/warning/",
   "scripts": {
     "start": "expo start",
-    "build": "expo export --platform web ",
+    "build": "expo export --platform web",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@babel/plugin-transform-async-to-generator": "^7.22.5",
+    "@bacons/expo-metro-runtime": "^2.0.1",
     "@expo/cli": "^0.10.13",
     "@expo/config": "^8.1.2",
     "@expo/metro-config": "^0.10.7",

@@ -24,11 +24,10 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
-      "node",
-      "webpack-env"
+      "node"
     ],
     "typeRoots": [
-      "../node_modules/@types"
+      "./node_modules/@types"
     ]
   },
   "extends": "expo/tsconfig.base"
