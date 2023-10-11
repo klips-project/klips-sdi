@@ -33,7 +33,7 @@ import { ConfigProvider } from 'antd';
 
 const App: React.FC = () => {
 
-  const [region, setRegion] = useState<string>('');
+  const [region, setRegion] = useState<string>('Dresden');
   const [geom, setGeom] = useState<OlGeometry | null>(null);
   const [map, setMap] = useState<OlMap>();
   const [widget, setWidget] = useState<string>('');
