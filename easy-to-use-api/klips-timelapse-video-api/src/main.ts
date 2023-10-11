@@ -4,10 +4,9 @@ import { validateParams } from './util/Config';
 
 import './style.css';
 
-const url = window.location.href.indexOf('localhost') > -1 ?
-  'http://localhost:5000/processes/timelapse-video/execution' :
-  `${process.env.VITE_SERVER_URL}/processes/timelapse-video/execution`;
-
+// @ts-ignore
+const host = import.meta.env.MODE === 'development' ? 'http://localhost:5173' : 'https://klips-dev.terrestris.de';
+export const url = `${host}/processes/timelapse-video/execution`;
 /*
  * Example request: http://localhost:5173/?region=dresden&area-of-interest={%22coordinates%22:%20[[[13.72242,%2051.04242],[13.72242,%2051.06019],[13.74525,%2051.06019],[13.74525,%2051.04242],[13.72242,%2051.04242]]],%22type%22:%20%22Polygon%22}&output=mp4&title=Test
  */
