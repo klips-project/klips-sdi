@@ -56,7 +56,6 @@ const App: React.FC = () => {
             });
     };
 
-
     let band: keyof ResultObject = 'band_1'
     if (params.band === 'perceived') {
         band = 'band_2'
