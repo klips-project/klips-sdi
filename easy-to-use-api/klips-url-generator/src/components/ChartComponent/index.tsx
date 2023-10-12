@@ -1,7 +1,7 @@
 import TextArea from "antd/lib/input/TextArea";
 import { optionsBand, style } from "../../constants";
 import { CopyOutlined, MailOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Tooltip } from "antd";
+import { Button, Input, Tooltip } from "antd";
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import { useEffect, useState } from "react";
 import OlGeometry from 'ol/geom/Geometry';
@@ -24,7 +24,7 @@ export type ChartComponentProps = ChartProps;
 const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wktGeom, onDrawEnd, onDrawStart }) => {
     const [band, setBand] = useState('physical');
     const [threshold, setThreshold] = useState();
-    const [url, setURL] = useState(''); 
+    const [url, setURL] = useState('');
 
     useEffect(() => {
         if (region && wktGeom && threshold && band) {
@@ -111,32 +111,28 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
             <div className='permalink-component'>
                 <h3>URL:</h3>
                 <div className="permalink">
-                    <TextArea
+                    <Input
                         readOnly
                         value={url}
                     />
-                    <Tooltip
-                        title='URL in Zwischenablage Kopieren'
-                    >
-                        <Button
-                            icon={<CopyOutlined />}
-                            onClick={() => onCopyClickUrl(url)}
-                            type='text'
-                        />
-                    </Tooltip>
-                    <Tooltip
-                        title='URL als E-Mail versenden'>
-                        <MailOutlined onClick={onMailClick} />
-                    </Tooltip>
-                    <Tooltip
-                        title='URL in einem neuen Tab öffnen'>
-                        <PlusCircleOutlined onClick={onTabClick} />
-                    </Tooltip>
+                    <div className="url-icons">
+                        <Tooltip
+                            title='URL in Zwischenablage Kopieren'>
+                            <CopyOutlined onClick={() => onCopyClickUrl(url)} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL als E-Mail versenden'>
+                            <MailOutlined onClick={onMailClick} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL in einem neuen Tab öffnen'>
+                            <PlusCircleOutlined onClick={onTabClick} />
+                        </Tooltip>
+                    </div>
                     <TextArea
+                        rows={4}
                         readOnly
-                        value={`<iframe id="inlineFrameExample" title="Temperaturverlauf" width="90%" height="700px"
-                        src="${url}">
-                    </iframe>`}
+                        value={url ? `<iframe id="inlineFrameExample" title="Temperaturverlauf" width="90%" height="700px" src="${url}"></iframe>`: ''}
                     />
                 </div>
             </div>

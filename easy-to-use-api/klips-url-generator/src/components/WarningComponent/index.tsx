@@ -115,12 +115,15 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                     selectedBand={band}
                 />
                 <h3>Grenzwert:</h3>
+                <h4>Grüne Warnung:</h4>
                 <SelectThreshold
                     changeThreshold={changeThreshold('green')}
                 />
+                <h4>Orangene Warnung:</h4>
                 <SelectThreshold
                     changeThreshold={changeThreshold('orange')}
                 />
+                <h4>Rote Warnung:</h4>
                 <SelectThreshold
                     changeThreshold={changeThreshold('red')}
                 />
@@ -132,23 +135,20 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                         readOnly
                         value={url}
                     />
-                    <Tooltip
-                        title='URL in Zwischenablage Kopieren'
-                    >
-                        <Button
-                            icon={<CopyOutlined />}
-                            onClick={() => onCopyClickUrl(url)}
-                            type='text'
-                        />
-                    </Tooltip>
-                    <Tooltip
-                        title='URL als E-Mail versenden'>
-                        <MailOutlined onClick={onMailClick} />
-                    </Tooltip>
-                    <Tooltip
-                        title='URL in einem neuen Tab öffnen'>
-                        <PlusCircleOutlined onClick={onTabClick} />
-                    </Tooltip>
+                    <div className="url-icons">
+                        <Tooltip
+                            title='URL in Zwischenablage Kopieren'>
+                            <CopyOutlined onClick={() => onCopyClickUrl(url)} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL als E-Mail versenden'>
+                            <MailOutlined onClick={onMailClick} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL in einem neuen Tab öffnen'>
+                            <PlusCircleOutlined onClick={onTabClick} />
+                        </Tooltip>
+                    </div>
                     <TextArea
                         readOnly
                         value={`<iframe id="inlineFrameExample" title="Warnung" width="90%" height="700px"

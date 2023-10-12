@@ -28,6 +28,10 @@ h3 {
   padding-top: 15px;
 }
 
+h4 {
+  margin-bottom: 0px;
+}
+
 .information-text {
   padding-left: 15px;
   padding-right: 15px;
@@ -48,7 +52,7 @@ h3 {
 }
 
 .no-input {
-  color: rgba(232,98,49,255);
+  color: rgba(232, 98, 49, 255);
 }
 
 .search-bar {
@@ -108,15 +112,31 @@ h3 {
   padding: 15px;
 }
 
+.permalink {
+  display: flex;
+  flex-direction: column;
+}
+
+.url-icons {
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+  justify-content: space-around;
+}
+
+.url-icons .anticon svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
 .attributes {
   display: flex;
   flex-direction: column;
   padding: 15px;
 }
 
-.permalink {
-  display: flex;
-  flex-direction: row;
+.ant-input {
+  padding: 10px;
 }
 
 .personal-title-selector {

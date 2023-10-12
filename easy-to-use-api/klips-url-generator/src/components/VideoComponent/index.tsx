@@ -105,23 +105,20 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         readOnly
                         value={url}
                     />
-                    <Tooltip
-                        title='URL in Zwischenablage Kopieren'
-                    >
-                        <Button
-                            icon={<CopyOutlined />}
-                            onClick={() => onCopyClickUrl(url)}
-                            type='text'
-                        />
-                    </Tooltip>
-                    <Tooltip
-                        title='URL als E-Mail versenden'>
-                        <MailOutlined onClick={onMailClick} />
-                    </Tooltip>
-                    <Tooltip
-                        title='URL in einem neuen Tab öffnen'>
-                        <PlusCircleOutlined onClick={onTabClick} />
-                    </Tooltip>
+                    <div className="url-icons">
+                        <Tooltip
+                            title='URL in Zwischenablage Kopieren'>
+                            <CopyOutlined onClick={() => onCopyClickUrl(url)} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL als E-Mail versenden'>
+                            <MailOutlined onClick={onMailClick} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL in einem neuen Tab öffnen'>
+                            <PlusCircleOutlined onClick={onTabClick} />
+                        </Tooltip>
+                    </div>
                     <TextArea
                         readOnly
                         value={`<iframe id="inlineFrameExample" title="Zeitraffer-Video" width="90%" height="700px"
