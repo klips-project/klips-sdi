@@ -19,3 +19,9 @@ export const validateParamsRegion = (params: Params) => {
     return true;
   }
 };
+
+export const validateParamsThreshold = (params: Params) => {
+  if (Number(params.threshold)) {
+    return true;
+  }
+};
