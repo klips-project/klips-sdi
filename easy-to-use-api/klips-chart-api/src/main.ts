@@ -22,17 +22,18 @@ import './style.css';
     console.log(error);
   }
 
-  try {
-    // shor loadmask
-    const loadmask: HTMLDivElement | null = document.querySelector('#loadmask');
-    const chart: HTMLVideoElement | null = document.querySelector('#chart');
-  
-    if (!loadmask || !chart) {
-      throw new Error('Could not find required dom elements');
-    }
-  
-    loadmask.style.visibility = 'visible';
+  // show loadmask
+  const loadmask: HTMLDivElement | null = document.querySelector('#loadmask');
+  const chart: HTMLVideoElement | null = document.querySelector('#chart');
 
+  if (!loadmask || !chart) {
+    throw new Error('Could not find required dom elements');
+  }
+
+  loadmask.style.visibility = 'visible';
+
+
+  try {
     // parse params
     let params;
     if (document.location.pathname.includes('docs')) {
@@ -71,6 +72,7 @@ import './style.css';
     const errorElement: HTMLElement | null = document.querySelector('#error');
 
     if (errorElement) {
+      loadmask.style.visibility = 'hidden';
       errorElement.style.display = 'block';
       errorElement.textContent = 'An error has occured. Please check the console.';
     }

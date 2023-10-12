@@ -1,6 +1,6 @@
 import { Params } from '../../types';
 import { processURL, processURLPolygon, boundingBox } from '../../constants';
-import { validateParams, validateParamsRegion } from '../../util/Config';
+import { validateParams, validateParamsRegion, validateParamsThreshold } from '../../util/Config';
 import { pointInRect } from '../../util/Chart';
 
 export const fetchTimeSeriesData = async (
@@ -90,7 +90,18 @@ export const generateErrorMessages = (
       + `Parameter für "region".</span></div>${linkDocsHTML}`;
     }
     throw new Error('Invalid region.');
+    
   }
+// validate threshold parameter
+  if (!validateParamsThreshold(params)) {
+    if (errorElementURL) {
+      errorElementURL.style.display = 'block';
+      errorElementURL.innerHTML = '<div><span>Ungültige URL. Bitte prüfen Sie die eingegebenen '
+      + `Parameter für "threshold".</span></div>${linkDocsHTML}`;
+    }
+    throw new Error('Invalid threshold.');
+  }
+
   // check if point geometry is within boundary box
   if (!pointInRect(boundingBox[params.region!], params.wktGeometry)) {
     if (errorElementURL) {
