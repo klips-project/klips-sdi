@@ -102,8 +102,8 @@ const App: React.FC = () => {
 
     let drawLayer = MapUtil.getLayerByName(map, 'react-geo_digitize') as OlVectorLayer<OlVectorSource>;
 
+    setGeom(null);
     drawLayer?.getSource()?.clear();
-
     setWidget(newWidget);
   };
 
