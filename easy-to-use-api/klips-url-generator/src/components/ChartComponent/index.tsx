@@ -22,9 +22,9 @@ export interface ChartProps {
 export type ChartComponentProps = ChartProps;
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wktGeom, onDrawEnd, onDrawStart }) => {
-    const [band, setBand] = useState('');
+    const [band, setBand] = useState('physical');
     const [threshold, setThreshold] = useState();
-    const [url, setURL] = useState('');
+    const [url, setURL] = useState(''); 
 
     useEffect(() => {
         if (region && wktGeom && threshold && band) {

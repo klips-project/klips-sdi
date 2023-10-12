@@ -5,28 +5,28 @@ import { Select } from 'antd';
 export interface paramProps {
   inputBands?: Bands;
   changeBand?: (newBand: any) => void;
-  selectedBand: String;
+  selectedBand: string;
 };
 
 export type SelectParamsProps = paramProps;
 
 const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, selectedBand }) => {
 
+  // todo: improve i18n implementation
+  const getBandName = (band: string) => {
+    if (band === 'physical') {
+      return 'Physikalische Temperatur'
+    } else if (band === 'perceived') {
+      return 'Gefühlte Temperatur'
+    } else if (band === 'difference') {
+      return 'Temperatur Differenz'
+    } else if (band === 'compare') {
+      return 'Vergleich'
+    }
+  };
+
   const bandOptions = React.useMemo(() => {
     return inputBands?.map((band) => {
-
-      // todo: improve i18n implementation
-      const getBandName = (band: string) => {
-        if (band === 'physical') {
-          return 'Physikalische Temperatur'
-        } else if (band === 'perceived') {
-          return 'Gefühlte Temperatur'
-        } else if (band === 'difference') {
-          return 'Temperatur Differenz'
-        } else if (band === 'compare') {
-          return 'Vergleich'
-        }
-      };
 
       return {
         'value': band,
@@ -41,10 +41,10 @@ const SelectParams: React.FC<SelectParamsProps> = ({ inputBands, changeBand, sel
         <div className='no-input'>Bitte wählen Sie ein Band für die Anzeige im Diagramm aus:</div>
       }
       <Select
-        showSearch
         placeholder="Aktives Band"
         options={bandOptions}
         onChange={changeBand}
+        defaultValue={getBandName(selectedBand)}
       />
     </div >
   );

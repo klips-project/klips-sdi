@@ -111,6 +111,7 @@ const SelectRegion: React.FC<SelectRegionProps> = ({ inputRegions, onChangeRegio
                 options={selectOptions}
                 onChange={onChangeRegion}
                 placeholder='Region'
+                defaultValue={regionName}
             />
         </div>
     );
