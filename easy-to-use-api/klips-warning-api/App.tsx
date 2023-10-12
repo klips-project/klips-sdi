@@ -19,7 +19,6 @@ const App: React.FC = () => {
     const [criticalDate, setCriticalDate] = useState<Date | undefined>();
 
     // Get url
-
     const url = Linking.useURL();
 
     if (!url) {
