@@ -138,15 +138,16 @@ const App: React.FC = () => {
               <h2>Widget URL Generator</h2>
             </div>
             <p className='information-text'>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
-            sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed 
-            diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
-            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            </p>
+            Konfigurieren Sie sich die URL zu unseren Widgets, indem Sie das nachstehende 
+            Formular ausfüllen. Mit der URL können Sie die aktuellen Daten aus dem KLIPS 
+            Projekt einfach in Ihrer Webseite darstellen.</p><br />
+            <p className='information-text-bold'><b>Und so einfach geht's:</b></p><br />
+            <ol className='information-table'>
+              <li>Widget auswählen</li>
+              <li>URL generieren</li>
+              <li>Code-Beispiel in die Webseite integrieren</li>
+            </ol>
+            <p className='information-text'>Dabei aktualisieren sich die Wetterdaten regelmäßig von selbst!</p><br />
             <SelectRegion
               inputRegions={optionsRegion}
               onChangeRegion={changeRegion}

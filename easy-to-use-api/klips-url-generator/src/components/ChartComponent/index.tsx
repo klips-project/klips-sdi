@@ -87,11 +87,13 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ geoJsonGeom, region, wk
                 }
             </div>
             <div className='attributes'>
+                <h3>Band:</h3>
                 <SelectBand
                     inputBands={optionsBand}
                     changeBand={changeBand}
                     selectedBand={band}
                 />
+                <h3>Grenzwert:</h3>
                 <SelectThreshold
                     warning=""
                     changeThreshold={changeThreshold}

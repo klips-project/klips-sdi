@@ -27,7 +27,7 @@ export interface WarningProps {
 export type WarningComponentProps = WarningProps;
 
 const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region, wktGeom, onDrawEnd, onDrawStart }) => {
-    const [band, setBand] = useState('');
+    const [band, setBand] = useState('physical');
     const [threshold, setThreshold] = useState<Threshold>({ green: '0', orange: '30', red: '35' });
     const [url, setURL] = useState('');
 
@@ -98,11 +98,13 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                 }
             </div>
             <div className='attributes'>
+                <h3>Band:</h3>
                 <SelectBand
                     inputBands={optionsBand.slice(0, -1)}
                     changeBand={changeBand}
                     selectedBand={band}
                 />
+                <h3>Grenzwert:</h3>
                 <SelectThreshold
                     warning="grüne"
                     changeThreshold={changeThreshold('green')}

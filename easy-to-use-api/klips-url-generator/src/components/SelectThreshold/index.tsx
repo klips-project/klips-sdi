@@ -34,12 +34,12 @@ const SelectThreshold: React.FC<SelectParamsProps> = ({
 
     return (
         <div className='threshold-selector'>
-            {threshold ? <h3>Grenzwert {warning} Warnung:</h3> :
+            {threshold ? '' :
                 <div className='no-input'>Bitte wählen Sie einen gültigen Temperatur-Grenzwert 
-                zwischen 0°C und 50°C für die {warning} Warnung im Diagramm aus:</div>
+                für die {warning} Warnung im Diagramm aus:</div>
             }
             <Input
-                placeholder="Grenzwert"
+                placeholder="0-50°C"
                 // value={threshold}
                 value={checkInput(threshold)}
                 onChange={selectThreshold}

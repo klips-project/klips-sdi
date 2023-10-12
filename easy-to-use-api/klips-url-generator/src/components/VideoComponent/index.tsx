@@ -21,7 +21,7 @@ export type VideoComponentProps = VideoProps;
 
 const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart, geoJsonGeom, region }) => {
     const [url, setURL] = useState('');
-    const [videoFormat, setVideoFormat] = useState('');
+    const [videoFormat, setVideoFormat] = useState('mp4');
     const [personalTitle, setPersonalTitle] = useState('');
 
     useEffect(() => {
@@ -79,11 +79,13 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                 }
             </div>
             <div className='attributes'>
+                <h3>Videoformat:</h3>
                 <SelectVideoFormat
                     selectedVideoFormat={videoFormat}
                     changeVideoFormat={changeVideoFormat}
                     inputVideoFormats={optionsVideoFormat}
                 />
+                <h3>Video Titel:</h3>
                 <WritePersonalTitle
                     changeTitle={changeTitle}
                 />
