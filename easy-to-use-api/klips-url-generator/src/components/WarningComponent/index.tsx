@@ -1,6 +1,6 @@
 import TextArea from "antd/lib/input/TextArea";
 import { optionsBand, style } from "../../constants";
-import { CopyOutlined, MailOutlined } from '@ant-design/icons';
+import { CopyOutlined, MailOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Input, Tooltip } from "antd";
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import { useEffect, useState } from "react";
@@ -52,13 +52,23 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
     };
 
     const onMailClick = () => {
-        const mailSubject = 'TODO: Change name';
-        const mailBody = `Hey,\r\ncheck out the new widget:\r\n\r\n${url}`;
+        if (!url) {
+            return;
+        }
+        const mailSubject = 'Widget-URL';
+        const mailBody = `Hey,\r\nnutz doch diese URL für das Widget:\r\n\r\n${url}`;
 
         const mailToUrl = new URL('mailto:');
         mailToUrl.searchParams.set('subject', mailSubject);
         mailToUrl.searchParams.set('body', mailBody);
         window.open(mailToUrl.toString().replace(/\+/g, '%20'), '_self');
+    }
+
+    const onTabClick = () => {
+        if (!url) {
+            return;
+        }
+        window.open(url, url)
     }
 
     return (
@@ -106,15 +116,12 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                 />
                 <h3>Grenzwert:</h3>
                 <SelectThreshold
-                    warning="grüne"
                     changeThreshold={changeThreshold('green')}
                 />
                 <SelectThreshold
-                    warning="orangene"
                     changeThreshold={changeThreshold('orange')}
                 />
                 <SelectThreshold
-                    warning="rote"
                     changeThreshold={changeThreshold('red')}
                 />
             </div>
@@ -126,7 +133,7 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                         value={url}
                     />
                     <Tooltip
-                        title='Copy URL'
+                        title='URL in Zwischenablage Kopieren'
                     >
                         <Button
                             icon={<CopyOutlined />}
@@ -135,8 +142,12 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                         />
                     </Tooltip>
                     <Tooltip
-                        title='Mailto'>
+                        title='URL als E-Mail versenden'>
                         <MailOutlined onClick={onMailClick} />
+                    </Tooltip>
+                    <Tooltip
+                        title='URL in einem neuen Tab öffnen'>
+                        <PlusCircleOutlined onClick={onTabClick} />
                     </Tooltip>
                     <TextArea
                         readOnly

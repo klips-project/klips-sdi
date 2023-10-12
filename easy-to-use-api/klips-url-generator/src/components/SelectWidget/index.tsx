@@ -2,10 +2,10 @@ import { Select } from "antd";
 import React from "react";
 
 export interface widgetProps {
-    inputWidget: string[];
-    changeWidget: (newBand: any) => void;
-    selectedWidget: String;
-  };
+  inputWidget: string[];
+  changeWidget: (newBand: any) => void;
+  selectedWidget: String;
+};
 
 export type SelectWidgetProps = widgetProps;
 
@@ -21,7 +21,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({ inputWidget, changeWidget, 
         return 'Zeitraffer-Video'
       } else if (widget === 'warning') {
         return 'Warnung'
-      } 
+      }
     };
 
     return inputWidget?.map((widget: string) => {
@@ -34,10 +34,9 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({ inputWidget, changeWidget, 
 
   return (
     <div className='widget-selector'>
-      {selectedWidget ? <h3>Widget:</h3> :
-        <div className='no-input'>Bitte wählen Sie aus für welches Widget eine URL generiert werden soll:</div>
-      }
+      <h3>Widget:</h3>
       <Select
+        status={selectedWidget ? '' : 'warning'}
         placeholder="Widget"
         options={widgetOptions}
         onChange={changeWidget}

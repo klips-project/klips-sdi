@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { optionsVideoFormat, style } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
 import { Button, Input, Tooltip } from "antd";
-import { CopyOutlined, MailOutlined } from '@ant-design/icons'
+import { CopyOutlined, MailOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import OlGeometry from 'ol/geom/Geometry';
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
@@ -39,13 +39,23 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
     };
 
     const onMailClick = () => {
-        const mailSubject = 'TODO: Change name';
-        const mailBody = `Hey,\r\ncheck out the new widget:\r\n\r\n${url}`;
+        if (!url) {
+            return;
+        }
+        const mailSubject = 'Widget-URL';
+        const mailBody = `Hey,\r\nnutz doch diese URL für das Widget:\r\n\r\n${url}`;
 
         const mailToUrl = new URL('mailto:');
         mailToUrl.searchParams.set('subject', mailSubject);
         mailToUrl.searchParams.set('body', mailBody);
         window.open(mailToUrl.toString().replace(/\+/g, '%20'), '_self');
+    }
+
+    const onTabClick = () => {
+        if (!url) {
+            return;
+        }
+        window.open(url, url)
     }
 
     return (
@@ -79,13 +89,11 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                 }
             </div>
             <div className='attributes'>
-                <h3>Videoformat:</h3>
                 <SelectVideoFormat
                     selectedVideoFormat={videoFormat}
                     changeVideoFormat={changeVideoFormat}
                     inputVideoFormats={optionsVideoFormat}
                 />
-                <h3>Video Titel:</h3>
                 <WritePersonalTitle
                     changeTitle={changeTitle}
                 />
@@ -98,7 +106,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         value={url}
                     />
                     <Tooltip
-                        title='Copy URL'
+                        title='URL in Zwischenablage Kopieren'
                     >
                         <Button
                             icon={<CopyOutlined />}
@@ -107,8 +115,12 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         />
                     </Tooltip>
                     <Tooltip
-                        title='Mailto'>
+                        title='URL als E-Mail versenden'>
                         <MailOutlined onClick={onMailClick} />
+                    </Tooltip>
+                    <Tooltip
+                        title='URL in einem neuen Tab öffnen'>
+                        <PlusCircleOutlined onClick={onTabClick} />
                     </Tooltip>
                     <TextArea
                         readOnly

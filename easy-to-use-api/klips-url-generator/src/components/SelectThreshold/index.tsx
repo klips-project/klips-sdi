@@ -4,14 +4,12 @@ import { useState } from 'react';
 
 export interface paramProps {
     changeThreshold?: (newThreshold: any) => void;
-    warning: string;
 };
 
 export type SelectParamsProps = paramProps;
 
 const SelectThreshold: React.FC<SelectParamsProps> = ({
-    changeThreshold,
-    warning
+    changeThreshold
 }) => {
     const [threshold, setThreshold] = useState<number | undefined>();
 
@@ -34,13 +32,9 @@ const SelectThreshold: React.FC<SelectParamsProps> = ({
 
     return (
         <div className='threshold-selector'>
-            {threshold ? '' :
-                <div className='no-input'>Bitte wählen Sie einen gültigen Temperatur-Grenzwert 
-                für die {warning} Warnung im Diagramm aus:</div>
-            }
             <Input
+                status={checkInput(threshold) ? '' : 'warning'}
                 placeholder="0-50°C"
-                // value={threshold}
                 value={checkInput(threshold)}
                 onChange={selectThreshold}
                 type='number'
