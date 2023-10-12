@@ -23,6 +23,16 @@ import './style.css';
   }
 
   try {
+    // shor loadmask
+    const loadmask: HTMLDivElement | null = document.querySelector('#loadmask');
+    const chart: HTMLVideoElement | null = document.querySelector('#chart');
+  
+    if (!loadmask || !chart) {
+      throw new Error('Could not find required dom elements');
+    }
+  
+    loadmask.style.visibility = 'visible';
+
     // parse params
     let params;
     if (document.location.pathname.includes('docs')) {
@@ -53,6 +63,7 @@ import './style.css';
 
     if (chartApi) {
       chartApi.render();
+      loadmask.style.visibility = 'hidden';
     }
 
   } catch (error) {

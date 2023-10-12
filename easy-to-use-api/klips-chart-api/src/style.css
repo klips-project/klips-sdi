@@ -31,6 +31,21 @@ body {
   color: #E55F25;
 }
 
+#loadmask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  text-align: center;
+  top: 50%;
+  visibility: hidden;
+}
+
+#loadmask.fadeout {
+  animation: 1s fadeOut;
+  animation-fill-mode: forwards;
+}
+
 #url-params-documentation {
   display: none;
 }
