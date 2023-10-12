@@ -55,7 +55,6 @@ const App: React.FC = () => {
                 console.log(error)
             });
     };
-    console.log(temperature.response);
 
 
     let band: keyof ResultObject = 'band_1'
