@@ -156,7 +156,7 @@ const App: React.FC = () => {
               <li>URL generieren</li>
               <li>Code-Beispiel in die Webseite integrieren</li>
             </ol>
-            <p className='information-text'>Dabei aktualisieren sich die Wetterdaten regelmäßig von selbst!</p><br />
+            <p className='information-text'>Dabei aktualisieren sich die Wetterdaten stündlich von selbst!</p><br />
             <SelectRegion
               inputRegions={optionsRegion}
               onChangeRegion={changeRegion}
