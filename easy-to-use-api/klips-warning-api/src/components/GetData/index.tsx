@@ -1,5 +1,3 @@
-import { Params } from '../../types';
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
@@ -12,14 +10,14 @@ const processURL = 'https://klips-dev.terrestris.de/processes/location-info-time
 const processURLPolygon = 'https://klips-dev.terrestris.de/processes/zonal-statistics-time-rasterstats/execution';
 
 export const fetchTemperaturePoint = async (
-    params: Params,
+    region: String,
     coordinates: any
 ): Promise<any> => {
     const body = {
         inputs: {
             x: coordinates.x,
             y: coordinates.y,
-            cogDirUrl: `http://nginx/cog/${params.region}/${params.region}_temperature/`,
+            cogDirUrl: `http://nginx/cog/${region}/${region}_temperature/`,
             inputCrs: 'EPSG:4326',
             startTimeStamp: startDate,
             endTimeStamp: endDate,
@@ -43,13 +41,13 @@ export const fetchTemperaturePoint = async (
 };
 
 export const fetchTemperaturePolygon = async (
-    params: Params,
+    region: String,
     coordinates: any
 ): Promise<any> => {
     const body = {
         inputs: {
             polygonGeoJson: coordinates,
-            cogDirUrl: `http://nginx/cog/${params.region}/${params.region}_temperature/`,
+            cogDirUrl: `http://nginx/cog/${region}/${region}_temperature/`,
             statisticMethods: ['mean', 'max', 'min'],
             inputCrs: 'EPSG:4326',
             startTimeStamp: startDate,
