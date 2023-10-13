@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { optionsVideoFormat, style } from "../../constants";
 import TextArea from "antd/lib/input/TextArea";
-import { Button, Input, Tooltip } from "antd";
-import { CopyOutlined } from '@ant-design/icons'
+import { Input, Tooltip } from "antd";
+import { CopyOutlined, MailOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { onCopyClickGeom, onCopyClickUrl } from "../../service";
 import OlGeometry from 'ol/geom/Geometry';
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
@@ -21,7 +21,7 @@ export type VideoComponentProps = VideoProps;
 
 const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart, geoJsonGeom, region }) => {
     const [url, setURL] = useState('');
-    const [videoFormat, setVideoFormat] = useState('');
+    const [videoFormat, setVideoFormat] = useState('mp4');
     const [personalTitle, setPersonalTitle] = useState('');
 
     useEffect(() => {
@@ -38,6 +38,26 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
         setPersonalTitle(newTitle);
     };
 
+    const onMailClick = () => {
+        if (!url) {
+            return;
+        }
+        const mailSubject = 'Widget-URL';
+        const mailBody = `Hey,\r\nnutz doch diese URL für das Widget:\r\n\r\n${url}`;
+
+        const mailToUrl = new URL('mailto:');
+        mailToUrl.searchParams.set('subject', mailSubject);
+        mailToUrl.searchParams.set('body', mailBody);
+        window.open(mailToUrl.toString().replace(/\+/g, '%20'), '_self');
+    }
+
+    const onTabClick = () => {
+        if (!url) {
+            return;
+        }
+        window.open(url, url)
+    }
+
     return (
         <div className='video-component'>
             <div className='geometry'>
@@ -51,7 +71,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                     />
                 </div>
                 {!geoJsonGeom ? <></> :
-                    <div>
+                    <div className='geom-textarea'>
                         <TextArea
                             readOnly
                             value={geoJsonGeom}
@@ -59,11 +79,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         <Tooltip
                             title='Copy GeoJSON'
                         >
-                            <Button
-                                icon={<CopyOutlined />}
-                                onClick={() => onCopyClickGeom(geoJsonGeom)}
-                                type='text'
-                            />
+                            <CopyOutlined onClick={() => onCopyClickGeom(geoJsonGeom)} />
                         </Tooltip>
                     </div>
                 }
@@ -85,15 +101,26 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
                         readOnly
                         value={url}
                     />
-                    <Tooltip
-                        title='Copy URL'
-                    >
-                        <Button
-                            icon={<CopyOutlined />}
-                            onClick={() => onCopyClickUrl(url)}
-                            type='text'
-                        />
-                    </Tooltip>
+                    <div className="url-icons">
+                        <Tooltip
+                            title='URL in Zwischenablage Kopieren'>
+                            <CopyOutlined onClick={() => onCopyClickUrl(url)} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL als E-Mail versenden'>
+                            <MailOutlined onClick={onMailClick} />
+                        </Tooltip>
+                        <Tooltip
+                            title='URL in einem neuen Tab öffnen'>
+                            <PlusCircleOutlined onClick={onTabClick} />
+                        </Tooltip>
+                    </div>
+                    <h3>IFrame:</h3>
+                    <TextArea
+                        rows={4}
+                        readOnly
+                        value={url ? `<iframe id="inlineFrameExample" title="Zeitraffer-Video" width="90%" height="700px" src="${url}"></iframe>` : ''}
+                    />
                 </div>
             </div>
         </div >

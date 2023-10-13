@@ -13,7 +13,7 @@ body,
 .output-wrapper {
   width: 25%;
   margin: 1%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .logo {
@@ -21,23 +21,44 @@ body,
 }
 
 .header {
-  padding: 30px;
+  padding: 15px;
+}
+
+h3 {
+  padding-top: 15px;
+}
+
+h4 {
+  margin-bottom: 0px;
+}
+
+.information-text {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: justify;
+}
+
+.information-text-bold {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: justify;
+  margin-bottom: 0px;
 }
 
 .region-selector {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 15px;
 }
 
 .no-input {
-  color: rgba(232,98,49,255);
+  color: rgba(232, 98, 49, 255);
 }
 
 .search-bar {
   display: flex;
   position: relative;
-  padding: 30px;
+  padding: 15px;
   flex-direction: column;
 }
 
@@ -53,13 +74,13 @@ body,
 .widget-selector {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 15px;
 }
 
 .geometry {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 15px;
 }
 
 .geometry-button {
@@ -78,28 +99,47 @@ body,
 .band-selector {
   display: flex;
   flex-direction: column;
-  padding: 30px;
 }
 
 .threshold-selector {
   display: flex;
   flex-direction: column;
-  padding: 30px;
 }
 
 .permalink-component {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 15px;
 }
 
 .permalink {
   display: flex;
+  flex-direction: column;
+}
+
+.url-icons {
+  display: flex;
   flex-direction: row;
+  margin: 15px;
+  justify-content: space-around;
+}
+
+.url-icons .anticon svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.attributes {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.ant-input {
+  padding: 10px;
 }
 
 .personal-title-selector {
   display: flex;
   flex-direction: column;
-  padding: 30px;
 }
