@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import * as Linking from 'expo-linking';
 
@@ -15,94 +15,136 @@ import { NotificationInput, ResultObject, ResultThreshold, Params } from './src/
 import { Alert } from 'antd';
 
 const App: React.FC = () => {
+    type PromiseResponse = { response: ResultObject[] };
+    type GeometryObject = {
+        wktGeometry: any,
+        geoJSONGeometry: any
+    };
     const [warning, setWarning] = useState<NotificationInput>(notificationOptions[0]);
     const [criticalDate, setCriticalDate] = useState<Date | undefined>();
+    const [params, setParams] = useState<Params | null>(null);
+    const [temperature, setTemperature] = useState<PromiseResponse>({ response: [] });
+    const [geometry, setGeometry] = useState<GeometryObject | null>();
+    const [region, setRegion] = useState<string>('');
+    const [state, setState] = useState<string>('');
 
     // Get url
     const url = Linking.useURL();
 
-    if (!url) {
-        return;
-    }
-    const { queryParams } = Linking.parse(url);
-    const params = queryParams as Params;
+    useEffect(() => {
+        if (!url) {
+            return;
+        }
 
-    // get WKT
-    const wktReader = new WKTParser();
-    const wktGeometry = wktReader.read(params.geom);
+        const { queryParams } = Linking.parse(url);
+        setParams(queryParams as Params);
+    }, [url]);
 
-    // get GeoJSON
-    const geoJSONWriter = new GeoJSONWriter();
-    const geoJSONGeometry = geoJSONWriter.write(wktGeometry);
+    useEffect(() => {
+        if (!params) {
+            return;
+        }
 
-    // get data
-    type PromiseResponse = { response: ResultObject[] };
-    const temperature: PromiseResponse = { response: [] };
-    if (params.geom?.includes('POLYGON')) {
-        fetchTemperaturePolygon(params, geoJSONGeometry)
-            .then(response => {
-                temperature.response = response.values;
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-    } else {
-        fetchTemperaturePoint(params, wktGeometry.getCoordinates()[0])
-            .then(response => {
-                temperature.response = response.values;
-            })
-            .catch((error) => {
-                console.log(error)
-            });
-    };
+        setRegion(`${params.region}`);
 
-    let band: keyof ResultObject = 'band_1'
-    if (params.band === 'perceived') {
-        band = 'band_2'
-    } else if (params.band === 'difference') {
-        band = 'band_3'
-    }
+        // get WKT anf GeoJSON
+        const wktReader = new WKTParser();
+        const geoJSONWriter = new GeoJSONWriter();
 
-    const resultThreshold: ResultThreshold = {
-        green: temperature.response.filter((obj: ResultObject) => {
-            return obj[band] > (params.thresholdgreen!);
-        }),
-        orange: temperature.response.filter((obj: ResultObject) => {
-            return obj[band] > Number(params.thresholdorange!);
-        }),
-        red: temperature.response.filter((obj: ResultObject) => {
-            return obj[band] > Number(params.thresholdred!);
-        }),
-    };
+        const wktGeometry = wktReader.read(params.geom);
+        const geoJSONGeometry = geoJSONWriter.write(wktGeometry);
 
-    if (resultThreshold.red.length > 0) {
-        setWarning(notificationOptions[3])
-        setCriticalDate(resultThreshold.red[0].timestamp);
-    } else if (resultThreshold.orange.length > 0) {
-        setWarning(notificationOptions[2]);
-        setCriticalDate(resultThreshold.orange[0].timestamp);
-    } else if (resultThreshold.green.length > 0) {
-        setWarning(notificationOptions[1]);
-    };
+        setGeometry({
+            wktGeometry: wktGeometry,
+            geoJSONGeometry: geoJSONGeometry
+        })
+    }, [params]);
 
+    useMemo(() => {
+        // get data
+        setState('loading');
+
+        if (!region || !geometry) {
+            return;
+        }
+
+        if (params?.geom?.includes('POLYGON')) {
+            fetchTemperaturePolygon(region, geometry.geoJSONGeometry)
+                .then((response) => {
+                    setState('success');
+                    setTemperature({
+                        response: response.values
+                    });
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        } else if (params?.geom?.includes('POINT')) {
+            fetchTemperaturePoint(region, geometry.wktGeometry.getCoordinates()[0])
+                .then((response) => {
+                    setState('success');
+                    setTemperature({
+                        response: response.values
+                    });
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+
+        };
+
+    }, [region, geometry]);
+
+    useEffect(() => {
+        if (!params) {
+            return;
+        };
+
+        // get band
+        let band: keyof ResultObject = 'band_1'
+        if (params.band === 'perceived') {
+            band = 'band_2'
+        } else if (params.band === 'difference') {
+            band = 'band_3'
+        };
+
+        const resultThreshold: ResultThreshold = {
+            green: temperature.response.filter((obj: ResultObject) => {
+                return obj[band] > (params.thresholdgreen!);
+            }),
+            orange: temperature.response.filter((obj: ResultObject) => {
+                return obj[band] > Number(params.thresholdorange!);
+            }),
+            red: temperature.response.filter((obj: ResultObject) => {
+                return obj[band] > Number(params.thresholdred!);
+            }),
+        };
+
+        if (resultThreshold.red.length > 0) {
+            setWarning(notificationOptions[3])
+            setCriticalDate(resultThreshold.red[0].timestamp);
+        } else if (resultThreshold.orange.length > 0) {
+            setWarning(notificationOptions[2]);
+            setCriticalDate(resultThreshold.orange[0].timestamp);
+        } else if (resultThreshold.green.length > 0) {
+            setWarning(notificationOptions[1]);
+            setCriticalDate(resultThreshold.green[0].timestamp);
+        };
+    }, [params, temperature]);
     // Get Timeframe
     const date = new Date();
 
-    if (!params ||
-        !date ||
-        !params.band ||
-        !params.geom
-    ) {
+    if (!params) {
         return;
     };
-
+    
     // Check for consistent thresholds and create widget
     let widget: any = <></>;
     if (params.thresholdgreen! > params.thresholdorange! ||
         params.thresholdgreen! > params.thresholdred! ||
         params.thresholdorange! > params.thresholdred!
     ) {
-        widget = <Alert
+        widget = < Alert
             message="Grenzwerte sind nicht in einer logischen Reihenfolge. Bitte passen Sie die Reihenfolge an."
             type="error"
         />
@@ -118,7 +160,9 @@ const App: React.FC = () => {
 
     return (
         <View>
-            {widget}
+            {state === 'loading' ? (
+                <>Loading...</>
+            ) : <>{widget}</>}
         </View>
     );
 };

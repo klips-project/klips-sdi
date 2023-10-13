@@ -13,9 +13,9 @@ dayjs.extend(utc);
 
 export interface WarningProps {
   warning: NotificationInput;
-  location: String;
+  location: String | undefined;
   currentDate: Date;
-  band: String;
+  band: String | undefined;
   criticalDate: Date | undefined;
 };
 
@@ -25,7 +25,10 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
 
   const color = warning.color as ColorValue;
 
-  const date = dayjs(criticalDate).format('DD.MM.YYYY HH:mm')
+  let date = `(${dayjs(criticalDate).format('DD.MM.YYYY HH:mm')})`
+  if (warning.name === 'green' || warning.name === 'blue') {
+    date = "";
+  }
 
   let temperatureParameter = 'Physikalische Temperatur';
   switch (band) {
@@ -141,7 +144,7 @@ const CreateAlert: React.FC<WarningProps> = ({ warning, location, currentDate, b
             </Text>
             <Text style={style.text}
             >
-              {warning.text}   ({date})
+              {warning.text}   {date}
             </Text>
             <RedoOutlined
               onClick={() => window.location.reload()}
