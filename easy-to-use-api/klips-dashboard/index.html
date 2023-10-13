@@ -24,16 +24,31 @@
         Durch die Auswahl einer vordefinierten Region passt sich der Fokus der Karte auf den Begrenzungsbereich
         dynamisch an.
         Über die Suchfunktion können Ortsnamen, Straßennamen oder POI's innerhalb der ausgewählten Region gezielt
-        angewählt werden.</a>
+        angewählt werden.
+        Anschließend können abhängig von der ausgewählten API weitere Parameter gewählt werden, um diese individuell zu
+        konfigurieren. </a>
     <iframe id="inlineFrameExample" title="URL-Generator" width="90%" height="700px"
         src="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">
     </iframe>
     <br />
-    <a class="description">In Abhängigkeit zu dem gewüschten Widget werden noch zusätzliche Parameter abgefragt:</a>
+    <a class="description">In Abhängigkeit zu dem gewüschten Widget werden folgende zusätzliche Parameter abgefragt:</a>
     <h2>Chart</h2>
-    <a class="description">Über die Buttons kann innerhalb des Begrenzungsbereichs eine Punkt oder Flächen-Geometrie
-        eingezeichnet werden, für die ein Temperaturchart generiert werden soll. In einem weiteren Schritt kann das Band
-        ausgewählt werden, auf dessen Grundlage die Berechnung erfolgt. Abschließend kann ein Temperaturgrenzwert für
+    <a class="description">Die Buttons "Punkt" und "Polygon" ermöglichen es innerhalb des Begrenzungsbereichs eine Punkt
+        oder Flächen-Geometrie
+        einzuzeichnen, für die ein Temperaturchart generiert werden soll. In einem weiteren Schritt kann das Band
+        ausgewählt werden, auf dessen Grundlage die Berechnung erfolgt und das in der Abbildung angezeigt wird.
+        Nach der Generierung kann in der Chart-Darstellung selbst beliebig zwischen den Bändern gewechselt werden.
+        Hier gibt es folgende Möglichkeiten:</a>
+    <ol>
+        <li>Physikalische Temperatur: Die physikalische Temperatur, errechnet aus gemessenen Temperatur-Werten der
+            Sensoren.</li>
+        <li> Gefühlte Temleratur: Die gefühlte Temperatur, errechnet durch einbeziehen zusätzlicher Parameter.</li>
+        <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
+            Umland.</li>
+        <li>Vergleich: Hier wird die physikalische Temperatur im Vergleich zu einem beliebigen anderen Band dargestellt.
+        </li>
+    </ol>
+    <a class="description"> Abschließend kann ein Temperaturgrenzwert für
         eine Warnung definiert werden.</a><br />
     <h3>Beispiel:</h3>
     <a class="description">In diesem Beispiel wird die Region Dresden ausgewählt und anhand der Suchfunktion nach
@@ -54,7 +69,7 @@
         51.04731292751711)&threshold=25&band=perceived">
         https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882
         51.04731292751711)&threshold=25&band=perceived</a><br />
-    <a class="description">Die URL kann als Iframe in jeder html-Website eingebebaut werden:</a><br />
+    <a class="description">Die URL kann als Iframe in jeder html-Website eingebaut werden:</a><br />
     <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
         51.04731292751711)&threshold=25&band=perceived">
     </iframe><br />
@@ -102,7 +117,7 @@
             ]
          }
     </code></pre>
-    <a class="description">Als Videoformat wird <i>mp4</i> definiert der Titel <i>Friedhof Richrather Straße</i>
+    <a class="description">Als Videoformat wird <i>mp4</i> definiert und der Titel <i>Friedhof Richrather Straße</i>
         gewählt.
         Aus diesen Parametern wird die folgende URL generiert:</a><br />
     <a href='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=langenfeld&area-of-interest=
@@ -131,13 +146,12 @@
     <a class="description">Ein Widget, das eine Warnung zeigt, sobald bestimmte Temperatur-Grenzwerte
         über-/unterschritten werden.
         Möglich sind die Werte: grün: keine Warnung, orange: hohe Temperaturen, rot: sehr hohe Temperaturen.
-        Werte die den grünen Grenzwert unterschreiten erhalten eine blaue Warnung. Als Berechnungsgrundlage
-        dient
-        ein OGC-API Prozess für Zonale Statistiken (pygeoapi, siehe unten). Ausgewählt werden können ein Punkt
-        oder
-        ein Polygon, für das die Warnung angezeigt wird. Außerdem kann zwischen gefühlter Temeratur,
-        physikalischer
-        Temperatur, und Temperaturdifferenz zum Umland gewählt werden. Ebenso können die Grenzwerte individuell
+        Werte, die den grünen Grenzwert unterschreiten erhalten eine blaue Warnung für niedrige Temperaturen.
+        Als Berechnungsgrundlage dient ein OGC-API Prozess für Zonale Statistiken (pygeoapi, siehe unten).
+        Ausgewählt werden können ein Punkt oder ein Polygon, für das die Warnung angezeigt wird. Außerdem kann auch hier
+        zwischen gefühlter Temeratur,
+        physikalischer Temperatur, und Temperaturdifferenz zum Umland gewählt werden. Ebenso können alle Grenzwerte
+        individuell
         festgelegt werden.</a><br />
     <h3>Beispiel:</h3>
     <a class="description">In diesem Beispiel wird die Region Dresden gewählt und eine Punkt-Geometrie mit den folgenden
@@ -151,14 +165,14 @@
             ]
         }
         </code></pre><br />
-    <a class="description">Anschließend kann zwischen vier verschiedenen Bändern ausgewählt werden:</a><br />
+    <a class="description">Anschließend kann zwischen verschiedenen Bändern ausgewählt werden:</a><br />
     <ol>
-        <li>Physikalische Temperatur</li>
-        <li>Gefühlte Temperatur</li>
-        <li>Temperatur Differenz</li>
-        <li>Vergleich</li>
+        <li>Physikalische Temperatur: Die physikalische Temperatur, errechnet aus gemessenen Temperatur-Werten der
+            Sensoren.</li>
+        <li> Gefühlte Temleratur: Die gefühlte Temperatur, errechnet durch einbeziehen zusätzlicher Parameter.</li>
+        <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
+            Umland.</li>
     </ol>
-    <a>ToDo: Hier noch die unterschiede erklären!</a><br />
     <a class="description">In diesem Beispiel wird die <i>Pysikalische Temperatur</i> betrachtet.</a><br />
     <a class="description">Für die grüne Warnung wird der Grenzwert <i>10</i>°C ausgewählt, für die orangene Warnung der
         Grenzwert <i>23</i>°C und für die rote Warnung der Grenzwert <i>28</i>°C. Daraus ergibt sich die folgende
