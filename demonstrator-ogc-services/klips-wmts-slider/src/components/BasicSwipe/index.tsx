@@ -1,20 +1,14 @@
-import React from 'react';
-
-//import Swipe from "ol-ext/control/Swipe";
-
+import React, { useState } from 'react';
 import useMap from '@terrestris/react-geo/dist/Hook/useMap';
 
 import './index.less';
-import { Divider, Slider } from 'antd';
+import { Slider } from 'antd';
 import { getRenderPixel } from 'ol/render';
 import RenderEvent from 'ol/render/Event';
 
-export interface SwipeProps {
-};
 
-export type BasicSwipeProps = SwipeProps;
-
-export const BasicSwipe: React.FC<BasicSwipeProps> = () => {
+export const BasicSwipe: React.FC = (): JSX.Element => {
+    const [value, setValue] = useState<number>(0);
 
     const map = useMap();
 
@@ -22,84 +16,103 @@ export const BasicSwipe: React.FC<BasicSwipeProps> = () => {
         return <></>;
     };
 
-    const layer = map.getAllLayers()[2];
+    const layerRight = map.getAllLayers()[2];
+    const layerLeft = map.getAllLayers()[1];
 
-    const onChange = (value: number) => {
-        layer.on('prerender', function (event: RenderEvent) {
-            const mapSize = map.getSize(); // [width, height] in CSS pixels
+    layerRight.on('prerender', function (event: RenderEvent) {
+        const mapSize = map.getSize(); // [width, height] in CSS pixels
 
-            if (!mapSize) {
-                return <></>;
-            };
+        if (!mapSize) {
+            return <></>;
+        };
 
-            // get render coordinates and dimensions given CSS coordinates
-            const width = Math.round(mapSize[0] * (value / 100));
+        // get render coordinates and dimensions given CSS coordinates
+        const width = Math.round(mapSize[0] * (value / 100));
 
-            const bottomLeft = getRenderPixel(event, [width, mapSize[1]]);
-            const topLeft = getRenderPixel(event, [width, 0]);
-            const topRight = getRenderPixel(event, [mapSize[0], 0]);
-            const bottomRight = getRenderPixel(event, mapSize);
+        const bottomLeft = getRenderPixel(event, [width, mapSize[1]]);
+        const topLeft = getRenderPixel(event, [width, 0]);
+        const topRight = getRenderPixel(event, [mapSize[0], 0]);
+        const bottomRight = getRenderPixel(event, mapSize);
 
-            const context = event.context as CanvasRenderingContext2D;
+        const context = event.context as CanvasRenderingContext2D;
 
-            if (!context) {
-                return <></>;
-            };
+        if (!context) {
+            return <></>;
+        };
 
-            while (value > 0) {
-                context.restore();
-                value--;
-            }
-            value++;
+        context.restore();
 
-            context.save();
-            context.beginPath();
-            context.moveTo(topLeft[0], topLeft[1]);
-            context.lineTo(bottomLeft[0], bottomLeft[1]);
-            context.lineTo(bottomRight[0], bottomRight[1]);
-            context.lineTo(topRight[0], topRight[1]);
-            context.closePath();
-            context.clip();
+        context.save();
+        context.beginPath();
+        context.moveTo(topRight[0], topRight[1]);
+        context.lineTo(bottomRight[0], bottomRight[1]);
+        context.lineTo(bottomLeft[0], bottomLeft[1]);
+        context.lineTo(topLeft[0], topLeft[1]);
+        context.closePath();
+        context.clip();
+    });
 
-            // //Add Line
-            // var points = [topRight, bottomLeft];
+    layerLeft.on('prerender', function (event: RenderEvent) {
+        const mapSize = map.getSize(); // [width, height] in CSS pixels
 
-            // const featureLine = new Feature({
-            //     geometry: new LineString(points)
-            // });
+        if (!mapSize) {
+            return <></>;
+        };
 
-            // const vectorLine = new VectorSource({});
-            // vectorLine.addFeature(featureLine);
+        // get render coordinates and dimensions given CSS coordinates
+        const width = Math.round(mapSize[0] * (value / 100));
 
-            // const vectorLineLayer = new Vector({
-            //     source: vectorLine,
-            //     // style: new Style({
-            //     //     fill: new Fill({ color: '#00FF00' }),
-            //     //     stroke: new Stroke({ color: '#00FF00', width: 2 })
-            //     // })
-            // });
-            // map.addLayer(vectorLineLayer);
-        });
+        const bottomLeft = getRenderPixel(event, [0, mapSize[1]]);
+        const topLeft = getRenderPixel(event, [0, 0]);
+        const topRight = getRenderPixel(event, [width, 0]);
+        const bottomRight = getRenderPixel(event,[width, mapSize[1]]);
 
-        layer.on("postrender", function (event) {
-            var context = event.context as CanvasRenderingContext2D;
+        const context = event.context as CanvasRenderingContext2D;
 
-            if (!context) {
-                return <></>;
-            };
+        if (!context) {
+            return <></>;
+        };
 
-            setTimeout(function () {
-                while (value > 0) {
-                    context.restore();
-                    value--;
-                }
-            }, 0);
-        });
+        context.restore();
+
+        context.save();
+        context.beginPath();
+        context.moveTo(topRight[0], topRight[1]);
+        context.lineTo(bottomRight[0], bottomRight[1]);
+        context.lineTo(bottomLeft[0], bottomLeft[1]);
+        context.lineTo(topLeft[0], topLeft[1]);
+        context.closePath();
+        context.clip();
+    });
+
+    layerRight.on('postrender', function (event) {
+        var context = event.context as CanvasRenderingContext2D;
+
+        if (!context) {
+            return <></>;
+        };
+
+        context.restore();
+    });
+
+    layerLeft.on('postrender', function (event) {
+        var context = event.context as CanvasRenderingContext2D;
+
+        if (!context) {
+            return <></>;
+        };
+
+        context.restore();
+    });
+
+    const onChange = (newValue: number) => {
+        setValue(newValue);
         map.render();
     };
 
     return (
         <Slider
+            className='custom-slider'
             tooltip={{ open: false }}
             onChange={onChange}></Slider>
     );

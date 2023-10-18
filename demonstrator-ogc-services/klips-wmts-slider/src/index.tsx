@@ -158,7 +158,7 @@ const setupDefaultMap = () => {
   return new OlMap({
     view: new OlView({
       center: center,
-      zoom: 12
+      zoom: 13
     }),
     layers: [backgroundLayerGroup, temperatureLayerGroup],
   });
