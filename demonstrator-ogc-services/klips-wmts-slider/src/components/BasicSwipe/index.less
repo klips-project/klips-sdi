@@ -1,20 +1,27 @@
 .ant-slider {
-    position: absolute;
+    position:absolute;
     width: 100%;
+    z-index:2;
 }
 
 .custom-slider .ant-slider-handle {
-    border: 2px solid #e55f25;
-}
-
-.custom-slider .ant-slider:hover {
-    border: 2px solid #e55f25;
+    cursor: ew-resize;
+    height: 100vh;
+    width: 0px;
+    border: 0px;
 }
 
 .custom-slider .ant-slider-handle:focus {
-    border: 2px solid #e55f25;
+    border: 0px;
+    box-shadow: 0 0 0 0px;
 }
 
 .custom-slider .ant-slider-track {
-    border: 2px solid #e55f25;
+    height: 0px;
+    border-radius: 0px;
+}
+
+.custom-slider .ant-slider-rail {
+    height: 0px;
+    border-radius: 0px;
 }
