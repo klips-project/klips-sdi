@@ -119,6 +119,16 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({ labelRight, labelLeft }) => {
         map.render();
     };
 
+    const toggleRight = () => {
+        setValue(0);
+        map.render();
+    };
+
+    const toggleLeft = () => {
+        setValue(99.4);
+        map.render();
+    };
+
     const top = 7 + 'vh';
     const padding = 10 + 'px';
     const left = labelPosition + 'px';
@@ -129,18 +139,23 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({ labelRight, labelLeft }) => {
             <Slider
                 className='custom-slider'
                 tooltip={{ open: false }}
-                onChange={onChange}></Slider>
+                onChange={onChange}
+                value={value}></Slider>
             <Space id='label' style={{
                 position: 'absolute', padding, left: left, top
             }}>
-                <Button type="primary">
+                <Button
+                    type="primary"
+                    onClick={toggleRight}>
                     {labelRight}
                 </Button>
             </Space>
             <Space id='label' style={{
                 position: 'absolute', padding, left: right, top
             }}>
-                <Button type="primary">
+                <Button
+                    type="primary"
+                    onClick={toggleLeft}>
                     {labelLeft}
                 </Button>
             </Space>

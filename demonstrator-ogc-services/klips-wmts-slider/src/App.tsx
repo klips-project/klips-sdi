@@ -8,11 +8,23 @@ import BasicNominatimSearch from './components/BasicNominatimSearch';
 import BasicSwipe from './components/BasicSwipe';
 import BasicTimeSlider from './components/BasicTimeSlider';
 
-import { useMap } from '@terrestris/react-geo';
+import { LayerTransparencySlider, SimpleButton, useMap } from '@terrestris/react-geo';
 
 import './App.less';
 
 export const App: React.FC = (): JSX.Element => {
+
+  const toggleHidden = () => {
+    const transparencySlider = document.getElementById('transperency-slider');
+    if (!transparencySlider) {
+      return;
+    };
+    if (transparencySlider.style.display === 'none') {
+      transparencySlider.style.display = 'block';
+    } else {
+      transparencySlider.style.display = 'none';
+    }
+  };
 
   const map = useMap();
 
@@ -25,13 +37,16 @@ export const App: React.FC = (): JSX.Element => {
 
   const layers: OlLayerTile<OlSourceTileWMS>[] = [firstLayer, secondLayer];
 
+  const labelFirstLayer: string = 'Heat Index (HI)'
+  const labelSecondLayer: string = 'Urban Heat Island (UHI)'
+
   return (
     <>
       <div className="App">
         <BasicMapComponent />
-        <BasicSwipe 
-        labelRight={'Urban Heat Island (UHI)'}
-        labelLeft={'Heat Index (HI)'}/>
+        <BasicSwipe
+          labelRight={labelSecondLayer}
+          labelLeft={labelFirstLayer} />
         <BasicNominatimSearch />
       </div>
       <div id="slider">
@@ -40,7 +55,25 @@ export const App: React.FC = (): JSX.Element => {
           max={24}
           date={'2023-01-01'}
           layers={layers} />
-      </div>
+        <SimpleButton
+          className="toggle-button"
+          onClick={toggleHidden}
+        >Transparenz der Layer festlegen</SimpleButton>
+        <div id="transperency-slider">
+          <div>
+            <span>{labelFirstLayer}</span>
+          </div>
+          <LayerTransparencySlider
+            layer={firstLayer}
+          />
+          <div>
+            <span>{labelSecondLayer}</span>
+          </div>
+          <LayerTransparencySlider
+            layer={secondLayer}
+          />
+        </div>
+      </div >
     </>
   );
 };
