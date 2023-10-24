@@ -23,7 +23,7 @@ export type BasicTimeSliderProps = OwnProps;
 
 const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({ min, max, date, layers }) => {
     const [value, setValue] = useState<number>(0);
-    const [timestamp, setTimestamp] = useState<string>('');
+    const [timestamp, setTimestamp] = useState<string>('01:00');
 
     const map = useMap();
 
@@ -59,7 +59,7 @@ const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({ min, max, date, layer
                 min={min}
                 max={max}
                 marks={marks} /></Col>
-            <Col offset={1}><ClockCircleOutlined /></Col>
+            <Col offset={1}><ClockCircleOutlined/></Col>
             <Col span={1}>{timestamp}</Col>
         </Row>
     );

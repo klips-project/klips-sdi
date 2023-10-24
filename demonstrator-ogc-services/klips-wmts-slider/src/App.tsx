@@ -26,16 +26,22 @@ export const App: React.FC = (): JSX.Element => {
   const layers: OlLayerTile<OlSourceTileWMS>[] = [firstLayer, secondLayer];
 
   return (
-    <div className="App">
-      <BasicMapComponent />
-      <BasicSwipe />
-      <BasicNominatimSearch />
-      <BasicTimeSlider
-        min={1}
-        max={24}
-        date={'2023-01-01'}
-        layers={layers} />
-    </div>
+    <>
+      <div className="App">
+        <BasicMapComponent />
+        <BasicSwipe 
+        labelRight={'Urban Heat Island (UHI)'}
+        labelLeft={'Heat Index (HI)'}/>
+        <BasicNominatimSearch />
+      </div>
+      <div id="slider">
+        <BasicTimeSlider
+          min={1}
+          max={24}
+          date={'2023-01-01'}
+          layers={layers} />
+      </div>
+    </>
   );
 };
 

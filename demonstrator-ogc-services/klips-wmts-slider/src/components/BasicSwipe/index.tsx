@@ -2,15 +2,21 @@ import React, { useState } from 'react';
 import useMap from '@terrestris/react-geo/dist/Hook/useMap';
 
 import './index.less';
-import { Button, Slider } from 'antd';
+import { Button, Slider, Space } from 'antd';
 import { getRenderPixel } from 'ol/render';
 import RenderEvent from 'ol/render/Event';
 
 
-export const BasicSwipe: React.FC = (): JSX.Element => {
+interface OwnProps {
+    labelRight: string;
+    labelLeft: string;
+}
+
+export type BasicSwipeProps = OwnProps;
+
+const BasicSwipe: React.FC<BasicSwipeProps> = ({ labelRight, labelLeft }) => {
     const [value, setValue] = useState<number>(0);
-    const [labelPositionRight, setLabelPositionRight] = useState<string>('0px');
-    const [labelPositionLeft, setLabelPositionLeft] = useState<string>('0px');
+    const [labelPosition, setLabelPosition] = useState<number>(0);
 
     const map = useMap();
 
@@ -30,8 +36,7 @@ export const BasicSwipe: React.FC = (): JSX.Element => {
 
         // get render coordinates and dimensions given CSS coordinates
         const width = Math.round(mapSize[0] * (value / 100));
-        setLabelPositionLeft(`${width}px`);
-        setLabelPositionRight(`${150-width}px`);
+        setLabelPosition(width);
 
         const bottomLeft = getRenderPixel(event, [width, mapSize[1]]);
         const topLeft = getRenderPixel(event, [width, 0]);
@@ -114,8 +119,10 @@ export const BasicSwipe: React.FC = (): JSX.Element => {
         map.render();
     };
 
-    const top = 1 + 'vh';
+    const top = 7 + 'vh';
     const padding = 10 + 'px';
+    const left = labelPosition + 'px';
+    const right = labelPosition - 145 + 'px';
 
     return (
         <>
@@ -123,16 +130,20 @@ export const BasicSwipe: React.FC = (): JSX.Element => {
                 className='custom-slider'
                 tooltip={{ open: false }}
                 onChange={onChange}></Slider>
-            <div id='label' style={{ position: 'relative', padding, left: labelPositionLeft, top }}>
+            <Space id='label' style={{
+                position: 'absolute', padding, left: left, top
+            }}>
                 <Button type="primary">
-                    Urban Heat Island (UHI)
+                    {labelRight}
                 </Button>
-            </div>
-            <div id='label' style={{ position: 'relative', padding, right: labelPositionRight, top }}>
+            </Space>
+            <Space id='label' style={{
+                position: 'absolute', padding, left: right, top
+            }}>
                 <Button type="primary">
-                   Heat Index (HI)
+                    {labelLeft}
                 </Button>
-            </div>
+            </Space>
         </>
     );
 };
