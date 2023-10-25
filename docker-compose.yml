@@ -364,6 +364,11 @@ services:
     environment:
       - VITE_SERVER_URL=${SERVER_URL}
 
+  klips-warning-api:
+    container_name: ${CN_PREFIX}-warning-api
+    image: ghcr.io/klips-project/klips-warning-api:latest
+    restart: unless-stopped
+
   klips-url-generator:
     container_name: ${CN_PREFIX}-url-generator
     image: ghcr.io/klips-project/klips-url-generator:latest
@@ -371,5 +376,5 @@ services:
 
   klips-wmts-slider:
     container_name: ${CN_PREFIX}-wmts-slider
-    image: klips-test/klips-test:latest
+    image: ghcr.io/klips-project/klips-wmts-slider:latest
     restart: unless-stopped
