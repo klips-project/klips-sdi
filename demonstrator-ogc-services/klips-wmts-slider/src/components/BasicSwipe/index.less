@@ -2,6 +2,7 @@
     position: absolute;
     width: 100vh;
     z-index: 2;
+    margin-top: 0px !important;
 }
 
 .custom-slider .ant-slider-handle {
@@ -9,7 +10,8 @@
     height: 100vh;
     width: 1px;
     border: 0px;
-    margin-left: -6px !important
+    // needs to be !important due to antd
+    margin-left: -6px !important;
 }
 
 .custom-slider .ant-slider-handle:focus {
@@ -25,11 +27,6 @@
 .custom-slider .ant-slider-rail {
     height: 0px;
     border-radius: 0px;
-}
-
-.ant-slider-horizontal {
-    // needs to be !important due to antd
-    margin-top: 0px !important;
 }
 
 .label {

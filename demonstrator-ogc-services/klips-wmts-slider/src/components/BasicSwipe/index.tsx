@@ -138,8 +138,8 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
 
   const top = 7 + 'vh';
   const padding = 11 + 'px';
-  const left = labelPosition - 7 + 'px';
-  const right = labelPosition - 142 + 'px';
+  const left = labelPosition - 15 + 'px';
+  const right = labelPosition - 130 + 'px';
 
   return (
     <>

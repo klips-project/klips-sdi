@@ -92,7 +92,7 @@ services:
   klips-wmts-slider:
     build: ./demonstrator-ogc-services/klips-wmts-slider
     ports:
-      - 8080:80
+      - 8081:80
 
   postgres:
     ports:
