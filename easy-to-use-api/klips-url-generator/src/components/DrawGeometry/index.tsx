@@ -180,6 +180,14 @@ const DrawGeometry: React.FC<DrawGeometryProps> = ({
         drawInteraction.setActive(true);
     };
 
+    const getButtonName = (drawType: string) => {
+        if (drawType === 'Point') {
+            return 'Punkt';
+        } if (drawType === 'Polygon') {
+            return 'Polygon';
+        }
+    }
+
     return (
         <>
             <Button
@@ -187,7 +195,7 @@ const DrawGeometry: React.FC<DrawGeometryProps> = ({
                 onClick={handleFeatureSelect}
                 {...passThroughProps}
             >
-                {drawType}
+                {getButtonName(drawType)}
             </Button>
             {!isLegal ?
                 <Alert

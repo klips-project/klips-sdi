@@ -83,6 +83,11 @@ services:
     build: ./easy-to-use-api/klips-timelapse-video-api
     ports:
       - 3002:80
+
+  klips-warning-api:
+    build: ./easy-to-use-api/klips-warning-api
+    ports:
+      - 19007:80
   
   klips-url-generator:
     build: ./easy-to-use-api/klips-url-generator

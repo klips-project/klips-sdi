@@ -22,6 +22,17 @@ import './style.css';
     console.log(error);
   }
 
+  // show loadmask
+  const loadmask: HTMLDivElement | null = document.querySelector('#loadmask');
+  const chart: HTMLVideoElement | null = document.querySelector('#chart');
+
+  if (!loadmask || !chart) {
+    throw new Error('Could not find required dom elements');
+  }
+
+  loadmask.style.visibility = 'visible';
+
+
   try {
     // parse params
     let params;
@@ -53,6 +64,7 @@ import './style.css';
 
     if (chartApi) {
       chartApi.render();
+      loadmask.style.visibility = 'hidden';
     }
 
   } catch (error) {
@@ -60,6 +72,7 @@ import './style.css';
     const errorElement: HTMLElement | null = document.querySelector('#error');
 
     if (errorElement) {
+      loadmask.style.visibility = 'hidden';
       errorElement.style.display = 'block';
       errorElement.textContent = 'An error has occured. Please check the console.';
     }

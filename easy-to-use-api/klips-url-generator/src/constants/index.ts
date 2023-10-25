@@ -63,6 +63,16 @@ export const style = {
             color: 'rgb(229, 95, 37)',
             width: 3,
         }),
+        image: new Circle({
+            radius: 7,
+            fill: new Fill({
+                color: 'rgb(229, 95, 37, 0.5)',
+            }),
+            stroke: new Stroke({
+                color: 'rgb(229, 95, 37)',
+                width: 3,
+            }),
+        })
     }),
     feature: new Style({
         stroke: new Stroke({

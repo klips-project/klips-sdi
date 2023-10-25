@@ -5,6 +5,7 @@ import { optionsRegion, style, optionsWidget } from './constants'
 
 import MapContext from '@terrestris/react-geo/dist/Context/MapContext/MapContext.js';
 import MapComponent from '@terrestris/react-geo/dist/Map/MapComponent/MapComponent.js';
+import MapUtil from '@terrestris/ol-util/dist/MapUtil/MapUtil.js';
 
 import OlMap from 'ol/Map.js';
 import OlView from 'ol/View.js';
@@ -33,7 +34,7 @@ import { ConfigProvider } from 'antd';
 
 const App: React.FC = () => {
 
-  const [region, setRegion] = useState<string>('');
+  const [region, setRegion] = useState<string>('Dresden');
   const [geom, setGeom] = useState<OlGeometry | null>(null);
   const [map, setMap] = useState<OlMap>();
   const [widget, setWidget] = useState<string>('');
@@ -42,7 +43,7 @@ const App: React.FC = () => {
     if (!geom) {
       return ''
     };
-    const formatWKT = new OlFormatWKT();    
+    const formatWKT = new OlFormatWKT();
     return formatWKT.writeGeometry(geom.clone().transform('EPSG:3857', 'EPSG:4326'));
   }, [geom])
 
@@ -95,6 +96,14 @@ const App: React.FC = () => {
   };
 
   const changeWidget = (newWidget: string) => {
+    if (!map) {
+      return;
+    }
+
+    let drawLayer = MapUtil.getLayerByName(map, 'react-geo_digitize') as OlVectorLayer<OlVectorSource>;
+
+    setGeom(null);
+    drawLayer?.getSource()?.clear();
     setWidget(newWidget);
   };
 
@@ -130,13 +139,24 @@ const App: React.FC = () => {
   return (
     <div className='App'>
       <MapContext.Provider value={map}>
-        <ConfigProvider 
+        <ConfigProvider
         >
           <div className='output-wrapper'>
             <div className='header'>
               <img className='logo' src="https://www.klips-projekt.de/wp-content/uploads/2021/02/SAG_KLIPS-Logo_Jan21.png" alt="KLIPS Logo"></img>
               <h2>Widget URL Generator</h2>
             </div>
+            <p className='information-text'>
+              Konfigurieren Sie sich die URL zu unseren Widgets, indem Sie das nachstehende
+              Formular ausfüllen. Mit der URL können Sie die aktuellen Daten aus dem KLIPS
+              Projekt einfach in Ihrer Webseite darstellen.</p><br />
+            <p className='information-text-bold'><b>Und so einfach geht's:</b></p><br />
+            <ol className='information-table'>
+              <li>Widget auswählen</li>
+              <li>URL generieren</li>
+              <li>Code-Beispiel in die Webseite integrieren</li>
+            </ol>
+            <p className='information-text'>Dabei aktualisieren sich die Wetterdaten stündlich von selbst!</p><br />
             <SelectRegion
               inputRegions={optionsRegion}
               onChangeRegion={changeRegion}

@@ -10,7 +10,6 @@ export interface videoProps {
 export type SelectVideoProps = videoProps;
 
 const SelectVideoFormat: React.FC<SelectVideoProps> = ({ inputVideoFormats, changeVideoFormat, selectedVideoFormat }) => {
-    // const [selected, setSelected] = useState<Boolean>(false);
 
     const videoFormatOptions = React.useMemo(() => {
         return inputVideoFormats?.map((videoFormat) => {
@@ -23,14 +22,13 @@ const SelectVideoFormat: React.FC<SelectVideoProps> = ({ inputVideoFormats, chan
 
     return (
         <div className='band-selector'>
-            {selectedVideoFormat ? <h3>Video Format:</h3> :
-                <div className='no-input'>Bitte wählen Sie ein Videoformat aus:</div>
-            }
+            <h3>Video Format:</h3>
             <Select
-                showSearch
+                status={selectedVideoFormat ? '' : 'warning'}
                 placeholder="Video Format"
                 options={videoFormatOptions}
                 onChange={changeVideoFormat}
+                defaultValue={selectedVideoFormat}
             />
         </div >
     );
