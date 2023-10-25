@@ -2,7 +2,6 @@ import React, {
   useState
 } from 'react';
 
-import './index.less';
 import {
   Button, Slider, Space
 } from 'antd';
@@ -12,6 +11,7 @@ import {
 import RenderEvent from 'ol/render/Event';
 
 import useMap from '@terrestris/react-geo/dist/Hook/useMap';
+import './index.less';
 interface OwnProps {
   labelRight: string;
   labelLeft: string;
@@ -22,7 +22,7 @@ export type BasicSwipeProps = OwnProps;
 const BasicSwipe: React.FC<BasicSwipeProps> = ({
   labelRight, labelLeft
 }) => {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(50);
   const [labelPosition, setLabelPosition] = useState<number>(0);
 
   const map = useMap();
@@ -127,19 +127,19 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
   };
 
   const toggleRight = () => {
-    setValue(0);
+    setValue(10);
     map.render();
   };
 
   const toggleLeft = () => {
-    setValue(99.4);
+    setValue(90);
     map.render();
   };
 
   const top = 7 + 'vh';
-  const padding = 10 + 'px';
-  const left = labelPosition + 'px';
-  const right = labelPosition - 145 + 'px';
+  const padding = 11 + 'px';
+  const left = labelPosition - 8 + 'px';
+  const right = labelPosition - 150 + 'px';
 
   return (
     <>

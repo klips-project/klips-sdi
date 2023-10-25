@@ -14,6 +14,10 @@ export default {
       },
       Drawer: {
         title: 'Themen'
+      },
+      Button: {
+        opacity: 'Transparenz der Layer festlegen',
+        legend: 'Legende anzeigen'
       }
     }
   },
@@ -31,6 +35,10 @@ export default {
       },
       Drawer: {
         title: 'Layers'
+      },
+      Button: {
+        opacity: 'Set transparency of layers',
+        legend: 'Show legend'
       }
     }
   }

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Space
 } from 'antd';
 import OlLayerTile from 'ol/layer/Tile';
 import OlSourceTileWMS from 'ol/source/TileWMS';
+
+import {
+  useTranslation
+} from 'react-i18next';
 
 import {
   LayerTransparencySlider, SimpleButton, useMap
@@ -24,15 +28,26 @@ export const App: React.FC = (): JSX.Element => {
     return <></>;
   };
 
+  const {
+    t
+  } = useTranslation();
+
+  const [opacityBlock, setOpacityBlock] = useState<boolean>(false);
+  const [legendBlock, setLegendBlock] = useState<boolean>(false);
+
   const toggleHidden = () => {
     const transparencySlider = document.getElementById('transperency-slider');
+
     if (!transparencySlider) {
       return;
     };
-    if (transparencySlider.style.display === 'none') {
-      transparencySlider.style.display = 'block';
-    } else {
+
+    if (opacityBlock) {
       transparencySlider.style.display = 'none';
+      setOpacityBlock(false);
+    } else {
+      transparencySlider.style.display = 'block';
+      setOpacityBlock(true);
     }
   };
 
@@ -41,10 +56,13 @@ export const App: React.FC = (): JSX.Element => {
     if (!transparencySlider) {
       return;
     };
-    if (transparencySlider.style.display === 'none') {
-      transparencySlider.style.display = 'block';
-    } else {
+
+    if (legendBlock) {
       transparencySlider.style.display = 'none';
+      setLegendBlock(false);
+    } else {
+      transparencySlider.style.display = 'block';
+      setLegendBlock(true);
     }
   };
 
@@ -94,13 +112,13 @@ export const App: React.FC = (): JSX.Element => {
           className="toggle-button"
           onClick={toggleHidden}
         >
-          Transparenz der Layer festlegen
+          {t('Button.opacity')}
         </SimpleButton>
         <SimpleButton
           className="toggle-button"
           onClick={toggleLegend}
         >
-          Legende anzeigen
+          {t('Button.legend')}
         </SimpleButton>
         <div id='transperency-slider' >
           <div>
