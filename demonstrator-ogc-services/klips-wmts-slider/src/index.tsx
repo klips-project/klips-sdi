@@ -117,13 +117,13 @@ const setupDefaultMap = () => {
   const url = 'https://klips-dev.terrestris.de/geoserver/ows?SERVICE=WMS&';
 
   const hi = new OlLayerTile({
-    opacity: 0.7, 
+    opacity: 0.7,
     source: new OlSourceTileWMS({
       url: url,
       projection: 'CRS:84',
       params: {
         LAYERS: ['langenfeld:langenfeld_hi', 'dresden:dresden_hi'],
-        'TILED': true
+        TILED: true
       }
     })
   });
@@ -136,7 +136,7 @@ const setupDefaultMap = () => {
       projection: 'CRS:84',
       params: {
         LAYERS: ['langenfeld:langenfeld_uhi', 'dresden:dresden_uhi'],
-        'TILED': true
+        TILED: true
       }
     })
   });
@@ -162,7 +162,7 @@ const setupDefaultMap = () => {
       center: center,
       zoom: 13
     }),
-    layers: [backgroundLayerGroup, temperatureLayerGroup],
+    layers: [backgroundLayerGroup, temperatureLayerGroup]
   });
 };
 
