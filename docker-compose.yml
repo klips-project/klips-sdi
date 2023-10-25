@@ -257,7 +257,7 @@ services:
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-      - WORKERQUEUE=dataset-rotation 
+      - WORKERQUEUE=dataset-rotation
       - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
       - GEOSERVER_USER=${GEOSERVER_USER}
       - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
@@ -357,23 +357,33 @@ services:
     image: ghcr.io/klips-project/klips-chart-api:latest
     restart: unless-stopped
     environment:
-     - VITE_SERVER_URL=${SERVER_URL}
+      - VITE_SERVER_URL=${SERVER_URL}
 
   klips-timelapse-video-api:
     container_name: ${CN_PREFIX}-timelapse-video-api
     image: ghcr.io/klips-project/klips-timelapse-video-api:latest
     restart: unless-stopped
     environment:
-     - VITE_SERVER_URL=${SERVER_URL}
+      - VITE_SERVER_URL=${SERVER_URL}
 
   klips-warning-api:
     container_name: ${CN_PREFIX}-warning-api
     image: ghcr.io/klips-project/klips-warning-api:latest
     restart: unless-stopped
 
+  klips-warning-api:
+    container_name: ${CN_PREFIX}-warning-api
+    image: ghcr.io/klips-project/klips-warning-api:latest
+    restart: unless-stopped
+    volumes:
+      - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
+
   klips-url-generator:
     container_name: ${CN_PREFIX}-url-generator
     image: ghcr.io/klips-project/klips-url-generator:latest
     restart: unless-stopped
-    volumes:
-      - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  klips-wmts-slider:
+    container_name: ${CN_PREFIX}-wmts-slider
+    image: ghcr.io/klips-project/klips-wmts-slider:latest
+    restart: unless-stopped

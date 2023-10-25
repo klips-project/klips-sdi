@@ -94,6 +94,11 @@ services:
     ports:
       - 3003:3000
 
+  klips-wmts-slider:
+    build: ./demonstrator-ogc-services/klips-wmts-slider
+    ports:
+      - 8081:80
+
   postgres:
     ports:
       - 5432:5432
