@@ -257,7 +257,7 @@ services:
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-      - WORKERQUEUE=dataset-rotation 
+      - WORKERQUEUE=dataset-rotation
       - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
       - GEOSERVER_USER=${GEOSERVER_USER}
       - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
@@ -355,16 +355,21 @@ services:
     image: ghcr.io/klips-project/klips-chart-api:latest
     restart: unless-stopped
     environment:
-     - VITE_SERVER_URL=${SERVER_URL}
+      - VITE_SERVER_URL=${SERVER_URL}
 
   klips-timelapse-video-api:
     container_name: ${CN_PREFIX}-timelapse-video-api
     image: ghcr.io/klips-project/klips-timelapse-video-api:latest
     restart: unless-stopped
     environment:
-     - VITE_SERVER_URL=${SERVER_URL}
+      - VITE_SERVER_URL=${SERVER_URL}
 
   klips-url-generator:
     container_name: ${CN_PREFIX}-url-generator
     image: ghcr.io/klips-project/klips-url-generator:latest
+    restart: unless-stopped
+
+  klips-wmts-slider:
+    container_name: ${CN_PREFIX}-wmts-slider
+    image: klips-test/klips-test:latest
     restart: unless-stopped
