@@ -27,6 +27,7 @@ const App: React.FC = () => {
     const [geometry, setGeometry] = useState<GeometryObject | null>();
     const [region, setRegion] = useState<string>('');
     const [state, setState] = useState<string>('');
+    const [widget, setWidget] = useState<any>(<></>)
 
     // Get url
     const url = Linking.useURL();
@@ -120,6 +121,8 @@ const App: React.FC = () => {
             }),
         };
 
+        console.log(resultThreshold)
+
         if (resultThreshold.red.length > 0) {
             setWarning(notificationOptions[3])
             setCriticalDate(resultThreshold.red[0].timestamp);
@@ -131,32 +134,54 @@ const App: React.FC = () => {
             setCriticalDate(resultThreshold.green[0].timestamp);
         };
     }, [params, temperature]);
-    // Get Timeframe
-    const date = new Date();
 
-    if (!params) {
-        return;
-    };
-    
-    // Check for consistent thresholds and create widget
-    let widget: any = <></>;
-    if (params.thresholdgreen! > params.thresholdorange! ||
-        params.thresholdgreen! > params.thresholdred! ||
-        params.thresholdorange! > params.thresholdred!
-    ) {
-        widget = < Alert
-            message="Grenzwerte sind nicht in einer logischen Reihenfolge. Bitte passen Sie die Reihenfolge an."
-            type="error"
-        />
-    } else {
-        widget = <CreateAlert
-            warning={warning}
-            location={params.geom}
-            currentDate={date}
-            band={params.band}
-            criticalDate={criticalDate}
-        />
-    };
+    useEffect(() => {
+        if (!params) {
+            return;
+        };
+
+        if (params.format === 'traffic-light') {
+            switch (warning.name) {
+                case 'blue':
+                    setWidget(<img src='./src/resources/traffic-light-red.svg'/>)
+                    break;
+                case 'orange':
+                    setWidget(<img src='./src/resources/traffic-light-yellow.svg'/>)
+                    break;
+                case 'red':
+                    setWidget(<img src='./src/resources/traffic-light-red.svg'/>)
+                    break;
+                default:
+                    setWidget(<img src='./src/resources/traffic-light-green.svg'/>)
+            };
+        }
+
+        if (params.format === 'warning') {
+            console.log('warning')
+
+            // Get Timeframe
+            const date = new Date();
+
+            // Check for consistent thresholds and create widget
+            if (params.thresholdgreen! > params.thresholdorange! ||
+                params.thresholdgreen! > params.thresholdred! ||
+                params.thresholdorange! > params.thresholdred!
+            ) {
+                setWidget(<Alert
+                    message="Grenzwerte sind nicht in einer logischen Reihenfolge. Bitte passen Sie die Reihenfolge an."
+                    type="error"
+                />)
+            } else {
+                setWidget(<CreateAlert
+                    warning={warning}
+                    location={params.geom}
+                    currentDate={date}
+                    band={params.band}
+                    criticalDate={criticalDate}
+                />)
+            };
+        }
+    }, [params, warning]);
 
     return (
         <View>
