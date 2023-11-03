@@ -9,6 +9,7 @@ import SelectBand from "../SelectBand";
 import SelectThreshold from "../SelectThreshold";
 import { DrawEvent as OlDrawEvent } from 'ol/interaction/Draw';
 import DrawGeometry from "../DrawGeometry";
+import SelectInfo from "../SelectInfo";
 
 export type Threshold = {
     green: String,
@@ -30,15 +31,20 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
     const [band, setBand] = useState('physical');
     const [threshold, setThreshold] = useState<Threshold>({ green: '0', orange: '30', red: '35' });
     const [url, setURL] = useState('');
+    const [info, setInfo] = useState<string>('info-board');
 
     useEffect(() => {
         if (region && wktGeom && threshold && band) {
-            setURL(`https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=${region.toLowerCase()}&geom=${wktGeom}&thresholdgreen=${threshold.green}&thresholdorange=${threshold.orange}&thresholdred=${threshold.red}&band=${band}`)
+            setURL(`https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=${region.toLowerCase()}&geom=${wktGeom}&thresholdgreen=${threshold.green}&thresholdorange=${threshold.orange}&thresholdred=${threshold.red}&band=${band}&format=${info}`)
         };
-    }, [region, wktGeom, threshold, band]);
+    }, [region, wktGeom, threshold, band, info]);
 
     const changeBand = (newBand: string) => {
         setBand(newBand);
+    };
+    
+    const changeInfo = (newInfo: string) => {
+        setInfo(newInfo);
     };
 
     const changeThreshold = (key: keyof Threshold) => (newThreshold: string) => {
@@ -124,6 +130,10 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
                     changeThreshold={changeThreshold('red')}
                 />
             </div>
+            <SelectInfo
+                selectedInfo={info}
+                changeInfo={changeInfo}
+            />
             <div className='permalink-component'>
                 <h3>URL:</h3>
                 <div className="permalink">

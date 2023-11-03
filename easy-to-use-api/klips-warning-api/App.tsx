@@ -156,9 +156,7 @@ const App: React.FC = () => {
             };
         }
 
-        if (params.format === 'warning') {
-            console.log('warning')
-
+        if (params.format === 'info-board') {
             // Get Timeframe
             const date = new Date();
 
