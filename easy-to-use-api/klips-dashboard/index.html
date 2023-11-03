@@ -192,26 +192,46 @@
         <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
             Umland.</li>
     </ol>
+    <a class="description">Zu letzt muss noch die Art der Anzeige definiert werden:</a><br />
+    <ol>
+        <li>Info-Tafel</li>
+        <li>Ampel-Anzeige</li>
+    </ol>
+    <a class="description">Die Info-Tafel gibt eine detaillierte Auskunft über die Warnung aus, wohingegen die Ampelanzeige 
+        die Warnung lediglich farblich differenziert</a><br />
     <a class="description">In diesem Beispiel wird die <i>Pysikalische Temperatur</i> betrachtet.</a><br />
     <a class="description">Für die grüne Warnung wird der Grenzwert <i>10</i>°C ausgewählt, für die orangene Warnung der
-        Grenzwert <i>23</i>°C und für die rote Warnung der Grenzwert <i>28</i>°C. Daraus ergibt sich die folgende
-        URL:</a><br />
+        Grenzwert <i>23</i>°C und für die rote Warnung der Grenzwert <i>28</i>°C. Als Anzeige Option wird die Info-Tafel ausgewählt. 
+        Daraus ergibt sich die folgende URL:</a><br />
     <a href="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588 
-        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical">
+        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board">
         https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
-        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical</a><br />
+        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board</a><br />
     <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
         werden:</a><br />
     <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
-        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical'>
+        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board'>
     </iframe><br />
     <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
     <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
         src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&amp;geom=POINT(13.731467023031588
-        51.04039265124143)&amp;thresholdgreen=10&amp;thresholdorange=23&amp;thresholdred=28&amp;band=physical'&gt;
+        51.04039265124143)&amp;thresholdgreen=10&amp;thresholdorange=23&amp;thresholdred=28&amp;band=physical&amp;format=info-board'&gt;
     &lt;/iframe&gt;</code></pre>
-
-
+    <a class="description">Wird die Ampel-Anzeige gewählt ergibt sich folgende URL:</a><br />
+    <a href="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588 
+        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light">
+        https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
+        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light</a><br />
+    <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
+        werden:</a><br />
+    <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
+        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
+    </iframe><br />
+    <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
+    <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
+        src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&amp;geom=POINT(13.731467023031588
+        51.04039265124143)&amp;thresholdgreen=10&amp;thresholdorange=23&amp;thresholdred=28&amp;band=physical&amp;format=traffic-light'&gt;
+    &lt;/iframe&gt;</code></pre>
     <!-- <span class="authors" title="Author">Fritz Höing</span>
     <span class="date" title="Date">October 2, 2023</span>
     <a href="https://www.terrestris.de" title="terrestris website"><img src="./img/terrestris.svg"
