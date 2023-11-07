@@ -5,6 +5,7 @@ export type Params = {
     thresholdorange?: string;
     thresholdred?: string;
     band?: string;
+    format?: string;
 };
 
 export type NotificationInput = {
