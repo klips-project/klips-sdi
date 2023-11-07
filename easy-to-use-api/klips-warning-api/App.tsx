@@ -48,7 +48,7 @@ const App: React.FC = () => {
 
     setRegion(`${params.region}`);
 
-    // get WKT anf GeoJSON
+    // get WKT and GeoJSON
     const wktReader = new WKTParser();
     const geoJSONWriter = new GeoJSONWriter();
 
