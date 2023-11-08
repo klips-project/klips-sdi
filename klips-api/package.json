@@ -19,7 +19,7 @@
     "watch": "dotenv -e dev.env -- cross-var nodemon -e ts,yaml,json --watch src src/index.ts"
   },
   "dependencies": {
-    "@types/fs-extra": "^11.0.2",
+    "@types/fs-extra": "^11.0.4",
     "ajv": "^8.11.0",
     "amqplib": "^0.10.3",
     "dayjs": "^1.11.10",
