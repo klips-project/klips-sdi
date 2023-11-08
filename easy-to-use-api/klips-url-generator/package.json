@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@terrestris/react-geo": "^23.1.2",
-    "@types/geojson": "^7946.0.11",
+    "@types/geojson": "^7946.0.13",
     "antd": "^4.24.14",
     "ol": "^7.5.2",
     "react": "^18.2.0",
