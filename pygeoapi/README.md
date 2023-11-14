@@ -14,7 +14,7 @@ Zonal statistics of a raster cropped by an provided GeoJSON polygon.
 
 ```shell
 # update Docker file with included Python code
-docker-compose up --build -d pygeoapi ; docker-compose logs -f
+docker compose up --build -d pygeoapi ; docker compose logs -f
 
 # lint using flake8
 dev_scripts/lint.sh

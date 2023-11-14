@@ -1,5 +1,6 @@
 import os
-DEBUG = (os.getenv('DEBUG', 'False') == 'True')
+
+DEBUG = os.getenv("DEBUG", "False") == "True"
 if DEBUG:
     os.environ["FLASK_ENV"] = "development"
     os.environ["PYGEOAPI_HOME"] = "/pygeoapi"
@@ -21,8 +22,9 @@ def initialize_debugger():
     debugpy.wait_for_client()
     print("Visual Studio Code debugger is now attached.", flush=True)
 
+
 if DEBUG:
-    initialize_debugger();
-    serve();
+    initialize_debugger()
+    serve()
 else:
-    subprocess.call(['bash', '/entrypoint.sh'])
+    subprocess.call(["bash", "/entrypoint.sh"])
