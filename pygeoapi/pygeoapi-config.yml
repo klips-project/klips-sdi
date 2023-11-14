@@ -85,3 +85,13 @@ resources:
         type: process
         processor:
             name: processes.timelapse_video.TimelapseVideoProcessor
+    
+    contour-polygons:
+        type: process
+        processor:
+            name: processes.contour_polygons.ContourPolygonsProcessor
+    
+    contour-polygons-time:
+        type: process
+        processor:
+            name: processes.contour_polygons_time.ContourPolygonsTimeProcessor
