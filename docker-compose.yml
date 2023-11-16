@@ -370,11 +370,6 @@ services:
     container_name: ${CN_PREFIX}-warning-api
     image: ghcr.io/klips-project/klips-warning-api:latest
     restart: unless-stopped
-
-  klips-warning-api:
-    container_name: ${CN_PREFIX}-warning-api
-    image: ghcr.io/klips-project/klips-warning-api:latest
-    restart: unless-stopped
     volumes:
       - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
 
