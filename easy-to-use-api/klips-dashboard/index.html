@@ -18,254 +18,295 @@
 </head>
 
 <body>
-    <h2 class="title" href="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">URL-Generator</h2>
-    <a class="description">Der URL-Generator bietet eine Oberfläche um URL's für verschiedene Widgets zu generieren.
-        Dazu muss zunächst die Region, für die das Widget erstellt werden soll, ausgewählt werden.
-        Durch die Auswahl einer vordefinierten Region passt sich der Fokus der Karte auf den Begrenzungsbereich
-        dynamisch an.</a><br />
-    <a class="description">Über die Suchfunktion können Ortsnamen, Straßennamen oder POI's innerhalb der ausgewählten
-        Region gezielt
-        angewählt werden.</a><br />
-    <a class="description">Anschließend kann eine der verfügbaren APIs gewählt werden.
-        Abhängig von der ausgewählten API können weitere Parameter gewählt werden, um diese individuell zu
-        konfigurieren.</a>
-    <iframe id="inlineFrameExample" title="URL-Generator" width="90%" height="700px"
-        src="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">
-    </iframe>
-    <br />
-    <a class="description">In Abhängigkeit zu dem gewüschten Widget werden folgende zusätzliche Parameter abgefragt:</a>
-    <h2>Chart</h2>
-    <a class="description">Die Buttons "Punkt" und "Polygon" ermöglichen es innerhalb des Begrenzungsbereichs eine Punkt
-        oder Flächen-Geometrie
-        einzuzeichnen, für die ein Temperaturchart generiert werden soll. In einem weiteren Schritt kann das Band
-        ausgewählt werden, auf dessen Grundlage die Berechnung erfolgt und das in der Abbildung angezeigt wird.
-        Nach der Generierung kann in der Chart-Darstellung selbst beliebig zwischen den Bändern gewechselt werden.
-        Hier gibt es folgende Möglichkeiten:</a>
-    <ol>
-        <li>Physikalische Temperatur: Die physikalische Temperatur, errechnet aus gemessenen Temperatur-Werten der
-            Sensoren.</li>
-        <li> Gefühlte Temleratur: Die gefühlte Temperatur, errechnet durch einbeziehen zusätzlicher Parameter.</li>
-        <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
-            Umland.</li>
-        <li>Vergleich: Hier wird die physikalische Temperatur im Vergleich zu einem beliebigen anderen Band dargestellt.
-        </li>
-    </ol>
-    <a class="description"> Abschließend kann ein Temperaturgrenzwert für die Darstellung definiert werden.</a><br />
-    <a class="description">Sobald eine Geometrie eingezeichnet wird, wird diese auch als geoJSON in einem Textfeld
-        ausgegeben
-        und kann einfach über den CopyToClipboard-Button in die Zwischenablage kopiert werden.</a><br />
-    <a class="description">Für das Grenzwerte-Eingabefeld sind nur numerische Werte zwischen 0 und 50 zulässig. Werte
-        außerhalb dieses Bereichs werden zurückgesetzt. </a><br />
-    <a class="description">Nachdem alle erforderlichen Parameter eingetragen wurden, erscheint die URL. Diese kann
-        entweder
-        in der Zwischenablage gespeichert werden, per Mail versendet werden oder in einem neuen Tab geöffnet
-        werden.</a><br />
-    <a class="description">Zusätzlich wird auch ein IFrame-Codebeispiel bereit gestellt, welches einfach in jede
-        html-Website eingebunden werden kann.</a><br />
-    <h3>Beispiel:</h3>
-    <a class="description">In diesem Beispiel wird die Region Dresden ausgewählt und anhand der Suchfunktion nach
-        dem Krankenhaus <i>St. Joseph-Stift</i> gesucht.
-        Anschließend setze ich einen Geometrie-Punkt mit den folgenden Koorinaten:</a>
-    <pre><code>
-    {
-      "type":"Point",
-      "coordinates":[
-        13.761238060503882,
-        51.04731292751711
-        ]
-    }
-    </code></pre>
-    <a class="description">Ich wähle das Band <i>gefühlte Temperatur</i> und definiere einen Grenzwert von <i>25</i>°C.
-        Daraus wird fie folgende URL generiert:</a><br />
-    <pre><a href="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
-        51.04731292751711)&threshold=25&band=perceived">
-        https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882
-        51.04731292751711)&threshold=25&band=perceived
-    </a></pre><br />
-    <a class="description">Die URL kann als Iframe in jeder html-Website eingebaut werden:</a><br />
-    <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
-        51.04731292751711)&threshold=25&band=perceived">
-    </iframe><br />
-    <a class="description">Dazu muss lediglich die generierte URL als src-Parameter in einem <b>Iframe</b> verwendet
-        werden:</a><br />
-    <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
-        src=&quot;https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&amp;geom=POINT(13.761238060503882 51.04731292751711)&amp;threshold=25&amp;band=perceived&quot;&gt;
-    &lt;/iframe&gt;</code></pre>
-    <a class="description">Alternativ kann auch einfach das Codebeispiel aus dem URL-Generator direkt kopiert und
-        genutzt werden.</a><br />
+    <div class="collection">
+        <div class="widget">      
+            <h2 class="title" href="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">URL-Generator</h2>
+            <a class="description">Der URL-Generator bietet eine Oberfläche um URL's für verschiedene Widgets zu generieren.
+                Dazu muss zunächst die Region, für die das Widget erstellt werden soll, ausgewählt werden.
+                Durch die Auswahl einer vordefinierten Region passt sich der Fokus der Karte auf den Begrenzungsbereich
+                dynamisch an.</a><br />
+            <a class="description">Über die Suchfunktion können Ortsnamen, Straßennamen oder POI's innerhalb der ausgewählten
+                Region gezielt
+                angewählt werden.</a><br />
+            <a class="description">Anschließend kann eine der verfügbaren APIs gewählt werden.
+                Abhängig von der ausgewählten API können weitere Parameter gewählt werden, um diese individuell zu
+                konfigurieren.</a>
+            <iframe id="inlineFrameExample" title="URL-Generator" width="90%" height="700px"
+                src="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">
+            </iframe>
+            <br />
+            <a class="description">In Abhängigkeit zu dem gewüschten Widget werden folgende zusätzliche Parameter abgefragt:</a>
+        </div>
 
-
-    <h2>Video</h2>
-    <a class="description">Durch Aufruf einer URL wird eine HTML-Seite erzeugt, die einen Videoplayer mit Timelapse
-        Video des Temperaturverlaufs der vergangenen und zukünftigen 48h zeigt. Die Geometrie kann im URL-Generator
-        durch den Nutzer ausgewählt werden und wird im Video dargestellt. Zusätzlich wird ein Titel und der
-        jeweilige Zeitstempel im Video gerendert. Als Berechnungsgrundlage dient ein OGC-API Prozess für Zonale
-        Statistiken.</a>
-    <h3>Beispiel:</h3>
-    <a class="description">In diesem Beispiel wird der Postplatz in Dresden ausgewählt und folgende Geometrie
-        eingezeichnet:</a><br />
-    <pre><code>
-        {
-            "type":"Polygon",
-            "coordinates":[
-                [
-                    [13.732483999107448,51.052155045979475
-                    ],
-                    [13.731835130810548,51.05176431055699
-                    ],
-                    [13.731177369851828,51.05232108853204
-                    ],
-                    [13.731060603934166,51.05242016884759
-                    ],
-                    [13.730862101756552,51.052269713474686
-                    ],
-                    [13.730330817046779,51.05256695423839
-                    ],
-                    [13.729577677054253,51.05240182057946
-                    ],
-                    [13.729717796077052,51.05212292701859
-                    ],
-                    [13.730605216816091,51.0518477015751
-                    ],
-                    [13.730459259712996,51.051660547225936
-                    ],
-                    [13.731842935308112,51.051234860053256
-                    ],
-                    [13.732164041483687,51.05126054822463
-                    ],
-                    [13.73221074769396,51.05111375869308
-                    ],
-                    [13.73357690865621,51.051058712560405
-                    ],
-                    [13.733787087386395,51.051484401228976
-                    ],
-                    [13.734604448418047,51.051315594117426
-                    ],
-                    [13.734680345813757,51.051499080282696
-                    ],
-                    [13.734219121007357,51.0516201806353
-                    ],
-                    [13.734417622792998,51.05179632586945
-                    ],
-                    [13.734359239638183,51.05183302275509
-                    ],
-                    [13.733845469757265,51.051708253274484
-                    ],
-                    [13.733168228140384,51.05164953815924
-                    ],
-                    [13.732777062257425,51.051792656191566
-                    ],
-                    [13.732483999107448,51.052155045979475
+        <div class="widget">
+            <h2>Chart</h2>
+            <a class="description">Die Buttons "Punkt" und "Polygon" ermöglichen es innerhalb des Begrenzungsbereichs eine Punkt
+                oder Flächen-Geometrie
+                einzuzeichnen, für die ein Temperaturchart generiert werden soll. In einem weiteren Schritt kann das Band
+                ausgewählt werden, auf dessen Grundlage die Berechnung erfolgt und das in der Abbildung angezeigt wird.
+                Nach der Generierung kann in der Chart-Darstellung selbst beliebig zwischen den Bändern gewechselt werden.
+                Hier gibt es folgende Möglichkeiten:</a>
+            <ol>
+                <li>Physikalische Temperatur: Die physikalische Temperatur, errechnet aus gemessenen Temperatur-Werten der
+                        Sensoren.</li>
+                <li> Gefühlte Temleratur: Die gefühlte Temperatur, errechnet durch einbeziehen zusätzlicher Parameter.</li>
+                <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
+                    Umland.</li>
+                <li>Vergleich: Hier wird die physikalische Temperatur im Vergleich zu einem beliebigen anderen Band dargestellt.
+                </li>
+            </ol>
+            <a class="description"> Abschließend kann ein Temperaturgrenzwert für die Darstellung definiert werden.</a><br />
+            <a class="description">Sobald eine Geometrie eingezeichnet wird, wird diese auch als geoJSON in einem Textfeld
+                ausgegeben
+                und kann einfach über den CopyToClipboard-Button in die Zwischenablage kopiert werden.</a><br />
+            <a class="description">Für das Grenzwerte-Eingabefeld sind nur numerische Werte zwischen 0 und 50 zulässig. Werte
+                außerhalb dieses Bereichs werden zurückgesetzt. </a><br />
+            <a class="description">Nachdem alle erforderlichen Parameter eingetragen wurden, erscheint die URL. Diese kann
+                entweder
+                in der Zwischenablage gespeichert werden, per Mail versendet werden oder in einem neuen Tab geöffnet
+                werden.</a><br />
+            <a class="description">Zusätzlich wird auch ein IFrame-Codebeispiel bereit gestellt, welches einfach in jede
+                html-Website eingebunden werden kann.</a><br />
+            <h3>Beispiel:</h3>
+            <a class="description">In diesem Beispiel wird die Region Dresden ausgewählt und anhand der Suchfunktion nach
+                dem Krankenhaus <i>St. Joseph-Stift</i> gesucht.
+                Anschließend setze ich einen Geometrie-Punkt mit den folgenden Koorinaten:</a>
+            <pre><code>
+                {
+                "type":"Point",
+                "coordinates":[
+                    13.761238060503882,
+                    51.04731292751711
                     ]
-                ]
-            ]
-        }
-    </code></pre>
-    <a class="description">Als Videoformat wird <i>mp4</i> definiert und der Titel <i>Dresden - Postplatz</i>
-        gewählt.
-        Aus diesen Parametern wird die folgende URL generiert:</a><br />
-    <pre><a
-        href='https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest=
-    {%22type%22:%22Polygon%22,%22coordinates%22:[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],
-        [13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,
-        51.05240182057946],[13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],
-        [13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],
-        [13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden%20-%20Postplatz'>
-        https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest=
-        {%22type%22:%22Polygon%22,%22coordinates%22:[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],
-        [13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,51.05240182057946],
-        [13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],[13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],[13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden%20-%20Postplatz
-    </a></pre><br />
-    <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
-        werden:</a><br />
-    <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest={%22type%22:%22Polygon%22,%22coordinates%22:[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],[13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,51.05240182057946],[13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],[13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],[13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden%20-%20Postplatz">
-    </iframe><br />
-    <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
-    <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
-        src='https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest={"type":"Polygon","coordinates":[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],[13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,51.05240182057946],[13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],[13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],[13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden - Postplatz'&gt;
-    &lt;/iframe&gt;</code></pre>
-    <h2>Warning</h2>
-    <a class="description">Ein Widget, das eine Warnung zeigt, sobald bestimmte Temperatur-Grenzwerte
-        über- oder unterschritten werden.
-        Möglich sind die Werte:</a>
-        <ol>
-            <li>grün: keine Warnung</li>
-            <li>orange: hohe Temperaturen</li>
-            <li>rot: sehr hohe Temperaturen</li>
-        </ol>
-    <a class="description">Werte, die den grünen Grenzwert unterschreiten erhalten eine blaue Warnung für niedrige Temperaturen.
-        Als Berechnungsgrundlage dient ein OGC-API Prozess für Zonale Statistiken (pygeoapi, siehe unten).
-        Ausgewählt werden können ein Punkt oder ein Polygon, für das die Warnung angezeigt wird. Außerdem kann auch hier
-        zwischen gefühlter Temeratur,
-        physikalischer Temperatur, und Temperaturdifferenz zum Umland gewählt werden. Ebenso können alle Grenzwerte
-        individuell
-        festgelegt werden.</a><br />
-    <h3>Beispiel:</h3>
-    <a class="description">In diesem Beispiel wird die Region Dresden gewählt und eine Punkt-Geometrie mit den folgenden
-        Koordinaten eingezeichnet:</a><br />
-    <pre><code>
-        {
-            "type":"Point",
-            "coordinates":[
-                13.73285296004511,
-                51.05137430977925
-                ]
-        }
-        </code></pre><br />
-    <a class="description">Anschließend kann zwischen verschiedenen Bändern ausgewählt werden:</a><br />
-    <ol>
-        <li>Physikalische Temperatur: Die physikalische Temperatur, errechnet aus gemessenen Temperatur-Werten der
-            Sensoren.</li>
-        <li> Gefühlte Temleratur: Die gefühlte Temperatur, errechnet durch einbeziehen zusätzlicher Parameter.</li>
-        <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
-            Umland.</li>
-    </ol>
-    <!-- <a class="description">Zu letzt kann die Art der Anzeige definiert werden:</a><br />
-    <ol>
-        <li>Info-Tafel</li>
-        <li>Ampel-Anzeige</li>
-    </ol>
-    <a class="description">Die Info-Tafel gibt eine detaillierte Auskunft über die Warnung aus, wohingegen die
-        Ampelanzeige
-        die Warnung lediglich farblich differenziert</a><br /> -->
-    <a class="description">In diesem Beispiel wird die <i>Pysikalische Temperatur</i> betrachtet.</a><br />
-    <a class="description">Für die grüne Warnung wird der Grenzwert <i>10</i>°C ausgewählt, für die orangene Warnung der
-        Grenzwert <i>23</i>°C und für die rote Warnung der Grenzwert <i>28</i>°C. 
-        Daraus ergibt sich die folgende URL:</a><br />
-    <pre><a href="https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511%2051.05137430977925)
-        &thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical">
-        https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511%2051.05137430977925)&thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical
-    </a></pre><br />
-    <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
-        werden:</a><br />
-        <iframe id="inlineFrameExample" title="Warnung" width="90%" height="700px" src="https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511 51.05137430977925)&thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical">
+                }
+            </code></pre>
+            <a class="description">Ich wähle das Band <i>gefühlte Temperatur</i> und definiere einen Grenzwert von <i>25</i>°C.
+                Daraus wird fie folgende URL generiert:</a><br />
+            <div class="url">
+                <a href="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
+                51.04731292751711)&threshold=25&band=perceived">
+                https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882
+                51.04731292751711)&threshold=25&band=perceived
+                </a><br />
+            </div>
+            <a class="description">Die URL kann als Iframe in jeder html-Website eingebaut werden:</a><br />
+            <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
+                51.04731292751711)&threshold=25&band=perceived">
+            </iframe><br />
+            <a class="description">Dazu muss lediglich die generierte URL als src-Parameter in einem <b>Iframe</b> verwendet
+                werden:</a><br />
+            <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
+                src=&quot;https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&amp;geom=POINT(13.761238060503882 51.04731292751711)&amp;threshold=25&amp;band=perceived&quot;&gt;
+            &lt;/iframe&gt;</code></pre>
+            <a class="description">Alternativ kann auch einfach das Codebeispiel aus dem URL-Generator direkt kopiert und
+                genutzt werden.</a><br />
+        </div>
+
+        <div class="widget">
+            <h2>Video</h2>
+            <a class="description">Durch Aufruf einer URL wird eine HTML-Seite erzeugt, die einen Videoplayer mit Timelapse
+                Video des Temperaturverlaufs der vergangenen und zukünftigen 48h zeigt. Die Geometrie kann im URL-Generator
+                durch den Nutzer ausgewählt werden und wird im Video dargestellt. Zusätzlich wird ein Titel und der
+                jeweilige Zeitstempel im Video gerendert. Als Berechnungsgrundlage dient ein OGC-API Prozess für Zonale
+                Statistiken.</a>
+            <h3>Beispiel:</h3>
+            <a class="description">In diesem Beispiel wird der Postplatz in Dresden ausgewählt und folgende Geometrie
+                eingezeichnet:</a><br />
+            <pre><code>
+                {
+                    "type":"Polygon",
+                    "coordinates":[
+                        [
+                            [13.732483999107448,51.052155045979475
+                            ],
+                            [13.731835130810548,51.05176431055699
+                            ],
+                            [13.731177369851828,51.05232108853204
+                            ],
+                            [13.731060603934166,51.05242016884759
+                            ],
+                            [13.730862101756552,51.052269713474686
+                            ],
+                            [13.730330817046779,51.05256695423839
+                            ],
+                            [13.729577677054253,51.05240182057946
+                            ],
+                            [13.729717796077052,51.05212292701859
+                            ],
+                            [13.730605216816091,51.0518477015751
+                            ],
+                            [13.730459259712996,51.051660547225936
+                            ],
+                            [13.731842935308112,51.051234860053256
+                            ],
+                            [13.732164041483687,51.05126054822463
+                            ],
+                            [13.73221074769396,51.05111375869308
+                            ],
+                            [13.73357690865621,51.051058712560405
+                            ],
+                            [13.733787087386395,51.051484401228976
+                            ],
+                            [13.734604448418047,51.051315594117426
+                            ],
+                            [13.734680345813757,51.051499080282696
+                            ],
+                            [13.734219121007357,51.0516201806353
+                            ],
+                            [13.734417622792998,51.05179632586945
+                            ],
+                            [13.734359239638183,51.05183302275509
+                            ],
+                            [13.733845469757265,51.051708253274484
+                            ],
+                            [13.733168228140384,51.05164953815924
+                            ],
+                            [13.732777062257425,51.051792656191566
+                            ],
+                            [13.732483999107448,51.052155045979475
+                            ]
+                        ]
+                    ]
+                }
+            </code></pre>
+            <a class="description">Als Videoformat wird <i>mp4</i> definiert und der Titel <i>Dresden - Postplatz</i>
+                gewählt.
+                Aus diesen Parametern wird die folgende URL generiert:</a><br />
+            <div class="url">
+                <a
+                href='https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest=
+                {%22type%22:%22Polygon%22,%22coordinates%22:[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],
+                [13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,
+                51.05240182057946],[13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],
+                [13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],
+                [13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden%20-%20Postplatz'>
+                https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest=
+                {%22type%22:%22Polygon%22,%22coordinates%22:[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],
+                [13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,51.05240182057946],
+                [13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],[13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],[13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden%20-%20Postplatz
+                </a><br />
+            </div>
+            <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
+                werden:</a><br />
+            <iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest={%22type%22:%22Polygon%22,%22coordinates%22:[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],[13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,51.05240182057946],[13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],[13.732164041483687,51.05126054822463],[13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],[13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],[13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden%20-%20Postplatz">
+            </iframe><br />
+            <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
+            <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
+                src='https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=dresden&area-of-interest={"type":"Polygon","coordinates":[[[13.732483999107448,51.052155045979475],[13.731835130810548,51.05176431055699],
+                [13.731177369851828,51.05232108853204],[13.731060603934166,51.05242016884759],[13.730862101756552,51.052269713474686],[13.730330817046779,51.05256695423839],[13.729577677054253,51.05240182057946],
+                [13.729717796077052,51.05212292701859],[13.730605216816091,51.0518477015751],[13.730459259712996,51.051660547225936],[13.731842935308112,51.051234860053256],[13.732164041483687,51.05126054822463],
+                [13.73221074769396,51.05111375869308],[13.73357690865621,51.051058712560405],[13.733787087386395,51.051484401228976],[13.734604448418047,51.051315594117426],[13.734680345813757,51.051499080282696],
+                [13.734219121007357,51.0516201806353],[13.734417622792998,51.05179632586945],[13.734359239638183,51.05183302275509],[13.733845469757265,51.051708253274484],[13.733168228140384,51.05164953815924],
+                [13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden - Postplatz'&gt;
+            &lt;/iframe&gt;</code></pre>
+        </div>
+
+        <div class="widget">
+            <h2>Warning</h2>
+            <a class="description">Ein Widget, das eine Warnung zeigt, sobald bestimmte Temperatur-Grenzwerte
+                über- oder unterschritten werden.
+                Möglich sind die Werte:</a>
+                <ol>
+                    <li>grün: keine Warnung</li>
+                    <li>orange: hohe Temperaturen</li>
+                    <li>rot: sehr hohe Temperaturen</li>
+                </ol>
+            <a class="description">Werte, die den grünen Grenzwert unterschreiten erhalten eine blaue Warnung für niedrige Temperaturen.
+                Als Berechnungsgrundlage dient ein OGC-API Prozess für Zonale Statistiken (pygeoapi, siehe unten).
+                Ausgewählt werden können ein Punkt oder ein Polygon, für das die Warnung angezeigt wird. Außerdem kann auch hier
+                zwischen gefühlter Temeratur,
+                physikalischer Temperatur, und Temperaturdifferenz zum Umland gewählt werden. Ebenso können alle Grenzwerte
+                individuell
+                festgelegt werden.</a><br />
+            <h3>Beispiel:</h3>
+            <a class="description">In diesem Beispiel wird die Region Dresden gewählt und eine Punkt-Geometrie mit den folgenden
+                Koordinaten eingezeichnet:</a><br />
+            <pre><code>
+                {
+                    "type":"Point",
+                    "coordinates":[
+                        13.73285296004511,
+                        51.05137430977925
+                        ]
+                }
+                </code></pre><br />
+            <a class="description">Anschließend kann zwischen verschiedenen Bändern ausgewählt werden:</a><br />
+            <ol>
+                <li>Physikalische Temperatur: Die physikalische Temperatur, errechnet aus gemessenen Temperatur-Werten der
+                    Sensoren.</li>
+                <li> Gefühlte Temleratur: Die gefühlte Temperatur, errechnet durch einbeziehen zusätzlicher Parameter.</li>
+                <li>Temperaturdifferenz: Differenz der gemessenen Temperaturen am ausgewählten Standort zu Referenzsensoren im
+                    Umland.</li>
+            </ol>
+            <!-- <a class="description">Zu letzt kann die Art der Anzeige definiert werden:</a><br />
+            <ol>
+                <li>Info-Tafel</li>
+                <li>Ampel-Anzeige</li>
+            </ol>
+            <a class="description">Die Info-Tafel gibt eine detaillierte Auskunft über die Warnung aus, wohingegen die
+                Ampelanzeige
+                die Warnung lediglich farblich differenziert</a><br /> -->
+            <a class="description">In diesem Beispiel wird die <i>Pysikalische Temperatur</i> betrachtet.</a><br />
+            <a class="description">Für die grüne Warnung wird der Grenzwert <i>10</i>°C ausgewählt, für die orangene Warnung der
+                Grenzwert <i>23</i>°C und für die rote Warnung der Grenzwert <i>28</i>°C. 
+                Daraus ergibt sich die folgende URL:</a><br />
+            <div class="url">
+                <a href="https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511%2051.05137430977925)
+                &thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical">
+                https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511%2051.05137430977925)&thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical
+                </a></pre><br />
+            </div>
+            <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
+                werden:</a><br />
+                <iframe id="inlineFrameExample" title="Warnung" width="90%" height="700px" src="https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511 51.05137430977925)&thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical">
+                </iframe><br />
+            <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
+            <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
+                src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511 51.05137430977925)
+                &thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical'&gt;
+            &lt;/iframe&gt;</code></pre>
+            <!-- <a class="description">Wird die Ampel-Anzeige gewählt ergibt sich folgende URL:</a><br />
+                <pre><a href="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588 
+                51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light">
+                https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
+                51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light</a><br />
+            <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
+                werden:</a><br />
+            <iframe id="inlineFrameExample" title="Warning" width="90%" height="300px" src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
+                51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
+            </iframe><br />
+            <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
+            <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
+                src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&amp;geom=POINT(13.731467023031588
+                51.04039265124143)&amp;thresholdgreen=10&amp;thresholdorange=23&amp;thresholdred=28&amp;band=physical&amp;format=traffic-light'&gt;
+            &lt;/iframe&gt;</code></pre> -->
+            <!-- <span class="authors" title="Author">Fritz Höing</span>
+            <span class="date" title="Date">October 2, 2023</span>-->
+        </div>
+    </div>
+
+    <div class="collection">
+        <h2 class="title" href="">UHI/HI Demonstrator</h2>
+        <a class="description">Dieser Demonstrator bindet die WMS-Time-Layer für Hitzeindex (HI) 
+            und Urban Heat Islands (UHI) mittels OpenLayers ein und stelllt sie für 24 Stunden dar. 
+            Die 24 einzelnen Images können über einen Slider ausgewählt werden und der Nutzer kann die beiden 
+            Layer in der Ansicht bliebig nebeneinander darstellen. Zusätzlich kann die Transparenz der Layer 
+            seperat ausgewählt werden.</a><br />
+        <iframe id="inlineFrameExample" title="Slider" width="90%" height="500px" src="https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/">
         </iframe><br />
-    <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
-    <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
-        src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.73285296004511 51.05137430977925)
-        &thresholdgreen=0&thresholdorange=25&thresholdred=28&band=physical'&gt;
-    &lt;/iframe&gt;</code></pre>
-    <!-- <a class="description">Wird die Ampel-Anzeige gewählt ergibt sich folgende URL:</a><br />
-        <pre><a href="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588 
-        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light">
-        https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
-        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light</a><br />
-    <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
-        werden:</a><br />
-    <iframe id="inlineFrameExample" title="URL-Generator" width="300px" height="100px" src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
-        51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
-    </iframe><br />
-    <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
-    <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
-        src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&amp;geom=POINT(13.731467023031588
-        51.04039265124143)&amp;thresholdgreen=10&amp;thresholdorange=23&amp;thresholdred=28&amp;band=physical&amp;format=traffic-light'&gt;
-    &lt;/iframe&gt;</code></pre> -->
-    <!-- <span class="authors" title="Author">Fritz Höing</span>
-    <span class="date" title="Date">October 2, 2023</span>-->
+        <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
+        <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
+            src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'&gt;
+        &lt;/iframe&gt;</code></pre>
+    </div>
+
+
     <div class="footer">
-        <a href="https://www.terrestris.de" title="terrestris website"><img src="./img/terrestris.svg"
-            alt="terrestris logo"></a> 
-        <h2>License</h2>
-        <p>To be defined</p>
+        <div>
+            <h2>License</h2>
+            <p>To be defined</p>
+        </div>
+        <a href="https://www.meggsimum.de" title="meggsimum website"><img src="./img/meggsimum.png" alt="meggsiumum logo" height="90"></a>
+        <a href="https://www.terrestris.de" title="terrestris website"><img src="./img/terrestris.svg" alt="terrestris logo" height="90"></a>
     </div>
 </body>
