@@ -41,6 +41,19 @@ pre {
     line-height: 15px;
 }
 
-footer {
+hr {
+    border-width:0;
+    background-color:#d9d9d9;
+}
+
+.url {
+    padding: 10px;
+    background-color: #d9d9d9;
+}
+
+.footer {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }

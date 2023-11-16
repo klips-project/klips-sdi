@@ -19,6 +19,7 @@
 
 <body>
     <div class="collection">
+    <hr>
         <div class="widget">      
             <h2 class="title" href="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">URL-Generator</h2>
             <a class="description">Der URL-Generator bietet eine Oberfläche um URL's für verschiedene Widgets zu generieren.
@@ -30,14 +31,14 @@
                 angewählt werden.</a><br />
             <a class="description">Anschließend kann eine der verfügbaren APIs gewählt werden.
                 Abhängig von der ausgewählten API können weitere Parameter gewählt werden, um diese individuell zu
-                konfigurieren.</a>
+                konfigurieren.</a><br />
             <iframe id="inlineFrameExample" title="URL-Generator" width="90%" height="700px"
                 src="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">
-            </iframe>
+            </iframe><br />
             <br />
             <a class="description">In Abhängigkeit zu dem gewüschten Widget werden folgende zusätzliche Parameter abgefragt:</a>
         </div>
-
+        <hr>
         <div class="widget">
             <h2>Chart</h2>
             <a class="description">Die Buttons "Punkt" und "Polygon" ermöglichen es innerhalb des Begrenzungsbereichs eine Punkt
@@ -101,7 +102,7 @@
             <a class="description">Alternativ kann auch einfach das Codebeispiel aus dem URL-Generator direkt kopiert und
                 genutzt werden.</a><br />
         </div>
-
+        <hr>
         <div class="widget">
             <h2>Video</h2>
             <a class="description">Durch Aufruf einer URL wird eine HTML-Seite erzeugt, die einen Videoplayer mit Timelapse
@@ -200,7 +201,7 @@
                 [13.732777062257425,51.051792656191566],[13.732483999107448,51.052155045979475]]]}&output=mp4&title=Dresden - Postplatz'&gt;
             &lt;/iframe&gt;</code></pre>
         </div>
-
+        <hr>
         <div class="widget">
             <h2>Warning</h2>
             <a class="description">Ein Widget, das eine Warnung zeigt, sobald bestimmte Temperatur-Grenzwerte
@@ -272,7 +273,7 @@
                 51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light</a><br />
             <a class="description">Auch diese URL kann wieder als Iframe in eine bestehende html-Website implementiert
                 werden:</a><br />
-            <iframe id="inlineFrameExample" title="Warning" width="90%" height="300px" src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
+            <iframe id="inlineFrameExample" title="Warning" width="600px" height="200px" src='https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.731467023031588
                 51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
             </iframe><br />
             <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
@@ -284,21 +285,22 @@
             <span class="date" title="Date">October 2, 2023</span>-->
         </div>
     </div>
-
+    <hr>
     <div class="collection">
-        <h2 class="title" href="">UHI/HI Demonstrator</h2>
+        <h2 class="title" href="https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/">UHI/HI Demonstrator</h2>
         <a class="description">Dieser Demonstrator bindet die WMS-Time-Layer für Hitzeindex (HI) 
             und Urban Heat Islands (UHI) mittels OpenLayers ein und stelllt sie für 24 Stunden dar. 
             Die 24 einzelnen Images können über einen Slider ausgewählt werden und der Nutzer kann die beiden 
             Layer in der Ansicht bliebig nebeneinander darstellen. Zusätzlich kann die Transparenz der Layer 
             seperat ausgewählt werden.</a><br />
-        <iframe id="inlineFrameExample" title="Slider" width="90%" height="500px" src="https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/">
+        <iframe id="inlineFrameExample" title="Slider" width="90%" height="700px" src="https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/">
         </iframe><br />
         <a class="description">Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:</a><br />
         <pre><code>&lt;iframe id=&quot;inlineFrameExample&quot; title=&quot;URL-Generator&quot; width=&quot;800px&quot; height=&quot;500px&quot;
             src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'&gt;
         &lt;/iframe&gt;</code></pre>
     </div>
+    <hr>
 
 
     <div class="footer">
