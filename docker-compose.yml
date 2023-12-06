@@ -344,41 +344,46 @@ services:
       - PYGEOAPI_BASEURL=${PYGEOAPI_BASEURL}
       - SERVER_URL=${SERVER_URL}
 
-  demonstrator:
-    container_name: ${CN_PREFIX}-demonstrator
-    image: nginx
-    restart: unless-stopped
-    volumes:
-      - ./demonstrator/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./demonstrator/ogc-api-processes:/usr/share/nginx/html/ogc-api-demo:ro
+  # demonstrator:
+  #   container_name: ${CN_PREFIX}-demonstrator
+  #   image: nginx
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./demonstrator/default.conf:/etc/nginx/conf.d/default.conf:ro
+  #     - ./demonstrator/ogc-api-processes:/usr/share/nginx/html/ogc-api-demo:ro
 
-  klips-chart-api:
-    container_name: ${CN_PREFIX}-chart-api
-    image: ghcr.io/klips-project/klips-chart-api:latest
-    restart: unless-stopped
-    environment:
-      - VITE_SERVER_URL=${SERVER_URL}
+  # klips-chart-api:
+  #   container_name: ${CN_PREFIX}-chart-api
+  #   image: ghcr.io/klips-project/klips-chart-api:latest
+  #   restart: unless-stopped
+  #   environment:
+  #     - VITE_SERVER_URL=${SERVER_URL}
 
-  klips-timelapse-video-api:
-    container_name: ${CN_PREFIX}-timelapse-video-api
-    image: ghcr.io/klips-project/klips-timelapse-video-api:latest
-    restart: unless-stopped
-    environment:
-      - VITE_SERVER_URL=${SERVER_URL}
+  # klips-timelapse-video-api:
+  #   container_name: ${CN_PREFIX}-timelapse-video-api
+  #   image: ghcr.io/klips-project/klips-timelapse-video-api:latest
+  #   restart: unless-stopped
+  #   environment:
+  #     - VITE_SERVER_URL=${SERVER_URL}
 
-  klips-warning-api:
-    container_name: ${CN_PREFIX}-warning-api
-    image: ghcr.io/klips-project/klips-warning-api:latest
-    restart: unless-stopped
-    volumes:
-      - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
+  # klips-warning-api:
+  #   container_name: ${CN_PREFIX}-warning-api
+  #   image: ghcr.io/klips-project/klips-warning-api:latest
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
 
-  klips-url-generator:
-    container_name: ${CN_PREFIX}-url-generator
-    image: ghcr.io/klips-project/klips-url-generator:latest
-    restart: unless-stopped
+  # klips-url-generator:
+  #   container_name: ${CN_PREFIX}-url-generator
+  #   image: ghcr.io/klips-project/klips-url-generator:latest
+  #   restart: unless-stopped
 
-  klips-wmts-slider:
-    container_name: ${CN_PREFIX}-wmts-slider
-    image: ghcr.io/klips-project/klips-wmts-slider:latest
+  # klips-wmts-slider:
+  #   container_name: ${CN_PREFIX}-wmts-slider
+  #   image: ghcr.io/klips-project/klips-wmts-slider:latest
+  #   restart: unless-stopped
+
+  klips-dashboard:
+    container_name: ${CN_PREFIX}-dashboard
+    image: ghcr.io/klips-project/klips-dashboard:latest
     restart: unless-stopped
