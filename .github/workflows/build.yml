@@ -139,4 +139,13 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/klips-warning-api:latest
             ghcr.io/${{ github.repository_owner }}/klips-warning-api:${{ steps.timestamp.outputs.timestamp }}
+
+      - name: Build and push klips-dashboard
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./easy-to-use-api/klips-dashboard
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/easy-to-use-api/klips-dashboard:latest
+            ghcr.io/${{ github.repository_owner }}/easy-to-use-api/klips-dashboard:${{ steps.timestamp.outputs.timestamp }}
             

@@ -98,6 +98,11 @@ services:
     build: ./demonstrator-ogc-services/klips-wmts-slider
     ports:
       - 8081:80
+  
+  klips-dashboard:
+    build: ./easy-to-use-api/klips-dashboard
+    ports:
+      - 3004:3000
 
   postgres:
     ports:

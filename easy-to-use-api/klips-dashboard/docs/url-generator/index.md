@@ -24,6 +24,3 @@ Der URL-Generator kann als iFrame beliebig in eine bestehende html-Seite eingebe
 <iframe id="inlineFrameExample" title="URL-Generator" width="100%" height="700px"
         src="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">
 </iframe>
-
-In Abhängigkeit zu dem gewüschten Widget werden folgende zusätzliche Parameter abgefragt:
-

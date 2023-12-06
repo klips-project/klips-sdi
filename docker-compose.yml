@@ -382,3 +382,8 @@ services:
     container_name: ${CN_PREFIX}-wmts-slider
     image: ghcr.io/klips-project/klips-wmts-slider:latest
     restart: unless-stopped
+
+  klips-dashboard:
+    container_name: ${CN_PREFIX}-dashboard
+    image: ghcr.io/klips-project/klips-dashboard:latest
+    restart: unless-stopped
