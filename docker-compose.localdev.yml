@@ -74,30 +74,30 @@ services:
     ports:
       - 127.0.0.1:5000:80
 
-  # klips-chart-api:
-  #   build: ./easy-to-use-api/klips-chart-api
-  #   ports:
-  #     - 3001:80
+  klips-chart-api:
+    build: ./easy-to-use-api/klips-chart-api
+    ports:
+      - 3001:80
 
-  # klips-timelapse-video-api:
-  #   build: ./easy-to-use-api/klips-timelapse-video-api
-  #   ports:
-  #     - 3002:80
+  klips-timelapse-video-api:
+    build: ./easy-to-use-api/klips-timelapse-video-api
+    ports:
+      - 3002:80
 
-  # klips-warning-api:
-  #   build: ./easy-to-use-api/klips-warning-api
-  #   ports:
-  #     - 19007:80
+  klips-warning-api:
+    build: ./easy-to-use-api/klips-warning-api
+    ports:
+      - 19007:80
   
-  # klips-url-generator:
-  #   build: ./easy-to-use-api/klips-url-generator
-  #   ports:
-  #     - 3003:3000
+  klips-url-generator:
+    build: ./easy-to-use-api/klips-url-generator
+    ports:
+      - 3003:3000
 
-  # klips-wmts-slider:
-  #   build: ./demonstrator-ogc-services/klips-wmts-slider
-  #   ports:
-  #     - 8081:80
+  klips-wmts-slider:
+    build: ./demonstrator-ogc-services/klips-wmts-slider
+    ports:
+      - 8081:80
   
   klips-dashboard:
     build: ./easy-to-use-api/klips-dashboard
@@ -108,9 +108,9 @@ services:
     ports:
       - 5432:5432
 
-  # demonstrator:
-  #   ports:
-  #     - 8888:80
+  demonstrator:
+    ports:
+      - 8888:80
 
   rabbitmq:
     ports:
