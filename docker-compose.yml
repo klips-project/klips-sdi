@@ -11,6 +11,12 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./mocked-webspace:/usr/share/nginx/html:ro
       - ./cog_data:/opt/cog:ro
+    healthcheck:
+      test: curl --fail http://localhost || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   klips-api:
     container_name: ${CN_PREFIX}-api
@@ -33,6 +39,12 @@ services:
     volumes:
       - ./configs:/klips-conf
       - ./logs:/home/logs:Z
+    healthcheck:
+      test: curl --fail http://localhost:3000 || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   rabbitmq:
     container_name: ${CN_PREFIX}-rabbitmq
@@ -295,6 +307,12 @@ services:
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx8g
       - SKIP_DEMO_DATA=true
       - GEOSERVER_CSRF_DISABLED=true
+    healthcheck:
+      test: curl --fail "http://localhost:8080/geoserver/web" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   geoserver-init:
     container_name: ${CN_PREFIX}-geoserver-init
@@ -333,6 +351,12 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -h localhost -t 5 || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   pygeoapi:
     container_name: ${CN_PREFIX}-pygeoapi
@@ -343,6 +367,12 @@ services:
       - GISBASE=/usr/lib/grass83/
       - PYGEOAPI_BASEURL=${PYGEOAPI_BASEURL}
       - SERVER_URL=${SERVER_URL}
+    healthcheck:
+      test: curl --fail "http://localhost:5000" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   demonstrator:
     container_name: ${CN_PREFIX}-demonstrator
@@ -358,6 +388,12 @@ services:
     restart: unless-stopped
     environment:
       - VITE_SERVER_URL=${SERVER_URL}
+    healthcheck:
+      test: curl --fail "http://localhost:3001" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   klips-timelapse-video-api:
     container_name: ${CN_PREFIX}-timelapse-video-api
@@ -365,6 +401,12 @@ services:
     restart: unless-stopped
     environment:
       - VITE_SERVER_URL=${SERVER_URL}
+    healthcheck:
+      test: curl --fail "http://localhost" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   klips-warning-api:
     container_name: ${CN_PREFIX}-warning-api
@@ -372,13 +414,31 @@ services:
     restart: unless-stopped
     volumes:
       - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      test: curl --fail "http://localhost:19007" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   klips-url-generator:
     container_name: ${CN_PREFIX}-url-generator
     image: ghcr.io/klips-project/klips-url-generator:latest
     restart: unless-stopped
+    healthcheck:
+      test: curl --fail "http://localhost" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   klips-wmts-slider:
     container_name: ${CN_PREFIX}-wmts-slider
     image: ghcr.io/klips-project/klips-wmts-slider:latest
     restart: unless-stopped
+    healthcheck:
+      test: curl --fail "http://localhost" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s

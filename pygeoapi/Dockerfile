@@ -1,5 +1,7 @@
 FROM geopython/pygeoapi:0.14.0
 
+RUN apk add curl
+
 # add ubuntugis repository for latest GRASS version
 RUN apt -y update && \
     apt -y install software-properties-common && \
@@ -22,3 +24,5 @@ COPY processes/ processes/
 COPY entry.py .
 
 ENTRYPOINT [ "python3", "entry.py" ]
+
+EXPOSE 80
