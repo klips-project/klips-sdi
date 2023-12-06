@@ -55,15 +55,14 @@ Ich wähle das Band *gefühlte Temperatur* und definiere einen Grenzwert von 25�
 
 Die URL kann als iFrame in jeder html-Website eingebaut werden:
 
-<iframe id="inlineFrameExample" title="URL-Generator" width="100%" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
-        51.04731292751711)&threshold=25&band=perceived">
+<iframe id="inlineFrameExample" title="URL-Generator" width="100%" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882%2051.04731292751711)&threshold=25&band=perceived">
 </iframe>
 
 Dazu muss lediglich die generierte URL als src-Parameter in einem iFrame verwendet werden:
 
 ```js
-<iframe id="inlineFrameExample" title="URL-Generator" width="100%" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882 
-        51.04731292751711)&threshold=25&band=perceived">
+<iframe id="inlineFrameExample" title="URL-Generator" width="100%" height="500px" src="https://klips-dev.terrestris.de/easy-to-use-api/chart/?region=dresden&geom=POINT(13.761238060503882%2051.04731292751711)&threshold=25&band=perceived">
+</iframe>
 ```
 
 Alternativ kann auch einfach das Codebeispiel aus dem URL-Generator direkt kopiert und genutzt werden.

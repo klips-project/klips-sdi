@@ -12,11 +12,12 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
+        <h1 className="hero__title">{siteConfig.title}</h1>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/url-generator">
-            URL-Generator Dokumentation
+            Dokumentation
           </Link>
         </div>
       </div>
@@ -28,22 +29,21 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title} Documentation`}
-      description="This manual is designed to give a comprehensive overview of the functionalities of the SHOGun-Web-GIS application">
+      title={`${siteConfig.title} Dokumentation`}
+      description="Diese Dokumentation stellt alle Funktionalitäten des URL-Generators vor">
       <HomepageHeader />
       <main>
         <div
           className={styles.grid}
         >
-          <p></p>
           <div />
-            <p>
+            <p className='landing-page-text'>
               Willkommen bei der Dokumentation zum <b>URL-Generator</b>.
               Der URL-Generator bietet eine Oberfläche um URL's für verschiedene Widgets zu generieren.
               Hier werden alle Widgets vorgestellt und exemplarisch gezeigt, wie diese mit wenigen klicks 
               in eine Webseite integriert werden können.
             </p>
-            <h2>Authors:</h2>
+            <h2 className='authors-list-header'>Authors:</h2>
             <ul class="authors-list">
               <li>
                 Svenja Dobbert (<a href="mailto:dobbert@terrestris.de?subject=URL-Generator">christl@terrestris.de</a>)
