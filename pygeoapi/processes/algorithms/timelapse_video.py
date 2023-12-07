@@ -6,7 +6,7 @@ from requests.models import PreparedRequest
 from datetime import datetime, timedelta
 from shapely import from_geojson, buffer
 from .util import reproject
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont, ImageDraw, ImageEnhance
 from string import Template
 from pygml.v32 import encode_v32
 from lxml import etree
@@ -18,8 +18,10 @@ url = os.environ["SERVER_URL"]
 geoserverUrl = url + "/geoserver/dresden/wms?"
 baseurl = (
     geoserverUrl
-    + "SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&STYLES&LAYERS=dresden%3Adresden_temperature&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A3035&"  # noqa: E501
+    + "SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&STYLES&LAYERS=dresden%3Adresden_temperature_physical&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A3035&"  # noqa: E501
 )
+baseMapUrl = "https://ows.terrestris.de/osm/service?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true&STYLES&LAYERS=OSM-Overlay-WMS&SRS=EPSG:3035&"  # noqa: E501
+
 cacheFolder = "/tmp/timelapse"
 
 inlineFeatureGetMap = """<?xml version="1.0" encoding="UTF-8"?>
@@ -132,7 +134,8 @@ def generate_timelapse_video(title, geojson):
     # render user given geometry via geoserver sld inlinefeature
     gml = encode_v32(geojson, "ID")
     gmlString = etree.tostring(gml, pretty_print=True).decode()
-    coordinates = gmlString.split("<gml:posList>")[1].split("</gml:posList>")[0]
+    coordinates = gmlString.split("<gml:posList>")[
+        1].split("</gml:posList>")[0]
     coordinates = coordinates.split(" ")
     coordinateString = ""
     for i in range(0, len(coordinates), 2):
@@ -155,6 +158,31 @@ def generate_timelapse_video(title, geojson):
         geometryImage = Image.open(f"{targetFolder}/geometry.png")
         geometryImage = geometryImage.convert("RGBA")
 
+    # setup getmap urls and retrieve basemap
+    req = PreparedRequest()
+    params = {
+        "BBOX": ",".join(str(x) for x in bbox),
+        "WIDTH": width,
+        "HEIGHT": height
+    }
+    req.prepare_url(baseMapUrl, params)
+    LOGGER.info("fetching URL... ", req.url)
+    response = requests.get(req.url)
+    if response.status_code == 200:
+        LOGGER.info("got basemap")
+        with open(f"{targetFolder}/basemap.png", "wb") as f:
+            f.write(response.content)
+            try:
+                baseMapImage = Image.open(f"{targetFolder}/basemap.png")
+                background = Image.new(
+                    "RGB", baseMapImage.size, (255, 255, 255))  # noqa: E501
+                background.paste(baseMapImage, mask=baseMapImage.split()[
+                                 3])  # alpha channel
+                background = background.convert("RGBA")
+            except Exception:
+                LOGGER.error("Error on writing basemap to image")
+                pass
+
     # setup getmap urls and retrieve images
     for i in range(-48, 48):
         time = nowFlattened - timedelta(hours=i)
@@ -175,6 +203,11 @@ def generate_timelapse_video(title, geojson):
                 try:
                     image = Image.open(f"{targetFolder}/{timestring}.png")
                     image = image.convert("RGBA")
+
+                    alpha = image.split()[3]
+                    alpha = ImageEnhance.Brightness(alpha).enhance(.8)
+                    image.putalpha(alpha)
+
                     fonts_path = os.path.join(
                         os.path.dirname(os.path.dirname(__file__)), "fonts"
                     )
@@ -183,7 +216,8 @@ def generate_timelapse_video(title, geojson):
                     )
                     # insert title into images
                     if title is not None:
-                        ImageDraw.Draw(image).text((10, 10), title, (0, 0, 0), font)
+                        ImageDraw.Draw(image).text(
+                            (10, 10), title, (0, 0, 0), font)
                     # insert datetime into images
                     ImageDraw.Draw(image).text(
                         (10, height - 30),
@@ -193,6 +227,8 @@ def generate_timelapse_video(title, geojson):
                     )
                     # draw geometry provided by user ontop
                     if geometryImage is not None:
+                        image = image.convert("RGBA")
+                        image = Image.alpha_composite(background, image)
                         image = Image.alpha_composite(image, geometryImage)
 
                     image.save(f"{targetFolder}/{timestring}.png")
@@ -207,8 +243,13 @@ def generate_timelapse_video(title, geojson):
     # create video
     LOGGER.info("Start video encoding")
     (
-        ffmpeg.input(f"{targetFolder}/*.png", pattern_type="glob", framerate=10)
-        .output(target)
+        ffmpeg.input(f"{targetFolder}/*.png",
+                     pattern_type="glob", 
+                     framerate=8, 
+                     pix_fmt="yuv420p")
+        .output(target, f="webm", 
+                vcodec="libvpx-vp9", 
+                acodec="loboupus")
         .run()
     )
     LOGGER.info("Finished video encoding")
