@@ -134,8 +134,7 @@ def generate_timelapse_video(title, geojson):
     # render user given geometry via geoserver sld inlinefeature
     gml = encode_v32(geojson, "ID")
     gmlString = etree.tostring(gml, pretty_print=True).decode()
-    coordinates = gmlString.split("<gml:posList>")[
-        1].split("</gml:posList>")[0]
+    coordinates = gmlString.split("<gml:posList>")[1].split("</gml:posList>")[0]
     coordinates = coordinates.split(" ")
     coordinateString = ""
     for i in range(0, len(coordinates), 2):
@@ -160,11 +159,7 @@ def generate_timelapse_video(title, geojson):
 
     # setup getmap urls and retrieve basemap
     req = PreparedRequest()
-    params = {
-        "BBOX": ",".join(str(x) for x in bbox),
-        "WIDTH": width,
-        "HEIGHT": height
-    }
+    params = {"BBOX": ",".join(str(x) for x in bbox), "WIDTH": width, "HEIGHT": height}
     req.prepare_url(baseMapUrl, params)
     LOGGER.info("fetching URL... ", req.url)
     response = requests.get(req.url)
@@ -175,9 +170,11 @@ def generate_timelapse_video(title, geojson):
             try:
                 baseMapImage = Image.open(f"{targetFolder}/basemap.png")
                 background = Image.new(
-                    "RGB", baseMapImage.size, (255, 255, 255))  # noqa: E501
-                background.paste(baseMapImage, mask=baseMapImage.split()[
-                                 3])  # alpha channel
+                    "RGB", baseMapImage.size, (255, 255, 255)
+                )  # noqa: E501
+                background.paste(
+                    baseMapImage, mask=baseMapImage.split()[3]
+                )  # alpha channel
                 background = background.convert("RGBA")
             except Exception:
                 LOGGER.error("Error on writing basemap to image")
@@ -205,7 +202,7 @@ def generate_timelapse_video(title, geojson):
                     image = image.convert("RGBA")
 
                     alpha = image.split()[3]
-                    alpha = ImageEnhance.Brightness(alpha).enhance(.8)
+                    alpha = ImageEnhance.Brightness(alpha).enhance(0.8)
                     image.putalpha(alpha)
 
                     fonts_path = os.path.join(
@@ -216,8 +213,7 @@ def generate_timelapse_video(title, geojson):
                     )
                     # insert title into images
                     if title is not None:
-                        ImageDraw.Draw(image).text(
-                            (10, 10), title, (0, 0, 0), font)
+                        ImageDraw.Draw(image).text((10, 10), title, (0, 0, 0), font)
                     # insert datetime into images
                     ImageDraw.Draw(image).text(
                         (10, height - 30),
@@ -243,13 +239,10 @@ def generate_timelapse_video(title, geojson):
     # create video
     LOGGER.info("Start video encoding")
     (
-        ffmpeg.input(f"{targetFolder}/*.png",
-                     pattern_type="glob", 
-                     framerate=8, 
-                     pix_fmt="yuv420p")
-        .output(target, f="webm", 
-                vcodec="libvpx-vp9", 
-                acodec="loboupus")
+        ffmpeg.input(
+            f"{targetFolder}/*.png", pattern_type="glob", framerate=8, pix_fmt="yuv420p"
+        )
+        .output(target, f="webm", vcodec="libvpx-vp9", acodec="loboupus")
         .run()
     )
     LOGGER.info("Finished video encoding")
