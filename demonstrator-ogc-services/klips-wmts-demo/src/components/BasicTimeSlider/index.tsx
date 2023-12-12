@@ -46,7 +46,7 @@ const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({
   const onChange = (newValue: number) => {
     const date = dayjs().add(newValue, 'hours').utc().format('YYYY-MM-DDTHH:00:00Z');
     const time = moment(date).toISOString();
-    setTimestamp(dayjs().add(newValue, 'hours').utc().format('DD.MM.YYYY HH:00'));
+    setTimestamp(dayjs().add(newValue, 'hours').format('DD.MM.YYYY HH:00'));
 
     layers.forEach((element: any) => element.getSource().updateParams({
       TIME: time
