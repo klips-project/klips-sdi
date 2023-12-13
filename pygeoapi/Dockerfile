@@ -1,7 +1,5 @@
 FROM geopython/pygeoapi:0.14.0
 
-# RUN apt update && apt upgrade
-
 # add ubuntugis repository for latest GRASS version
 RUN apt -y update && \
     apt -y install software-properties-common && \

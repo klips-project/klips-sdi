@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-#ToDo
   nginx:
     container_name: ${CN_PREFIX}-nginx
     image: nginx
