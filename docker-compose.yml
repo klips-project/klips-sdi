@@ -373,3 +373,5 @@ services:
     container_name: ${CN_PREFIX}-url-generator
     image: ghcr.io/klips-project/klips-url-generator:latest
     restart: unless-stopped
+    volumes:
+      - ./easy-to-use-api/klips-warning-api/default.conf:/etc/nginx/conf.d/default.conf:ro
