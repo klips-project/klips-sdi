@@ -10,9 +10,9 @@
     "url": "https://www.terrestris.de"
   },
   "dependencies": {
-    "@terrestris/react-geo": "^23.1.2",
-    "@types/geojson": "^7946.0.11",
-    "antd": "^4.24.14",
+    "@terrestris/react-geo": "^23.2.0",
+    "@types/geojson": "^7946.0.13",
+    "antd": "^4.24.15",
     "ol": "^7.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

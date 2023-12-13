@@ -1,5 +1,6 @@
 FROM node:16-alpine
 
+RUN apk add curl
 WORKDIR /usr/build
 
 COPY ./ ./
@@ -20,7 +21,7 @@ COPY --from=0 /usr/build/node_modules ./node_modules
 COPY util/wait-for.sh util/start-worker.sh ./
 RUN chmod +x wait-for.sh start-worker.sh
 
-
+RUN apk add curl
 EXPOSE 3000
 ENV NODE_ENV=production
 

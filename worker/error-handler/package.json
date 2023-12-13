@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "amqplib": "^0.10.3",
-    "pino": "^8.16.0",
+    "pino": "^8.16.2",
     "pino-pretty": "^10.2.3"
   },
   "devDependencies": {
-    "eslint": "^8.51.0"
+    "eslint": "^8.55.0"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.yml ."
