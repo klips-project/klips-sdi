@@ -44,7 +44,7 @@
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.55.0",
     "nodemon": "^3.0.2",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "engines": {
