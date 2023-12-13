@@ -99,6 +99,11 @@ services:
     ports:
       - 8081:80
   
+  klips-wmts-demo:
+    build: ./demonstrator-ogc-services/klips-wmts-demo
+    ports:
+      - 8082:80
+  
   klips-dashboard:
     build: ./easy-to-use-api/klips-dashboard
     ports:
@@ -106,7 +111,7 @@ services:
 
   postgres:
     ports:
-      - 5432:5432
+      - 5433:5432
 
   demonstrator:
     ports:

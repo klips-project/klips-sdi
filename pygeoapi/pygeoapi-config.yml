@@ -17,7 +17,7 @@ server:
         attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
 
 logging:
-    level: ERROR
+    level: DEBUG
 
 metadata:
     identification:
