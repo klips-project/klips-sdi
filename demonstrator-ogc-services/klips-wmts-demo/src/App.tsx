@@ -31,15 +31,13 @@ export const App: React.FC = (): JSX.Element => {
   } = useTranslation();
 
   // get layers
-  const physical = map.getAllLayers()[1] as OlLayer;
-  const perceived = map.getAllLayers()[2] as OlLayer;
-  const difference = map.getAllLayers()[3] as OlLayer;
+  const layers = map.getAllLayers().filter(layer => layer.get('name') !== 'OpenStreetMap');
+  const defaultLayer = layers.find(layer => layer.get('name') === 'Physical temperature');
 
-  const [layer, setLayer] = useState<string>(physical.get('name'));
+  const [layer, setLayer] = useState<string>(defaultLayer?.get('name'));
   const [opacityBlock, setOpacityBlock] = useState<boolean>(false);
   const [legendBlock, setLegendBlock] = useState<boolean>(false);
 
-  const layers = [physical, perceived, difference];
   const selectedLayer = MapUtil.getLayerByName(map, layer) as OlLayer;
   const src = selectedLayer.getSource() as TileWMS;
 
@@ -81,7 +79,8 @@ export const App: React.FC = (): JSX.Element => {
   };
 
   // get legend
-  const layerName = src.getParams().LAYERS[0];
+  // since the style of the params is equal it doesn't matter which Params we recieve
+  const layerName = src.getParams().LAYERS[1];
   const legendUrl = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
     + `FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=${layerName}`;
 

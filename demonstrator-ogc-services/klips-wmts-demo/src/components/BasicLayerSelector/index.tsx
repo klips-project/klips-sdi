@@ -56,7 +56,6 @@ export const BasicLayerSelector: React.FC<BasicLayerSelectorProps> = ({
   return (
     <div className={'bg-layer-chooser'}>
       <Select
-        status={layer ? undefined : 'warning'}
         placeholder="Sichtbarer Layer"
         options={selectOptions}
         onChange={onChangeLayer}
