@@ -65,6 +65,9 @@ import './style.css';
     if (chartApi) {
       chartApi.render();
       loadmask.style.visibility = 'hidden';
+      window.onresize = function() {
+        chartApi.chart.resize();
+      };
     }
 
   } catch (error) {

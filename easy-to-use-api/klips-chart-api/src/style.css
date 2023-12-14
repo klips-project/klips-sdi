@@ -12,8 +12,8 @@ body {
 
 #chart {
   /* todo improve widget sizes, maybe use relative units */
-  width: 800px;
-  height: 400px;
+  width: 100vw;
+  height: 100vh;
 }
 
 #error {
@@ -33,8 +33,8 @@ body {
 
 #loadmask {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  /* width: 100vw;
+  height: 100vh; */
   z-index: 99;
   text-align: center;
   top: 50%;

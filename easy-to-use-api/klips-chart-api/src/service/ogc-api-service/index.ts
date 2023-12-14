@@ -90,9 +90,9 @@ export const generateErrorMessages = (
       + `Parameter für "region".</span></div>${linkDocsHTML}`;
     }
     throw new Error('Invalid region.');
-    
+
   }
-// validate threshold parameter
+  // validate threshold parameter
   if (!validateParamsThreshold(params)) {
     if (errorElementURL) {
       errorElementURL.style.display = 'block';
