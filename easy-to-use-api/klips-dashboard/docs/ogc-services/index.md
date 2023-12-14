@@ -9,7 +9,7 @@ sidebar_label: OGC-Service-Demonstratoren
 # OGC-Service-Demonstratoren
 ***
 
-Die Klips-Daten werden über einen WMST-Dienst bereitgestellt. Diese Demonstratoren bieten die Möglichkeit verschiedene dort enthaltene zeitbasierte Daten darzustellen:
+Die Klips-Daten werden über einen WMS-Time-Dienst bereitgestellt. Diese Demonstratoren bieten die Möglichkeit verschiedene dort enthaltene zeitbasierte Daten darzustellen:
 
 - **Temperaturprognosedaten**: Stündliche Temperaturdaten für den jetzigen Zeitpunkt sowie 48h in die Zukunft (Prognose) & 48h in die Vergangenheit
 
