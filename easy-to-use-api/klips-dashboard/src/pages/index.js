@@ -46,13 +46,13 @@ export default function Home() {
             <h2 className='authors-list-header'>Authors:</h2>
             <ul class="authors-list">
               <li>
-                Svenja Dobbert (<a href="mailto:dobbert@terrestris.de?subject=URL-Generator">christl@terrestris.de</a>)
+                Svenja Dobbert (<a href="mailto:dobbert@terrestris.de?subject=URL-Generator">dobbert@terrestris.de</a>)
               </li>
               <li>
                 Fritz Höing (<a href="mailto:hoeing@terrestris.de?subject=URL-Generator">hoeing@terrestris.de</a>)
               </li>
               <li>
-                Ulrich Rothstein (<a href="mailto:rothstein@terrestris.de?subject=URL-Generator">blitza@terrestris.de</a>)
+                Ulrich Rothstein (<a href="mailto:rothstein@terrestris.de?subject=URL-Generator">rothstein@terrestris.de</a>)
               </li>
             </ul>
           <div />
