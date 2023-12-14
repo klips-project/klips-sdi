@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import * as Linking from 'expo-linking';
 
 // @ts-ignore
@@ -13,6 +13,8 @@ import { notificationOptions } from './src/constants';
 import { NotificationInput, ResultObject, ResultThreshold, Params } from './src/types';
 
 import { Alert } from 'antd';
+
+import { ImageGreen, ImageRed, ImageYellow } from './image';
 
 const App: React.FC = () => {
   type PromiseResponse = { response: ResultObject[] };
@@ -143,16 +145,16 @@ const App: React.FC = () => {
     if (params.format === 'traffic-light') {
       switch (warning.name) {
         case 'blue':
-          setWidget(<img src='./src/resources/traffic-light-red.svg' />)
+          setWidget(<Image source={ ImageRed } />)
           break;
         case 'orange':
-          setWidget(<img src='./src/resources/traffic-light-yellow.svg' />)
+          setWidget(<Image source={ ImageYellow } />)
           break;
         case 'red':
-          setWidget(<img src='./src/resources/traffic-light-red.svg' />)
+          setWidget(<Image source={ ImageRed } />)
           break;
         default:
-          setWidget(<img src='./src/resources/traffic-light-green.svg' />)
+          setWidget(<Image source={ ImageGreen } />)
       };
     }
 
