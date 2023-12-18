@@ -75,13 +75,13 @@ Wird die *Ampel-Anzeige* gewählt ergibt sich folgende URL:
 
 Auch diese URL kann wieder als iFrame in eine bestehende html-Website implementiert werden:
 
-<iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="200px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588 
+<iframe id="inlineFrameExample" title="URL-Generator" width="100px" height="100px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588 
     51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
 </iframe>
 
 Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:
 
 ```jsx
-<iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="200px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
+<iframe id="inlineFrameExample" title="URL-Generator" width="100px" height="100px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
 </iframe>
 ```

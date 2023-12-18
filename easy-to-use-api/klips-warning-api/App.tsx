@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import * as Linking from 'expo-linking';
 
 // @ts-ignore
@@ -143,18 +143,23 @@ const App: React.FC = () => {
     };
 
     if (params.format === 'traffic-light') {
+      const styling = {
+        width: 100,
+        height: 100
+      };
+
       switch (warning.name) {
         case 'blue':
-          setWidget(<Image source={ ImageRed } />)
+          setWidget(<Image style={styling} source={ ImageRed } />)
           break;
         case 'orange':
-          setWidget(<Image source={ ImageYellow } />)
+          setWidget(<Image style={styling} source={ ImageYellow } />)
           break;
         case 'red':
-          setWidget(<Image source={ ImageRed } />)
+          setWidget(<Image style={styling} source={ ImageRed } />)
           break;
         default:
-          setWidget(<Image source={ ImageGreen } />)
+          setWidget(<Image style={styling} source={ ImageGreen } />)
       };
     }
 
