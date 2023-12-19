@@ -36,11 +36,13 @@ services:
       - PARTNER_API_USERNAME
       - PARTNER_API_PASSWORD
       - PINO_STREAM_LOG_LEVEL
+      - KLIPS_USER=${KLIPS_USER}
+      - KLIPS_PASSWORD=${KLIPS_PASSWORD}
     volumes:
       - ./configs:/klips-conf
       - ./logs:/home/logs:Z
     healthcheck:
-      test: curl --fail http://localhost:3000 || exit 1
+      test: curl --fail --user ${KLIPS_USER}:${KLIPS_PASSWORD}  http://localhost:3000/api/status || exit 1
       interval: 10s
       retries: 5
       start_period: 5s
@@ -206,6 +208,12 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PINO_STREAM_LOG_LEVEL
+    healthcheck:
+      test: pgrep node || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
 
   download-file:
     container_name: ${CN_PREFIX}-download-file
