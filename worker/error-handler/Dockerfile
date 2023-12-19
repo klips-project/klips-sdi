@@ -10,3 +10,5 @@ COPY index.js worker/
 COPY logger.js worker/
 
 CMD ["./start-worker.sh"]
+
+HEALTHCHECK CMD pgrep node || exit 1
