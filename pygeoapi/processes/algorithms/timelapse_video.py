@@ -15,13 +15,7 @@ import logging
 
 LOGGER = logging.getLogger(__name__)
 url = os.environ["SERVER_URL"]
-geoserverUrl = url + "/geoserver/dresden/wms?"
-baseurl = (
-    geoserverUrl
-    + "SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&STYLES&LAYERS=dresden%3Adresden_temperature_physical&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A3035&"  # noqa: E501
-)
 baseMapUrl = "https://ows.terrestris.de/osm/service?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true&STYLES&LAYERS=OSM-Overlay-WMS&SRS=EPSG:3035&"  # noqa: E501
-
 cacheFolder = "/tmp/timelapse"
 
 inlineFeatureGetMap = """<?xml version="1.0" encoding="UTF-8"?>
@@ -80,14 +74,22 @@ inlineFeatureGetMap = """<?xml version="1.0" encoding="UTF-8"?>
 </ogc:GetMap>"""
 
 
-def generate_timelapse_video(title, geojson):
+def generate_timelapse_video(title, geojson, location):
     """
     Create timelapse video for the given region.
 
     :param title: the title to render into the video
     :param geojson: A polygon GeoJSON indicating the area to render the video for
+    :param location: Dresden or Langenfeld
     :returns A timelapse video in mp4 format
     """
+    # get BaseURL
+    geoserverUrl = url + f"/geoserver/{location}/wms?"
+    baseurl = (
+        geoserverUrl
+        + f"SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&STYLES&LAYERS={location}%3A{location}_temperature_physical&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A3035&"  # noqa: E501
+    )
+
     # get current hour datetime
     now = datetime.now()
     nowFlattened = now.replace(minute=0, second=0, microsecond=0)
