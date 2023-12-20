@@ -31,6 +31,7 @@ PROCESS_METADATA = {
                 ],
                 "type": "Polygon",
             },
+            "location": "dresden",
         }
     },
     "inputs": {
@@ -50,6 +51,13 @@ PROCESS_METADATA = {
                 "$ref": "http://schemas.opengis.net/ogcapi/features/part1/1.0/openapi/schemas/geometryGeoJSON.json"  # noqa: E501
             },
         },
+        "location": {
+            "title": "location",
+            "description": "Location of the entered Polygon",
+            "minOccurs": 0,
+            "maxOccurs": 1,
+            "schema": {"type": "string"},
+        },
     },
     "outputs": {
         "video": {
@@ -68,11 +76,12 @@ class TimelapseVideoProcessor(BaseProcessor):
     def execute(self, data):
         title = data.get("title", None)
         geom = data.get("polygonGeoJson", None)
+        location = data.get("location", None)
         mimetype = "video/mp4"
 
         LOGGER.debug("Start to generate timelapse video...")
         try:
-            result = generate_timelapse_video(title, geom)
+            result = generate_timelapse_video(title, geom, location)
         except Exception as e:
             LOGGER.debug("Failed to generate timelapse video.")
             LOGGER.debug(e)

@@ -51,7 +51,8 @@ try {
   const body = {
     inputs: {
       title: title,
-      polygonGeoJson: json
+      polygonGeoJson: json,
+      location: region
     }
   };
   fetch(url, {
