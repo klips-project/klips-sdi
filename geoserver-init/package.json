@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "geoserver-node-client": "^1.3.0",
-    "pino": "^8.17.1",
+    "pino": "^8.17.2",
     "pino-pretty": "^10.3.0"
   },
   "devDependencies": {
