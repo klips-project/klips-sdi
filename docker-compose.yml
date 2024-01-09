@@ -317,7 +317,7 @@ services:
     environment:
       - INSTALL_EXTENSIONS=true
       - STABLE_EXTENSIONS=importer
-      - EXTRA_JAVA_OPTS=-Xms1g -Xmx8g
+      - EXTRA_JAVA_OPTS=-Xms1g -Xmx32g
       - SKIP_DEMO_DATA=true
       - GEOSERVER_CSRF_DISABLED=true
     healthcheck:
