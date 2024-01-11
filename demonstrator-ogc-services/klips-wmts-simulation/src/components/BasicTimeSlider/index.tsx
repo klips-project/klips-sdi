@@ -32,7 +32,7 @@ export type BasicTimeSliderProps = OwnProps;
 const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({
   min, max, date, layers
 }) => {
-  const [timestamp, setTimestamp] = useState<string>('01:00');
+  const [timestamp, setTimestamp] = useState<string>('00:00');
 
   const map = useMap();
 
@@ -41,7 +41,7 @@ const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({
   };
   const onChange = (newValue: number) => {
     const dateStr = moment(date).format('YYYY-MM-DD');
-    const timeStr = `${newValue}:00`;
+    const timeStr = `${newValue-1}:00`;
     setTimestamp(timeStr);
 
     const time = moment(dateStr + ' ' + timeStr).toISOString();
@@ -53,9 +53,9 @@ const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({
   };
 
   const marks: SliderMarks = {
-    1: '01:00',
-    12: '12:00',
-    24: '24:00'
+    1: '00:00',
+    13: '12:00',
+    24: '23:00'
   };
 
   return (
