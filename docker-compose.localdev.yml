@@ -114,6 +114,11 @@ services:
     build: ./demonstrator-ogc-services/klips-wmts-demo-summer
     ports:
       - 8084:80
+      
+  klips-wmts-simulation:
+    build: ./demonstrator-ogc-services/klips-wmts-simulation
+    ports:
+      - 8083:80
   
   klips-dashboard:
     build: ./easy-to-use-api/klips-dashboard

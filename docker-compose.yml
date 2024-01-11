@@ -484,6 +484,17 @@ services:
       start_period: 5s
       timeout: 10s
 
+  klips-wmts-simulation:
+    container_name: ${CN_PREFIX}-wmts-simulation
+    image: ghcr.io/klips-project/klips-wmts-simulation:latest
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail "http://localhost" || exit 1
+      interval: 10s
+      retries: 5
+      start_period: 5s
+      timeout: 10s
+
   klips-dashboard:
     container_name: ${CN_PREFIX}-dashboard
     image: ghcr.io/klips-project/klips-dashboard:latest
