@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   useState
 } from 'react';
@@ -25,7 +24,6 @@ import BasicTimeSlider from './components/BasicTimeSlider';
 
 import './App.less';
 import { MapUtil } from '@terrestris/ol-util';
-import TileWMS from 'ol/source/TileWMS';
 
 export const App: React.FC = (): JSX.Element => {
   const map = useMap();
