@@ -116,49 +116,92 @@ const setupDefaultMap = () => {
 
   const url = 'https://klips-dev.terrestris.de/geoserver/ows?SERVICE=WMS&';
 
-  const unmodified = new OlLayerTile({
-    opacity: 0.7,
-    source: new OlSourceTileWMS({
-      url: url,
-      projection: 'CRS:84',
-      params: {
-        LAYERS: ['dresden:dresden_simulation_unmodified'],
-        TILED: true
-      }
-    })
-  });
-  unmodified.set('name', 'Unmodified Heatindex');
-
-  const neustadt = new OlLayerTile({
+  const hi = new OlLayerTile({
     opacity: 0.7,
     visible: true,
     source: new OlSourceTileWMS({
       url: url,
       projection: 'CRS:84',
       params: {
-        LAYERS: ['dresden:dresden_simulation_neustadt'],
+        LAYERS: ['dresden:dresden_hi'],
         TILED: true
       }
     })
   });
-  neustadt.set('name', 'Simulated Heatindex Neustadt');
+  hi.set('name', 'Heat Index (HI)');
 
-  const leneeplatz = new OlLayerTile({
+  const uhi = new OlLayerTile({
     opacity: 0.7,
     visible: false,
     source: new OlSourceTileWMS({
       url: url,
       projection: 'CRS:84',
       params: {
-        LAYERS: ['dresden:dresden_simulation_leneeplatz'],
+        LAYERS: ['dresden:dresden_uhi'],
         TILED: true
       }
     })
   });
-  leneeplatz.set('name', 'Simulated Heatindex Leneeplatz');
+  uhi.set('name', 'Urban Heat Islands (UHI)');
+
+  const neustadtHI = new OlLayerTile({
+    opacity: 0.7,
+    visible: true,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_simulation_neustadt_hi'],
+        TILED: true
+      }
+    })
+  });
+  neustadtHI.set('name', 'Simulated Heatindex Neustadt');
+
+  const leneeplatzHI = new OlLayerTile({
+    opacity: 0.7,
+    visible: false,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_simulation_leneeplatz_hi'],
+        TILED: true
+      }
+    })
+  });
+  leneeplatzHI.set('name', 'Simulated Heatindex Leneeplatz');
+
+  const neustadtUHI = new OlLayerTile({
+    opacity: 0.7,
+    visible: false,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_simulation_neustadt_uhi'],
+        TILED: true
+      }
+    })
+  });
+  neustadtUHI.set('name', 'Simulated UHI Neustadt');
+
+  const leneeplatzUHI = new OlLayerTile({
+    opacity: 0.7,
+    visible: false,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_simulation_leneeplatz_uhi'],
+        TILED: true
+      }
+    })
+  });
+  leneeplatzUHI.set('name', 'Simulated UHI Leneeplatz');
 
   const simulationLayerGroup = new OlLayerGroup({
-    layers: [unmodified, neustadt, leneeplatz]
+    layers: [hi, uhi, neustadtHI, leneeplatzHI, neustadtUHI, leneeplatzUHI]
   });
   simulationLayerGroup.set('name', 'Dresden Heatindex Simulation Data');
 

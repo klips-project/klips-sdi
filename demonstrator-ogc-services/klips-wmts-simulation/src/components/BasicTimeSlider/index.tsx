@@ -39,7 +39,6 @@ const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({
   if (!map) {
     return <></>;
   };
-
   const onChange = (newValue: number) => {
     const dateStr = moment(date).format('YYYY-MM-DD');
     const timeStr = `${newValue}:00`;

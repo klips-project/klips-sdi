@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 
 import {
-  Button, Slider, Space
+  Button, Slider, Space, Switch
 } from 'antd';
 import OlLayerTile from 'ol/layer/Tile';
 import {
@@ -20,14 +20,13 @@ import {
   MapUtil
 } from '@terrestris/ol-util';
 interface OwnProps {
-  labelRight: string;
-  labelLeft: string;
+  changeSimulation: (newSimulation: any) => void;
 }
 
 export type BasicSwipeProps = OwnProps;
 
 const BasicSwipe: React.FC<BasicSwipeProps> = ({
-  labelRight, labelLeft
+  changeSimulation
 }) => {
   const [value, setValue] = useState<number>(50);
   const [labelPosition, setLabelPosition] = useState<number>(0);
@@ -38,12 +37,49 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     return <></>;
   };
 
-  const neustadt = MapUtil.getLayerByName(map, 'Simulated Heatindex Neustadt') as OlLayerTile<OlSourceTileWMS>;
-  const leneeplatz = MapUtil.getLayerByName(map, 'Simulated Heatindex Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
-  
-  const layerRight = neustadt.getVisible() ? neustadt : leneeplatz
+  // get Layers
+  const neustadtHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Neustadt') as OlLayerTile<OlSourceTileWMS>;
+  const leneeplatzHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const neustadtUHI = MapUtil.getLayerByName(map, 'Simulated UHI Neustadt') as OlLayerTile<OlSourceTileWMS>;
+  const leneeplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const unmodifiedHI = MapUtil.getLayerByName(map, 'Heat Index (HI)') as OlLayerTile<OlSourceTileWMS>;
+  const unmodifiedUHI = MapUtil.getLayerByName(map, 'Urban Heat Islands (UHI)') as OlLayerTile<OlSourceTileWMS>;
 
-  const layerLeft = MapUtil.getLayerByName(map, 'Unmodified Heatindex') as OlLayerTile<OlSourceTileWMS>;
+  // set layer visibility based on switch selection
+  let simulation: string;
+  const onChangeSimulation = (checked: boolean) => {
+    if (!checked) {
+      if (!unmodifiedUHI.getVisible()) {
+        neustadtHI.setVisible(true);
+        leneeplatzHI.setVisible(false);
+        neustadtUHI.setVisible(false);
+      } else {
+        neustadtUHI.setVisible(true);
+        leneeplatzUHI.setVisible(false);
+        neustadtHI.setVisible(false);
+      };
+      simulation = 'Neustadt';
+    } else {
+      if (!unmodifiedUHI.getVisible()) {
+        neustadtHI.setVisible(false);
+        leneeplatzHI.setVisible(true);
+        leneeplatzUHI.setVisible(false);
+      } else {
+        neustadtUHI.setVisible(false);
+        leneeplatzUHI.setVisible(true);
+        leneeplatzHI.setVisible(false);
+      };
+      simulation = 'Leneeplatz';
+    };
+    changeSimulation(simulation);
+    map.render();
+  };
+
+
+  const layerHI = neustadtHI.getVisible() ? neustadtHI : leneeplatzHI;
+  const layerUHI = neustadtUHI.getVisible() ? neustadtUHI : leneeplatzUHI;
+  const layerRight = layerHI.getVisible() ? layerHI : layerUHI;
+  const layerLeft = unmodifiedHI.getVisible() ? unmodifiedHI : unmodifiedUHI;
 
   layerRight.on('prerender', function (event: RenderEvent) {
     const mapSize = map.getSize(); // [width, height] in CSS pixels
@@ -78,8 +114,6 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     context.closePath();
     context.clip();
   });
-
-
 
   layerLeft.on('prerender', function (event: RenderEvent) {
     const mapSize = map.getSize(); // [width, height] in CSS pixels
@@ -149,10 +183,10 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     map.render();
   };
 
-  const top = 7 + 'vh';
+  const top = 10 + 'vh';
   const padding = 11 + 'px';
-  const left = labelPosition - 15 + 'px';
-  const right = labelPosition - 130 + 'px';
+  const left = labelPosition - 10 + 'px';
+  const right = labelPosition - 90 + 'px';
 
   return (
     <>
@@ -163,6 +197,11 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
         }}
         onChange={onChange}
         value={value}
+      />
+      <Switch
+        onChange={onChangeSimulation}
+        unCheckedChildren="Neustadt"
+        checkedChildren="Lenneplatz"
       />
       <Space id='label'
         style={{
@@ -176,7 +215,7 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
           type="primary"
           onClick={toggleRight}
         >
-          {labelRight}
+          {'Simulation'}
         </Button>
       </Space>
       <Space id='label'
@@ -191,7 +230,7 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
           type="primary"
           onClick={toggleLeft}
         >
-          {labelLeft}
+          {'Original'}
         </Button>
       </Space>
     </>
