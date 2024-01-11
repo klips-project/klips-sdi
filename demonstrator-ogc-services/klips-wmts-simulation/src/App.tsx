@@ -25,32 +25,80 @@ import BasicTimeSlider from './components/BasicTimeSlider';
 
 import './App.less';
 import { MapUtil } from '@terrestris/ol-util';
+import TileWMS from 'ol/source/TileWMS';
 
 export const App: React.FC = (): JSX.Element => {
   const map = useMap();
 
-  const [opacityBlock, setOpacityBlock] = useState<boolean>(false);
-  const [legendBlock, setLegendBlock] = useState<boolean>(false);
-
   if (!map) {
     return <></>;
+  };
+
+  // get Layers
+  const neustadtHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Neustadt') as OlLayerTile<OlSourceTileWMS>;
+  const leneeplatzHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const neustadtUHI = MapUtil.getLayerByName(map, 'Simulated UHI Neustadt') as OlLayerTile<OlSourceTileWMS>;
+  const leneeplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const unmodifiedHI = MapUtil.getLayerByName(map, 'Heat Index (HI)') as OlLayerTile<OlSourceTileWMS>;
+  const unmodifiedUHI = MapUtil.getLayerByName(map, 'Urban Heat Islands (UHI)') as OlLayerTile<OlSourceTileWMS>;
+
+  const [opacityBlock, setOpacityBlock] = useState<boolean>(false);
+  const [legendBlock, setLegendBlock] = useState<boolean>(false);
+  const [unmodified, setUnmodified] = useState<OlLayerTile<OlSourceTileWMS>>(unmodifiedHI);
+  const [neustadt, setNeustadt] = useState<OlLayerTile<OlSourceTileWMS>>(neustadtHI);
+  const [leneeplatz, setLeneeplatz] = useState<OlLayerTile<OlSourceTileWMS>>(leneeplatzHI);
+  const [simulation, setSimulation] = useState<string>('Neustadt');
+  const [layer, setLayer] = useState<OlLayerTile<OlSourceTileWMS>>(neustadtHI);
+
+  useEffect(() => {
+    setLayer((simulation === 'Neustadt') ? neustadt : leneeplatz);
+  }, [simulation, neustadt, leneeplatz]);
+
+  const changeSimulation = (newSimulation: string) => {
+    setSimulation(newSimulation);
   };
 
   const {
     t
   } = useTranslation();
 
-  const neustadt = MapUtil.getLayerByName(map, 'Simulated Heatindex Neustadt') as OlLayerTile<OlSourceTileWMS>;
-  const leneeplatz = MapUtil.getLayerByName(map, 'Simulated Heatindex Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
-  const unmodified = MapUtil.getLayerByName(map, 'Unmodified Heatindex') as OlLayerTile<OlSourceTileWMS>;
+  // set Index (UHI or HI) to be displayed
+  // sets visibility for all layers (true for selected, false for not selected)
+  const onChangeIndex = (checked: boolean) => {
+    if (!checked) {
+      setUnmodified(unmodifiedHI);
+      setNeustadt(neustadtHI);
+      setLeneeplatz(leneeplatzHI);
+      unmodifiedHI.setVisible(true);
+      unmodifiedUHI.setVisible(false);
+      if (!leneeplatz.getVisible()) {
+        neustadtHI.setVisible(true);
+        neustadtUHI.setVisible(false);
+        leneeplatzUHI.setVisible(false);
+      } else {
+        leneeplatzHI.setVisible(true);
+        leneeplatzUHI.setVisible(false);
+        neustadtUHI.setVisible(false);
+      };
+    } else {
+      setUnmodified(unmodifiedUHI);
+      setNeustadt(neustadtUHI);
+      setLeneeplatz(leneeplatzUHI);
+      unmodifiedHI.setVisible(false);
+      unmodifiedUHI.setVisible(true);
+      if (!leneeplatz.getVisible()) {
+        neustadtHI.setVisible(false);
+        neustadtUHI.setVisible(true);
+        leneeplatzHI.setVisible(false);
+      } else {
+        leneeplatzHI.setVisible(false);
+        leneeplatzUHI.setVisible(true);
+        neustadtHI.setVisible(false);
+      };
+    };
+  };
 
-  const layer = neustadt.getVisible() ? neustadt : leneeplatz;
-
-  let layers;
-  useEffect(() => {
-    layers = [unmodified, layer];
-  }, [layer, unmodified]);
-
+  // Slider for controlling layer transperency
   const toggleHidden = () => {
     const transparencySlider = document.getElementById('transperency-slider');
 
@@ -67,6 +115,7 @@ export const App: React.FC = (): JSX.Element => {
     }
   };
 
+  // Legend Box
   const toggleLegend = () => {
     const transparencySlider = document.getElementById('legend');
     if (!transparencySlider) {
@@ -82,61 +131,55 @@ export const App: React.FC = (): JSX.Element => {
     }
   };
 
-  const labelFirstLayer: string = 'Unmodified';
-  const labelSecondLayer: string = 'Simulation';
-
-  const legendUrlFirstLayer = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
-    + 'FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=dresden:dresden_simulation_unmodified';
-
-  const legendUrlSecondLayer = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
-    + 'FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=dresden:dresden_simulation_neustadt';
+  // get legend
+  const layerNameUnmodified = unmodified.getSource()?.getParams().LAYERS[0];
+  const legendUnmodified = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
+    + `FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=${layerNameUnmodified}`;
 
   const legend =
     <>
       <Space direction="vertical">
-        <img src={legendUrlFirstLayer} />
-        <span className='legend-label'>Unmodified</span>
-      </Space>
-      <Space direction="vertical">
-        <img src={legendUrlSecondLayer} />
-        <span className='legend-label'>Simulation</span>
+        <img src={legendUnmodified} />
       </Space>
     </>;
-
-
-  const onChange = (checked: boolean) => {
-    if (!checked) {
-      leneeplatz.setVisible(false);
-      neustadt.setVisible(true);
-      map.render();
-    } else {
-      leneeplatz.setVisible(true);
-      neustadt.setVisible(false);
-      map.render();
-    };
-    console.log(checked);
-  };
 
   return (
     <>
       <div className="App">
         <BasicMapComponent />
         <BasicSwipe
-          labelRight={labelSecondLayer}
-          labelLeft={labelFirstLayer}
+          changeSimulation={changeSimulation}
         />
         <Switch
-          onChange={onChange}
+          onChange={onChangeIndex}
+          unCheckedChildren="Hitzeindex (HI)"
+          checkedChildren="Hitzeinsel Effekt (UHI)"
         />
         <BasicNominatimSearch />
+      </div>
+      <div id='transperency-slider' >
+        <div>
+          <span>{'Original'}</span>
+        </div>
+        <LayerTransparencySlider
+          layer={unmodified}
+        />
+        <div>
+          <span>{'Simulation'}</span>
+        </div>
+        <LayerTransparencySlider
+          layer={layer}
+        />
       </div>
       <div id='slider' >
         <BasicTimeSlider
           min={1}
           max={24}
           date={'2023-01-01'}
-          layers={layers ? layers as OlLayerTile < OlSourceTileWMS >[] : []}
+          layers={[unmodified, layer]}
         />
+      </div >
+      <div id='buttons' >
         <SimpleButton
           className="toggle-button"
           onClick={toggleHidden}
@@ -149,21 +192,7 @@ export const App: React.FC = (): JSX.Element => {
         >
           {t('Button.legend')}
         </SimpleButton>
-        <div id='transperency-slider' >
-          <div>
-            <span>{labelFirstLayer}</span>
-          </div>
-          <LayerTransparencySlider
-            layer={unmodified}
-          />
-          <div>
-            <span>{labelSecondLayer}</span>
-          </div>
-          <LayerTransparencySlider
-            layer={layer}
-          />
-        </div>
-      </div >
+      </div>
       <div id='legend' >
         {legend}
       </div>

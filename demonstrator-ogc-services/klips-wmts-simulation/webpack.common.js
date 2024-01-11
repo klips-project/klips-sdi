@@ -47,7 +47,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      title: 'UHI-HI Slider',
+      title: 'Simulation',
       template: path.join(__dirname, 'resources', 'public', 'index.ejs'),
       hash: true,
       minify: {
