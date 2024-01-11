@@ -19,6 +19,7 @@ import './index.less';
 import {
   MapUtil
 } from '@terrestris/ol-util';
+import { fromLonLat } from 'ol/proj';
 interface OwnProps {
   changeSimulation: (newSimulation: any) => void;
 }
@@ -28,9 +29,19 @@ export type BasicSwipeProps = OwnProps;
 const BasicSwipe: React.FC<BasicSwipeProps> = ({
   changeSimulation
 }) => {
+  // define Map center
+  const centerNeustadt = fromLonLat([
+    13.755154,
+    51.071628
+  ], 'EPSG:3857');
+
+  const centerLeneeplatz = fromLonLat([
+    13.746989,
+    51.038214
+  ], 'EPSG:3857');
+
   const [value, setValue] = useState<number>(50);
   const [labelPosition, setLabelPosition] = useState<number>(0);
-
   const map = useMap();
 
   if (!map) {
@@ -59,6 +70,8 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
         neustadtHI.setVisible(false);
       };
       simulation = 'Neustadt';
+      map.getView().setCenter(centerNeustadt);
+      map.getView().setZoom(15);
     } else {
       if (!unmodifiedUHI.getVisible()) {
         neustadtHI.setVisible(false);
@@ -70,11 +83,12 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
         leneeplatzHI.setVisible(false);
       };
       simulation = 'Leneeplatz';
+      map.getView().setCenter(centerLeneeplatz);
+      map.getView().setZoom(16);
     };
     changeSimulation(simulation);
     map.render();
   };
-
 
   const layerHI = neustadtHI.getVisible() ? neustadtHI : leneeplatzHI;
   const layerUHI = neustadtUHI.getVisible() ? neustadtUHI : leneeplatzUHI;
