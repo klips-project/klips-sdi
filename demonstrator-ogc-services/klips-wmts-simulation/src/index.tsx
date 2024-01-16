@@ -158,19 +158,19 @@ const setupDefaultMap = () => {
   });
   neustadtHI.set('name', 'Simulated Heatindex Neustadt');
 
-  const leneeplatzHI = new OlLayerTile({
+  const lenneplatzHI = new OlLayerTile({
     opacity: 0.7,
     visible: false,
     source: new OlSourceTileWMS({
       url: url,
       projection: 'CRS:84',
       params: {
-        LAYERS: ['dresden:dresden_simulation_leneeplatz_hi'],
+        LAYERS: ['dresden:dresden_simulation_lenneplatz_hi'],
         TILED: true
       }
     })
   });
-  leneeplatzHI.set('name', 'Simulated Heatindex Leneeplatz');
+  lenneplatzHI.set('name', 'Simulated Heatindex lenneplatz');
 
   const neustadtUHI = new OlLayerTile({
     opacity: 0.7,
@@ -186,22 +186,22 @@ const setupDefaultMap = () => {
   });
   neustadtUHI.set('name', 'Simulated UHI Neustadt');
 
-  const leneeplatzUHI = new OlLayerTile({
+  const lenneplatzUHI = new OlLayerTile({
     opacity: 0.7,
     visible: false,
     source: new OlSourceTileWMS({
       url: url,
       projection: 'CRS:84',
       params: {
-        LAYERS: ['dresden:dresden_simulation_leneeplatz_uhi'],
+        LAYERS: ['dresden:dresden_simulation_lenneplatz_uhi'],
         TILED: true
       }
     })
   });
-  leneeplatzUHI.set('name', 'Simulated UHI Leneeplatz');
+  lenneplatzUHI.set('name', 'Simulated UHI lenneplatz');
 
   const simulationLayerGroup = new OlLayerGroup({
-    layers: [hi, uhi, neustadtHI, leneeplatzHI, neustadtUHI, leneeplatzUHI]
+    layers: [hi, uhi, neustadtHI, lenneplatzHI, neustadtUHI, lenneplatzUHI]
   });
   simulationLayerGroup.set('name', 'Dresden Heatindex Simulation Data');
 

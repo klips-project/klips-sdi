@@ -34,9 +34,9 @@ export const App: React.FC = (): JSX.Element => {
 
   // get Layers
   const neustadtHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Neustadt') as OlLayerTile<OlSourceTileWMS>;
-  const leneeplatzHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const lenneplatzHI = MapUtil.getLayerByName(map, 'Simulated Heatindex lenneplatz') as OlLayerTile<OlSourceTileWMS>;
   const neustadtUHI = MapUtil.getLayerByName(map, 'Simulated UHI Neustadt') as OlLayerTile<OlSourceTileWMS>;
-  const leneeplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const lenneplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI lenneplatz') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedHI = MapUtil.getLayerByName(map, 'Heat Index (HI)') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedUHI = MapUtil.getLayerByName(map, 'Urban Heat Islands (UHI)') as OlLayerTile<OlSourceTileWMS>;
 
@@ -44,13 +44,13 @@ export const App: React.FC = (): JSX.Element => {
   const [legendBlock, setLegendBlock] = useState<boolean>(false);
   const [unmodified, setUnmodified] = useState<OlLayerTile<OlSourceTileWMS>>(unmodifiedHI);
   const [neustadt, setNeustadt] = useState<OlLayerTile<OlSourceTileWMS>>(neustadtHI);
-  const [leneeplatz, setLeneeplatz] = useState<OlLayerTile<OlSourceTileWMS>>(leneeplatzHI);
+  const [lenneplatz, setlenneplatz] = useState<OlLayerTile<OlSourceTileWMS>>(lenneplatzHI);
   const [simulation, setSimulation] = useState<string>('Neustadt');
   const [layer, setLayer] = useState<OlLayerTile<OlSourceTileWMS>>(neustadtHI);
 
   useEffect(() => {
-    setLayer((simulation === 'Neustadt') ? neustadt : leneeplatz);
-  }, [simulation, neustadt, leneeplatz]);
+    setLayer((simulation === 'Neustadt') ? neustadt : lenneplatz);
+  }, [simulation, neustadt, lenneplatz]);
 
   const changeSimulation = (newSimulation: string) => {
     setSimulation(newSimulation);
@@ -66,31 +66,31 @@ export const App: React.FC = (): JSX.Element => {
     if (!checked) {
       setUnmodified(unmodifiedHI);
       setNeustadt(neustadtHI);
-      setLeneeplatz(leneeplatzHI);
+      setlenneplatz(lenneplatzHI);
       unmodifiedHI.setVisible(true);
       unmodifiedUHI.setVisible(false);
-      if (!leneeplatz.getVisible()) {
+      if (!lenneplatz.getVisible()) {
         neustadtHI.setVisible(true);
         neustadtUHI.setVisible(false);
-        leneeplatzUHI.setVisible(false);
+        lenneplatzUHI.setVisible(false);
       } else {
-        leneeplatzHI.setVisible(true);
-        leneeplatzUHI.setVisible(false);
+        lenneplatzHI.setVisible(true);
+        lenneplatzUHI.setVisible(false);
         neustadtUHI.setVisible(false);
       };
     } else {
       setUnmodified(unmodifiedUHI);
       setNeustadt(neustadtUHI);
-      setLeneeplatz(leneeplatzUHI);
+      setlenneplatz(lenneplatzUHI);
       unmodifiedHI.setVisible(false);
       unmodifiedUHI.setVisible(true);
-      if (!leneeplatz.getVisible()) {
+      if (!lenneplatz.getVisible()) {
         neustadtHI.setVisible(false);
         neustadtUHI.setVisible(true);
-        leneeplatzHI.setVisible(false);
+        lenneplatzHI.setVisible(false);
       } else {
-        leneeplatzHI.setVisible(false);
-        leneeplatzUHI.setVisible(true);
+        lenneplatzHI.setVisible(false);
+        lenneplatzUHI.setVisible(true);
         neustadtHI.setVisible(false);
       };
     };
