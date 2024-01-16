@@ -136,7 +136,7 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     map.render();
   };
 
-  const top = 7 + 'vh';
+  const top = 12 + 'vh';
   const padding = 11 + 'px';
   const left = labelPosition - 15 + 'px';
   const right = labelPosition - 130 + 'px';

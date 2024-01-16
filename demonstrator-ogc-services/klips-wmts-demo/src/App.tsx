@@ -79,7 +79,6 @@ export const App: React.FC = (): JSX.Element => {
   };
 
   // get legend
-  // since the style of the params is equal it doesn't matter which Params we recieve
   const layerName = src.getParams().LAYERS[1];
   const legendUrl = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
     + `FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=${layerName}`;
@@ -103,6 +102,11 @@ export const App: React.FC = (): JSX.Element => {
             onChangeLayer={changeLayer}
           />
         </div>
+        <div id='transparency-slider' >
+          <LayerTransparencySlider
+            layer={selectedLayer}
+          />
+        </div>
       </div>
       <div id='slider' >
         <BasicTimeSlider
@@ -110,23 +114,20 @@ export const App: React.FC = (): JSX.Element => {
           max={47}
           layers={layers}
         />
-        <SimpleButton
-          className="toggle-button"
-          onClick={toggleHidden}
-        >
-          {t('Button.opacity')}
-        </SimpleButton>
-        <SimpleButton
-          className="toggle-button"
-          onClick={toggleLegend}
-        >
-          {t('Button.legend')}
-        </SimpleButton>
-        <div id='transparency-slider' >
-          <LayerTransparencySlider
-            layer={selectedLayer}
-          />
-        </div >
+        <div id='buttons' >
+          <SimpleButton
+            className="toggle-button"
+            onClick={toggleHidden}
+          >
+            {t('Button.opacity')}
+          </SimpleButton>
+          <SimpleButton
+            className="toggle-button"
+            onClick={toggleLegend}
+          >
+            {t('Button.legend')}
+          </SimpleButton>
+        </div>
         <div id='legend' >
           {legend}
         </div>

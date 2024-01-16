@@ -110,18 +110,20 @@ export const App: React.FC = (): JSX.Element => {
           date={'2023-01-01'}
           layers={layers}
         />
-        <SimpleButton
-          className="toggle-button"
-          onClick={toggleHidden}
-        >
-          {t('Button.opacity')}
-        </SimpleButton>
-        <SimpleButton
-          className="toggle-button"
-          onClick={toggleLegend}
-        >
-          {t('Button.legend')}
-        </SimpleButton>
+        <div id='buttons' >
+          <SimpleButton
+            className="toggle-button"
+            onClick={toggleHidden}
+          >
+            {t('Button.opacity')}
+          </SimpleButton>
+          <SimpleButton
+            className="toggle-button"
+            onClick={toggleLegend}
+          >
+            {t('Button.legend')}
+          </SimpleButton>
+        </div>
         <div id='transperency-slider' >
           <div>
             <span>{labelFirstLayer}</span>
