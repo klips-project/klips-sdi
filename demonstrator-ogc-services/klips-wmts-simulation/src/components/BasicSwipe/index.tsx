@@ -35,7 +35,7 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     51.071628
   ], 'EPSG:3857');
 
-  const centerLeneeplatz = fromLonLat([
+  const centerlenneplatz = fromLonLat([
     13.746989,
     51.038214
   ], 'EPSG:3857');
@@ -50,9 +50,9 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
 
   // get Layers
   const neustadtHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Neustadt') as OlLayerTile<OlSourceTileWMS>;
-  const leneeplatzHI = MapUtil.getLayerByName(map, 'Simulated Heatindex Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const lenneplatzHI = MapUtil.getLayerByName(map, 'Simulated Heatindex lenneplatz') as OlLayerTile<OlSourceTileWMS>;
   const neustadtUHI = MapUtil.getLayerByName(map, 'Simulated UHI Neustadt') as OlLayerTile<OlSourceTileWMS>;
-  const leneeplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI Leneeplatz') as OlLayerTile<OlSourceTileWMS>;
+  const lenneplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI lenneplatz') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedHI = MapUtil.getLayerByName(map, 'Heat Index (HI)') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedUHI = MapUtil.getLayerByName(map, 'Urban Heat Islands (UHI)') as OlLayerTile<OlSourceTileWMS>;
 
@@ -62,11 +62,11 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     if (!checked) {
       if (!unmodifiedUHI.getVisible()) {
         neustadtHI.setVisible(true);
-        leneeplatzHI.setVisible(false);
+        lenneplatzHI.setVisible(false);
         neustadtUHI.setVisible(false);
       } else {
         neustadtUHI.setVisible(true);
-        leneeplatzUHI.setVisible(false);
+        lenneplatzUHI.setVisible(false);
         neustadtHI.setVisible(false);
       };
       simulation = 'Neustadt';
@@ -75,23 +75,23 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
     } else {
       if (!unmodifiedUHI.getVisible()) {
         neustadtHI.setVisible(false);
-        leneeplatzHI.setVisible(true);
-        leneeplatzUHI.setVisible(false);
+        lenneplatzHI.setVisible(true);
+        lenneplatzUHI.setVisible(false);
       } else {
         neustadtUHI.setVisible(false);
-        leneeplatzUHI.setVisible(true);
-        leneeplatzHI.setVisible(false);
+        lenneplatzUHI.setVisible(true);
+        lenneplatzHI.setVisible(false);
       };
-      simulation = 'Leneeplatz';
-      map.getView().setCenter(centerLeneeplatz);
+      simulation = 'lenneplatz';
+      map.getView().setCenter(centerlenneplatz);
       map.getView().setZoom(16);
     };
     changeSimulation(simulation);
     map.render();
   };
 
-  const layerHI = neustadtHI.getVisible() ? neustadtHI : leneeplatzHI;
-  const layerUHI = neustadtUHI.getVisible() ? neustadtUHI : leneeplatzUHI;
+  const layerHI = neustadtHI.getVisible() ? neustadtHI : lenneplatzHI;
+  const layerUHI = neustadtUHI.getVisible() ? neustadtUHI : lenneplatzUHI;
   const layerRight = layerHI.getVisible() ? layerHI : layerUHI;
   const layerLeft = unmodifiedHI.getVisible() ? unmodifiedHI : unmodifiedUHI;
 
