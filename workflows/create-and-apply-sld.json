@@ -1,0 +1,14 @@
+{
+    "job": [
+      {
+        "id": 123,
+        "type": "geoserver-create-and-apply-sld",
+        "inputs": [
+            "mySldName",
+            "mySldWorkspace",
+            "my-cog-store"
+          ]
+      }
+    ],
+    "email": "weskamm@terrestris.de"
+}
