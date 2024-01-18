@@ -31,6 +31,11 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/geoserver-publish-imagemosaic/Dockerfile
 
+  geoserver-create-and-apply-sld:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/geoserver-create-and-apply-sld/Dockerfile
+
   geoserver-create-imagemosaic-datastore:
     build:
       context: ../rabbitmq-worker

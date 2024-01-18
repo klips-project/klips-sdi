@@ -181,6 +181,34 @@ services:
       - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
       - PINO_STREAM_LOG_LEVEL
 
+  geoserver-create-and-apply-sld:
+    container_name: ${CN_PREFIX}-geoserver-create-and-apply-sld
+    image: ghcr.io/klips-project/mqm-worker/geoserver-create-and-apply-sld:latest
+    restart: unless-stopped
+    volumes:
+      - ./logs:/home/logs:Z
+      - ./staging:/opt/staging:Z
+    depends_on:
+      - rabbitmq
+      - geoserver
+      - postgres
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=geoserver-create-and-apply-sld
+      - GEOSERVER_REST_URL=http://${GEOSERVER_HOSTNAME}:8080/geoserver/rest/
+      - GEOSERVER_USER=${GEOSERVER_USER}
+      - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
+      - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PINO_STREAM_LOG_LEVEL
+
   geoserver-create-imagemosaic-datastore:
     container_name: ${CN_PREFIX}-geoserver-create-imagemosaic-datastore
     image: ghcr.io/klips-project/mqm-worker/geoserver-create-imagemosaic-datastore:latest
