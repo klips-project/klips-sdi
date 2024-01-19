@@ -186,6 +186,24 @@ const createGeoTiffPublicationJob = (requestBody: any,
           fileUrlOnWebspace,
           replaceExistingGranule
         ]
+      },
+      {
+        id: 8,
+        type: 'geoserver-create-and-apply-sld',
+        inputs: [
+          'dynamic-grayscale-colorramp-temp-dresden',
+          geoServerWorkspace,
+          mosaicStoreName
+        ]
+      },
+      {
+        id: 9,
+        type: 'geoserver-create-and-apply-sld',
+        inputs: [
+          'dynamic-grayscale-colorramp-temp-langenfeld',
+          geoServerWorkspace,
+          mosaicStoreName
+        ]
       }
     ],
     email: email
