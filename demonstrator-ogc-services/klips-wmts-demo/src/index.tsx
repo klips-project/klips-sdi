@@ -158,8 +158,50 @@ const setupDefaultMap = () => {
   });
   difference.set('name', 'Temperature difference compared to surrounding areas');
 
+  const physicalSummer = new OlLayerTile({
+    opacity: 0.7,
+    visible: false,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_summer_physical'],
+        TILED: true
+      }
+    })
+  });
+  physicalSummer.set('name', 'Physical temperature summer');
+
+  const perceivedSummer = new OlLayerTile({
+    opacity: 0.7,
+    visible: false,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_summer_perceived'],
+        TILED: true
+      }
+    })
+  });
+  perceivedSummer.set('name', 'Perceived temperature summer');
+
+  const differenceSummer = new OlLayerTile({
+    opacity: 0.7,
+    visible: false,
+    source: new OlSourceTileWMS({
+      url: url,
+      projection: 'CRS:84',
+      params: {
+        LAYERS: ['dresden:dresden_summer_difference'],
+        TILED: true
+      }
+    })
+  });
+  differenceSummer.set('name', 'Temperature difference compared to surrounding areas summer');
+
   const temperatureLayerGroup = new OlLayerGroup({
-    layers: [physical, perceived, difference]
+    layers: [physical, perceived, difference, physicalSummer, perceivedSummer, differenceSummer]
   });
   temperatureLayerGroup.set('name', 'KLIPS Temperature Data');
 
