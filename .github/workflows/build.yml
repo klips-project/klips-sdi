@@ -139,6 +139,15 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/klips-wmts-demo:latest
             ghcr.io/${{ github.repository_owner }}/klips-wmts-demo:${{ steps.timestamp.outputs.timestamp }}
+
+      - name: Build and push klips-wmts-demo-summer
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./demonstrator-ogc-services/klips-wmts-demo-summer
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/klips-wmts-demo-summer:latest
+            ghcr.io/${{ github.repository_owner }}/klips-wmts-demo-summer:${{ steps.timestamp.outputs.timestamp }}
     
       - name: Build and push klips-dashboard
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
