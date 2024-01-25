@@ -39,6 +39,7 @@ export const App: React.FC = (): JSX.Element => {
   const lenneplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI lenneplatz') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedHI = MapUtil.getLayerByName(map, 'Heat Index (HI)') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedUHI = MapUtil.getLayerByName(map, 'Urban Heat Islands (UHI)') as OlLayerTile<OlSourceTileWMS>;
+  const layers = [neustadtHI, neustadtUHI, lenneplatzHI, lenneplatzUHI, unmodifiedHI, unmodifiedUHI];
 
   const [opacityBlock, setOpacityBlock] = useState<boolean>(false);
   const [legendBlock, setLegendBlock] = useState<boolean>(false);
@@ -63,35 +64,26 @@ export const App: React.FC = (): JSX.Element => {
   // set Index (UHI or HI) to be displayed
   // sets visibility for all layers (true for selected, false for not selected)
   const onChangeIndex = (checked: boolean) => {
+    layers.forEach(l => l.setVisible(false));
     if (!checked) {
       setUnmodified(unmodifiedHI);
       setNeustadt(neustadtHI);
       setlenneplatz(lenneplatzHI);
       unmodifiedHI.setVisible(true);
-      unmodifiedUHI.setVisible(false);
-      if (!lenneplatz.getVisible()) {
+      if (simulation === 'Neustadt') {
         neustadtHI.setVisible(true);
-        neustadtUHI.setVisible(false);
-        lenneplatzUHI.setVisible(false);
       } else {
         lenneplatzHI.setVisible(true);
-        lenneplatzUHI.setVisible(false);
-        neustadtUHI.setVisible(false);
       };
     } else {
       setUnmodified(unmodifiedUHI);
       setNeustadt(neustadtUHI);
       setlenneplatz(lenneplatzUHI);
-      unmodifiedHI.setVisible(false);
       unmodifiedUHI.setVisible(true);
-      if (!lenneplatz.getVisible()) {
-        neustadtHI.setVisible(false);
+      if (simulation === 'Neustadt') {
         neustadtUHI.setVisible(true);
-        lenneplatzHI.setVisible(false);
       } else {
-        lenneplatzHI.setVisible(false);
         lenneplatzUHI.setVisible(true);
-        neustadtHI.setVisible(false);
       };
     };
   };
