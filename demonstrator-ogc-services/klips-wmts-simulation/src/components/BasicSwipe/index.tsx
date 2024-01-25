@@ -1,5 +1,4 @@
 import React, {
-  useEffect,
   useState
 } from 'react';
 
@@ -55,32 +54,26 @@ const BasicSwipe: React.FC<BasicSwipeProps> = ({
   const lenneplatzUHI = MapUtil.getLayerByName(map, 'Simulated UHI lenneplatz') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedHI = MapUtil.getLayerByName(map, 'Heat Index (HI)') as OlLayerTile<OlSourceTileWMS>;
   const unmodifiedUHI = MapUtil.getLayerByName(map, 'Urban Heat Islands (UHI)') as OlLayerTile<OlSourceTileWMS>;
+  const simulationLayers = [neustadtHI, neustadtUHI, lenneplatzHI, lenneplatzUHI];
 
   // set layer visibility based on switch selection
   let simulation: string;
   const onChangeSimulation = (checked: boolean) => {
+    simulationLayers.forEach(l => l.setVisible(false));
     if (!checked) {
       if (!unmodifiedUHI.getVisible()) {
         neustadtHI.setVisible(true);
-        lenneplatzHI.setVisible(false);
-        neustadtUHI.setVisible(false);
       } else {
         neustadtUHI.setVisible(true);
-        lenneplatzUHI.setVisible(false);
-        neustadtHI.setVisible(false);
       };
       simulation = 'Neustadt';
       map.getView().setCenter(centerNeustadt);
       map.getView().setZoom(15);
     } else {
       if (!unmodifiedUHI.getVisible()) {
-        neustadtHI.setVisible(false);
         lenneplatzHI.setVisible(true);
-        lenneplatzUHI.setVisible(false);
       } else {
-        neustadtUHI.setVisible(false);
         lenneplatzUHI.setVisible(true);
-        lenneplatzHI.setVisible(false);
       };
       simulation = 'lenneplatz';
       map.getView().setCenter(centerlenneplatz);
