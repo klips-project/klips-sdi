@@ -474,7 +474,7 @@ services:
       timeout: 10s
   
   klips-wmts-demo-summer:
-    container_name: ${CN_PREFIX}-wmts-demo
+    container_name: ${CN_PREFIX}-wmts-demo-summer
     image: ghcr.io/klips-project/klips-wmts-demo-summer:latest
     restart: unless-stopped
     healthcheck:
