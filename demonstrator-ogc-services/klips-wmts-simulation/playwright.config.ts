@@ -5,6 +5,7 @@ import {
 
 const config: PlaywrightTestConfig = {
   testMatch: /.*\.ui\.spec/,
+  snapshotPathTemplate: "./src/additional-files/screenshots/{arg}{ext}",
   webServer: {
     command: 'npm run start',
     url: 'https://localhost:8080',
@@ -16,8 +17,8 @@ const config: PlaywrightTestConfig = {
     baseURL: 'https://localhost:8080',
     headless: true,
     viewport: {
-      width: 1280,
-      height: 720
+      width: 1380,
+      height: 820
     },
     ignoreHTTPSErrors: true,
     screenshot: 'only-on-failure'

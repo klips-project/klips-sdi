@@ -13,38 +13,88 @@ test.describe('Basic application tests', () => {
   test('it has set the correct title', async ({
     page
   }) => {
-    await expect(page).toHaveTitle('Hello World');
+    await expect(page).toHaveTitle('Simulation');
   });
 
   test('it renders the most important components', async ({
     page
   }) => {
-    await expect(page.locator('div#map').first()).toBeVisible();
-    await expect(page.locator('canvas').first()).toBeVisible();
-    await expect(page.locator('div.react-geo-nominatimsearch').first()).toBeVisible();
-    await expect(page.locator('button.toggle-drawer-button').first()).toBeVisible();
+    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('button', {
+      name: 'Original'
+    })).toBeVisible();
+    await expect(page.getByRole('button', {
+      name: 'Simulation'
+    })).toBeVisible();
+    await expect(page.getByRole('button', {
+      name: 'Set transparency of layers'
+    })).toBeVisible();
+    await expect(page.getByRole('button', {
+      name: 'Show legend'
+    })).toBeVisible();
+    await expect(page.getByRole('switch', {
+      name: 'Neustadt'
+    })).toBeVisible();
+    await expect(page.getByRole('switch', {
+      name: 'Hitzeindex (HI)'
+    })).toBeVisible();
+    await expect(page.getByLabel('time-slider')).toBeVisible();
+    await expect(page.getByText('Place name,')).toBeVisible();
   });
 
-  test('it successfully loads the example WMS layer', async ({
+  test('test functionality of legend', async ({
     page
   }) => {
-    const response = await page.waitForResponse(/https:\/\/neo.gsfc.nasa.gov\/wms\/wms/);
-    expect(response.status()).toBe(200);
+    await expect(page.locator('div.ant-space.ant-space-vertical')).not.toBeVisible();
+    await page.getByRole('button', {
+      name: 'Show legend'
+    }).click();
+    await expect(page.locator('div.ant-space.ant-space-vertical')).toBeVisible();
   });
 
-  test('it successfully loads the OSM background layer', async ({
+  test('test functionality of transparency slider', async ({
     page
   }) => {
-    const response = await page.waitForResponse(/tile.openstreetmap.org/);
-    expect(response.status()).toBe(200);
+    await expect(page.getByLabel('transperency-slider')).not.toBeVisible();
+    await page.getByRole('button', {
+      name: 'Set transparency of layers'
+    }).click();
+    await expect(page.getByLabel('transperency-slider')).toBeVisible();
   });
 
-  test('it toggles the drawer visibility (inlcuding the layer tree) on button click', async ({
+  test('test functionality of simulation toggle button', async ({
     page
-  }) => {
-    await expect(page.locator('div.ant-drawer.ant-drawer-right.ant-drawer-open.no-mask').first()).toBeHidden();
-    await page.click('button.toggle-drawer-button');
-    await expect(page.locator('div.ant-drawer.ant-drawer-right.ant-drawer-open.no-mask').first()).toBeVisible();
-    await expect(page.locator('div.react-geo-layertree').first()).toBeVisible();
+  }, workerInfo
+  ) => {
+    test.setTimeout(100000);
+    await page.waitForLoadState('networkidle');
+    await page.screenshot({
+      path: './src/additional-files/screenshots/simulation-toggle-'
+        + workerInfo.project.name + '-linux.png'
+    });
+    await page.getByText('Neustadt').click({ position: { x: 1, y: 1 } });
+    await expect(page.getByText('Lenneplatz')).toBeVisible();
+    await page.waitForTimeout(5000);
+    await expect(page).not.toHaveScreenshot('simulation-toggle-'
+        + workerInfo.project.name
+        + '-linux.png', {maxDiffPixelRatio: 0.01});
+  });
+
+  test('test functionality of index toggle button', async ({
+    page
+  }, workerInfo
+  ) => {
+    test.setTimeout(100000);
+    await page.waitForLoadState('networkidle');
+    await page.screenshot({
+      path: './src/additional-files/screenshots/index-toggle-'
+        + workerInfo.project.name + '-linux.png'
+    });
+    await page.getByText('Hitzeindex (HI)').click({ position: { x: 1, y: 1 } });
+    await expect(page.getByText('Hitzeinsel Effekt (UHI)')).toBeVisible();
+    await page.waitForTimeout(5000);
+    await expect(page).not.toHaveScreenshot('index-toggle-'
+        + workerInfo.project.name
+        + '-linux.png', {maxDiffPixelRatio: 0.01});
   });
 });

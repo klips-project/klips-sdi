@@ -147,7 +147,9 @@ export const App: React.FC = (): JSX.Element => {
         />
         <BasicNominatimSearch />
       </div>
-      <div id='transperency-slider' >
+      <div
+      aria-label='transperency-slider' 
+      id='transperency-slider' >
         <div>
           <span>{'Original'}</span>
         </div>
@@ -161,7 +163,10 @@ export const App: React.FC = (): JSX.Element => {
           layer={layer}
         />
       </div>
-      <div id='slider' >
+      <div
+        id='slider'
+        aria-label='time-slider'
+      >
         <BasicTimeSlider
           min={1}
           max={24}
