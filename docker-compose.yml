@@ -208,6 +208,12 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PINO_STREAM_LOG_LEVEL
+    healthcheck:
+      test: pgrep node || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
 
   geoserver-create-imagemosaic-datastore:
     container_name: ${CN_PREFIX}-geoserver-create-imagemosaic-datastore
