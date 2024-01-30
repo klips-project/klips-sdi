@@ -105,29 +105,31 @@ export const App: React.FC = (): JSX.Element => {
           />
         </div>
       </div>
+      <div id='transparency-slider' >
+        <LayerTransparencySlider
+          layer={selectedLayer}
+        />
+      </div>
       <div id='slider' >
         <BasicTimeSlider
           min={-48}
           max={48}
           layers={layers}
         />
-        <SimpleButton
-          className="toggle-button"
-          onClick={toggleHidden}
-        >
-          {t('Button.opacity')}
-        </SimpleButton>
-        <SimpleButton
-          className="toggle-button"
-          onClick={toggleLegend}
-        >
-          {t('Button.legend')}
-        </SimpleButton>
-        <div id='transparency-slider' >
-          <LayerTransparencySlider
-            layer={selectedLayer}
-          />
-        </div >
+        <div id='buttons' >
+          <SimpleButton
+            className="toggle-button"
+            onClick={toggleHidden}
+          >
+            {t('Button.opacity')}
+          </SimpleButton>
+          <SimpleButton
+            className="toggle-button"
+            onClick={toggleLegend}
+          >
+            {t('Button.legend')}
+          </SimpleButton>
+        </div>
         <div id='legend' >
           {legend}
         </div>
