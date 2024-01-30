@@ -63,7 +63,7 @@ const BasicTimeSlider: React.FC<BasicTimeSliderProps> = ({
     '12': dayjs().add(12, 'hours').format('DD.MM.YYYY HH:00'),
     '24': dayjs().add(24, 'hours').format('DD.MM.YYYY HH:00'),
     '36': dayjs().add(36, 'hours').format('DD.MM.YYYY HH:00'),
-    '48': dayjs().add(48, 'hours').format('DD.MM.YYYY HH:00'),
+    '47': dayjs().add(47, 'hours').format('DD.MM.YYYY HH:00'),
   };
 
   return (

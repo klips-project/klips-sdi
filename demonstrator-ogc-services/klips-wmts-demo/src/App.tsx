@@ -107,7 +107,7 @@ export const App: React.FC = (): JSX.Element => {
       <div id='slider' >
         <BasicTimeSlider
           min={-48}
-          max={48}
+          max={47}
           layers={layers}
         />
         <SimpleButton
