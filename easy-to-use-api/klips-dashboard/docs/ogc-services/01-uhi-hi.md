@@ -9,14 +9,14 @@ Der UHI/HI Demonstrator kann als iFrame beliebig in eine bestehende html-Seite e
     <a>https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/</a>
 </pre>
 
-<iframe id="inlineFrameExample" title="Slider" width="100%" height="500px"
+<iframe id="inlineFrameExample" title="Slider" width="100%" height="700px"
 src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'>
 </iframe>
 
 Um den Demonstrator als iFrame einzubinden kann das folgende Code-Snipped als Beispiel genutzt werden:
 
 ```jsx
-<iframe id="inlineFrameExample" title="Slider" width="800px" height="500px"
+<iframe id="inlineFrameExample" title="Slider" width="800px" height="700px"
 src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'>
 </iframe>
 ```
