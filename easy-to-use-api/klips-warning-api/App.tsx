@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Dimensions } from 'react-native';
 import * as Linking from 'expo-linking';
 
 // @ts-ignore
@@ -143,9 +143,10 @@ const App: React.FC = () => {
     };
 
     if (params.format === 'traffic-light') {
+      const win = Dimensions.get('window');
       const styling = {
-        width: 100,
-        height: 100
+        width: win.width,
+        height: win.height,
       };
 
       switch (warning.name) {
