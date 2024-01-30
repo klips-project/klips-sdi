@@ -214,7 +214,6 @@ services:
       timeout: 10s
       retries: 5
 
-
   geoserver-create-imagemosaic-datastore:
     container_name: ${CN_PREFIX}-geoserver-create-imagemosaic-datastore
     image: ghcr.io/klips-project/mqm-worker/geoserver-create-imagemosaic-datastore:latest
