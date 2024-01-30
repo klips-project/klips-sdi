@@ -191,18 +191,30 @@ const createGeoTiffPublicationJob = (requestBody: any,
         id: 8,
         type: 'geoserver-create-and-apply-sld',
         inputs: [
-          'dynamic-grayscale-colorramp-temp-dresden',
+          `dynamic-grayscale-colorramp-temp-physical-${regionName}`,
           geoServerWorkspace,
-          mosaicStoreName
+          mosaicStoreName,
+          1
         ]
       },
       {
         id: 9,
         type: 'geoserver-create-and-apply-sld',
         inputs: [
-          'dynamic-grayscale-colorramp-temp-langenfeld',
+          `dynamic-grayscale-colorramp-temp-perceived-${regionName}`,
           geoServerWorkspace,
-          mosaicStoreName
+          mosaicStoreName,
+          2
+        ]
+      },
+      {
+        id: 10,
+        type: 'geoserver-create-and-apply-sld',
+        inputs: [
+          `dynamic-grayscale-colorramp-temp-difference-${regionName}`,
+          geoServerWorkspace,
+          mosaicStoreName,
+          3
         ]
       }
     ],
