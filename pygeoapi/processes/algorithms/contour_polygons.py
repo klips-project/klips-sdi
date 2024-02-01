@@ -108,29 +108,24 @@ def get_contour_polygons(
             polygons.append((polygon, temp))
 
         # generate multipolygons from single polygons
+        LOGGER.info("Generating Multipolygons from Single Polygons... ")
         multipolygons = []
         polygons = sorted(polygons, key=lambda k: k[1])
         for key, group in groupby(polygons, lambda x: x[1]):
             for poly in group:
                 geom_list = [poly[0] for poly in group]
                 multipoly = unary_union(geom_list)
-                multipolygons.append(
-                    {
-                        "geom": geojson.dumps(multipoly),
-                        "temp": key,
-                        "empty": multipoly.is_empty,
-                        "band": band,
-                    }
-                )
-        multipolygons = [
-            item for item in multipolygons if item["empty"] is False
-        ]  # noqa: E501
-        for item in multipolygons:
-            del item["empty"]
-        multipolygons = json.dumps(multipolygons)
+                if multipoly.is_empty == False:
+                    multipolygons.append(
+                        {
+                            "geom": str(multipoly),
+                            "temp": key,
+                            "band": band,
+                        }
+                    )
 
         # return results
-        results.append(multipolygons)
+        results = multipolygons
     LOGGER.info("Multipolygons generated")
     return results
 

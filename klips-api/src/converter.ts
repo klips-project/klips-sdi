@@ -216,6 +216,14 @@ const createGeoTiffPublicationJob = (requestBody: any,
           mosaicStoreName,
           3
         ]
+      },
+      {
+        id: 11,
+        type: 'create-polygons',
+        inputs: [
+          fileUrlOnWebspace,
+          fileNameWithSuffix,
+        ]
       }
     ],
     email: email
