@@ -66,6 +66,11 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/dataset-archive/Dockerfile
 
+  create-polygons:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/create-polygons/Dockerfile
+
   geoserver:
     build: ./geoserver
     environment:

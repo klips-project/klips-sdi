@@ -384,6 +384,31 @@ services:
         "start"
       ]
 
+  create-polygons:
+    container_name: ${CN_PREFIX}-create-polygons
+    image: ghcr.io/klips-project/mqm-worker/create-polygons:latest
+    restart: unless-stopped
+    volumes:
+      - ./staging:/opt/staging:Z
+      - ./cog_data:/opt/cog:Z
+      - ./logs:/home/logs:Z
+    depends_on:
+      - rabbitmq
+      - postgres
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=dataset-archive
+      - PINO_STREAM_LOG_LEVEL
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_SCHEMA=${POSTGRES_SCHEMA}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
   postgres:
     container_name: ${CN_PREFIX}-postgres
     image: postgis/postgis:13-3.2
