@@ -349,7 +349,7 @@ services:
       - ./geoserver_data:/opt/geoserver_data/:Z
     environment:
       - INSTALL_EXTENSIONS=true
-      - STABLE_EXTENSIONS=importer
+      - STABLE_EXTENSIONS=importer,wps
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx32g
       - SKIP_DEMO_DATA=true
       - GEOSERVER_CSRF_DISABLED=true
