@@ -164,7 +164,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         type: 'reclassify-geotiff',
         inputs: [
           {
-            outputOfId: 3,
+            outputOfId: 4,
             outputIndex: 0
           },
           fileNameWithSuffix,
