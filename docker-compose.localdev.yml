@@ -51,6 +51,11 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/geotiff-optimizer/Dockerfile
 
+  reclassify-geotiff:
+    build:
+      context: ../rabbitmq-worker
+      dockerfile: ../rabbitmq-worker/src/reclassify-geotiff/Dockerfile
+
   geotiff-validator:
     build:
       context: ../rabbitmq-worker
@@ -66,10 +71,10 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/dataset-archive/Dockerfile
 
-  create-polygons:
+  create-contour:
     build:
       context: ../rabbitmq-worker
-      dockerfile: ../rabbitmq-worker/src/create-polygons/Dockerfile
+      dockerfile: ../rabbitmq-worker/src/create-contour/Dockerfile
 
   geoserver:
     build: ./geoserver

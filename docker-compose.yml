@@ -283,6 +283,24 @@ services:
       - WORKERQUEUE=geotiff-optimizer
       - PINO_STREAM_LOG_LEVEL
 
+  reclassify-geotiff:
+    container_name: ${CN_PREFIX}-reclassify-geotiff
+    image: ghcr.io/klips-project/mqm-worker/reclassify-geotiff:latest
+    restart: unless-stopped
+    volumes:
+      - ./cog_data:/opt/cog:Z
+      - ./staging:/opt/staging:Z
+      - ./logs:/home/logs:Z
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITHOST=${RABBITMQ_HOSTNAME}
+      - RABBITUSER=${RABBITMQ_DEFAULT_USER}
+      - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
+      - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
+      - WORKERQUEUE=reclassify-geotiff
+      - PINO_STREAM_LOG_LEVEL
+
   geotiff-validator:
     container_name: ${CN_PREFIX}-geotiff-validator
     image: ghcr.io/klips-project/mqm-worker/geotiff-validator:latest
@@ -384,9 +402,9 @@ services:
         "start"
       ]
 
-  create-polygons:
-    container_name: ${CN_PREFIX}-create-polygons
-    image: ghcr.io/klips-project/mqm-worker/create-polygons:latest
+  create-contour:
+    container_name: ${CN_PREFIX}-create-contour
+    image: ghcr.io/klips-project/mqm-worker/create-contour:latest
     restart: unless-stopped
     volumes:
       - ./staging:/opt/staging:Z
@@ -400,7 +418,7 @@ services:
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
       - RABBITPASS=${RABBITMQ_DEFAULT_PASS}
       - RESULTSQUEUE=${RABBITMQ_RESULTSQUEUE}
-      - WORKERQUEUE=dataset-archive
+      - WORKERQUEUE=create-contour
       - PINO_STREAM_LOG_LEVEL
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}
