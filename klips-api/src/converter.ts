@@ -79,6 +79,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
 
   const email = requestBody.email;
 
+  const levels = [0, 13, 21, 26, 31, 40, 53];
+
   const replaceExistingGranule = true;
 
   // set username and password if necessary
@@ -159,6 +161,20 @@ const createGeoTiffPublicationJob = (requestBody: any,
       },
       {
         id: 5,
+        type: 'reclassify-geotiff',
+        inputs: [
+          {
+            outputOfId: 3,
+            outputIndex: 0
+          },
+          fileNameWithSuffix,
+          levels,
+          filePathOnWebspace,
+          regionName
+        ]
+      },
+      {
+        id: 6,
         type: 'dataset-archive',
         inputs: [
           {
@@ -169,7 +185,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 6,
+        id: 7,
         type: 'geoserver-create-imagemosaic-datastore',
         inputs: [
           geoServerWorkspace,
@@ -178,7 +194,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 7,
+        id: 8,
         type: 'geoserver-publish-imagemosaic',
         inputs: [
           geoServerWorkspace,
@@ -188,7 +204,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 8,
+        id: 9,
         type: 'geoserver-create-and-apply-sld',
         inputs: [
           `dynamic-grayscale-colorramp-temp-physical-${regionName}`,
@@ -198,7 +214,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 9,
+        id: 10,
         type: 'geoserver-create-and-apply-sld',
         inputs: [
           `dynamic-grayscale-colorramp-temp-perceived-${regionName}`,
@@ -208,7 +224,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         ]
       },
       {
-        id: 10,
+        id: 11,
         type: 'geoserver-create-and-apply-sld',
         inputs: [
           `dynamic-grayscale-colorramp-temp-difference-${regionName}`,
@@ -216,6 +232,18 @@ const createGeoTiffPublicationJob = (requestBody: any,
           mosaicStoreName,
           3
         ]
+<<<<<<< Updated upstream
+=======
+      },
+      {
+        id: 12,
+        type: 'create-contour',
+        inputs: [
+          fileUrlOnWebspace,
+          fileNameWithSuffix,
+          2
+        ]
+>>>>>>> Stashed changes
       }
     ],
     email: email
