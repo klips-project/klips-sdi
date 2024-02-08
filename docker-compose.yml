@@ -367,7 +367,7 @@ services:
       - ./geoserver_data:/opt/geoserver_data/:Z
     environment:
       - INSTALL_EXTENSIONS=true
-      - STABLE_EXTENSIONS=importer
+      - STABLE_EXTENSIONS=importer,wps
       - EXTRA_JAVA_OPTS=-Xms1g -Xmx32g
       - SKIP_DEMO_DATA=true
       - GEOSERVER_CSRF_DISABLED=true
@@ -402,8 +402,6 @@ services:
         "start"
       ]
 
-<<<<<<< Updated upstream
-=======
   create-contour:
     container_name: ${CN_PREFIX}-create-contour
     image: ghcr.io/klips-project/mqm-worker/create-contour:latest
@@ -429,7 +427,6 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
->>>>>>> Stashed changes
   postgres:
     container_name: ${CN_PREFIX}-postgres
     image: postgis/postgis:13-3.2

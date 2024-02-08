@@ -232,8 +232,6 @@ const createGeoTiffPublicationJob = (requestBody: any,
           mosaicStoreName,
           3
         ]
-<<<<<<< Updated upstream
-=======
       },
       {
         id: 12,
@@ -243,7 +241,6 @@ const createGeoTiffPublicationJob = (requestBody: any,
           fileNameWithSuffix,
           2
         ]
->>>>>>> Stashed changes
       }
     ],
     email: email

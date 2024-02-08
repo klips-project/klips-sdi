@@ -71,14 +71,11 @@ services:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/dataset-archive/Dockerfile
 
-<<<<<<< Updated upstream
-=======
   create-contour:
     build:
       context: ../rabbitmq-worker
       dockerfile: ../rabbitmq-worker/src/create-contour/Dockerfile
 
->>>>>>> Stashed changes
   geoserver:
     build: ./geoserver
     environment:
