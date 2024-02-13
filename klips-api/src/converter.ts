@@ -161,6 +161,75 @@ const createGeoTiffPublicationJob = (requestBody: any,
       },
       {
         id: 5,
+        type: 'dataset-archive',
+        inputs: [
+          {
+            outputOfId: 2,
+            outputIndex: 0
+          },
+          cogWebspaceBasePath
+        ]
+      },
+      {
+        id: 6,
+        type: 'geoserver-create-imagemosaic-datastore',
+        inputs: [
+          geoServerWorkspace,
+          mosaicStoreName,
+          fileUrlOnWebspace
+        ]
+      },
+      {
+        id: 7,
+        type: 'geoserver-publish-imagemosaic',
+        inputs: [
+          geoServerWorkspace,
+          mosaicStoreName,
+          fileUrlOnWebspace,
+          replaceExistingGranule
+        ]
+      },
+      {
+        id: 8,
+        type: 'geoserver-create-and-apply-sld',
+        inputs: [
+          `dynamic-grayscale-colorramp-temp-physical-${regionName}`,
+          geoServerWorkspace,
+          mosaicStoreName,
+          1
+        ]
+      },
+      {
+        id: 9,
+        type: 'geoserver-create-and-apply-sld',
+        inputs: [
+          `dynamic-grayscale-colorramp-temp-perceived-${regionName}`,
+          geoServerWorkspace,
+          mosaicStoreName,
+          2
+        ]
+      },
+      {
+        id: 10,
+        type: 'geoserver-create-and-apply-sld',
+        inputs: [
+          `dynamic-grayscale-colorramp-temp-difference-${regionName}`,
+          geoServerWorkspace,
+          mosaicStoreName,
+          3
+        ]
+      },
+      {
+        id: 11,
+        type: 'create-contour',
+        inputs: [
+          fileUrlOnWebspace,
+          fileNameWithSuffix,
+          2
+        ]
+      },
+      {
+        id: 12,
         type: 'reclassify-geotiff',
         inputs: [
           {
@@ -173,75 +242,6 @@ const createGeoTiffPublicationJob = (requestBody: any,
           regionName
         ]
       },
-      {
-        id: 6,
-        type: 'dataset-archive',
-        inputs: [
-          {
-            outputOfId: 2,
-            outputIndex: 0
-          },
-          cogWebspaceBasePath
-        ]
-      },
-      {
-        id: 7,
-        type: 'geoserver-create-imagemosaic-datastore',
-        inputs: [
-          geoServerWorkspace,
-          mosaicStoreName,
-          fileUrlOnWebspace
-        ]
-      },
-      {
-        id: 8,
-        type: 'geoserver-publish-imagemosaic',
-        inputs: [
-          geoServerWorkspace,
-          mosaicStoreName,
-          fileUrlOnWebspace,
-          replaceExistingGranule
-        ]
-      },
-      {
-        id: 9,
-        type: 'geoserver-create-and-apply-sld',
-        inputs: [
-          `dynamic-grayscale-colorramp-temp-physical-${regionName}`,
-          geoServerWorkspace,
-          mosaicStoreName,
-          1
-        ]
-      },
-      {
-        id: 10,
-        type: 'geoserver-create-and-apply-sld',
-        inputs: [
-          `dynamic-grayscale-colorramp-temp-perceived-${regionName}`,
-          geoServerWorkspace,
-          mosaicStoreName,
-          2
-        ]
-      },
-      {
-        id: 11,
-        type: 'geoserver-create-and-apply-sld',
-        inputs: [
-          `dynamic-grayscale-colorramp-temp-difference-${regionName}`,
-          geoServerWorkspace,
-          mosaicStoreName,
-          3
-        ]
-      },
-      {
-        id: 12,
-        type: 'create-contour',
-        inputs: [
-          fileUrlOnWebspace,
-          fileNameWithSuffix,
-          2
-        ]
-      }
     ],
     email: email
   };
