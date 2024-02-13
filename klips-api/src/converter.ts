@@ -223,7 +223,10 @@ const createGeoTiffPublicationJob = (requestBody: any,
         id: 11,
         type: 'create-contour',
         inputs: [
-          fileUrlOnWebspace,
+          {
+            outputOfId: 4,
+            outputIndex: 0
+          },
           fileNameWithSuffix,
           2
         ]
