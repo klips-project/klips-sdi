@@ -21,7 +21,7 @@
   "devDependencies": {
     "@terrestris/eslint-config-typescript": "^3.1.0",
     "@testing-library/dom": "^9.3.4",
-    "@testing-library/jest-dom": "^6.4.0",
+    "@testing-library/jest-dom": "^6.4.2",
     "@types/jest": "^29.5.12",
     "@types/jsts": "^0.17.22",
     "@types/node": "^20.11.10",
