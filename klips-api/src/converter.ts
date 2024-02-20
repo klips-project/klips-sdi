@@ -44,6 +44,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
   // NOTE: the store name must be unique, even between multiple workspaces
   const mosaicStoreName = `${regionName}_temperature`;
 
+  const mosaicStoreNameReclassified = `${regionName}_reclassified`;
+
   const geotiffUrl = payload.url;
 
   const parsedTimeStamp = dayjs(payload.predictionStartTime);
@@ -63,6 +65,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
   const formattedTimestamp = parsedTimeStamp.utc().format(timeStampFormat);
   const fileName = `${payload.region}_${formattedTimestamp}`;
   const fileNameWithSuffix = `${fileName}.tif`;
+  const fileNameReclassified = `${fileNameWithSuffix.replace(/\.[^/.]+$/, '')}_reclassified.tif`;
 
   const stagingDirectory = '/opt/staging/';
   const cogWebspaceBasePath = '/opt/cog/';
@@ -76,6 +79,9 @@ const createGeoTiffPublicationJob = (requestBody: any,
   );
 
   const fileUrlOnWebspace = `http://nginx/cog/${geoServerWorkspace}/${mosaicStoreName}/${fileNameWithSuffix}`;
+
+  const fileUrlReclassified = `https://klips-dev.terrestris.de/cog/` +
+    `${geoServerWorkspace}/${mosaicStoreNameReclassified}/${fileNameReclassified}`;
 
   const email = requestBody.email;
 
@@ -243,6 +249,16 @@ const createGeoTiffPublicationJob = (requestBody: any,
           levels,
           filePathOnWebspace,
           regionName
+        ]
+      },
+      {
+        id: 13,
+        type: 'geoserver-publish-imagemosaic',
+        inputs: [
+          geoServerWorkspace,
+          mosaicStoreNameReclassified,
+          fileUrlReclassified,
+          replaceExistingGranule
         ]
       },
     ],
