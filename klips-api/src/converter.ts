@@ -253,6 +253,15 @@ const createGeoTiffPublicationJob = (requestBody: any,
       },
       {
         id: 13,
+        type: 'geoserver-create-imagemosaic-datastore',
+        inputs: [
+          geoServerWorkspace,
+          mosaicStoreNameReclassified,
+          fileUrlReclassified
+        ]
+      },
+      {
+        id: 14,
         type: 'geoserver-publish-imagemosaic',
         inputs: [
           geoServerWorkspace,
