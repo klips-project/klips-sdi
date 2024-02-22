@@ -191,7 +191,6 @@ services:
     depends_on:
       - rabbitmq
       - geoserver
-      - postgres
     environment:
       - RABBITHOST=${RABBITMQ_HOSTNAME}
       - RABBITUSER=${RABBITMQ_DEFAULT_USER}
@@ -202,11 +201,6 @@ services:
       - GEOSERVER_USER=${GEOSERVER_USER}
       - GEOSERVER_PASSWORD=${GEOSERVER_PASSWORD}
       - GEOSERVER_DATA_DIR=${GEOSERVER_DATA_DIR}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PORT=${POSTGRES_PORT}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PINO_STREAM_LOG_LEVEL
     healthcheck:
       test: pgrep node || exit 1

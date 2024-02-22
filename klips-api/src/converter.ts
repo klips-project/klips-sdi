@@ -201,8 +201,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
         inputs: [
           `dynamic-grayscale-colorramp-temp-physical-${regionName}`,
           geoServerWorkspace,
-          mosaicStoreName,
-          1
+          1,
+          cogWebspaceBasePath
         ]
       },
       {
@@ -211,8 +211,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
         inputs: [
           `dynamic-grayscale-colorramp-temp-perceived-${regionName}`,
           geoServerWorkspace,
-          mosaicStoreName,
-          2
+          2,
+          cogWebspaceBasePath
         ]
       },
       {
@@ -221,8 +221,8 @@ const createGeoTiffPublicationJob = (requestBody: any,
         inputs: [
           `dynamic-grayscale-colorramp-temp-difference-${regionName}`,
           geoServerWorkspace,
-          mosaicStoreName,
-          3
+          3,
+          cogWebspaceBasePath
         ]
       },
       {
