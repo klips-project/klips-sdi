@@ -80,7 +80,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
 
   const fileUrlOnWebspace = `http://nginx/cog/${geoServerWorkspace}/${mosaicStoreName}/${fileNameWithSuffix}`;
 
-  const fileUrlReclassified = `https://klips-dev.terrestris.de/cog/` +
+  const fileUrlReclassified = 'http://nginx/cog/' +
     `${geoServerWorkspace}/${mosaicStoreNameReclassified}/${fileNameReclassified}`;
 
   const email = requestBody.email;
