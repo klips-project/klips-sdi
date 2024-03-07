@@ -170,7 +170,7 @@ const createGeoTiffPublicationJob = (requestBody: any,
         type: 'dataset-archive',
         inputs: [
           {
-            outputOfId: 2,
+            outputOfId: 4,
             outputIndex: 0
           },
           cogWebspaceBasePath
