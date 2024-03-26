@@ -26,7 +26,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ onDrawEnd, onDrawStart,
 
     useEffect(() => {
         if (region && geoJsonGeom && videoFormat && personalTitle) {
-            setURL(`https://klips-dev.terrestris.de/easy-to-use-api/timelapse-video/?region=${region.toLowerCase()}&area-of-interest=${geoJsonGeom}&output=${videoFormat}&title=${personalTitle}`)
+            setURL(`https://klips2024.terrestris.de/easy-to-use-api/timelapse-video/?region=${region.toLowerCase()}&area-of-interest=${geoJsonGeom}&output=${videoFormat}&title=${personalTitle}`)
         };
     }, [region, geoJsonGeom, videoFormat, personalTitle]);
 

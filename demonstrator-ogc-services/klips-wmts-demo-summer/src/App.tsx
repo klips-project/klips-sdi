@@ -82,7 +82,7 @@ export const App: React.FC = (): JSX.Element => {
   // get legend
   // since the style of the params is equal it doesn't matter which Params we recieve
   const layerName = src.getParams().LAYERS[0];
-  const legendUrl = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
+  const legendUrl = 'https://klips2024.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
     + `FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=${layerName}`;
 
   const legend =

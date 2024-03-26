@@ -3,12 +3,12 @@ info:
   title: KLIPS Heat Island Results API
   description: This API is part of the [KLIPS project](http://www.klips-projekt.de/) and accepts results about the urban heat islands simulation and prediction.
   version: 0.1.0
-  host: klips-dev.terrestris.de
+  host: klips2024.terrestris.de
   basePath: /api
   schemes:
     - https
 servers:
-  - url: https://klips-dev.terrestris.de/api
+  - url: https://klips2024.terrestris.de/api
 
 components:
   securitySchemes:
@@ -95,7 +95,7 @@ paths:
               example:
                 email: info@example.de
                 payload:
-                  url: https://klips-dev.terrestris.de/cog/dresden/dresden_temperature/20220216T1146Z.tif
+                  url: https://klips2024.terrestris.de/cog/dresden/dresden_temperature/20220216T1146Z.tif
                   creationTime: "2022-10-07T12:32:33.004Z"
                   predictionStartTime: "2022-10-08T12:32:33.004Z"
                   predictionEndTime: "2022-10-09T12:32:33.004Z"

@@ -123,7 +123,7 @@ export const App: React.FC = (): JSX.Element => {
 
   // get legend
   const layerNameUnmodified = unmodified.getSource()?.getParams().LAYERS[0];
-  const legendUnmodified = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
+  const legendUnmodified = 'https://klips2024.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&'
     + `FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&LAYER=${layerNameUnmodified}`;
 
   const legend =
