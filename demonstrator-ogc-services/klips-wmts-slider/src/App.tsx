@@ -76,9 +76,9 @@ export const App: React.FC = (): JSX.Element => {
   const labelFirstLayer: string = 'Heat Index (HI)';
   const labelSecondLayer: string = 'Urban Heat Island (UHI)';
 
-  const legendUrlFirstLayer = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION'
+  const legendUrlFirstLayer = 'https://klips2024.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION'
     + '=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&style=klips:temperature_hi';
-  const legendUrlSecondLayer = 'https://klips-dev.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION'
+  const legendUrlSecondLayer = 'https://klips2024.terrestris.de/geoserver/wms?REQUEST=GetLegendGraphic&VERSION'
     + '=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=15&STRICT=false&style=klips:temperature_uhi';
 
   const legend =
