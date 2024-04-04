@@ -34,7 +34,7 @@
   "dependencies": {
     "@rollup/plugin-replace": "^5.0.5",
     "jest-environment-jsdom": "^29.7.0",
-    "node": "^21.6.1",
+    "node": "^21.7.2",
     "vite-plugin-env-compatible": "^2.0.1"
   }
 }
