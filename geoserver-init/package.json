@@ -9,7 +9,7 @@
     "start": "node 000_change_auth.js && node 010_setup_geoserver.js && node 020_add_metadata.js"
   },
   "dependencies": {
-    "geoserver-node-client": "^1.3.0",
+    "geoserver-node-client": "^1.4.0",
     "pino": "^8.18.0",
     "pino-pretty": "^10.3.1"
   },
