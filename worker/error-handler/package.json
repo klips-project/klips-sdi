@@ -9,7 +9,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "amqplib": "^0.10.3",
+    "amqplib": "^0.10.4",
     "pino": "^8.18.0",
     "pino-pretty": "^10.3.1"
   },
