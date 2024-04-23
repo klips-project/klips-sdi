@@ -16,7 +16,7 @@
     "rabbitmq-worker": "git+https://github.com/klips-project/rabbitmq-worker.git"
   },
   "devDependencies": {
-    "eslint": "^8.56.0"
+    "eslint": "^9.1.1"
   },
   "scripts": {
     "lint": "eslint -c .eslintrc.yml ."
