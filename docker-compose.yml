@@ -1,12 +1,21 @@
 version: '3'
 
 services:
+  proxy:
+    image: nexus.terrestris.de/terrestris/nginx:terrestris
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ${PWD}/forward.conf:/etc/nginx/conf.d/forward.conf
+    restart: unless-stopped
+
   nginx:
     container_name: ${CN_PREFIX}-nginx
     image: nginx
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:81:80"
+    # ports:
+    #   - "127.0.0.1:81:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./mocked-webspace:/usr/share/nginx/html:ro
@@ -377,7 +386,7 @@ services:
     environment:
       - INSTALL_EXTENSIONS=true
       - STABLE_EXTENSIONS=importer,wps
-      - EXTRA_JAVA_OPTS=-Xms1g -Xmx32g
+      - EXTRA_JAVA_OPTS=-Xms1g -Xmx12g -XX:+UseG1GC
       - SKIP_DEMO_DATA=true
       - GEOSERVER_CSRF_DISABLED=true
     healthcheck:
