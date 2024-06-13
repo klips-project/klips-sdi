@@ -13,7 +13,7 @@ export const pathNameConfig: PathNameConfig = {
 
 // adapt process url for development if needed
 // @ts-ignore
-const host = import.meta.env.MODE === 'development' ? 'http://localhost:81' : 'https://klips-dev.terrestris.de';
+const host = import.meta.env.MODE === 'development' ? 'http://localhost:81' : 'https://klips2024.terrestris.de';
 export const processURL = `${host}/processes/location-info-time-rasterstats/execution`;
 
 export const processURLPolygon = `${host}/processes/zonal-statistics-time-rasterstats/execution`;

@@ -16,11 +16,11 @@ Anschließend kann eine der verfügbaren APIs gewählt werden. Abhängig von der
 Der URL-Generator kann als iFrame beliebig in eine bestehende html-Seite eingebettet werden und kann über die folgende URL aufgerufen werden:
 
 <pre>
-    <a>https://klips-dev.terrestris.de/easy-to-use-api/url-generator/</a>
+    <a>https://klips2024.terrestris.de/easy-to-use-api/url-generator/</a>
 </pre>
 
 
 
 <iframe id="inlineFrameExample" title="URL-Generator" width="100%" height="700px"
-        src="https://klips-dev.terrestris.de/easy-to-use-api/url-generator/">
+        src="https://klips2024.terrestris.de/easy-to-use-api/url-generator/">
 </iframe>

@@ -114,7 +114,7 @@ const setupDefaultMap = () => {
   });
   osmLayer.set('name', 'OpenStreetMap');
 
-  const url = 'https://klips-dev.terrestris.de/geoserver/ows?SERVICE=WMS&';
+  const url = 'https://klips2024.terrestris.de/geoserver/ows?SERVICE=WMS&';
 
   const hi = new OlLayerTile({
     opacity: 0.7,
