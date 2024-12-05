@@ -12,7 +12,7 @@
   "dependencies": {
     "@terrestris/react-geo": "^23.3.0",
     "@types/geojson": "^7946.0.14",
-    "antd": "^4.24.15",
+    "antd": "^4.24.16",
     "ol": "^7.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
