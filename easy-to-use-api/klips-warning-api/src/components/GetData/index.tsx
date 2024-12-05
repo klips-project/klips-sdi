@@ -6,8 +6,8 @@ const startDate = dayjs().utc().format('YYYY-MM-DDTHH:00:00Z');
 const endDate = dayjs().add(49, 'hours').utc().format('YYYY-MM-DDTHH:00:00Z');
 
 // Get temperature value
-const processURL = 'https://klips-dev.terrestris.de/processes/location-info-time-rasterstats/execution';
-const processURLPolygon = 'https://klips-dev.terrestris.de/processes/zonal-statistics-time-rasterstats/execution';
+const processURL = 'https://klips2024.terrestris.de/processes/location-info-time-rasterstats/execution';
+const processURLPolygon = 'https://klips2024.terrestris.de/processes/zonal-statistics-time-rasterstats/execution';
 
 export const fetchTemperaturePoint = async (
     region: String,

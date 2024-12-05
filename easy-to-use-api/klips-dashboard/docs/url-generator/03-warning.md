@@ -50,18 +50,18 @@ In diesem Beispiel wird die *Pysikalische Temperatur* betrachtet.
 Für die grüne Warnung wird der Grenzwert *10°C* ausgewählt, für die orangene Warnung der Grenzwert *23°C* und für die rote Warnung der Grenzwert *28°C*. Als Anzeige Option wird die *Info-Tafel* ausgewählt. Daraus ergibt sich die folgende URL:
 
 <pre>
-    <a>https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board</a>
+    <a>https://klips2024.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board</a>
 </pre>
 
 Auch diese URL kann als iFrame in eine bestehende html-Website implementiert werden:
 
-<iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="200px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board'>
+<iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="200px" src='https://klips2024.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board'>
 </iframe>
 
 Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:
 
 ```jsx
-<iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="200px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board'>
+<iframe id="inlineFrameExample" title="URL-Generator" width="800px" height="200px" src='https://klips2024.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=info-board'>
 </iframe>
 ```
 
@@ -70,18 +70,18 @@ Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:
 Wird die *Ampel-Anzeige* gewählt ergibt sich folgende URL:
 
 <pre>
-    <a>https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light</a>
+    <a>https://klips2024.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light</a>
 </pre>
 
 Auch diese URL kann wieder als iFrame in eine bestehende html-Website implementiert werden:
 
-<iframe id="inlineFrameExample" title="URL-Generator" width="100px" height="100px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588 
+<iframe id="inlineFrameExample" title="URL-Generator" width="100px" height="100px" src='https://klips2024.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588 
     51.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
 </iframe>
 
 Dazu kann das folgende Code-Snipped als Beispiel genutzt werden:
 
 ```jsx
-<iframe id="inlineFrameExample" title="URL-Generator" width="100px" height="100px" src='https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
+<iframe id="inlineFrameExample" title="URL-Generator" width="100px" height="100px" src='https://klips2024.terrestris.de/easy-to-use-api/warning/?region=dresden&geom=POINT(13.731467023031588%2051.04039265124143)&thresholdgreen=10&thresholdorange=23&thresholdred=28&band=physical&format=traffic-light'>
 </iframe>
 ```

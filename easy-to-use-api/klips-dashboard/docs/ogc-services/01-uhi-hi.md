@@ -6,17 +6,17 @@ Dieser Demonstrator bindet die WMS-Time-Layer für Hitzeindex (HI) und Urban Hea
 Der UHI/HI Demonstrator kann als iFrame beliebig in eine bestehende html-Seite eingebettet werden und kann über die folgende URL aufgerufen werden:
 
 <pre>
-    <a>https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/</a>
+    <a>https://klips2024.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/</a>
 </pre>
 
 <iframe id="inlineFrameExample" title="Slider" width="100%" height="700px"
-src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'>
+src='https://klips2024.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'>
 </iframe>
 
 Um den Demonstrator als iFrame einzubinden kann das folgende Code-Snipped als Beispiel genutzt werden:
 
 ```jsx
 <iframe id="inlineFrameExample" title="Slider" width="800px" height="700px"
-src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'>
+src='https://klips2024.terrestris.de/demonstrator-ogc-services/klips-wmts-slider/'>
 </iframe>
 ```

@@ -35,7 +35,7 @@ const WarningComponent: React.FC<WarningComponentProps> = ({ geoJsonGeom, region
 
   useEffect(() => {
     if (region && wktGeom && threshold && band) {
-      setURL(`https://klips-dev.terrestris.de/easy-to-use-api/warning/?region=${region.toLowerCase()}&geom=${wktGeom}&thresholdgreen=${threshold.green}&thresholdorange=${threshold.orange}&thresholdred=${threshold.red}&band=${band}&format=${info}`)
+      setURL(`https://klips2024.terrestris.de/easy-to-use-api/warning/?region=${region.toLowerCase()}&geom=${wktGeom}&thresholdgreen=${threshold.green}&thresholdorange=${threshold.orange}&thresholdred=${threshold.red}&band=${band}&format=${info}`)
     };
   }, [region, wktGeom, threshold, band, info]);
 

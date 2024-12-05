@@ -6,17 +6,17 @@ Dieser Demonstrator bindet die WMS-Time-Layer für zwei beispielhafte Simulation
 Der Demonstrator kann als iFrame beliebig in eine bestehende html-Seite eingebettet werden und kann über die folgende URL aufgerufen werden:
 
 <pre>
-    <a>https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-simulation/</a>
+    <a>https://klips2024.terrestris.de/demonstrator-ogc-services/klips-wmts-simulation/</a>
 </pre>
 
 <iframe id="inlineFrameExample" title="Demo" width="100%" height="700px"
-src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-simulation/'>
+src='https://klips2024.terrestris.de/demonstrator-ogc-services/klips-wmts-simulation/'>
 </iframe>
 
 Um den Demonstrator als iFrame einzubinden kann das folgende Code-Snipped als Beispiel genutzt werden:
 
 ```jsx
 <iframe id="inlineFrameExample" title="Demo" width="800px" height="700px"
-src='https://klips-dev.terrestris.de/demonstrator-ogc-services/klips-wmts-simulation/'>
+src='https://klips2024.terrestris.de/demonstrator-ogc-services/klips-wmts-simulation/'>
 </iframe>
 ```
